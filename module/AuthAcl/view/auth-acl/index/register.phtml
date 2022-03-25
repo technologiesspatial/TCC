@@ -1,0 +1,376 @@
+<!---------------------Register Personal Account----------------------------->
+<?php /*
+$term_data = '';
+if(isset($page_content['page_content_'.$_COOKIE['currentLang']])){
+  $term_data = $page_content['page_content_'.$_COOKIE['currentLang']];
+}
+ */ ?>
+
+
+<div class="comman-section">
+  <div class="container">
+    <div class="common-heading">
+      <h2 class="heading">SIGN UP</h2>
+    </div>
+  </div>	
+</div>
+
+
+<div class="login_page signup-page">
+  <div class="container">
+    <div class="login">
+
+      <div class="login-signup-form">
+
+          <div class="right-side comman-form">
+            <div class="social-links">
+              <ul class="">
+                <li class="other-text"> Sign Up With</li>
+                <li class=""><a href="javascript:void(0)" class="social-regbtn"><img src="<?=HTTP_IMG_PATH?>/facebook-circle.svg"></a></li>
+                <li class=""><a href="javascript:void(0)" class="social-regbtn"> <img src="<?=HTTP_IMG_PATH?>/google-plus-new.svg"> </a></li>
+              </ul>
+            </div>
+
+            <h1 class="or-text"> <span>Or </span> </h1>
+			
+            <form id="sm_user_registration_form" action="" method="post" class="profile_form regstration-form" enctype="multipart/form-data">	
+              <div class="form-row">
+                <div class="col-sm-6 left-sector">
+                  <div class="form-group">
+                  <label for="first_name">First Name<span>*</span></label>
+                  <?php echo $this->formElement($form->get('first_name'))?> 
+                  </div>
+                </div>
+                <div class="col-sm-6 right-sector">
+                	<div class="form-group">
+                  	<label for="last_name">Last Name<span>*</span></label>
+                  	<?php echo $this->formElement($form->get('last_name'))?>
+                	</div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-sm-6 left-sector">
+                  <div class="form-group">
+                  <label for="user_name">User Name<span>*</span></label>
+                  <?php echo $this->formElement($form->get('user_name'))?>
+                  </div>
+                </div>
+                <div class="col-sm-6 right-sector">
+                	<div class="form-group">
+                  	<label for="email_id">Email<span>*</span></label>
+                  	<?php echo $this->formElement($form->get('client_email'))?>
+                	</div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-sm-6 left-sector">
+                	<div class="form-group">
+                  	<label for="pass_word">Password<span>*</span></label>
+       				<?php echo $this->formElement($form->get('client_password'))?>
+                	</div>
+                </div>
+                <?php /*?> <div class="col-sm-6 right-sector">
+                  <div class="form-group">
+                  <label for="confirm_pass">Confirm Password<span>*</span></label>
+                  <?php echo $this->formElement($form->get('client_rpassword'))?>
+                	</div>
+                </div> <?php */?>
+                <div class="col-sm-6 right-sector">
+                	<div class="form-group">
+                  <label for="gender"> Gender<span>*</span></label>
+                   <?php echo $this->formElement($form->get('user_gender'))?>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-row">
+                <div class="col-sm-12 left-sector">
+                  <div class="form-group">
+                  <label for="location">Location<span></span></label>
+                  <?php echo $this->formElement($form->get('user_location'))?>
+                  <?php echo $this->formElement($form->get('user_country'))?>
+                  </div>
+                </div>
+               
+              </div>
+              
+              <div class="form-row">
+              	<div class="col-sm-12 left-sector">
+              		<div class="form-group">
+              			<label for="location">Birthday<span></span></label>
+                  		<?php echo $this->formElement($form->get('client_birthday'))?>
+              		</div>
+              	</div>
+              </div>
+
+              <div class="check-boxs">
+                        <div class="checks custom-checks">
+                            <label for="chkbox" class="checkbox"> You agree with The Collective Coven <a href="<?= APPLICATION_URL.'/privacy-policy'; ?>" target="_blank" class="term-linktg">Privacy Policy</a> & <a href="<?= APPLICATION_URL.'/terms-and-conditions'; ?>" target="_blank" class="term-linktg">Terms of Use</a>
+                                <input type="checkbox" name="chkbox" id="chkbox" class="required" value="1">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <?php echo $this->formElement($form->get('post_csrf'))?>
+              <div class="border-gradient"><button type="button" class="btn view-btn send-btn" id="startedbtn">Sign Up</button></div>
+            </form>
+
+
+
+
+          </div>
+          <!------------- right side -------------->
+      </div>
+
+    </div>
+    <!-- login -->
+  </div>
+</div>
+
+
+
+
+
+
+   <!--  <div class="commen-sec-images">
+        <h2 class="heading">Register Personal Account</h2>
+    </div>
+
+    <div class="login_page signup-page">
+      <div class="container">
+        <div class="login register_member ">
+          <div class="login_section contact-form comman-form">
+            <form id="sm_user_registration_form" action="" method="post" class="profile_form" enctype="multipart/form-data">
+                <div class="form-group"> <?php /*?><?php echo $this->formElement($form->get('client_name'))?> </div>
+                <div class="form-group"> <?php echo $this->formElement($form->get('client_email'))?> </div>
+                <div class="form-group"> <?php echo $this->formElement($form->get('client_password'))?></div>
+                <div class="form-group"> <?php echo $this->formElement($form->get('client_rpassword'))?></div>
+                <?php echo $this->formElement($form->get('post_csrf'))?><?php */?>
+
+                <button type="button" class="btn submit-btns get-started-1" id="startedbtn">Submit</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div> -->
+<div class="modal add-to-cart-modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media product-infotg">
+			<div class="media-body">
+				<div class="">                          
+					  <div class="coupon">
+						<div class="check-boxs">
+							<div class="checks custom-checks">
+								<label for="clientele_chkterms" class="checkbox"> You agree with The Collective Coven <a href="<?= APPLICATION_URL.'/privacy-policy'; ?>" target="_blank" class="term-linktg">Privacy Policy</a> & <a href="<?= APPLICATION_URL.'/terms-and-conditions'; ?>" target="_blank" class="term-linktg">Terms of Use</a>
+									<input type="checkbox" name="clientele_chkterms" id="clientele_chkterms" class="required">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>						
+					  </div>
+				</div>
+			</div>			
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer justify-content-center">
+        <div class="social-links social-agree">
+		  <ul class="">
+			<li class="other-text"> Sign Up With</li>
+			<li class="social-midtxt"><a href="javascript:void(0)" class="social-clkbtn" data-id="1"><img src="<?=HTTP_IMG_PATH?>/facebook-circle.svg"></a></li>
+			<li class="social-midtxt"><a href="javascript:void(0)" class="social-clkbtn" data-id="2"> <img src="<?=HTTP_IMG_PATH?>/google-plus-new.svg"> </a></li>
+		  </ul>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>    
+
+<script>var isCaptcha = 1;
+var isSubmit = 1;
+</script>
+
+<script>
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&amp;key=<?= GOOGLE_MAP_API_KEY ?>&sensor=false"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $this->site_configs['recaptcha_sitekey']?>"></script>
+<script>
+$(document).ready(function(e) {
+	$("#user_location").attr("placeholder","");
+    var creator_address = document.getElementById('user_location');
+	var autocomplete2 = new google.maps.places.Autocomplete(creator_address);
+	var geocoder= new google.maps.Geocoder();
+	google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+        var place = autocomplete2.getPlace();
+		geocoder.geocode( { 'address': place.formatted_address}, function(results, status) {
+			  if (status == google.maps.GeocoderStatus.OK) {
+			  	for (var ac = 0; ac < results[0].address_components.length; ac++) {
+					var component = results[0].address_components[ac];
+					switch(component.types[0]) {
+						case 'country':
+						var country = component.long_name;
+						$("#user_country").val(country);
+						break;	
+					}
+			  	}; 
+
+			} 
+		  });
+	});
+	$("#first_name").keydown(function(event){
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0) && inputValue != 8 && inputValue != 9) { 
+            event.preventDefault(); 
+        }
+    });
+	$("#last_name").keydown(function(event){
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0) && inputValue != 8 && inputValue != 9) { 
+            event.preventDefault(); 
+        }
+    });
+});
+	
+	$(document).on("click",".social-regbtn",function() {
+		$(".tc-errtag").remove();
+		$("#termsModal").modal("show");	
+	})
+	
+	$(document).on("click",".social-clkbtn",function() {
+		var tid = $(this).attr("data-id");
+		$(".tc-errtag").remove();
+		$(".tcp-errtag").remove();
+		if (!$('#clientele_chkterms').is(':checked')) {
+			$('<p class="tc-errtag">Please accept to proceed.</p>').insertAfter("#clientele_chkterms");	
+		} else {
+			if(tid == '1') {
+				window.location.replace('<?= APPLICATION_URL.'/facebook'; ?>');
+			} else {
+				window.location.replace('<?= APPLICATION_URL.'/google'; ?>');
+			}
+		}
+	})
+
+var interval = setInterval(function(){
+  if(window.grecaptcha){
+    grecaptcha.ready(function() {
+        grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+          $('#sm_user_registration_form').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+        });
+    });
+  clearInterval(interval);
+  }
+}, 100);
+
+
+$('#startedbtn').on('click',function(){
+  grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+    $('#hiddenGRecaptchaResponse').remove();
+    $('#sm_user_registration_form').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+  	
+
+    var intervalScroll = setInterval(function(){
+        $(".data-sec-part").mCustomScrollbar("scrollTo","bottom");
+        clearInterval(intervalScroll);
+    },100);
+
+    $('#sm_user_registration_form').validate({
+        ignore:'',
+        rules:{
+            first_name:{
+                required:true,
+            },
+			last_name:{
+                required:true,
+            },
+            client_email:{
+                required:true,
+            },
+            pass_word: {
+                minlength: 8,
+                notDefaultText: true
+            },
+            confirm_pass: {
+                equalTo: '#client_password',
+                minlength: 8,
+            },
+            chkbox:{
+                required:true,
+            },
+        },
+        messages:{
+                hiddenGRecaptchaResponse:{
+                required:"Please check captcha",
+            }
+        },
+        errorPlacement:function(error,element){
+            error.insertAfter(element);
+    },
+      
+    });
+
+    if($('#sm_user_registration_form').valid())
+    {
+      passwordEncrypt();
+      $('#sm_user_registration_form').submit();
+
+    } else {
+      // alert('Please check the form and complete it.');
+    }
+
+
+  });
+
+  // $("#sm_user_registration_form").validate().element("#client_name");
+
+});
+	
+$(document).ready(function(e) {
+	/*$("#client_birthday").datepicker({
+		format: 'mm/dd/yyyy',
+		endDate: '-18y',
+	}).on('changeDate', function(e){
+		$(this).datepicker('hide');
+	});*/
+	
+	$('#client_birthday').inputmask("99/99/9999", {placeholder: 'MM/DD/YYYY' });
+})
+
+$(document).on("focusout","#client_birthday",function() {
+	var birth_date = $(this).val();
+	var expl = [];
+	expl = birth_date.split("/");
+	if(birth_date != '' && (expl[0] > '12' || expl[1] > '31' || expl[2] > '2012')) {
+		$('#client_birthday').val('');
+		showAppAlert('Error!!','Please enter correct birthday.','error');
+	}
+})
+
+
+$(function() {
+    $('#user_name').keydown(function(e) {
+        if (e.keyCode == 32) // 32 is the ASCII value for a space
+            e.preventDefault();
+    });
+	$('#client_email').keydown(function(e) {
+        if (e.keyCode == 32) // 32 is the ASCII value for a space
+            e.preventDefault();
+    });
+	
+});
+
+</script>

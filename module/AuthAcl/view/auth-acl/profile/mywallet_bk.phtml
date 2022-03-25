@@ -1,0 +1,258 @@
+<style type="text/css">
+	#prodtrashModal{z-index:99999;}
+	.viewreason-tg:hover{text-decoration:none;}
+	.refamt-lbl{background:#000;color:#fff;font-size:16px;padding:8px 14px;float:right;margin-bottom:5px;}
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+	.wallet-section .amount-box{height:100px;}
+<?php } ?>
+.status-btn{background-color:rgb(255, 245, 214);width:79px;padding:5px;border-radius:25px;margin-bottom:7px;height:auto;font-size:12px;color:rgb(255, 199, 29);font-family:'rubikregular';box-shadow:none !important;border:none !important;}	
+.status-btn.Processing{color:#999900;width:auto;min-width:79px;background-color:#EEE8AA;cursor:default !important;}
+.status-btn.Ready_to_ship{color:rgb(199,21,133);width:auto;min-width:79px;background-color:#FFC0CB;cursor:default !important;}
+.status-btn.Shipped{color:rgb(255, 0, 0);width:auto;min-width:79px;background-color:#ffcccb;cursor:default !important;}
+.status-btn.Delivered{color:rgb(0,100,0);width:auto;min-width:79px;background-color:#90ee90;cursor:default !important;}	
+</style>
+
+
+
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">My Wallet</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+
+
+
+<div class="profile_page my-wallet-page">
+  <div class="container">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+            <? /* ?>
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"470x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+            <? */ ?>
+
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+
+        <div class="side-nav">
+          <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'wallet'=>1)); ?>
+        </div>
+        <!-- change user image -->
+      </div>
+      <!--  -->
+
+
+        <div class="right-side wallet-section">
+            <div class="amount-block">
+              <div class="spider-img"></div>
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="amount-box"> 
+                        <p class="amount">$<?= round($total_earned,2); ?></p>
+                        <p class="amount-txt">Total Earned</p>
+                      </div>
+                  </div>
+                  <!--  -->
+                  <div class="col-sm-4">
+                      <div class="amount-box"> 
+                        <p class="amount">$<?= round($total_withdrawal,2); ?></p>
+                        <p class="amount-txt">Total Withdrawal</p>
+                      </div>
+                  </div>
+                  <!--  -->
+                  <div class="col-sm-4">
+                      <div class="amount-box"> 
+                        <p class="amount">$<?= round($available_balance,2); ?></p>
+                        <p class="amount-txt">Available Balance</p>
+                      </div>
+                  </div>
+                  <!--  -->
+              </div>
+            </div>
+            <!-- row -->
+            <div class="wallet-group">
+
+                <form id="withdraw_form" name="withdraw_form" class="form-inline">
+                  <div class="form-left-side"> 
+                    <div class="mb-0 form-group">
+                      <label for="">Withdrawal</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="text" class="form-control required" id="withdrawal_amt" name="withdrawal_amt" maxlength="10" placeholder="">  
+                        <div class="input-group-prepend"><button type="button" class="btn submit-btn send-btn" id="startedbtn">Submit</button></div>
+                      </div>
+                    </div>
+                    <small> Enter Amount </small>
+                    
+                  </div>
+
+                </form>
+
+            </div>
+
+            <div class="table-box">
+                <h2 class="table-heading">Transaction History <?php /*?><span class="refamt-lbl">Refunded Amount: $<?php if(!empty($refund_amount)) { echo bcdiv($refund_amount,1,2); } else { echo '0'; } ?></span<?php */?></h2>
+
+                <div class="table-block">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr class="table-head">
+                          <th scope="col">STATUS</th>
+                          <th scope="col">Client Name</th>
+                          <th scope="col">Product</th>
+                          <th scope="col">Transaction Date</th>
+                          <th scope="col">Transaction amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php if(!empty($tx_data)) { foreach($tx_data as $tx_data_key => $tx_data_val) { 
+							if($tx_data_val["type"] == "Refund") { ?>
+								<tr>
+									<?php if($tx_data_val["refund_status"] == '1') { ?>
+										<td>Refund  <span class="status-btn Delivered btn">Approved</span></td>
+									<?php } else { ?>
+										<td>Refund  <span class="status-btn Processing btn">Pending</span></td>
+									<?php } ?>
+									<td><?= $tx_data_val[T_CLIENT_VAR.'client_name']; ?></td>
+									<td><a style="color:#524f63" href="<?= APPLICATION_URL.'/product/'.slugify($tx_data_val["product_title"]).'~'.str_replace("=","",base64_encode($tx_data_val["product_id"])); ?>" target="_blank"><u>Product</u></a></td>
+									<td><?= $tx_data_val["order_date"] ?></td>
+									<td>-$<?= bcdiv($tx_data_val["refund_amount"],1,2) ?><?php if($tx_data_val["refund_type"] == '1') { echo " (Full Refund)"; } else { echo " (Partial Refund)"; } ?></td>
+								</tr>	
+							<?php } else {
+								if(!empty($tx_data_val["type"])) {
+								  $order_total = $tx_data_val["withdrawal_amount"];
+								} else {
+								  $order_total = $tx_data_val["order_total"] - $tx_data_val["order_sitefee"];
+								}
+							  ?>
+                                      <tr>
+                                        <?php if(empty($tx_data_val["withdrawal_type"])) { ?>
+                                        <td>Credit </td>
+                                        <?php } else { if($tx_data_val["withdrawal_type"] == '2') { ?>
+                                          <td>Pending</td>
+                            <?php } else if($tx_data_val["withdrawal_type"] == '1') { ?>
+                                          <td>Approved</td>
+                            <?php } else { ?>
+                                          <td>Declined <br/><a href="javascript:void(0)" class="viewreason-tg" data-text="<?= nl2br($tx_data_val["withdrawal_declinetxt"]); ?>">Click to view the reason</a></td>
+                            <?php } } ?>
+                                        <?php if(!empty($tx_data_val["type"])) { ?>
+                                        <td>By You</td>
+                            <?php } else { ?>
+                                        <td><?= $tx_data_val[T_CLIENT_VAR.'client_name']; ?></td>
+                                        <?php } ?>
+                                        <?php if(!empty($tx_data_val["type"])) { ?>
+                                        <td></td>
+                            <?php } else { ?>
+                                        <td><a style="color:#524f63" href="<?= APPLICATION_URL.'/product/'.slugify($tx_data_val["product_title"]).'~'.str_replace("=","",base64_encode($tx_data_val["product_id"])); ?>" target="_blank"><u>Product</u></a></td>
+                                        <?php } ?>
+                                        <td><?= $tx_data_val["order_date"] ?></td>
+                                        <td>$<?= round($order_total,2) ?></td>
+                                      </tr>
+                                      <?php } } } else { ?>
+                                        <tr>
+                                        <td colspan="5">No transaction found.</td>
+                                        </tr>
+                          <?php }  ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <!-- wallet-group -->
+        </div>
+
+        <!-- right side -->
+
+
+  </div>
+  </div>
+</div>
+
+
+
+<!-- modal -->
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	  <h3>Reason to decline the withdrawal:</h3>
+          <div class="modal-description"></div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	
+	$('#withdrawal_amt').on('keypress',function (event) {
+    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+    }
+    var input = $(this).val();
+    if ((input.indexOf('.') != -1) && (input.substring(input.indexOf('.')).length > 2)) {
+        event.preventDefault();
+    }
+});
+	
+	$(document).on("click",".send-btn",function() {
+		var withdraw = $("#withdrawal_amt").val();
+		var $this = $(this);
+		$(this).prop("disabled",true);
+		if($("#withdraw_form").valid()) {
+		$.ajax({
+	  		url: baseUrl + "/withdrawal-amount",
+	  		type: "POST",
+	  		data: { withdraw: withdraw },
+	  		success: function (data) {	
+				if(data == 'insufficient') {
+					showAppAlert('Error!!','You cannot claim more amount than you have.','error');
+					$this.prop("disabled",false);
+				} else if(data == 'invalid_amount') {
+					showAppAlert('Error!!','Invalid withdrawal amount specified.','error');
+					$this.prop("disabled",false);
+				} else if(data == 'success') {
+					showAppAlert('Success!!','You have successfully sent the withdrawal request to Admin.','success');					
+					setTimeout(function(){ location.reload(); }, 1500);
+				}
+	  		}
+		})
+		} else {
+			$this.prop("disabled",false);
+		}
+	})
+	
+	$(document).on("click",".viewreason-tg",function() {
+		var txt = $(this).attr("data-text");
+		$("#prodtrashModal").find(".modal-description").html(txt);
+		$("#prodtrashModal").modal("show");	
+	})
+</script>

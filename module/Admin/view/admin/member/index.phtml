@@ -1,0 +1,87 @@
+<div class="panel">
+  <div class="panel-body">
+    
+      <form method="post" action="<?php echo ADMIN_APPLICATION_URL?>/remove-members" onsubmit="return checkSelects('userForm')" id="userForm">
+      <div class="row">
+        <div class="col-md-6 mb-15"> 
+          <button class="btn btn-danger btn-rounded waves-effect waves-classic DeleteBtn"><span class="btn-label"><i class="fa fa-trash"></i></span>
+          <?=$this->layout()->translator->translate("del_sel_txt")?>
+          </button>
+        </div>
+      </div>
+        
+        <table id="sample_1"  class="table table-hover dataTable table-striped w-full table-bordered">
+          <thead>
+            <tr>
+              <th width="5%">S.No.</th>
+              <th><div class="text-center">
+                  <input id="deletebcchk" name="deletebcchk" type="checkbox" class="group-checkable">
+                  <label for="deletebcchk"></label>
+                </div></th>
+              <th>Full Name</th>
+              <th>Email Address</th>
+              <th>Member Since</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  
+</div>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(e) {
+	var slength = [1,5,6];
+	var surl = '<?php echo APPLICATION_URL.'/'.BACKEND?>/getmembers';
+	<?php if($this->userId != ''){?>
+		var surl = '<?php echo APPLICATION_URL.'/'.BACKEND?>/getmembers/<?php echo $this->userId?>';	
+	<?php } ?>
+
+	$('#sample_1').DataTable({
+		"language":{"lengthMenu": "Show _MENU_ records"},
+		"bProcessing":true,
+		"bServerSide":false,
+		"bAutoWidth":false,
+		"responsive":true,
+		"responsive": {
+			 "details": {
+				renderer: function(api, rowIdx, columns){
+				   var $row_details = $.fn.DataTable.Responsive.defaults.details.renderer(api, rowIdx, columns);
+				   var elems = Array.prototype.slice.call($($row_details).find('.js-switch:not(.test)'));
+				   elems.forEach(function(html) {
+					  var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+					  if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test");}
+					});
+				   return $row_details;
+				}
+			 }
+		 },
+		"bInfo":false,
+		"pagingType":"full_numbers",
+		"order":[[0,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":slength},
+			{"bSearchable":false,"aTargets":slength}
+		 ],
+		"sAjaxSource": surl,
+		"iDisplayLength":10,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		"fnDrawCallback":function(oSettings){
+			if($(".deimg").length>0){
+				$('.deimg').initial(); 
+			}
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+			elems.forEach(function(html) {
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+			});
+		},	
+
+	});
+
+});
+</script>

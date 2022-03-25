@@ -1,0 +1,23 @@
+<style type="text/css">
+	.orderprod-pictg{max-width:175px;}
+</style>
+<div class="row">
+	<div class="col-md-4">
+		<a href="<?= APPLICATION_URL.'/product/'.slugify($order_details["product_title"]).'~'.str_replace("=","",base64_encode($order_details["product_id"])); ?>" target="_blank"><?php if(!empty($order_details["product_defaultpic"])) { ?>
+		  <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$order_details["product_defaultpic"]; ?>" class="orderprod-pictg" /> 
+		<?php } else {
+		$product_photos = explode(",",$order_details["product_photos"]); 
+		if(!empty($product_photos[0])) { ?>
+		  <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$product_photos[0]; ?>" class="orderprod-pictg" />
+		<?php } } ?></a>
+	</div>
+	<div class="col-md-8">
+		<p>Product Title: <a href="<?= APPLICATION_URL.'/product/'.slugify($order_details["product_title"]).'~'.str_replace("=","",base64_encode($order_details["product_id"])); ?>" target="_blank" style="color:#000;"><span><?= $order_details["product_title"]; ?></span></a></p>
+		<p>Client Name: <span><?= $order_details[T_CLIENT_VAR."client_name"]; ?></span></p>
+		<p>Amount Paid: <span><?= "$".$order_details["order_total"]; ?></span></p>
+		<P>Shipping Amount: <span><?php if(!empty($order_details["order_shipping"])) { echo "$".$order_details["order_shipping"]; } else { echo "$0"; } ?></span></p>
+		<p>Product Color: <span><?= $order_details["order_color"]; ?></span></p>
+		<p>Product Size: <span><?= $order_details["order_size"]; ?></span></p>
+		<p>Product Qty: <span><?= $order_details["order_qty"]; ?></span></p>	
+	</div>
+</div>

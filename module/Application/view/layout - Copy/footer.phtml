@@ -1,0 +1,66 @@
+<?php 
+use Application\Form\StaticForm;
+
+$form = new StaticForm();
+$form->newsletter();
+?>
+
+<footer>
+	<div class="homecontainer container" style="padding-top:30px;">
+    	<!--Newsletter module{-->
+          <form method="post" class="newsletter_form" action="<?php echo SITE_HTTP_URL?>/subscribe">
+
+            <h3>Subscribe To Our Newsletter</h3>
+            <div class="input-group mb-3">
+              <?php echo $this->formElement($form->get('subscribe_email'));?>
+              <div class="input-group-append">
+                <button class="btn input-group-text" type="submit" style="background-color:blue;text-align:center;padding:19px;">Subscribe</button>
+              </div>
+            </div>
+            <div class="help_div"> <span for="subscribe_email" class="help-block"></span></div>
+          </form>
+
+        <!--Newsletter module}-->
+		<div class="row mobile_view">
+        	<div class="col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12">
+            	<p class="heading">About Us</p>
+                <hr class="border1"><hr class="border2">
+                <p class="text"><?php echo $this->SITE_CONFIG['site_footertxt']?></p>
+                 <ul class="social_icons">
+                        <li><a href="<?php echo $this->SITE_CONFIG['facebook_link']?>" target="_blank"><img src="<?=HTTP_IMG_PATH?>/facebook-logo.svg"></a></li>
+                        <li><a href="<?php echo $this->SITE_CONFIG['twitter_link']?>" target="_blank"><img src="<?=HTTP_IMG_PATH?>/twitter.svg"></a></li>
+                        <li><a href="<?php echo $this->SITE_CONFIG['pinterest_link']?>" target="_blank"><img src="<?=HTTP_IMG_PATH?>/pinterest-logo.svg"></a></li>
+                        <li><a href="<?php echo $this->SITE_CONFIG['youtube_link']?>" target="_blank"><img src="<?=HTTP_IMG_PATH?>/youtube-logo.svg"></a></li>
+                    </ul>
+            </div>
+
+            <div class="col-12 offset-md-3 col-xl-4 col-lg-4 col-md-4 col-sm-12 menus">
+            	<p class="heading">Useful Links</p>
+                <hr class="border1"><hr class="border2">
+                <div class="listing">
+                    <ul>
+                        <li> <div class="circle"> </div><a href="<?php echo SITE_HTTP_URL?>" data-title="home">Home</a></li>
+                        <li><div class="circle"> </div> <a href="<?=$this->url('front_aboutus')?>" data-title="about">About Us</a></li>
+                        <li><div class="circle"> </div><a href="<?=$this->url('front_contactus')?>" data-title="contact">Contact Us</a></li>
+                        <li><div class="circle"> </div><a href="<?=$this->url('front_testimonials')?>" data-title="testimonials">Testimonials</a></li>
+                    </ul>
+                    <ul>    
+                        <li><div class="circle"> </div><a href="<?=$this->url('front_faq')?>" data-title="faq">FAQ</a></li>
+                        <li><div class="circle"> </div><a href="<?=$this->url('front_privacypolicy')?>" data-title="privacy">Privacy Policy</a></li>
+                        <li><div class="circle"> </div><a href="<?=$this->url('front_termsofservice')?>" data-title="terms">Terms of Service</a></li>
+                    </ul>
+           		</div>
+            </div>
+        </div>
+	</div>
+    <hr>
+    
+    <p class="copy_right">© <?php echo date("Y")?> <?php echo $this->SITE_CONFIG['site_name']?></p>
+</footer>
+<script>
+$(document).ready(function(e) {
+	<?php if($this->pageType!=''){?>
+        $('a[data-title="<?php echo $this->pageType?>"]').addClass('active');
+	<? }?>
+});
+</script>

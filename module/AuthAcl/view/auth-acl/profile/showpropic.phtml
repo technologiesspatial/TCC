@@ -1,0 +1,32 @@
+<div class="choose-img-box">
+<?php 
+	foreach($product_pics as $product_pics_key => $product_pics_val) { ?>
+		 <?php if(file_exists(PRODUCT_PIC_PATH.'/160/'.$product_pics_val) && !empty($product_pics_val)) { 
+			if($product_pics_key == '0') { $num = 'one'; } 
+			else if($product_pics_key == '1') { $num = 'two'; }
+			else if($product_pics_key == '2') { $num = 'three'; }
+			else if($product_pics_key == '3') { $num = 'four'; }
+			else if($product_pics_key == '4') { $num = 'five'; }
+			else if($product_pics_key == '5') { $num = 'six'; }
+			else if($product_pics_key == '6') { $num = 'seven'; }
+			else if($product_pics_key == '7') { $num = 'eight'; }
+			else if($product_pics_key == '8') { $num = 'nine'; }
+			else if($product_pics_key == '9') { $num = 'ten'; }
+	?>
+        		
+				<div class="group-<?= $num ?> group" style="background:url('<?= HTTP_PRODUCT_PIC_PATH.'/thumb/'.$product_pics_val; ?>')">
+					<input name="defthumb" type="radio" id="<?= $num ?>" value="<?= $product_pics_val ?>" <?php if($product_pics_val == $product_defpic) { ?>checked<?php } else if($product_pics_val == reset($product_pics)) { ?>checked<?php } ?>>
+					<label for="<?= $num ?>" class="<?= $num ?>"> <span>  </span> </label>
+				</div>
+				<?php /*?><div class="group-two group">
+					<input name="radio" type="radio" id="two">
+					<label for="two" class="two"><span>Two</span></label>
+				</div> <?php */?>       	
+         	<?php /*?><div class="propic-wallblk">
+         	<img src="<?= HTTP_PRODUCT_PIC_PATH.'/160/'.$product_pics_val; ?>" /> 
+            <input type="radio" id="defthumb" name="defthumb" class="propic-inpblk" value="<?= $product_pics_val ?>" <?php if($product_pics_val == $product_defpic) { ?>checked<?php } else if($product_pics_val == reset($product_pics)) { ?>checked<?php } ?> >
+            </div><?php */?>
+         <?php } ?>
+	<?php }
+?>
+</div>

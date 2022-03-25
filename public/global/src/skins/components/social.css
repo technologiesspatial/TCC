@@ -1,0 +1,72 @@
+/*
+Error: Undefined variable: "$color-facebook".
+        on line 32 of //192.168.0.99/sites/Kishan/sandoplan/public/global/src/skins/components/social.scss, in `social-variant'
+        from line 32 of //192.168.0.99/sites/Kishan/sandoplan/public/global/src/skins/components/social.scss
+
+27: 
+28: // Modifier: `*-facebook`
+29: // -------------------------
+30: 
+31: .social-facebook {
+32:   @include social-variant($color-facebook);
+33: }
+34: 
+35: .bg-facebook {
+36:   background-color: $color-facebook;
+37: }
+
+Backtrace:
+//192.168.0.99/sites/Kishan/sandoplan/public/global/src/skins/components/social.scss:32:in `social-variant'
+//192.168.0.99/sites/Kishan/sandoplan/public/global/src/skins/components/social.scss:32
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/script/tree/variable.rb:49:in `_perform'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/script/tree/node.rb:50:in `perform'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:355:in `block (2 levels) in visit_mixin'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:355:in `map'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:355:in `block in visit_mixin'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:98:in `block in with_mixin'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:115:in `with_frame'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:98:in `with_mixin'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:347:in `visit_mixin'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `block in with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:115:in `with_frame'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:431:in `block (2 levels) in visit_rule'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:431:in `map'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:431:in `block in visit_rule'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:429:in `visit_rule'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `block in with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:115:in `with_frame'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:157:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/root_node.rb:20:in `render'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/engine.rb:278:in `render'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/sass_scss.rb:420:in `run'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/sass_scss.rb:63:in `process_result'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/base.rb:52:in `parse'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/base.rb:19:in `parse!'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/bin/sass:13:in `<top (required)>'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/bin/sass:23:in `load'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$color-facebook\".\A         on line 32 of //192.168.0.99/sites/Kishan/sandoplan/public/global/src/skins/components/social.scss, in `social-variant'\A         from line 32 of //192.168.0.99/sites/Kishan/sandoplan/public/global/src/skins/components/social.scss\A \A 27: \A 28: // Modifier: `*-facebook`\A 29: // -------------------------\A 30: \A 31: .social-facebook {\A 32:   @include social-variant($color-facebook);\A 33: }\A 34: \A 35: .bg-facebook {\A 36:   background-color: $color-facebook;\A 37: }"; }

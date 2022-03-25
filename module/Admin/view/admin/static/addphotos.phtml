@@ -1,0 +1,46 @@
+  <form action=""  class="profile_form" novalidate="" method="post" enctype="multipart/form-data"> 
+			<div class="row">
+                  <div class="col-md-12 unit">
+                    <label>Pictures (Supported Extension: .PNG,.png,.jpeg,.jpg,.mp4)</label>
+                    <div class="clsbox-1" runat="server"  >
+                      <div class="dropzone clsbox" id="photoszone"> </div>
+                    </div>
+                    <?php echo $this->formElement($form->get("sch_fileupload_image"))?> 
+                   </div>
+                  <div class="clearfix"></div>
+            <div style="margin-top:20px;text-align:center;display:block;width:100%;"><button type="submit" class="btn btn-raised btn-primary waves-effect waves-classic waves-effect waves-classic" id="postimgbtn">Save</button></div>
+</div>
+
+ <?php if(!empty($this->getCategoryImages)!=''){?>
+				 	<div class="clearfix">&nbsp;</div>
+					<?php 
+					
+							$r=0;
+						foreach($this->getCategoryImages as $picAttach){
+							$fileArr=explode(".",$picAttach['pis_lis_name']);
+							$getExt=@array_pop($fileArr);
+							
+							?>
+                        <div style="display:inline-block;" id="PICAttach_<?php echo $r;?>">
+                        <div style="width:auto;padding:5px;">
+                        	
+                            <a href="<?php echo HTTP_PHOTOS_IMAGES_PATH.'/'.$picAttach['pis_lis_name'] ?>" 
+                            style="text-decoration:none !important;" download>
+                               <?php if($getExt=='mp4'){
+								   $picAttach['pis_lis_name']='img_'.$fileArr[0].'.jpg';
+								   ?>
+								  
+								  <? }?>
+                                <img src="<?=HTTP_PHOTOS_IMAGES_PATH?>/160/<?=$picAttach['pis_lis_name']?>" />
+                            </a>&nbsp;
+                        </div>
+                        <div class="text-center"><a onclick="removepicimage(this)" data-imgpost="<?php echo myurl_encode($picAttach['pis_lis_id'])?>" style="color:#01c0c8 !important;cursor:pointer;">Remove Image</a></div>
+                        </div>
+                        <? $r++;}
+						
+						
+					
+					
+				 }?>
+                 <div class="clearfix"></div>
+</form>

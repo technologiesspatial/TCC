@@ -1,0 +1,220 @@
+<style type="text/css">
+	.dtr-data{word-break:break-word;}
+	.decline-reasontxt{width:100%;padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px;border-radius:4px;margin-bottom:5px;}
+	.export-userbtn{background:#000;padding:10px 18px;position:relative;top:1px;color:#fff;border-radius:3px;display:inline-block;}
+	.export-userbtn:hover{text-decoration:none;color:#fff;}
+</style>
+<div class="panel">
+
+  <div class="panel-body">
+
+
+    <div class="row">
+
+        <div class="col-md-6 mb-15"> 
+		  <a href="<?= ADMIN_APPLICATION_URL.'/export-seller-applications'; ?>" class="export-userbtn">Export</a>	
+        </div>
+
+      </div>
+
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+
+          <thead>
+
+            <tr>
+
+              <th width="5%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Full Name")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Store Name")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Company Legal Name")?></th>
+              <th>Contact Person</th>
+              <th>Status</th>
+              <th>Store Status</th>
+              <th>Add to Favorite</th>
+              <th>Best Seller</th>
+              <th width="8%"><?=$this->layout()->translator->translate("action_txt")?></th>
+
+            </tr>
+
+          </thead>
+
+          <tbody  class="SortContentMain">
+
+          </tbody>
+
+        </table>
+
+    </div>
+
+  </div>
+
+<div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Seller Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to accept the store approval request? </p>
+          <a href="javascript:void(0)" class="badge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="badge-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="declineModal" tabindex="-1" role="dialog" aria-labelledby="declineModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Store Approval Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to decline the store approval request? </p>
+          <form id="declineform" name="declineform" class="profile_form">
+          <div class="form-group">
+          <textarea class="decline-reasontxt required" rows="3" placeholder="Specify reason in case you decline"></textarea>
+          </div>
+          <a href="javascript:void(0)" class="debadge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="debadge-cancelbtn btn btn-danger">Cancel</a>
+          </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).on("click",".approve-applbtn",function() {
+	var id = $(this).attr("data-id");
+	$(".badge-acceptbtn").attr("data-id",id);
+	$("#acceptModal").modal("show");
+})
+
+$(document).on("click",".badge-cancelbtn",function() {
+	$("#acceptModal").modal("hide");
+})
+
+$(document).on("click",".decline-applbtn",function() {
+	var id = $(this).attr("data-id");
+	$(".debadge-acceptbtn").attr("data-id",id);
+	$("#declineModal").modal("show");
+})
+
+$(document).on("click",".debadge-cancelbtn",function() {
+	$("#declineModal").modal("hide");
+})
+
+$(document).on("click",".debadge-acceptbtn",function() {
+	var decltxt = $(".decline-reasontxt").val();
+	var decltxt = $.trim(decltxt);
+	$(".decline-reasontxt").val(decltxt);
+	if($("#declineform").valid()) {
+	var id = $(this).attr("data-id");
+	var decltxt = $(".decline-reasontxt").val();
+	$.ajax({
+		url: baseUrl + "/decline-store",
+		type: "POST",
+		data: { id: id, decltxt : decltxt },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Seller application request has been declined successfully.",'success');
+				$("#declineModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+	}
+})
+
+$(document).on("click",".badge-acceptbtn",function() {
+	var id = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/accept-store",
+		type: "POST",
+		data: { id: id },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Seller application request has been approved successfully.",'success');
+				$("#acceptModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+})
+
+$(document).ready(function(e) {
+	$('#sample_1').DataTable({
+
+		"language":{"lengthMenu": "Show _MENU_ seller applications"},
+
+		"bProcessing":true,
+
+		"bServerSide":true,
+
+		"bAutoWidth":false,
+
+		"responsive":true,
+
+		"bInfo":false,
+
+		"pagingType":"first_last_numbers",
+
+		"order":[[1,"desc"]],
+
+		"aoColumnDefs":[
+
+			{"bSortable":false,"aTargets":[0,1,4,5,6,7,8]},
+
+			{"bSearchable":false,"aTargets":[1]}
+
+		 ],
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getsellerrequests",
+
+		"iDisplayLength":50,
+
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+
+		
+
+		"fnDrawCallback":function(oSettings){
+
+			if($(".deimg").length>0){
+
+				$('.deimg').initial(); 
+
+			}
+
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+
+			elems.forEach(function(html) {
+
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+
+			});
+
+		},
+
+	});
+});
+
+</script>  
+

@@ -1,0 +1,90 @@
+<div class="panel">
+  <div class="panel-body">
+
+
+    <div class="row">
+
+        
+
+      </div>
+
+
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+          <thead>
+            <tr>
+              <th width="5%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Review")?></th>   
+              <th width="8%"><?=$this->layout()->translator->translate("Product Title")?></th>           
+              <th width="14%"><?=$this->layout()->translator->translate("Reported Date")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Reported By")?></th>
+              <th class="none"><?=$this->layout()->translator->translate("Reason")?></th>
+              
+
+            </tr>
+
+          </thead>
+
+          <tbody  class="SortContentMain">
+
+          </tbody>
+
+        </table>
+
+    </div>
+
+  </div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function(e) {
+
+
+
+	$('#sample_1').DataTable({
+
+		"language":{"lengthMenu": "Show _MENU_ records"},
+
+		"bProcessing":true,
+
+		"bServerSide":true,
+
+		"bAutoWidth":false,
+
+		"responsive":true,
+
+		"bInfo":false,
+
+		"pagingType":"first_last_numbers",
+
+		"order":[[3,"desc"]],
+
+		"aoColumnDefs":[
+
+			{"bSortable":false,"aTargets":[0,2,4,5]},
+
+			{"bSearchable":false,"aTargets":[1]}
+
+		 ],
+
+		  
+
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getreportedreviews",
+
+		"iDisplayLength":50,
+
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+
+		
+
+		"fnDrawCallback":function( oSettings ){}
+
+	});
+
+	
+
+});
+
+</script>  
+

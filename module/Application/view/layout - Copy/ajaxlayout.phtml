@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#"><head>
+<?php
+use Zend\Session\Container;
+use Zend\Session\Action;
+use Application\Model\AbstractModel;
+
+$seperator="";
+if($this->pageHeading!=""){
+	$seperator = " | ";
+}
+?>
+<?php echo $this->headTitle($this->SITE_CONFIG['site_title'].$seperator.$this->pageHeading)->setSeparator(' - ')->setAutoEscape(false) ?>
+<meta charset="utf-8"> 
+<?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')->appendName('description', $this->SITE_CONFIG['meta_description_'.$_COOKIE['currentLang']])->appendName('keywords', $this->SITE_CONFIG['meta_keyword_'.$_COOKIE['currentLang']])->appendHttpEquiv('X-UA-Compatible', 'IE=edge'); ?>
+
+<script type="text/javascript">
+var baseUrl = SITEURL = SITE_URL = '<?php echo APPLICATION_URL?>';
+var SITE_HTTP_URL = '<?=SITE_HTTP_URL?>';
+var currLang = '<?=$_COOKIE['currentLang']?>';
+var pleaseWaitTxt="<?=$this->layout()->translator->translate("please_wait_txt")?>";
+var notEqualTxt="<?=$this->layout()->translator->translate("not_equal_txt")?>";
+var tickAllTxt="<?=$this->layout()->translator->translate("tick_all_txt")?>";
+var removeTxt="<?=$this->layout()->translator->translate("remove_new_txt")?>";
+var secProvider="<?=$this->layout()->translator->translate("sec_provider_txt")?>";
+var secTitle="<?=$this->layout()->translator->translate("sec_title_txt")?>";
+var secGrade="<?=$this->layout()->translator->translate("sec_grade_txt")?>";
+var secFrom="<?=$this->layout()->translator->translate("sec_from_txt")?>";
+var secTo="<?=$this->layout()->translator->translate("sec_to_txt")?>";
+var finishText="<?=$this->layout()->translator->translate("finish_txt")?>";
+var nextText="<?=$this->layout()->translator->translate("next_txt")?>";
+var yesText="<?=$this->layout()->translator->translate("yes_short_txt")?>";
+var noText="<?=$this->layout()->translator->translate("no_short_txt")?>";
+var addDetailTxt="<?=$this->layout()->translator->translate("add_more_detail_txt")?>";
+var removeDetailTxt="<?=$this->layout()->translator->translate("remove_more_detail_txt")?>";
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet"> 
+<?php /*?><script type="text/javascript" src="<?=PLUGIN_PATH?>/js/jquery-1.11.0.min.js"></script><?php */?>
+<script type="text/javascript" src="<?=PLUGIN_PATH?>/js/jquery-3.3.1.min.js"></script>
+
+<?php if($this->layout()->CURRENT_CONTROLLER=='') { ?>
+	<link href="<?=FRONT_CSS?>/bootstrap.css" rel="stylesheet"/>
+	<link href="<?=FRONT_CSS?>/design.css" rel="stylesheet"/>
+<?php } else { ?>
+	<?php echo $this->render('include_css.phtml');?> 
+<?php } ?>
+</head>
+<body >
+<div>
+    <?php echo $this->content;?>
+</div>
+<?php echo $this->headScript();?>
+<?php if($this->layout()->CURRENT_CONTROLLER!='') { ?>
+    <script>
+    $(document).ready(function(e) {
+        jQuery.extend(jQuery.validator.messages, {
+            required:'<?php echo $this->layout()->translator->translate('required_txt'); ?>',
+            email:'<?php echo $this->layout()->translator->translate('valid_email_txt'); ?>',
+            minlength:'<?php $this->layout()->translator->translate('char_len_txt'); ?>',
+            equalTo:'<?php echo $this->layout()->translator->translate('same_value_txt'); ?>',
+            extension:'<?php echo $this->layout()->translator->translate('invalid_attach_txt'); ?>',
+            number:'<?php echo $this->layout()->translator->translate('valid_num_txt')?>',
+            maxlength:'<?php echo $this->layout()->translator->translate('more_len_txt')?>',
+            digits:'<?php echo $this->layout()->translator->translate('digit_valid_txt')?>',
+        });
+    });
+    </script>
+<?php } ?>
+
+</body>
+</html>

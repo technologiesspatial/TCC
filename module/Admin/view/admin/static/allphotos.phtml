@@ -1,0 +1,57 @@
+<div class="panel">
+  <div class="panel-body">
+    
+         
+           <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+          <thead>
+            <tr>
+              <th width="6%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+              <th>Category Name</th>
+              <th width="15%">Count</th>
+              <th width="8%"><?=$this->layout()->translator->translate("action_txt")?></th>
+            
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        
+     </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+<?php 
+$categorypath=APPLICATION_URL.'/'.BACKEND.'/getphotocategory/2';
+?>
+$(document).ready(function(e) {
+	
+	
+	
+	$('#sample_1').DataTable({
+		"language":{"lengthMenu": "Show _MENU_ templates"},
+		"bProcessing":true,
+		"bServerSide":true,
+		"bAutoWidth":false,
+		"responsive":true,
+		"bInfo":false,
+		"pagingType":"first_last_numbers",
+		"order":[[2,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":[0,1,2,3]},
+			{"bSearchable":false,"aTargets":[1,2]}
+		 ],
+		  
+		"sAjaxSource": "<?php echo $categorypath?>" ,
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		
+		
+		"fnDrawCallback":function( oSettings ){}
+	});
+	
+	
+});
+</script>
+
+
+ 

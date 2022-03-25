@@ -1,0 +1,245 @@
+<style type="text/css">
+	.reqst-ptag{padding-left:15px;margin-bottom:5px;}
+	.stats-widget{background-color:#fff;margin-bottom:30px;padding:0px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;box-shadow:0 1px 2px rgba(0, 0, 0, 0.1);}
+	.widget-header{padding-top:1px;padding-bottom:4px;}
+    .AdvBlue{background-color: #8427cd !important;}
+    .Advcoral{background-color: #25cb43 !important;}
+    .Advlightseagreen{background-color:#ca7928 !important;}
+    .Advviolet{background-color:  	#297b6d !important;}
+    .Advlightpink{background-color:  	#ffb4c0 !important;}
+    .Advdarkblue{background-color: #50388e !important;}
+    .Advdarkorange{background-color:#ff6a30 !important;padding-bottom:43px !important;min-height:172px;}
+	.Advorange{background-color: #8b1d38 !important;}
+	.dash-boxholder{padding-left:10px;padding-right:10px;}
+	.stats-widget .stats-chart-container{padding:10px;text-align:center;color:#ffffff;}
+	.dash-boxtg{display:inline-block;width:48%;padding-left:0px;padding-right:0px;}
+	.dash-boxtg h2 i{color:#fff;}
+	.dash-boxtg h2 label{color:#fff;}
+	.dash-boxtg h5 i{color:#fff;}
+	.dash-boxtg h5 label{color:#fff;cursor:pointer;}
+	.AdvDashboardHeading h3{color:#444;text-transform:uppercase;}
+    .AdvDashboardHeading p{text-transform:uppercase;}
+	.highcharts-exporting-group{display:none;}
+</style>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<div class="page-content container-fluid admin_content">
+		
+        
+        <div class="row match_row" data-plugin="matchHeight" data-by-row="true">
+
+        <?php $i=0; if(!empty($this->listCount)){
+
+                  foreach($this->listCount as $lKey=>$lvalue){ 
+				  if($lvalue["url"] != 'users') {
+           ?>
+          
+          <div class="col-md-4 col-sm-4 dash-boxholder" >
+        <div class="stats-widget stats-widget " onclick="window.location.href='<?php echo ADMIN_APPLICATION_URL.'/'.$lvalue['url']?>'" style="cursor:pointer;">
+            <div class="widget-header text-center AdvDashboardHeading">
+                <h3><?= $lvalue["label"] ?></h3>
+                <p>Total <?= $lvalue["label"]; ?></p>
+            </div>
+            
+            <div class="w_bg_teal stats-chart-container w_bg_cyan <?php if($lKey == 'template') { ?>AdvBlue<?php } else if($lKey == 'pages') { ?>Advcoral<?php } else if($lKey == 'subscribers') { ?>Advlightseagreen<?php } ?> Overflow">
+               
+               <div class="col-6 text-center dash-boxtg"> 
+                    <div style="color:#ffffff; text-decoration:none"> 
+                            <h2 class="Count"><i class="icon md-<?php echo $lvalue['icon']?> grey-600 font-size-24 vertical-align-bottom mr-6"></i><label id="TotalUsers"> <?php echo $lvalue['count']?></label></h2>
+                        </div>
+                </div>  
+               	<?php if($lvalue["url"] != 'emailtemplate' && $lvalue["url"] != 'pages' && $lvalue["url"] != "subscribers") { ?>
+                <div class="col-6 text-center dash-boxtg"> 
+                   <div style="color:#ffffff; text-decoration:none"> 
+                        <h5 class="Count"><i class="fa fa-check"></i> <label id="TotalUsers">Verified <?= $verified_users ?></label></h5>
+                        <h5 class="Count"><i class="fa fa-warning"></i> <label id="TotalUsers">Un-Verified <?= $unverified_users ?></label></h5>
+                    </div>
+                </div>  
+                <?php } ?>   
+                
+            </div>
+        </div>
+    </div>
+           
+
+          <?php }  
+
+		 }
+		  }?>
+          
+          <div class="col-md-4 col-sm-4 dash-boxholder" >
+        <div class="stats-widget stats-widget " onclick="window.location.href='<?php echo ADMIN_APPLICATION_URL.'/seller-applications';?>'" style="cursor:pointer;">
+            <div class="widget-header text-center AdvDashboardHeading">
+                <h3>Seller Requests</h3>
+                <p>Total Seller Requests</p>
+            </div>
+            
+            <div class="w_bg_teal stats-chart-container w_bg_cyan Advviolet Overflow">
+               
+               <div class="col-6 text-center dash-boxtg"> 
+                    <div style="color:#ffffff; text-decoration:none"> 
+                            <h2 class="Count"><i class="icon md-<?php echo $lvalue['icon']?> grey-600 font-size-24 vertical-align-bottom mr-6"></i><label id="TotalUsers"> <?= $pending_seller + $approved_seller + $declined_seller ?></label></h2>
+                        </div>
+                </div>  
+                <div class="col-6 text-center dash-boxtg"> 
+                   <div style="color:#ffffff; text-decoration:none"> 
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-warning"></i> Pending <?= $pending_seller ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-check"></i> Approved <?= $approved_seller ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-close"></i> Declined <?= $declined_seller ?></label></h5>
+                    </div>
+                </div>    
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 col-sm-4 dash-boxholder" >
+        <div class="stats-widget stats-widget " onclick="window.location.href='<?php echo ADMIN_APPLICATION_URL.'/badge-requests';?>'" style="cursor:pointer;">
+            <div class="widget-header text-center AdvDashboardHeading">
+                <h3>Badge Requests</h3>
+                <p>Total Badge Requests</p>
+            </div>
+            
+            <div class="w_bg_teal stats-chart-container w_bg_cyan Advlightpink Overflow">
+               
+               <div class="col-6 text-center dash-boxtg"> 
+                    <div style="color:#ffffff; text-decoration:none"> 
+                            <h2 class="Count"><i class="icon md-<?php echo $lvalue['icon']?> grey-600 font-size-24 vertical-align-bottom mr-6"></i><label id="TotalUsers"> <?= $pending_badges + $approved_badges + $declined_badges ?></label></h2>
+                        </div>
+                </div>  
+                <div class="col-6 text-center dash-boxtg"> 
+                   <div style="color:#ffffff; text-decoration:none"> 
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-warning"></i> Pending <?= $pending_badges ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-check"></i> Approved <?= $approved_badges ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-close"></i> Declined <?= $declined_badges ?></label></h5>
+                    </div>
+                </div>    
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 col-sm-4 dash-boxholder" >
+        <div class="stats-widget stats-widget " onclick="window.location.href='<?php echo ADMIN_APPLICATION_URL.'/products';?>'" style="cursor:pointer;">
+            <div class="widget-header text-center AdvDashboardHeading">
+                <h3>Product Requests</h3>
+                <p>Total Product Requests</p>
+            </div>
+            
+            <div class="w_bg_teal stats-chart-container w_bg_cyan Advdarkblue Overflow">
+               
+               <div class="col-6 text-center dash-boxtg"> 
+                    <a style="color:#ffffff; text-decoration:none"> 
+                            <h2 class="Count"><i class="icon md-<?php echo $lvalue['icon']?> grey-600 font-size-24 vertical-align-bottom mr-6"></i><label id="TotalUsers"> <?= $pending_products + $approved_products + $declined_products ?></label></h2>
+                        </a>
+                </div>  
+                <div class="col-6 text-center dash-boxtg"> 
+                   <a style="color:#ffffff; text-decoration:none"> 
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-warning"></i> Pending <?= $pending_products ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-check"></i> Approved <?= $approved_products ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-close"></i> Declined <?= $declined_products ?></label></h5>
+                    </a>
+                </div>    
+                
+            </div>
+        </div>
+    </div>
+    
+    <?php $i=0; if(!empty($this->listCount)){
+
+                  foreach($this->listCount as $lKey=>$lvalue){ 
+				  if($lvalue["url"] == 'users') {
+           ?>
+          
+          <div class="col-md-4 col-sm-4 dash-boxholder" >
+        <div class="stats-widget stats-widget " onclick="window.location.href='<?php echo ADMIN_APPLICATION_URL.'/'.$lvalue['url']?>'" style="cursor:pointer;">
+            <div class="widget-header text-center AdvDashboardHeading">
+                <h3><?= $lvalue["label"] ?></h3>
+                <p>Total <?= $lvalue["label"]; ?></p>
+            </div>
+            
+            <div class="w_bg_teal stats-chart-container w_bg_cyan Advdarkorange Overflow">
+               
+               <div class="col-6 text-center dash-boxtg"> 
+                    <div style="color:#ffffff; text-decoration:none"> 
+                            <h2 class="Count"><i class="icon md-<?php echo $lvalue['icon']?> grey-600 font-size-24 vertical-align-bottom mr-6"></i><label id="TotalUsers"> <?php echo $lvalue['count']?></label></h2>
+                        </div>
+                </div>  
+               	<?php if($lvalue["url"] != 'emailtemplate' && $lvalue["url"] != 'pages' && $lvalue["url"] != "subscribers") { ?>
+                <div class="col-6 text-center dash-boxtg"> 
+                   <div style="color:#ffffff; text-decoration:none"> 
+                        <h5 class="Count"><i class="fa fa-check"></i> <label id="TotalUsers">Verified <?= $verified_users ?></label></h5>
+                        <h5 class="Count"><i class="fa fa-warning"></i> <label id="TotalUsers">Un-Verified <?= $unverified_users ?></label></h5>
+                    </div>
+                </div>  
+                <?php } ?>   
+                
+            </div>
+        </div>
+    </div>
+           
+
+          <?php }  
+
+		 }
+		  }?>
+          <div class="col-md-4 col-sm-4 dash-boxholder" >
+        <div class="stats-widget stats-widget " onclick="window.location.href='<?php echo ADMIN_APPLICATION_URL.'/view-orders';?>'" style="cursor:pointer;">
+            <div class="widget-header text-center AdvDashboardHeading">
+                <h3>Orders</h3>
+                <p>Total Orders</p>
+            </div>
+            
+            <div class="w_bg_teal stats-chart-container w_bg_cyan Advorange Overflow">
+               
+               <div class="col-6 text-center dash-boxtg"> 
+                    <a style="color:#ffffff; text-decoration:none"> 
+                            <h2 class="Count"><i class="icon md-<?php echo $lvalue['icon']?> grey-600 font-size-24 vertical-align-bottom mr-6"></i><label id="TotalUsers"> <?= $process_orders + $ready_orders + $shipped_orders + $delivered_orders ?></label></h2>
+                        </a>
+                </div>  
+                <div class="col-6 text-center dash-boxtg"> 
+                   <a style="color:#ffffff; text-decoration:none"> 
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-spinner"></i> Processing <?= $process_orders ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-truck"></i> Ready to ship <?= $ready_orders ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-shopping-basket"></i> Shipped <?= $shipped_orders ?></label></h5>
+                        <h5 class="Count"><label id="TotalUsers"><i class="fa fa-check"></i> Delivered <?= $delivered_orders ?></label></h5>
+                    </a>
+                </div>    
+                
+            </div>
+        </div>
+    </div>
+          </div>
+		<div id="container" class="monthly-cmngrowth"></div><br />
+        <div id="ordercontainer" class="monthly-ordergrowth"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(e) {
+		Highcharts.chart('container', {
+        chart: {type:'areaspline'},
+        title: {text:'Monthly New Users Growth'},
+        legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 100,y:50,floating: true,borderWidth: 1,backgroundColor:Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'},
+        xAxis: {categories:JSON.parse('<?=$cat?>'),plotBands: [{color: 'rgba(68, 170, 213, .2)'}]},
+        yAxis: {title: {text: 'Users Growth'}},
+        tooltip: {shared: true,valueSuffix: ' Users'},
+        credits: {enabled: false},
+        plotOptions: {areaspline: {fillOpacity: 0.5}},
+        series: [{name: 'Users',data: JSON.parse('<?=$user_state?>'),color: '#FBC8D9'},
+		{name:'Total no. of users',data:JSON.parse('<?=$total_users?>'),color: 'rgba(124,181,236,0.5)'}]
+    });
+		
+		Highcharts.chart('ordercontainer', {
+        chart: {type:'areaspline'},
+        title: {text:'Monthly Earning'},
+        legend: {layout: 'vertical',align: 'left',verticalAlign: 'top',x: 100,y:50,floating: true,borderWidth: 1,backgroundColor:Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'},
+        xAxis: {categories:JSON.parse('<?=$caty?>'),plotBands: [{color: 'rgba(68, 170, 213, .2)'}]},
+        yAxis: {title: {text: 'Earning'}},
+        tooltip: {shared: true,valueSuffix: ' $'},
+        credits: {enabled: false},
+        plotOptions: {areaspline: {fillOpacity: 0.5}},
+        series: [{name: 'Earning',data: JSON.parse('<?=$order_state?>'),color: '#FBC8D9'},
+		{name:'Total earning',data:JSON.parse('<?=$total_orders?>'),color: 'rgba(124,181,236,0.5)'}]
+    });
+	})
+</script>	

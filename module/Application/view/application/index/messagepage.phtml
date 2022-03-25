@@ -1,0 +1,99 @@
+
+<div class="login_page profile_page">
+  <div class="container">
+
+      <div class="heading-box">
+        <h4 class="heading">Massage</h4>
+      </div>
+
+      <div class="login-signup-form">
+          <div class="left-side signup-img profile-nav d-none d-lg-block">
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"> </div>
+                <p class="user-name">Jamie Lynn</p>
+                <div class="border-gradient change-img-btn"> <a href="#" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+            <div class="side-nav">
+              <ul class="side-nav-ul">
+                <li class="side-nav-items"> <a href="#" class="side-nav-links active"> Account Settings </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Change Password </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+              </ul>
+            </div>
+            <!-- change user image -->
+          </div>
+          <!------------ left side ------------------>
+          <div class="right-side massage-box">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"> <img src="<?=HTTP_IMG_PATH?>/search1.svg"> </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search by name">
+            </div>
+            <!-- input group -->
+
+            <div class="row">
+              <div class="col-sm-6">
+                  <div class="user-list">
+                  <div class="media">
+                    <img src="<?=HTTP_IMG_PATH?>/image1.jpg">
+                    <div class="media-body">
+                      <div class="d-flex">
+                        <div class="">
+                          <h5 class="name">Name goes here</h5>
+                          <div class="border-gradient change-img-btn"> <a href="#" class="message-btn view-btn btn">Message</a> </div>
+                        </div>
+                        <!--  -->
+                        <div class="unread-box">
+                          <div class="count-no"> <span>2</span> </div>
+                          <p class="mb-0">New Message</p>
+                        </div>
+                        <!--  -->
+                      </div>
+                      <!-- d flex -->
+                    </div>
+                    <!-- media body -->
+                  </div>
+                  <!-- media -->
+                  </div>
+              </div>
+              <!--  -->
+              <?php for ($x = 0; $x <= 100; $x+=10) { ?>
+              <div class="col-sm-6">
+                  <div class="user-list">
+                  <div class="media">
+                    <img src="<?=HTTP_IMG_PATH?>/image1.jpg">
+                    <div class="media-body">
+                      <div class="d-flex">
+                        <div class="">
+                          <h5 class="name">Name goes here</h5>
+                          <div class="border-gradient change-img-btn"> <a href="#" class="message-btn view-btn btn">Message</a> </div>
+                        </div>
+                        <!--  -->
+                        
+                      </div>
+                      <!-- d flex -->
+                    </div>
+                    <!-- media body -->
+                  </div>
+                  <!-- media -->
+                  </div>
+              </div>
+              <?php }   ?>
+              <!--  -->
+              <!--  -->
+            </div>
+            
+          </div>
+          <!------------- right side -------------->
+      </div>
+
+    <!-- login -->
+  </div>
+</div>

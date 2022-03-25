@@ -1,0 +1,450 @@
+<style type="text/css">
+<?php if(($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) && $store_data["store_approval"] == '1') { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style>
+
+
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Messages</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+
+
+<?php if(($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) && $store_data["store_approval"] == '1') { ?>
+<div class="profile_page message-page">
+  <div class="container">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+          <? /* ?>
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"470x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+          <? */ ?>
+
+          <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"> </div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="#" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+      <div class="side-nav">
+        <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'message'=>1)); ?>
+      </div>
+      <!-- change user image -->
+    </div>
+    <!--  -->
+
+    <div class="right-side">
+      <!-- new message box -->
+            <div class="">
+                <div class="message-page">
+                    <div class="row m-0">
+                        <div class="col-12 col-lg-4 p-0">
+                            <div class="online-users">
+                                <div class="search-box">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search Message">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <img src="<?=HTTP_IMG_PATH?>/search1.svg"/> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- search box -->
+
+                                <div class="user-block">
+                                  <div class="user-section">
+                                      <div class="img-user"> 
+                                          <div class=""> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"/> </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> Name here </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> 12 </p>
+                                  </div>
+                                  <div class="user-section">
+                                      <div class="img-user"> 
+                                          <div class=""> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"/> </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> Name here </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> 12 </p>
+                                  </div>
+                                  <div class="user-section">
+                                      <div class="img-user"> 
+                                          <div class=""> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"/> </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> Name here </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> 12 </p>
+                                  </div>
+                                  <div class="user-section">
+                                      <div class="img-user"> 
+                                          <div class=""> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"/> </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> Name here </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> 12 </p>
+                                  </div>
+                                  <div class="user-section">
+                                      <div class="img-user"> 
+                                          <div class=""> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"/> </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> Name here </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> 12 </p>
+                                  </div>
+                                  <div class="user-section">
+                                      <div class="img-user"> 
+                                          <div class=""> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"/> </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> Name here </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> 12 </p>
+                                  </div>
+                                  <div class="user-section">
+                                      <div class="img-user"> 
+                                          <div class=""> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"/> </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> Name here </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> 12 </p>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!----------------- chat user -------------------->
+                        <div class="col-12 col-lg-8 p-0">
+                            <div class="">
+                                <div class="chat-box" id="message6">
+                                    <div class="message-window">
+                                        <div class="left-box">
+                                            <div class="text_wrapper">
+                                                <div class="text">Hey Guys. What have you been up to?  </div>
+                                            </div>
+                                            <div class="text-user">
+                                              <div class="avatar"><img src="<?=HTTP_IMG_PATH?>/user-img.jpg"></div>
+                                              <span class="times d-block"> 08:30 am </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="right-box">
+                                                <div class="text_wrapper">
+                                                    <div class="text">Hey Guys. What have you been up to? </div>
+                                                </div>
+                                                <div class="text-user">
+                                                <span class="times d-block"> 08:30 am </span>
+                                                <div class="avatar"><img src="<?=HTTP_IMG_PATH?>/slider.jpg"></div>
+                                                </div>
+                                        </div>
+
+                                        
+
+                                    </div>
+
+                                    <div class="message-type-window">
+                                        <form>
+                                            <div class="self-img"><img src="<?=HTTP_IMG_PATH?>/user-img.jpg"></div>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"  placeholder="Hi There">
+                                                <div class="input-group-addon"><img src="<?=HTTP_IMG_PATH?>/send1.svg"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!--------------------- chat box -------------------------------------->
+
+
+                            </div>
+                        </div>
+                        <!---------------------------- message box --------------------->
+                    </div><!---------- row ------------------>
+                </div><!------------- message ---------------->
+            </div>
+      <!-- new message box -->
+
+      <? /* ?>
+      <div class="right-side massage-box">
+            <?php if(empty($store_approval) && empty($message_record)) { ?>
+                <p>No message found.</p>
+              <?php } else { ?>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1"> <img src="<?=HTTP_IMG_PATH?>/search1.svg"> </span>
+                        </div>
+                        <input type="text" id="search_txt" name="search_txt" class="form-control" placeholder="Search by name">
+                    </div>
+                    <?php } ?>
+                    <!-- input group -->
+
+                    <div class="row message-blkholder">
+                      <?php if(!empty($store_approval)) { 
+                          $msgcount_data = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_by =:UID and chat_readstatus = '2'","fetchAll",array('fields'=>'chat_id','warray'=>array('UID'=>1)));
+                          if(empty($modchk)) {
+                        ?>
+                        <div class="col-sm-6">
+                            <div class="user-list">
+                                <div class="media">
+                                    <?php if(!empty($mod_data[T_CLIENT_VAR.'client_image'])) { ?>
+                                        <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/'.$mod_data[T_CLIENT_VAR.'client_image']; ?>" />
+                                      <?php } else { ?>
+                                          <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+                                    <?php } ?>
+                                    <div class="media-body">
+                                      <div class="d-flex">
+                                        <div class="">
+                                            <h5 class="name"><?= $mod_data[T_CLIENT_VAR.'client_name']; ?></h5>
+                                            <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/admin'; ?>" class="message-btn view-btn btn">Message</a> </div>
+                                        </div>
+                                        <!--  -->
+                                        <?php if(count($msgcount_data) > 0) { ?>
+                                          <div class="unread-box">
+                                              <div class="count-no"> <span><?= count($msgcount_data); ?></span> </div>
+                                              <p class="mb-0">New Message</p>
+                                          </div>
+                                        <?php } ?>
+                                        <!--  -->
+                                      </div>
+                                      <!-- d flex -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+		                  <?php } } ?>
+                  <?php if(!empty($message_record)) { foreach ($message_record as $message_record_key => $message_record_val) {
+                    $msgcount_data = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_by =:UID and chat_to =:TID and chat_readstatus = '2'","fetchAll",array('fields'=>'chat_id','warray'=>array('TID'=>$this->loggedUser->yurt90w_client_id,'UID'=>$message_record_val["chat_by"]))); ?>
+                          <div class="col-sm-6">
+                              <div class="user-list">
+                              <div class="media">
+                                <?php if(!empty($message_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+                                  <img src="<?=HTTP_PROFILE_IMAGES_PATH.'/160/'.$message_record_val[T_CLIENT_VAR.'client_image']; ?>">
+                                <?php } else { ?>
+                                  <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+                      <?php } ?>
+                                <div class="media-body">
+                                  <div class="d-flex">
+                                    <div class="">
+                                      <h5 class="name"><?= $message_record_val[T_CLIENT_VAR.'client_name']; ?></h5>
+                                      <?php if($message_record_val["chat_by"] == '1') { ?>
+                                      <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/admin'; ?>" class="message-btn view-btn btn">Message</a> </div>	
+                          <?php } else { if($message_record_val["chat_by"] == $this->loggedUser->{T_CLIENT_VAR.'client_id'}) { ?>
+                          <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/'.str_replace("=","",base64_encode($message_record_val["chat_to"])); ?>" class="message-btn view-btn btn">Message</a> </div>
+                          <?php } else { ?>
+                          <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/'.str_replace("=","",base64_encode($message_record_val["chat_by"])); ?>" class="message-btn view-btn btn">Message</a> </div>
+                          <?php } } ?>
+                        </div>
+                        <!--  -->
+                        <?php if(count($msgcount_data) > 0) { ?>
+                        <div class="unread-box">
+                          <div class="count-no"> <span><?= count($msgcount_data); ?></span> </div>
+                          <p class="mb-0">New Message</p>
+                        </div>
+                        <?php } ?>
+                        <!--  -->
+                      </div>
+                      <!-- d flex -->
+                    </div>
+                    <!-- media body -->
+                  </div>
+                  <!-- media -->
+                  </div>
+              </div>
+              <?php } } ?>
+              <!--  -->
+            </div>
+            
+          </div>
+      </div>
+      <? */ ?>
+
+    <!-- right-side-block -->
+
+  </div>
+  </div>
+</div>
+<?php } else { ?>
+<div class="login_page profile_page">
+  <div class="container">
+
+      <div class="after-login-block">
+          <div class="left-side signup-img profile-nav d-none d-lg-block">
+            <? /* ?>
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"200")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+            <? */ ?>
+
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"> </div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="#" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+            <div class="side-nav">
+              <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'message'=>1)); ?>
+            </div>
+            <!-- change user image -->
+          </div>
+      <!-- heading box -->
+
+      <div class="right-side massage-box">
+            <?php if(empty($store_approval) && empty($message_record)) { ?>
+				<p>No message found.</p>
+			<?php } else { ?>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"> <img src="<?=HTTP_IMG_PATH?>/search1.svg"> </span>
+                </div>
+                <input type="text" id="search_txt" name="search_txt" class="form-control" placeholder="Search by name">
+            </div>
+            <?php } ?>
+            <!-- input group -->
+
+            <div class="row message-blkholder">
+            <?php if(!empty($store_approval)) { 
+				$msgcount_data = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_by =:UID and chat_readstatus = '2'","fetchAll",array('fields'=>'chat_id','warray'=>array('UID'=>1)));
+				if(empty($modchk)) {
+			?>
+            	<div class="col-sm-6">
+                	<div class="user-list">
+                    	<div class="media">
+                        	<?php if(!empty($mod_data[T_CLIENT_VAR.'client_image'])) { ?>
+                            	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/'.$mod_data[T_CLIENT_VAR.'client_image']; ?>" />
+							<?php } else { ?>
+                            	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+							<?php } ?>
+                            <div class="media-body">
+                      			<div class="d-flex">
+                        			<div class="">
+                          				<h5 class="name"><?= $mod_data[T_CLIENT_VAR.'client_name']; ?></h5>
+                          				<div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/admin'; ?>" class="message-btn view-btn btn">Message</a> </div>
+                        			</div>
+                       				<!--  -->
+                        			<?php if(count($msgcount_data) > 0) { ?>
+                        			<div class="unread-box">
+                          				<div class="count-no"> <span><?= count($msgcount_data); ?></span> </div>
+                          				<p class="mb-0">New Message</p>
+                        			</div>
+                        			<?php } ?>
+                        			<!--  -->
+                      			</div>
+                      			<!-- d flex -->
+                    		</div>
+                        </div>
+                    </div>
+                </div>
+			<?php } } ?>
+            <?php if(!empty($message_record)) { foreach ($message_record as $message_record_key => $message_record_val) {
+				$msgcount_data = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_by =:UID and chat_to =:TID and chat_readstatus = '2'","fetchAll",array('fields'=>'chat_id','warray'=>array('TID'=>$this->loggedUser->yurt90w_client_id,'UID'=>$message_record_val["chat_by"]))); ?>
+              <div class="col-sm-6">
+                  <div class="user-list">
+                  <div class="media">
+                  	<?php if(!empty($message_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+                    	<img src="<?=HTTP_PROFILE_IMAGES_PATH.'/160/'.$message_record_val[T_CLIENT_VAR.'client_image']; ?>">
+                    <?php } else { ?>
+                    	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+					<?php } ?>
+                    <div class="media-body">
+                      <div class="d-flex">
+                        <div class="">
+                          <h5 class="name"><?= $message_record_val[T_CLIENT_VAR.'client_name']; ?></h5>
+                          <?php if($message_record_val["chat_by"] == '1') { ?>
+                          <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/admin'; ?>" class="message-btn view-btn btn">Message</a> </div>	
+						  <?php } else { if($message_record_val["chat_by"] == $this->loggedUser->{T_CLIENT_VAR.'client_id'}) { ?>
+                          <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/'.str_replace("=","",base64_encode($message_record_val["chat_to"])); ?>" class="message-btn view-btn btn">Message</a> </div>
+                          <?php } else { ?>
+                          <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/'.str_replace("=","",base64_encode($message_record_val["chat_by"])); ?>" class="message-btn view-btn btn">Message</a> </div>
+                          <?php } } ?>
+                        </div>
+                        <!--  -->
+                        <?php if(count($msgcount_data) > 0) { ?>
+                        <div class="unread-box">
+                          <div class="count-no"> <span><?= count($msgcount_data); ?></span> </div>
+                          <p class="mb-0">New Message</p>
+                        </div>
+                        <?php } ?>
+                        <!--  -->
+                      </div>
+                      <!-- d flex -->
+                    </div>
+                    <!-- media body -->
+                  </div>
+                  <!-- media -->
+                  </div>
+              </div>
+              <?php } } ?>
+              <!--  -->
+            </div>
+            
+          </div>
+    </div>
+
+    <!-- right-side-block -->
+
+  </div>
+</div>
+<?php } ?>
+<script type="text/javascript">	
+	var Scrollingvar=0;
+	$(window).scroll(function() {
+		var length=  $(".user-list").length;
+		var start = length;
+		if(Scrollingvar==0){
+			Scrollingvar=1; 
+			$.ajax({
+				url: baseUrl+"/getscroll-msglist",
+				type: "POST",
+				data: {start:start},
+				success: function(data){
+					if(data != '') {
+						Scrollingvar=0; 
+						$(".message-blkholder").append(data);	
+					} else {
+						Scrollingvar=1; 
+					}
+				}
+			})
+		}
+	})
+
+$(document).on("keyup","#search_txt",function() {
+	var search_txt = $(this).val().trim();
+	$.ajax({
+		url: baseUrl+"/getsearch-person",
+		type: "POST",
+		data: {search_txt:search_txt},
+		success: function(data){
+			$(".message-blkholder").html(data);
+		}
+	}) 
+})
+</script>

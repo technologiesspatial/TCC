@@ -1,0 +1,40 @@
+<div class="row">
+<?php foreach($wicked_shops as $wicked_shops_key => $wicked_shops_val) { ?>
+	<div class="col-lg-4 col-sm-6">
+			<div class="wicked-shop">
+				<?php if($wicked_shops_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+					<div class="ribbon-pop"><span>Best Seller</span></div>
+				<?php } ?>
+				<a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$wicked_shops_val['store_name']); ?>"> 
+				<div class="wicked-img"> 
+				<?php if(!empty($wicked_shops_val["store_banner"]) && file_exists(STORE_BANNER_PATH.'/'.$wicked_shops_val["store_banner"])) { ?>
+					<img src="<?=HTTP_STORE_BANNER_PATH?>/<?= $wicked_shops_val["store_banner"]; ?>"> 
+				<?php } ?> </div>
+				</a>
+				<div class="wicked-card-body">
+					<h4><?= $wicked_shops_val["store_name"] ?></h4>
+					<div class="rating-ul">							
+						<?php /*?><ul class="">
+							<?php for($i=1;$i<=$avg_review;$i++) { ?>
+								<li class=""> <img src="<?=HTTP_IMG_PATH?>/star.svg"></li>
+							<?php } ?>
+						</ul><?php */?>
+						<?php for($i = 1;$i <= $wicked_shops_val["avg_review"]; $i++) { ?>
+							<img src="<?= HTTP_IMG_PATH.'/batsml-active.svg'; ?>" style="height:25px;width:32px;"/>
+						<?php } $rem_review = 5 - $wicked_shops_val["avg_review"]; 
+						for($i = 1;$i <= $rem_review; $i++) {  ?>
+							<img src="<?= HTTP_IMG_PATH.'/batsml-default.svg'; ?>" style="height:25px;width:32px;" />
+						<?php } ?>
+					</div>
+					<div class="wicked-logo">
+					<?php if(!empty($wicked_shops_val["store_logo"]) && file_exists(STORE_LOGO_PATH.'/'.$wicked_shops_val["store_logo"])) { ?>
+						<img src="<?=HTTP_STORE_LOGO_PATH?>/<?= $wicked_shops_val["store_logo"] ?>">
+					<?php } else { ?> 
+						<img src="<?=HTTP_IMG_PATH?>/moon-img.jpg"> 
+					<?php } ?>
+					</div>
+				</div>
+			</div>
+	</div>
+<? } ?>
+</div>

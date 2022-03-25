@@ -1,0 +1,608 @@
+<style>
+.blockelement{
+	display: block;
+}
+<?php if($this->layout()->currentRoute=='config'){ ?>
+	/*label[for='site_logo_mobile'] {display:none;}
+	#site_logo_mobile{display:none;}*/
+<?php } ?>
+</style>
+<div class="panel"> 
+<?php
+$form->setAttribute('class','profile_form form-horizontal');
+$form->setAttribute('autocomplete', 'off');
+$array = $this->page; 
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<style>.form-group{position:relative;}span[for=emailtemp_content_en],span[for=page_content_en],span[for=section_three_block],span[for=faq_answer_en],span[for=long_one_content]{position: absolute;bottom: -34px;}.blockelement{display:block;}</style>
+ 
+
+            <div class="panel-body">
+            <?php echo $this->renderForm($this->form);?> 
+            
+            <?php //echo $this->layout()->currentRoute;exit;
+
+            if($this->layout()->currentRoute=='config'){ ?>
+               <?php /*?> <div id="siteLogo" style="margin-bottom:20px;"><img src="<?=HTTP_PROFILE_IMAGES_PATH?>/logo/<?=$this->layout()->SITE_CONFIG['site_logo']?>" class="img-responsive" /></div><?php */?>
+            <?php /*?><div id="siteLogo" style="margin-bottom:20px;"><img src="<?=HTTP_PROFILE_IMAGES_PATH?>/logo/<?=$this->layout()->SITE_CONFIG['site_logo']?>" class="img-fluid" style="max-width:200px;max-height:100px;" /></div><?php */?>
+
+            
+            <div id="siteFavicon" style="margin-bottom:20px;"><img src="<?=HTTP_FAVICON_IMAGES_PATH?>/<?=$this->layout()->SITE_CONFIG['site_favicon']?>" class="img-fluid" style="max-width:200px;max-height:100px;" /></div>
+
+
+             <?php } else if(($this->layout()->currentRoute=='admin_editpages')){ 
+				 
+			foreach($this->content as $ckey=>$cValue){ //pr($cValue);
+			if($cValue["section_type"]=="image"){ ?>
+
+			<div id="div_<?php echo $cValue['page_content_section_key']?>" style="margin:0 0px 20px 0"><img src="<?=HTTP_SERVICE_IMAGES_PATH?>/thumb/<?=$cValue["section_content"]?>" alt="image" class="img-responsive" width="200" /></div>
+
+			<?php } }
+
+
+             	if(isset($data['page_id']) and $data['page_id']=='13'){  // home page banner image ?>
+
+             	<div id="siteHomePageBannerImage" style="margin-bottom:20px;"><img src="<?php echo HTTP_IMG_PATH.'/top-bg.jpg?r='.rand(); ?>" class="img-fluid" style="max-width:320px;max-height:300px;" /></div>
+
+				 <?php } ?>
+				 
+		
+
+             <?php } else if($this->layout()->currentRoute=='admin_managehowitworks' && !empty($data["content_image"])) { ?>
+				<div style="margin:0 0px 20px 0"><img src="<?=HTTP_SLIDER_IMAGES_PATH?>/300/<?=$data["content_image"]?>" alt="image" class="img-responsive" width="200" /></div>
+			<?php } else if($this->layout()->currentRoute=='admin_managephotogallery' && !empty($data["photogallery_image"])) { ?>
+				<div style="margin:0 0px 20px 0"><img src="<?=HTTP_SLIDER_IMAGES_PATH?>/300/<?=$data["photogallery_image"]?>" alt="image" class="img-responsive" width="200" /></div>
+			<?php } else if(($this->layout()->currentRoute=='admin_homepage') && !empty($this->contentData)){
+
+				 foreach($this->contentData as $ckey=>$cValue){ //prd($cValue);
+				 	if($cValue["home_elementtype"]=="file"){ ?>
+
+               
+                <div id="div_<?php echo $cValue['home_key']?>" style="margin:0 0px 20px 0"><img src="<?=HTTP_SLIDER_IMAGES_PATH?>/thumb/<?=$cValue["home_content"]?>" alt="image" class="img-responsive" width="200" /></div>
+
+            <?php } }
+
+        		} else if(($this->layout()->currentRoute=='admin_addslider') && !empty($this->data['slider_image'])){  ?>
+
+                <div id="ImageDiv" style="margin:20px 0px"><img src="<?=HTTP_SLIDER_IMAGES_PATH?>/160/<?=$this->data['slider_image']?>" alt="image" class="img-responsive"  /></div>
+
+            <?php } else if(($this->layout()->currentRoute=='manage_wickedshop') && !empty($this->wickedData["wicked_banner"])){ ?>
+				<div id="ImageDiv" style="margin:20px 0px"><img src="<?=HTTP_PROFILE_IMAGES_PATH?>/logo/<?=$this->wickedData['wicked_banner']?>" alt="image" class="img-responsive" style="max-width:300px"  /></div>
+			<?php } else if(($this->layout()->currentRoute=='admin_addteam') && !empty($this->TeamData['team_member_image'])){  ?>
+
+             <div id="ImageDiv" style="margin:20px 0px"><img src="<?=HTTP_TEAM_IMAGES_PATH?>/160/<?=$this->TeamData['team_member_image']?>" alt="image" class="img-responsive" /></div>
+
+			 <?php }
+			else  // prd($this->TeamData['press_image']);
+			 if(($this->layout()->currentRoute=='admin_addpress') && !empty($this->TeamData['press_image'])){  ?>
+
+			<div id="ImageDiv" style="margin:20px 0px"><img src="<?=HTTP_TEAM_IMAGES_PATH?>/160/<?=$this->TeamData['press_image']?>" alt="image" class="img-responsive" /></div>
+
+			<?php }
+			else  
+			 if(($this->layout()->currentRoute=='admin_addblog') && !empty($this->blog_data['blog_pic'])){  ?>
+
+			<div id="ImageDiv" style="margin:20px 0px"><img src="<?=HTTP_BLOG_IMAGES_PATH?>/160/<?=$this->blog_data['blog_pic']?>" alt="image" class="img-responsive" /></div>
+
+			<?php }
+			  ?>
+           </div>
+    </div>
+
+<?php
+$keyFlag=$masterFlag=0;
+if($this->layout()->currentRoute=='admin_addslider' && !empty($data))
+	$keyFlag=1;
+
+if(isset($this->mastertype))
+	$masterFlag=$this->mastertype;	
+
+if($this->layout()->currentRoute=='admin_manage_masterlist' && $this->mastertype=='cities')
+	$keyFlag=$this->state_id;	
+
+if($this->layout()->currentRoute=='admin_add_categories' && $this->mastertype=='categories')
+	$keyFlag=$this->submaster_id;			
+
+?>
+
+<script>
+
+$(function(){ 
+	if(currentRoute=='admin_addpress'){
+	$('#datepicker').datepicker({ 
+		//format: 'mm-dd-yyyy',
+		autoclose: true,
+	}); 
+}
+});
+var ADMIN_APPURL=baseUrl;
+<?php if(!empty($blog_data["blog_pic"])) { ?>
+	$('<div class="blogpic-section" style="background:url(<?= HTTP_BLOG_IMAGES_PATH.'/'.$blog_data["blog_pic"] ?>)"></div>').insertAfter("#blog_pic");
+<?php } ?>
+if(currentRoute=='admin_homepage'){
+	$('#section_three_image1').closest('div').after($('#div_section_three_image1'));
+	$('#eight_section_image').closest('div').after($('#div_eight_section_image'));
+	$('#banner_image').closest('div').after($('#div_banner_image'));
+	$('#section_ninth_image').closest('div').after($('#div_section_ninth_image'));
+	
+}
+if(currentRoute=='admin_editpages'){
+	$('#section_main_bgimage').closest('div').after($('#div_section_main_bgimage'));
+	$('#privacy_section_img').closest('div').after($('#div_privacy_section_img'));
+	$('#section_1_bgimg').closest('div').after($('#div_section_1_bgimg'));
+	$('#trust_main_section_img').closest('div').after($('#div_trust_main_section_img'));
+	$('#section_bgimg').closest('div').after($('#div_section_bgimg'));
+	$('#section_img').closest('div').after($('#div_section_img'));
+	$('#terms_section_img').closest('div').after($('#div_terms_section_img'));
+	$('#section_1_image').closest('div').after($('#div_section_1_image'));
+	$('#section_2_image').closest('div').after($('#div_section_2_image'));
+	$('#section_4_image').closest('div').after($('#div_section_4_image'));
+	$('#section_5_image').closest('div').after($('#div_section_5_image'));
+	$('#section_7_bgimage').closest('div').after($('#div_section_7_bgimage'));
+	
+}
+$("#site_fee").keyup(function (event) {
+	 	 debugger;
+	 	 this.value = this.value.replace (/(\.\d\d)\d+|([\d.]*)[^\d.]/, '$1$2');
+	  });
+
+var keyFlag='<?=$keyFlag?>';
+var masterType='<?=$masterFlag?>';
+
+$(document).ready(function(e) {
+	CKEDITOR.config.allowedContent = true;
+	CKEDITOR.config.protectedSource.push(/<i[^>]*><\/i>/g);
+
+	$('input.planOpts').closest('label').addClass('planOptsDiv');
+	
+	if(currentRoute=='admin_addpress'){
+		$("#press_image").closest(".form-group").after($("#ImageDiv"));
+	}
+
+	 if(currentRoute=='config'){
+		$("#site_logo").closest(".form-group").after($("#siteLogo"));
+		//$("#site_logo_mobile").closest(".form-group").after($("#siteLogoMobile"));
+		$("#site_favicon").closest(".form-group").after($("#siteFavicon"));
+
+		$('[type="file"]').parent().addClass('configfileTBwithpad');	// to add separator line 
+		//var input_element = document.getElementById('site_address');
+		//options = {types: []};
+		//autocomplete = new google.maps.places.Autocomplete(input_element, options );
+
+	} else if(currentRoute=='admin_editpages'){
+		
+		if($('#page_content_en').length>0){
+ 			CKEDITOR.instances.page_content_en.destroy(true); 
+			CKEDITOR.replace('page_content_en',{toolbar :[['Source'],['Bold','Italic','Underline','Strike','Subscript','Superscript','-','CopyFormatting','RemoveFormat'],['list','indent','blocks','align','bidi'],['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-', 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-'],['Styles','Format','Font','FontSize'],['TextColor'],['Image'],['Youtube'],
+  ['Format'],['FontSize']],height: 250});
+		}
+
+		if($('#about_last_section_discription').length>0){
+			CKEDITOR.replace('about_last_section_discription',{toolbar :[['Source'],['Bold','Italic','Underline','Strike','Subscript','Superscript','-','CopyFormatting','RemoveFormat'],['list','indent','blocks','align','bidi'],['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-', 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-'],['Styles','Format','Font','FontSize'],['TextColor'],['Image'],['Youtube'],
+['Format'],['FontSize']],height: 250});
+	  	
+		}
+
+		if($('#work_section1_description').length>0){
+			CKEDITOR.replace('work_section1_description',{toolbar :[['Source'],['Bold','Italic','Underline','Strike','Subscript','Superscript','-','CopyFormatting','RemoveFormat'],['list','indent','blocks','align','bidi'],['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-', 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-'],['Styles','Format','Font','FontSize'],['TextColor'],['Image'],['Youtube'],
+['Format'],['FontSize']],height: 250});
+	  	
+		}
+
+		if($('#work_section2_description').length>0){
+			CKEDITOR.replace('work_section2_description',{toolbar :[['Source'],['Bold','Italic','Underline','Strike','Subscript','Superscript','-','CopyFormatting','RemoveFormat'],['list','indent','blocks','align','bidi'],['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-', 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-'],['Styles','Format','Font','FontSize'],['TextColor'],['Image'],['Youtube'],
+['Format'],['FontSize']],height: 250});
+	  	
+		}
+
+		if($('#work_section3_description').length>0){
+			CKEDITOR.replace('work_section3_description',{toolbar :[['Source'],['Bold','Italic','Underline','Strike','Subscript','Superscript','-','CopyFormatting','RemoveFormat'],['list','indent','blocks','align','bidi'],['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-', 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-'],['Styles','Format','Font','FontSize'],['TextColor'],['Image'],['Youtube'],
+['Format'],['FontSize']],height: 250});
+	  	
+		}
+
+		CKEDITOR.config.filebrowserUploadUrl = ADMIN_APPURL+'/upload-media';
+ 	 
+
+	} else if(currentRoute=='editemailtemplate'){
+
+	CKEDITOR.instances.emailtemp_content_en.destroy(true); 
+  	CKEDITOR.replace('emailtemp_content_en',{toolbar :[['Source'],['Bold','Italic','Underline'],['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],['TextColor'],
+
+		['Format'],['FontSize'],['Image']],height: 250,language:"<?=$_COOKIE['currentLang']?>"}); 
+
+	  	CKEDITOR.config.filebrowserUploadUrl = ADMIN_APPURL+'/upload-media';
+
+	} else if(currentRoute=='admin_homepage'){
+
+		//if(keyFlag==1){
+			$('#section_one_banner').closest('div').after($('#sliderImageDiv'));
+		//	$('#section_one_banner').after($('#section_one_banner'));
+			$('#section_one_banner').removeClass('required');
+				var isSubmit=1;
+				var _URL = window.URL || window.webkitURL;
+
+				$("#section_one_banner").change(function(e) {
+					isSubmit=1;
+					var advert_width=300;
+					var advert_height=250;
+					var file, img;
+
+				 if ((file = this.files[0])) {
+					img = new Image();
+					img.onload = function() { 
+					isSubmit=1;
+					//alert(this.width + " " + this.height);
+					/*if($('#advert_image').next('div.help-block').length==1){
+						$('#advert_image').next('div.help-block').remove();
+					 }*/
+
+					if(this.height > 250){
+						//isSubmit=0;
+						//$('#advert_image').after("<div class='help-block'>File Size is not valid</div>");
+					}
+			
+        		};
+
+				img.onerror = function() {
+					if($('#section_one_banner').next('div.help-block').length==1){
+						$('#section_one_banner').next('div.help-block').remove();
+					 }
+				   //alert( "not a valid file: " + file.type);
+				  isSubmit=0;
+				 // if($('#advert_image').next('div.help-block').length==0){
+				   $('#section_one_banner').after("<div class='help-block'>Invalid File</div>");
+				  //}
+				};
+
+       			 img.src = _URL.createObjectURL(file);
+  				  }
+
+
+				});
+
+				 var isSubmit=1;
+				 $('button[type=submit]').click(function(e) {
+					if($('.profile_form').valid()){
+						if(isSubmit==0){
+							return false;
+						}
+					}
+				});
+		//}
+ 
+		CKEDITOR.instances.section_three_block.destroy(true); 
+
+	  	CKEDITOR.replace('section_three_block',{toolbar :[['Source'],['Bold','Italic','Underline'],['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],['TextColor'],
+
+		['Format'],['FontSize'],['Image']],height: 250,language:"<?=$_COOKIE['currentLang']?>"}); 
+
+	  	CKEDITOR.config.filebrowserUploadUrl = ADMIN_APPURL+'/upload-media';
+ 	
+	} else if(currentRoute == 'admin_managehowitworks') {
+		CKEDITOR.replace('content_description',{toolbar :[['Source'],['Bold','Italic','Underline','Strike','Subscript','Superscript']],height: 250});
+	} else if(currentRoute=='admin_add_categories'){
+
+		$('#category_image').closest('div').after($('#ImageDiv'));
+		$('#category_image').removeClass('required');
+
+	} else if(currentRoute=='admin_addslider'){
+
+			$('#slider_image').closest('div').after($('#ImageDiv'));
+
+	}else if(currentRoute=='admin_addteam'){
+			$('#member_image').closest('div').after($('#ImageDiv'));
+	}
+	/* else if(currentRoute=='admin_editpages'){ 
+		if(isset($data['page_id']) and $data['page_id']=='16'){
+		$('#page_content_en').closest('div').after($('#section_main_bgimage'));
+		}
+    } */
+
+var submaster_id='';
+<?php if($this->submaster_id!=''){?>
+	submaster_id='<?php echo myurl_encode($this->submaster_id)?>';
+
+<?php } ?>
+
+if(submaster_id!=''){ 
+	jQuery.validator.addClassRules("check_new_category",{remote: ADMIN_APPURL+"/checknewcategory?category="+submaster_id});
+
+} else {
+	jQuery.validator.addClassRules("check_new_category",{remote: ADMIN_APPURL+"/checknewcategory"});
+}
+
+});
+
+//remove ckeditor from faq 
+/* $(document).on("click",".btn-default",function(){
+	var cat = $('input[name="blog_category_title"]').val();
+	$(".category-err").remove();
+});
+ */
+$(document).on("click",".btn-default",function(){
+	var cat = $('input[name="blog_category_title"]').val();
+	$(".category-err").remove();
+	if(cat != ''){
+	 $.ajax({
+		url:baseUrl+"/category-check",
+		type:'post',
+		data:{cat:cat,cat_id:'<?php echo $this->blog_id; ?>'},
+		success:function(data){
+			if(data == 'failure')
+			{
+				$('<p class="category-err">Category already exists, please enter any other blog category.</p>').insertAfter('input[name="blog_category_title"]');
+				return false;
+
+			} else {
+				return true;
+			}
+		}
+	})
+	}
+})
+</script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAP_API_KEY ?>&libraries=places&sensor=false"></script> 
+<script>
+$(document).on("change","#section_1_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#section_1_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	} 
+})
+
+$(document).on("change","#about_section_2_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#about_section_2_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	} 
+})
+
+$(document).on("change","#about_section_3_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#about_section_2_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	}
+})
+
+$(document).on("change","#contact_section_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#contact_section_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	}
+})
+
+$(document).on("change","#work_section1_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#work_section1_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	}
+})
+
+$(document).on("change","#work_section2_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#work_section2_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	}
+})
+
+$(document).on("change","#work_section3_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#work_section2_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	}
+})
+
+$(document).on("change","#blog_image",function() {
+	var picsize = this.files[0].size;
+	if(picsize > 10485760) {
+		$("#blog_image").val('');
+		showAppAlert('Error!!','Please upload image of size upto 10MB.',"error");
+	}
+})
+
+function initialize() {
+	var input = document.getElementById('site_address');
+	$(input).attr("placeholder","");
+	 var options = {
+			 types: ['geocode'],  // or '(cities)' if that's what you want?
+			 //componentRestrictions: {country: countryCode}
+		 };
+	var autocomplete = new google.maps.places.Autocomplete(input,options);
+	if(typeof pagetag=='undefined'){
+		$('#site_address').attr("placeholder","Office Address");
+	}
+	google.maps.event.addListener(autocomplete, 'place_changed', function () {
+    	var place = autocomplete.getPlace();
+    	$('.error-help-block').remove();
+    	document.getElementById('site_latitude').value = place.geometry.location.lat();
+    	document.getElementById('site_longitude').value = place.geometry.location.lng();
+	});
+}
+
+function GetLatLong(address)
+{
+    $('#site_latitude').val('');
+    $('#site_longitude').val('');
+    var geocoder = new google.maps.Geocoder(); 
+    geocoder.geocode( { 'address': address}, function(results, status) 
+    {
+        if (status == google.maps.GeocoderStatus.OK) 
+        {
+           var my_txt = $('#site_address').val();
+           var len = my_txt.length;
+           var latlng = results[0].geometry.location.lat()+","+results[0].geometry.location.lng();
+           if(len < 4){
+               var formataddress=results[0].formatted_address;
+                $('#site_address').val(formataddress);
+           }
+
+        } else {
+            $('#site_address').val('');
+            return false;
+        }
+    });
+
+}
+
+
+
+if(document.getElementById('site_address')){
+   google.maps.event.addDomListener(window, 'load', initialize);
+}
+
+
+$(document).ready(function(){
+
+	$('#admin').on('submit', function(event){
+		if($('textarea[name=page_content_en]').length > 0){
+			/* /controlPanel/editpages/NzQwNzA= */
+			// alert($('textarea[name=page_content_en]').length);
+			var CKactiviteit_details = CKEDITOR.instances.page_content_en.getData();	
+			if(CKactiviteit_details.length > 50000){
+				showAppAlert('Error!!','Maximum limit of content editor is upto 50000 characters.',"error");
+				event.preventDefault();
+			}  
+		}
+
+		if($('textarea[name=emailtemp_content_en]').length > 0){
+			/* /controlPanel/editemailtemplate/admin_password_update */
+			var CKactiviteit_details = CKEDITOR.instances.emailtemp_content_en.getData();	
+			// alert(CKactiviteit_details)
+			if(CKactiviteit_details.length > 50000){
+				showAppAlert('Error!!','Maximum limit of content editor is upto 50000 characters.',"error");
+				event.preventDefault();
+			}
+		}
+
+		// event.preventDefault();
+	});
+
+
+	$('#btnformsubmit').on('click',function(){
+        $('.profile_form').validate({
+            /*ignore:'',*/
+            rules:{
+                site_address: {
+                    /*minlength: 6*/
+                },
+            },
+            errorPlacement:function(error,element){
+                // alert($(element).attr('id'));
+                error.insertAfter(element);
+            },
+        });
+
+        if($('.profile_form').valid())
+        {
+     	
+			if($('#site_latitude').val()=='' || $('#site_longitude').val()==''){
+				if($('#site_address').parent().next('.error-help-block').length==0){
+					$('.error-help-block').remove();
+					$('#site_address').parent().append("<span class='error-help-block'>We are having a hard time locating your address. Please try again.</span>");
+				}
+				return false;
+			}
+          $('.profile_form').submit();
+
+        } else {
+          // alert('Please check the form and complete it.');
+        }
+
+    });
+
+    $('#site_latitude').parent().css('height','0px');
+    $('#site_latitude').parent().find('.form-label').hide();
+    $('#site_latitude').parent().find('input').attr('type','hidden');
+
+    $('#site_longitude').parent().css('height','0px');
+    $('#site_longitude').parent().find('.form-label').hide();
+    $('#site_longitude').parent().find('input').attr('type','hidden');
+
+});
+
+</script>
+
+<?php
+
+$id = $this->layout()->id;
+$page_id = 0;
+if(!empty($id)){
+	$page_id = myurl_decode($id);
+}
+if($this->layout()->currentRoute=='admin_editpages' and $page_id=='13'){
+	// Home Page Banner (/controlPanel/editpages/MTYwNDg1) ?>
+<script>
+	$('#page_meta_title, #page_meta_keyword, #page_meta_desc').parent().css('height','0px');
+    $('#page_meta_title, #page_meta_keyword, #page_meta_desc').parent().find('.form-label').hide();
+    $('#page_meta_title, #page_meta_keyword, #page_meta_desc').parent().find('input').attr('type','hidden');
+
+    $("#page_image").closest(".form-group").after($("#siteHomePageBannerImage"));
+
+</script>
+<?php } if($this->layout()->currentRoute=='admin_managecoupon') { ?>
+<script>
+	$('input[name=merchantcoupon_discount]').on('keyup', function(){
+		var value = $(this).val();
+		if(isNaN(value) || value=='NaN'){
+			$(this).val('');
+		} else {
+			//value = Math.abs(value);
+			if(value=='0'){
+				value = '';
+			}
+			if(value > 100){
+				value = 100;
+			}
+			$(this).val(value);
+		}
+	});
+	
+	$('input[name="merchantcoupon_discount"]').on('input', function () {
+        this.value = this.value.match(/^\d+\.?\d{0,2}/);
+    });
+</script>
+<?php } if($this->layout()->currentRoute=='payment-config'){ ?>
+<script>
+	// $('#site_commission').addClass('onlynumber');
+	$('#site_commission').attr('type','number').attr('min','1').attr('max','99').attr('maxlength','2');
+
+	$('#site_commission').on('keyup', function(){
+		var value = $(this).val();
+		if(isNaN(value) || value=='NaN'){
+			$(this).val('');
+		} else {
+			value = Math.abs(value);
+			value = parseInt(value);
+			if(value=='0'){
+				value = '';
+			}
+			if(value > 99){
+				value = 99;
+			}
+			$(this).val(value);
+		}
+	});
+	
+	$('input[name="plan_price"]').on('input', function () {
+        this.value = this.value.match(/^\d+\.?\d{0,2}/);
+    });
+</script>
+<?php } if($this->layout()->currentRoute=='admin_managehowitworks') { ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        setTimeout(function() {
+            $(".JsGRdQ").css("color","#000");
+        },2500)
+    })
+</script>
+<?php } ?>

@@ -1,0 +1,32 @@
+<?php if(!empty($best_offers)) { ?>
+	<div class="best-offers">
+		<h6>Best Offers</h6>
+		<div class="offer-holder">
+			<div class="table-block table-prices">
+				<div class="table-responsive">
+				<table class="table">
+					<thead>
+					<tr class="table-head">
+						<th scope="">From Quantity</th>
+						<th scope="">To Quantity</th>
+						<th scope="col">price</th>
+					</tr>
+					</thead>
+					<!--  -->
+					<tbody>
+						<?php foreach($best_offers as $best_offers_key => $best_offers_val) { ?>
+							<tr>
+								<td><?= $best_offers_val["color_qtyfrom"]; ?></td>
+								<td><?= $best_offers_val["color_qtyto"]; ?></td>
+								<td><?= "$".$best_offers_val["color_price"]; ?></td>
+							</tr>
+						<?php } ?>
+					</tbody>
+					<!--  -->
+				</table>
+				<!-- table -->
+				</div>
+			</div>
+		</div>
+	</div>
+<?php } ?>

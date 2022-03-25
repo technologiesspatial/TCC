@@ -1,0 +1,114 @@
+<?php   
+use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Select;     
+
+$html = array ();	
+$pages_arr=$this->NavHelper($this->translator);	
+$PerArray = array();
+
+$pages_arr = array_values($pages_arr);
+$controller = @$this->getHelperPluginManager()->getServiceLocator()->get('application')->getMvcEvent()->getRouteMatch()->getParam('controller');
+$current_action = @$this->getHelperPluginManager()->getServiceLocator()->get('application')->getMvcEvent()->getRouteMatch()->getParam('action');
+$controller1= $controller;
+$controller1 = explode('\\', $controller1);
+$current_controller = @array_pop(explode('\\', $controller));
+//echo $current_module;
+
+$action=$current_action;
+$controller = explode('Controller',$current_controller); 
+$controller=strtolower($controller[0]);	
+	
+foreach ($pages_arr as $page){ 	
+
+	$active_flag =false; $hassub='';		
+	
+	if(isset($page['controller']))
+	{
+		if($page['controller']==$controller && $page['action']==$action)
+		{ 
+			$active_flag='active';
+			$is_subpage_active='active';
+		}
+	}
+	
+	if(!empty($page['pages']))
+	{
+		$hassub = 'has-sub';
+		foreach ($page['pages'] as $sub_subpage){ // Checking for Sub Page Active
+		  
+			if(@$sub_subpage['controller']==$controller && $sub_subpage['action']==$action)
+			{
+				$active_flag='active';	
+				$is_subpage_active='active';
+			}
+			else if(!empty($sub_subpage['pages']))
+			{
+				foreach ($sub_subpage['pages'] as $sub_sub_page){ // Checking for Sub Page Active									
+					if(@$sub_sub_page['controller']==$controller && $sub_sub_page['action']==$action)
+					{ 											
+						$active_flag='active';	
+						$is_subpage_active='active';
+					}
+					else
+					{
+						$is_subpage_active='';
+					}
+				 }
+			}
+		}
+	}
+
+	if(@$page['route']=='default'){ $href='javascript:void(0)'; }else{ $href=ADMIN_APPLICATION_URL.@$page['uri']; }
+	$html[] = "<li class='".$active_flag." ".$hassub."'>";
+	$html[]='<a href="'.$href.'" class="waves-effect  '.$active_flag.'" >';
+	$html[]='<i data-icon="'.$page['data_icon'].'" class="'.$page['icon'].'"></i>';
+	$html[]='<span class="hide-menu">'.$page['label'];
+	if($active_flag){
+		$html[]='';
+	}	
+	$html[]='</span>';
+	if(!empty($page->pages)){
+				$html[]='';
+			}
+	$html[]='</a>';
+			
+	if (!empty($page['pages'])){
+					
+		$html[]="<ul class='nav nav-second-level collapse'>";
+		foreach ($page['pages'] as $subpage){
+						
+			if(@$subpage['controller']==$controller && $subpage['action']==$action)
+			{								
+				$is_subpage_active='active';											
+			} 
+			else if(!empty($subpage['pages']))
+			{	
+				foreach ($subpage['pages'] as $sub_sub_page){							
+					if(@$sub_sub_page['controller']==$controller && $sub_sub_page['action']==$action)
+					{ 
+						$is_subpage_active='active';
+						break;			
+					}
+					else
+					{
+						$is_subpage_active='';
+					}									
+				 }
+			}	
+			else 
+			{ 
+				$is_subpage_active='';	
+			}	
+								
+			$html[]='<li class="'.$is_subpage_active.'">';
+			$html[]='<a href="'.ADMIN_APPLICATION_URL.$subpage['route'].'" class="'.$is_subpage_active.'">';
+			$html[]=''.$subpage['label'].'';
+			$html[]='</a>';
+			$html[] = "</li>";
+		 
+		}$html[] = "</ul>";
+	} 
+	$html[] = "</li>";
+}
+	
+echo join(PHP_EOL, $html);

@@ -1,0 +1,38 @@
+<ul class="side-nav-ul">
+	<?php if(empty($_SESSION["logstat"])) { $_SESSION["logstat"] = '1'; } ?>	
+    <?php if(empty($profile) && empty($pass) && empty($wish) && empty($fav) && empty($customerorder) && $_SESSION["logstat"] == '1') { ?> 
+    <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/dashboard'; ?>" data-id="1" class="side-nav-links <?php if(!empty($dashboard)) { ?>active<?php } ?>"> Dashboard <img src="<?=HTTP_IMG_PATH?>/menu.svg"> <img src="<?=HTTP_IMG_PATH?>/menu.svg">  </a> </li>
+    <?php } ?>
+    <?php if($store_data["store_approval"] == '1') { if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && $_SESSION["logstat"] == '2') { ?>
+	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" data-id="1" class="side-nav-links <?php if(!empty($profile)) { ?>active<?php } ?>"> Account Settings <img src="<?=HTTP_IMG_PATH?>/user.svg"> <img src="<?=HTTP_IMG_PATH?>/user.svg">   </a> </li>
+    <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/profile/2'; ?>" data-id="2" class="side-nav-links <?php if(!empty($pass)) { ?>active<?php } ?>"> Change Password <img src="<?=HTTP_IMG_PATH?>/password.svg"> <img src="<?=HTTP_IMG_PATH?>/password.svg">   </a> </li>
+  <?php } } else { ?>
+  <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" data-id="1" class="side-nav-links <?php if(!empty($profile)) { ?>active<?php } ?>"> Account Settings <img src="<?=HTTP_IMG_PATH?>/user.svg"> <img src="<?=HTTP_IMG_PATH?>/user.svg">   </a> </li>
+    <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/profile/2'; ?>" data-id="2" class="side-nav-links <?php if(!empty($pass)) { ?>active<?php } ?>"> Change Password <img src="<?=HTTP_IMG_PATH?>/password.svg"> <img src="<?=HTTP_IMG_PATH?>/password.svg">   </a> </li>
+  <?php } ?>
+    <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+    	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/manage-products'; ?>" data-id="3" class="side-nav-links <?php if(!empty($product)) { ?>active<?php } ?>"> Product Listings <img src="<?=HTTP_IMG_PATH?>/dashboard-interface.svg"> <img src="<?=HTTP_IMG_PATH?>/dashboard-interface.svg">   </a> </li>
+       	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/shipping-profiles'; ?>" class="side-nav-links <?php if(!empty($shipping)) { ?>active<?php } ?>">Shipping Profiles <img src="<?= HTTP_IMG_PATH ?>/shipping.svg"> <img src="<?= HTTP_IMG_PATH ?>/shipping.svg"></a> </li>
+        <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/manage-coupon'; ?>" class="side-nav-links <?php if(!empty($coupons)) { ?>active<?php } ?>"> Manage Coupons  <img src="<?=HTTP_IMG_PATH?>/voucher.svg"> <img src="<?=HTTP_IMG_PATH?>/voucher.svg">  </a> </li>
+    <?php }  ?>
+    <?php if($store_data["store_approval"] == '1') { if(!empty($store_data["store_approval"]) && $_SESSION["logstat"] == '2') { ?>
+    	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/wish-list'; ?>" class="side-nav-links <?php if(!empty($wish)) { ?>active<?php } ?>"> Wish List <img src="<?=HTTP_IMG_PATH?>/heart-new.svg"> <img src="<?=HTTP_IMG_PATH?>/heart-new.svg">   </a> </li>
+        <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/favourite-shops'; ?>" class="side-nav-links <?php if(!empty($fav)) { ?>active<?php } ?>"> Favourite Shops <img src="<?=HTTP_IMG_PATH?>/supermarkets.svg"> <img src="<?=HTTP_IMG_PATH?>/supermarkets.svg">   </a> </li>
+	  <?php } } else { ?>
+      	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/wish-list'; ?>" class="side-nav-links <?php if(!empty($wish)) { ?>active<?php } ?>"> Wish List <img src="<?=HTTP_IMG_PATH?>/heart-new.svg"> <img src="<?=HTTP_IMG_PATH?>/heart-new.svg">   </a> </li>
+        <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/favourite-shops'; ?>" class="side-nav-links <?php if(!empty($fav)) { ?>active<?php } ?>"> Favourite Shops <img src="<?=HTTP_IMG_PATH?>/supermarkets.svg"> <img src="<?=HTTP_IMG_PATH?>/supermarkets.svg">   </a> </li>
+      <?php } ?>
+        <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+        	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/seller-orders'; ?>" class="side-nav-links <?php if(!empty($sellerorder)) { ?>active<?php } ?>"> My Orders <img src="<?=HTTP_IMG_PATH?>/shopping-cart-new.svg"> <img src="<?=HTTP_IMG_PATH?>/shopping-cart-new.svg">   </a> </li>
+        <?php } else { ?>
+        	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/customer-orders'; ?>" class="side-nav-links <?php if(!empty($customerorder)) { ?>active<?php } ?>"> My Orders <img src="<?=HTTP_IMG_PATH?>/shopping-cart-new.svg"> <img src="<?=HTTP_IMG_PATH?>/shopping-cart-new.svg">   </a> </li>
+        <?php } ?>
+        	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/messages'; ?>" class="side-nav-links <?php if(!empty($message)) { ?>active<?php } ?>"> Messaging <img src="<?=HTTP_IMG_PATH?>/speech-bubble.svg"> <img src="<?=HTTP_IMG_PATH?>/speech-bubble.svg">   </a> </li>
+        <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+        	<li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/my-wallet'; ?>" class="side-nav-links <?php if(!empty($wallet)) { ?>active<?php } ?>"> Wallet <img src="<?=HTTP_IMG_PATH?>/wallet.svg"> <img src="<?=HTTP_IMG_PATH?>/wallet.svg">   </a> </li>
+        <?php } ?> 
+         <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && empty($profile) && empty($pass) && empty($wish) && empty($fav) && empty($customerorder) && $_SESSION["logstat"] == '1') { ?> 
+    <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$store_data['store_name']); ?>" class="side-nav-links"> View Shop <img src="<?=HTTP_IMG_PATH?>/shop-new.svg"> <img src="<?=HTTP_IMG_PATH?>/shop-new.svg">   </a> </li>
+    <?php } ?>
+         
+</ul>

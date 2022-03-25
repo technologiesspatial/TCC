@@ -1,0 +1,180 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+input[type='radio']{visibility:hidden;}
+#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.rgt_btn{
+  background-color: #ab191a;
+  padding: 0px;
+  width: 197px;
+  height: 54px;
+  line-height: 54px;
+  border-radius: 0px;
+  font-size: 18px;
+  color: #fff !important;
+  border: none;
+  margin: 10px auto 0px;
+}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style> 
+<div class="profile_page shipping-page">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+      <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+      <div class="side-nav">
+        <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'shipping'=>1)); ?>
+      </div>
+      <!-- change user image -->
+    </div>
+    <!--  -->
+
+    <div class="right-side-block">
+
+      <div class="heading-box">
+        <h4 class="heading">Shipping Rate</h4>
+      </div>
+      <!-- heading box -->
+
+      <div class="right-side comman-form">
+            <form method="post" id="shipping_form" name="shipping_form">
+                  <div class="form-group input-group">
+                    <label>Global Rate</label>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">$</span>
+                    </div>
+                    <input type="text" id="global_rate" name="global_rate" <?php if(!empty($global_rate)) { ?>value="<?= $global_rate; ?>"<?php } ?> class="form-control">     
+                  </div>
+                  <div class="countrywise-blk">
+				  <?php if(!empty($rate_data)) { foreach($rate_data as $rate_data_key => $rate_data_val) {  ?>
+                  <div class="form-row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="inputEmail4">Country </label>
+                          <select class="custom-select form-control country-bxtg" id="country_name<?= $rate_data_key ?>" name="country_name[]">
+                            <option selected>Select Country</option>
+                            <?php foreach($country_arr as $country_key => $country_val) { ?>
+                            <option value="<?= $country_key; ?>" <?php if($rate_data_val["shipping_country"] == $country_key) { ?>selected<?php } ?>><?= $country_val; ?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- col -->
+                      <div class="col-sm-6">
+                        <div class="form-group input-group">
+                          <label>Rate</label>
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                          </div>
+                          <input type="text" class="form-control rate-bxtg" id="rate<?= $rate_data_key ?>" name="rate[]" value="<?= $rate_data_val["shipping_rate"]; ?>">     
+                        </div>
+                      </div>
+                      <!-- col -->
+                  </div>
+                  <?php } } else { ?>
+                  <div class="form-row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="inputEmail4">Country </label>
+                          <select class="custom-select form-control" id="country_name" name="country_name[]">
+                            <option selected>Select Country</option>
+                            <?php foreach($country_arr as $country_key => $country_val) { ?>
+                            <option value="<?= $country_key; ?>"><?= $country_val; ?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- col -->
+                      <div class="col-sm-6">
+                        <div class="form-group input-group">
+                          <label>Rate</label>
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">$</span>
+                          </div>
+                          <input type="text" class="form-control" id="rate" name="rate[]">     
+                        </div>
+                      </div>
+                      <!-- col -->
+                  </div>
+                  <?php } ?>
+                  </div>
+                  <!-- form row -->
+                  <a class="btn add-more-btn" href="javascript:void(0)"> Add More </a>
+                  
+                  <div class="border-gradient submit-btn"><button type="submit" class="btn view-btn " id="startedbtn"> Submit </button></div>
+            </form>
+
+
+          </div>
+          <!------------- right side -------------->
+    </div>
+
+    <!-- right-side-block -->
+
+  </div>
+</div>
+<script type="text/javascript">
+var isSubmit=1; 	
+
+$(document).on("click",".add-more-btn",function() {
+	var cust_txtid=0;var add_custom=true; var myarray = [];
+		$('.country-bxtg').each(function(){ myarray.push($(this).val()); });
+		$(".country-bxtg").each(function(index, element) {
+			var childid = element.id;
+			if($('#'+childid).val()=='')
+			{
+				add_custom=false;
+				
+			}
+			cust_txtid++;
+		});	
+		
+		$(".rate-bxtg").each(function(index, element) {
+			var childid = element.id;
+			if($('#'+childid).val()=='')
+			{
+				add_custom=false;
+				
+			}
+		});	
+		$.ajax({
+			  url: baseUrl + "/get-countries",
+			  type: "POST",
+			  data: { selcountry: myarray},
+			  dataType: 'json',
+			  success: function (data) {
+				  if(add_custom){
+					   $(".countrywise-blk").append('<div class="form-row"><div class="col-sm-6"><div class="form-group"><label for="inputEmail4">Country </label><select class="custom-select form-control country-bxtg" id="country_name'+cust_txtid+'" name="country_name[]"><option selected>Select Country</option></select></div></div><div class="col-sm-6"><div class="form-group input-group"><label>Rate</label><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">$</span></div><input type="text" class="form-control rate-bxtg" id="rate'+cust_txtid+'" name="rate[]"></div></div></div>');	  
+					   $(data).each(function (i, val) {
+						  $.each(val, function (k, v) {
+							$("#country_name"+cust_txtid).append('<option value="'+v.id+'">'+v.country+'</option>');  
+						  });
+						}); 
+					 
+				  }
+			  }
+		})
+})
+</script>
+

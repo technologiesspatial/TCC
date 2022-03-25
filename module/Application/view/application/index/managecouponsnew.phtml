@@ -1,0 +1,120 @@
+<div class="login_page profile_page">
+  <div class="container">
+
+      <div class="heading-box">
+        <h4 class="heading">Manage Coupons</h4>
+        <div class="border-gradient seller-btn back-btn"><a class="btn view-btn"> Back </a></div>
+      </div>
+
+      <div class="login-signup-form">
+          <div class="left-side signup-img profile-nav d-none d-lg-block">
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"> </div>
+                <p class="user-name">Jamie Lynn</p>
+                <div class="border-gradient change-img-btn"> <a href="#" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+            <div class="side-nav">
+            <ul class="side-nav-ul">
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Account Settings </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Change Password </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Upload Product </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Manage Products </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links active"> Manage Coupons </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Shipping Rate  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+              </ul>
+            </div>
+            <!-- change user image -->
+          </div>
+          <!------------ left side ------------------>
+          <div class="right-side comman-form manage-coupons">
+            <form>
+                  <div class="form-row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">Name of Coupon</label>
+                          <input type="text" class="form-control" placeholder="20 Discount" >
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">Discount (%)</label>
+                          <input type="text" class="form-control" placeholder="20" >
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label >Coupon Code</label>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input form-control" id="customFileLang" lang="es">
+                        <label class="custom-file-label" for="customFileLang">20DISCOUNT </label>
+                      </div>
+                      <small> This is the code your client has to enter at checkout to use this coupon. </small>
+                    </div>
+
+                    <div class="radio-button-box">
+                        <h2 class="radio-heading"> Discount Rules </h2>
+                        <div class="radio-button">
+                          <p class="m-0">
+                            <input type="radio" id="test1" name="radio-group" checked>
+                            <label for="test1">Certain Products</label>
+                          </p>
+                          <p class="m-0">
+                            <input type="radio" id="test2" name="radio-group">
+                            <label for="test2">All Products</label>
+                          </p>
+                          <p class="m-0">
+                            <input type="radio" id="test3" name="radio-group">
+                            <label for="test3"> One Single Product</label>
+                          </p>
+                        </div>
+                    </div>
+
+                  <div class="form-group">
+                    <label >Product</label>
+                    <select class="custom-select form-control" id="">
+                            <option selected>Select Product</option>
+                          </select>
+                  </div>
+
+                  <div class="form-row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">Start Date</label>
+                          <input type="text" class="form-control" placeholder="DD-MM-YYYY" >
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="">End Date</label>
+                          <input type="text" class="form-control" placeholder="DD-MM-YYYY" >
+                        </div>
+                      </div>
+                  </div>
+
+
+                  <div class="stutus-switch">
+                        <p class="label-text"> Status : </p>
+                        <span>Active</span>
+                              <label class="switch">
+                                <input type="checkbox" checked="" name="chkplan" id="chkplan" onchange="myFunction() ">
+                                <span class="slider round"></span>
+                            </label>
+                        <span>Deactive</span>
+                    </div>
+
+
+                  <div class="border-gradient submit-btn"><button type="button" class="btn view-btn " id="startedbtn"> Submit </button></div>
+            </form>
+
+
+          </div>
+          <!------------- right side -------------->
+      </div>
+
+    <!-- login -->
+  </div>
+</div>

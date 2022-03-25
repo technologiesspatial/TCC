@@ -1,0 +1,105 @@
+<?php 
+	$user =  $this->user_information ;
+?>
+<style type="text/css">
+ul#info_ul span {
+	color:#e35b5a;
+	font-weight:bold;
+}
+.widget-wrap {
+	min-height:auto
+}
+p {
+	white-space:nowrap;
+}
+</style>
+
+<div class="panel">
+  <div class="panel-body">
+    <div class="row white-box">
+      
+      <div class="col-sm-3"> 
+        <a data-gallery="example-gallery" data-toggle="lightbox" href="<?php echo getUserImage($this->user_information[T_USERS_CONST.'_image'],'900x600');?>" title="Profile Images">
+          <img src="<?php echo getUserImage($this->user_information[T_USERS_CONST.'_image'],'206x137');?>" class="img_border" />
+        </a><br>
+        <small>(Click on photo to view enlarge)</small>
+      </div>
+      <div class="col-sm-9">
+        <div class="form-content" style="padding:20px;">
+          <table class="table table-bordered Clear" style="margin:0px !important;">
+            <tbody>
+              <tr>
+                <td class="" width="30%;"><b>Full Name:</b></td>
+                <td>
+                  <b><?php echo $this->user_information[T_USERS_CONST.'_name']; ?></b>
+                </td>
+              </tr>              
+              <tr>
+                <td><b>Email Address:</b></td>
+                <td>
+                  <b><?php echo $this->user_information[T_USERS_CONST.'_email']==''?'N/A':$this->user_information[T_USERS_CONST.'_email'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Company Name:</b></td>
+                <td><b><?php echo $this->user_information[T_USERS_CONST.'_company_name']==''?'N/A':$this->user_information[T_USERS_CONST.'_company_name'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Company Address:</b></td>
+                <td><b><?php echo $this->user_information[T_USERS_CONST.'_company_address']==''?'N/A':$this->user_information[T_USERS_CONST.'_company_address'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Telephone Number:</b></td>
+                <td><b><?php echo $this->user_information[T_USERS_CONST.'_phone']==''?'N/A':$this->user_information[T_USERS_CONST.'_phone'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Website:</b></td>
+                <td><b><?php echo $this->user_information[T_USERS_CONST.'_website_url']==''?'N/A':$this->user_information[T_USERS_CONST.'_website_url'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Stripe Connect ID:</b></td>
+                <td><b><?php echo $this->user_information[T_USERS_CONST.'_account_id']==''?'N/A':$this->user_information[T_USERS_CONST.'_account_id'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class="">
+                  <b>Photos:</b><br>
+                  <small>(Click on photo to view enlarge)</small>
+                </td>
+                <td>
+                  <div class="row">
+                    <?php if(isset($userphoto_info) and count($userphoto_info) > 0){ 
+                        foreach($userphoto_info as $ph_data){  ?>
+                        <div class="col-3 text-left">
+                          <a data-gallery="example-gallery" data-toggle="lightbox" href="<?php echo getUserImage($ph_data['cp_photo_name'],'900x600');?>" title="Profile Images">
+                            <img src="<?php echo getUserImage($ph_data['cp_photo_name'],'206x137');?>" class="img-fluid img_border" />
+                          </a><br><br>
+                        </div>
+                    <?php } } else { ?>
+                        <div class="col-3 text-left">N/A</div>
+                    <?php } ?>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(window).on('load', function() {
+  $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+  });
+});
+</script>

@@ -1,0 +1,22 @@
+<div class="first-section">
+					<div class="rating-panel">
+						<div class="common-rating-box">
+							<div class="media media-section">
+								<div class="review-img">
+                                <?php $client_uname = explode(" ",$last_comment[T_CLIENT_VAR."client_name"]); if(!empty($last_comment[T_CLIENT_VAR.'client_image'])) { 
+									
+								?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/<?= $last_comment[T_CLIENT_VAR.'client_image'] ?>"> 
+                                        <?php } else { ?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/default.png" />
+                                        <?php }  ?> </div>
+								<div class="media-body">
+									<h5 class="title"><?= $client_uname[0]; ?></h5>
+									<p class="post-date mb-0"> <?= time_elapsed_str($last_comment["procomment_date"]); ?> </p>
+								</div>
+							</div>
+							<?php /*?><a href="javscript:void(0)" class="report report-cmttg"><span>Report</span> <img src="<?=HTTP_IMG_PATH?>/red-flag.svg"></a><?php */?>
+						</div>
+						<p class="description"><?= nl2br($last_comment["procomment_text"]); ?></p>
+					</div>
+				</div>

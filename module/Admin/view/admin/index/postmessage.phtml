@@ -1,0 +1,11 @@
+<?php if(!empty($message_record)) { ?>
+                            <div class="right-box msgcommon-panel">     
+                                <div class="text_wrapper">
+                                  <div class="message-content">
+                                    <div class="text"><?= nl2br($message_record["chat_text"]); ?>  </div>
+                                  </div>
+                                  <div class="dates"><?= time_elapsed_str($message_record["chat_date"]); ?></div>
+                                </div>
+                            </div>
+                            <?php 
+		 } ?>

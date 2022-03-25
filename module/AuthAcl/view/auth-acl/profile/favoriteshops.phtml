@@ -1,0 +1,191 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+.prodsel-btn{margin-top:20px;}
+.prodpic-holdtag img{margin-right:10px;border:1px solid #eee;padding:5px 10px;}
+#prodselModal .modal-description{margin-bottom:10px;}
+.propic-wallblk{display:inline-block;vertical-align:top;margin-right:10px;}
+.propic-inpblk{visibility:visible !important;display:block;margin-left:auto;margin-right:auto;margin-top:5px;}
+input[type='radio']{visibility:hidden;}
+#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.rgt_btn{background-color:#ab191a;padding:0px;width:197px;height:54px;line-height:54px;border-radius:0px;font-size:18px;color:#fff !important;border:none;margin:10px auto 0px;}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+.table thead th, .table tbody td{padding-left:10px !important;}
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before{content:'';}
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{content:'';}
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before{content:'';}
+.prodsel-btn{margin-bottom:25px;}
+.manage-product-box{height:125px;}
+.manage-product-box2{min-height:125px;}
+.manage-product-box .product-img{width:150px;}
+.product-detail-box a{text-decoration:none !important;outline:none !important;}
+.table-block .table tbody td .user-img{background:transparent;}	
+@media (max-width: 767px) {
+	.manage-product-box{height:auto;overflow:hidden;}
+	.manage-product-box .product-img{width:auto;height:auto;max-width:100px;margin-top:25px;}
+}
+</style> 
+
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Favourite Shops</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+<div class="favourite-shops-page profile_page">
+  <div class="container">
+
+      <div class="after-login-block">
+          <div class="left-side signup-img profile-nav d-none d-xl-block">
+            <? /* ?>
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"200")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+            <? */ ?>
+
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+            <div class="side-nav">
+              <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'fav'=>1)); ?>
+            </div>
+            <!-- change user image -->
+          </div>
+      <!-- heading box -->
+
+      <div class="right-side">
+             
+          <? /* ?>
+          <div class="manage-products-block">
+            <div class="row">
+              <?php if(!empty($favorite_shops)) { foreach($favorite_shops as $favorite_shops_key => $favorite_shops_val) { ?>
+              <div class="col-xl-4 col-sm-6 favshop-blk" data-id="<?= str_replace("=","",base64_encode($favorite_shops_val["favourite_storeid"])); ?>">
+                <div class="manage-product-boxes seller-shop-boxes">
+                    <div class="card manage-box">
+                      <div class="img-box">
+                      <?php if(!empty($favorite_shops_val["store_banner"])) { ?>
+                      	<a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$favorite_shops_val['store_name']); ?>"><img src="<?=HTTP_STORE_BANNER_PATH?>/<?= $favorite_shops_val["store_banner"] ?>"></a>
+                      <?php } ?>
+                      </div>
+                      <div class="card-body">
+                        <div class="body-inside">
+                          <h5 class="card-title"><?= $favorite_shops_val[T_CLIENT_VAR.'client_name']; ?></h5>
+                          <p class="card-text"><?= $favorite_shops_val["store_name"]; ?></p>
+                          <a class="seller-txt" href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$favorite_shops_val['store_name']); ?>"> Visit Seller Profile </a>
+                        </div>
+                        <div class="icons-box">
+                          <div class="icons delete" data-id="<?= str_replace("=","",base64_encode($favorite_shops_val["favourite_storeid"])); ?>"> <img src="<?=HTTP_IMG_PATH?>/delete.svg"> </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- card -->
+                </div>
+                <!--  -->
+              </div>
+              <?php } } ?>
+              <!--  -->              
+            </div>
+          </div>
+          <? */ ?>
+
+          <!--  -->
+
+          <div class="table-block">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr class="table-head">
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Shop Name</th>
+                        <th scope="col">Owner Name</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <!--  -->
+                    <tbody>
+                     <?php if(!empty($favorite_shops)) { foreach($favorite_shops as $favorite_shops_key => $favorite_shops_val) { ?>
+                      <tr data-id="<?= str_replace("=","",base64_encode($favorite_shops_val["favourite_storeid"])); ?>">
+                        <td > <div class="cross-btn delete" data-id="<?= str_replace("=","",base64_encode($favorite_shops_val["favourite_storeid"])); ?>"> X </div> </td>
+                        <td > <div class="user-img">
+                        <?php if(!empty($favorite_shops_val["store_logo"]) && file_exists(STORE_LOGO_PATH.'/160/'.$favorite_shops_val["store_logo"])) { ?> 
+                        	<img src="<?=HTTP_STORE_LOGO_PATH?>/160/<?= $favorite_shops_val["store_logo"] ?>">  
+                        <?php } else { ?>
+                        	<img src="<?= HTTP_PROFILE_IMAGES_PATH ?>/60/default.png">
+                        <?php } ?>
+                        </div> </td>
+                        <td> <?= $favorite_shops_val["store_name"]; ?> </td>
+                        <td> <?= $favorite_shops_val[T_CLIENT_VAR."client_name"]; ?> </td>                        
+                        <td> <a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$favorite_shops_val['store_name']); ?>" class="view-btn btn"> visit profile </a> </td>
+                      </tr>
+                     <?php } } else { ?>
+                      <tr>
+                      	<td colspan="5">No shop added to favourite.</td>
+                      </tr>
+                     <?php } ?> 
+                    </tbody>
+                    <!--  -->
+                  </table>
+                  <!-- table -->
+                </div>
+          </div>
+          <!-- table block -->
+
+          
+      <!------------- right side -------------->
+		</div>
+    <!-- right-side-block -->
+		</div>
+  </div>
+</div>
+
+
+<script>
+$(document).on("click",".delete",function() {
+	var favorite = $(this).attr("data-id");
+	$.ajax({
+			url: baseUrl+"/remove-favorite",
+			type: "POST",
+			data: { fav: favorite },
+			success: function(data){
+				if(data == 'success') {
+					$("tr[data-id="+favorite+"]").remove();
+					if(!$('tr').length) {
+						$("table").html('<tr><td colspan="5">No shop added to favourite.</td></tr>');
+					}
+					showAppAlert('Success!','You have succcessfully removed the store from favourites.','success');	
+				} else {
+					showAppAlert('Error!','No such store added to favourites.','error');	
+				}
+			}
+	})
+})
+
+$('.manage-products-block').mCustomScrollbar({axis:"x",  theme:"dark-3", advanced:{
+ autoExpandHorizontalScroll:true } });
+
+</script>

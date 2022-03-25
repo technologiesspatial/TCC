@@ -1,0 +1,14 @@
+<div class="product-size">
+	<p class="text-s"> Size </p>
+	<ul class="">
+		<?php if(!empty($sizes)) { $sizes = array_unique($sizes); foreach($sizes as $sizes_arr_key => $sizes_arr_val) { ?>
+		<li class=""> <a href="javascript:void(0)" class="nocursor-tg piece-tg <?php if($sizes_arr_key == 0) { ?>active<?php } ?>" data-id="<?= $sizes_arr_val ?>"> <?= $sizes_arr_val ?> </a> </li>
+		<?php } } else { ?>
+		<li class=""> <a href="javascript:void(0)" class="nocursor-tg piece-tg"> N/A </a> </li>
+		<?php } ?>
+	</ul>
+</div>
+<div class="priceqty-blk">
+	<p class="product-price"> <span class=""> </span> <span class="nocursor-tg"> $<?= $price ?> </span> </p>
+	<p class="quantity-txt"> Available Quantity : <?= $qty ?></p>
+</div>

@@ -1,0 +1,371 @@
+<style type="text/css">
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+		.other-header{display:none !important;}
+		#navbarSupportedContent{display:none !important;}
+		.custom-link{display:none;}
+	<?php } ?>
+</style>
+
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Manage Shipping</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+
+<div class="profile_page manage-product-page add-product-page">
+	<div class="container">
+		<div class="profile-section">
+			<div class="profile-nav d-none d-xl-block">
+					<div class="change-image-user-box">
+						<div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+						<div class="user-info">
+							<p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+							<a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+						</div>
+					</div>
+
+					<div class="side-nav">
+						<?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'shipping'=>1)); ?>
+					</div>
+					<!-- change user image -->
+			</div>
+			<!--  -->
+
+			<!-- heading box -->
+				<div class="right-side comman-form" style="position:relative">
+					<div class="page-heading-row">
+						<h2 class="page-heding"> <?= $pageHeading ?> </h2>
+						<a class="btn back-btn view-btn d-block" href="<?= APPLICATION_URL.'/shipping-profiles'; ?>"> Back </a>
+					</div>
+					<form id="shipping_form" method="post" class="profile_form" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="client_name"> Shipping Profile Name<span>*</span> </label>
+									<?php echo $this->formElement($form->get('shipping_name'))?>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="client_name"> Processing Time<span>*</span> </label>
+									<?php echo $this->formElement($form->get('shipping_time'))?>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="client_name"> Standard Shipping Rate</label>
+									<?php echo $this->formElement($form->get('shipping_rate'))?>		
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="orfree-tg"> or </div>								
+								<div class="form-group free-section">									
+									<?php echo $this->formElement($form->get('shipping_free'))?>
+									<label for="shipping_free"> Free Shipping</label>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="client_name"> International Shipping Rate</label>
+									<?php echo $this->formElement($form->get('shipping_globalrate'))?>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="client_name"> Additional Item Shipping Rate</label>
+									<?php echo $this->formElement($form->get('shipping_addrate'))?>		
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="client_name"> Select countries where you provide shipping</label>
+									<?php echo $this->formElement($form->get('shipping_countries'))?>
+								</div>
+							</div>
+						</div>
+							<!-- shipping-rate-block -->
+
+							<div class="form-row">
+								<div class="col-sm-12">
+									<?php echo $this->formElement($form->get('startedbtn'))?>
+								</div>
+							</div>
+
+					</form>
+					
+				</div>
+
+
+			<!-- right-side-block -->
+
+		</div>
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+	var isSubmit=1;
+	$(document).on("change","#product_category",function() {
+		var category = $(this).val();
+		$.ajax({
+			url: baseUrl + "/getsub-categories",
+			type: "POST",
+			data: { category: category},
+			success: function (data) {
+				$("#product_subcategory").html('');
+				var response = $.parseJSON(data);
+				$("#product_subcategory").append('<option value="">Please Select</option>');
+				$(response).each(function(index, element1) {
+					if(element1.id) {
+						$("#product_subcategory").append('<option value="'+element1.id+'">'+element1.title+'</option>');
+					}
+				})
+		  	}
+		})
+	})
+	
+	$(document).on("click","#startedbtn",function() {
+		var shipping_rate = $("#shipping_rate").val();
+		var shipping_free = $("#shipping_free:checked").val();
+		if($("#shipping_form").valid()) {
+			if(shipping_rate == '' && (shipping_free == '' || shipping_free == undefined)) {
+				showAppAlert('Error!!','Please enter either the standard shipping rate or check the Free Shipping.','error');
+			} else {
+				$("#shipping_form").submit();
+			}			
+		}
+	})
+	
+	$('input[name="shipping_rate"]').on('input', function () {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	});
+	
+	$('input[name="shipping_addrate"]').on('input', function () {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	});
+	
+	$('input[name="shipping_globalrate"]').on('input', function () {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	});
+	
+	$(document).on("click","#shipping_free",function() {
+		var chkval = $("#shipping_free:checked").val();
+		if(chkval == '1') {
+			$("#shipping_rate").val('');
+			//$("#shipping_addrate").val('');
+		}
+	})
+	
+	$(document).on("focusout","#shipping_rate",function() {
+		var rate = $(this).val();
+		if(rate != '') {
+			$("#shipping_free").prop("checked",false);
+		}
+	})
+	
+	$(document).on("focusout","#shipping_addrate",function() {
+		var rate = $(this).val();
+		if(rate != '') {
+			//$("#shipping_free").prop("checked",false);
+		}
+	})
+	
+	$(document).on("click",".addmore-shipbtn",function() {
+		var ship_txtid=2;var ship_custom=true;	
+		$(".shipping-country").each(function(index, element) {
+			var childid = element.id;
+			if($(this).val()=='')
+			{
+				ship_custom=false;
+			}
+			ship_txtid++;
+		});
+		$(".shipping-rate").each(function(index, element) {
+			var childid = element.id;
+			if($(this).val()=='')
+			{
+				ship_custom=false;
+			}
+			ship_txtid++;
+		});
+		if(ship_custom){
+			$(".shipping-subblk").append('<div class="col-sm-6"><div class="form-group"><label for="client_name">Country</label><?php if(!empty($country_arr)) { ?><select name="shipping_country[]" class="custom-select form-control shipping-country" id="shipping_country" aria-invalid="false"><?php foreach($country_arr as $country_arr_key => $country_arr_val) { ?><option value="<?= $country_arr_key ?>"><?= $country_arr_val; ?></option><?php } ?></select><?php } ?></div></div><div class="col-sm-6"><div class="form-group"><label for="client_name">Rate</label><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">$</span></div><input type="text" class="form-control shipping-rate" name="shipping_rate[]" id="shipping_rate"></div></div></div>');
+		}
+	})
+	
+	$(document).on("click",".add-colorbtn",function() {
+		var len = $(".color").length;
+		var cust_txtid=2;var add_custom=true;
+		$(".color").each(function(index, element) {
+			var childid = element.id;
+			if($('#'+childid).val()=='')
+			{
+				add_custom=false;
+			}
+			cust_txtid++;
+		});	
+		
+		$(".size").each(function(index, element) {
+			var childid = element.id;
+			if($('#'+childid).val()=='')
+			{
+				add_custom=false;
+			}
+		});
+		if(add_custom){
+			$(".colorsize-holder").append('<div class="col-sm-6 colorsize-pdtg" data-id="'+cust_txtid+'"><div class="form-group"><label>Color<span>*</span></label><input id="color" type="text" class="form-control color" data-id="'+cust_txtid+'"></div></div><div class="col-sm-6 colorsize-pdtg" data-id="'+cust_txtid+'"><div class="form-group"><label>Size<span>*</span> (Enter All Sizes)</label><input id="size" type="text" class="form-control size" placeholder="" data-id="'+cust_txtid+'"><a href="javascript:void(0)" class="trash-canbtn" data-id="'+cust_txtid+'"><img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>" class="trash-can"></a>');	  
+		}
+	})
+	
+	$(document).on("click",".trash-canbtn",function() {
+		var tid = $(this).attr("data-id");
+		$(".color[data-id="+tid+"]").val('');
+		$(".size[data-id="+tid+"]").val('');
+		if($("tr[data-id="+tid+"]").length) {
+			$("tr[data-id="+tid+"]").remove();	
+		}
+		$(".colorsize-pdtg[data-id="+tid+"]").remove();
+	})
+	
+	$(document).on("focusout",".color",function() {
+		var tid = $(this).attr("data-id");
+		var color = $(".color[data-id="+tid+"]").val();
+		var size = $(".size[data-id="+tid+"]").val();
+		var sizes = size.split(",");
+		if(color != '' && size != '') {
+			if($("tr[data-id="+tid+"]").length) {
+				$("tr[data-id="+tid+"]").remove();	
+			}
+			$.each(sizes, function (key, val) {
+				var params = color+'~'+val;
+				$(".table-block").find("tbody").append('<tr data-id="'+tid+'"><td> '+color+' </td><td> '+val+' </td><td><div class="form-group mb-0"><input id="qty'+params+'" name="qty[]" type="text" class="form-control qtynum" placeholder="" value="" maxlength="7"><input type="hidden" id="color_size'+params+'" name="colorsize[]" value="'+params+'"></div></td></tr>');
+			});		
+		}
+	})
+	
+	$(document).on("focusout",".size",function() {
+		var tid = $(this).attr("data-id");
+		var color = $(".color[data-id="+tid+"]").val();
+		var size = $(".size[data-id="+tid+"]").val();
+		var sizes = size.split(",");
+		if(color != '' && size != '') {
+			if($("tr[data-id="+tid+"]").length) {
+				$("tr[data-id="+tid+"]").remove();	
+			}
+			$.each(sizes, function (key, val) {
+				var params = color+'~'+val;
+				$(".table-block").find("tbody").append('<tr data-id="'+tid+'"><td> '+color+' </td><td> '+val+' </td><td><div class="form-group mb-0"><input id="qty'+params+'" name="qty[]" type="text" class="form-control qtynum" placeholder="" value="" maxlength="7"><input type="hidden" id="color_size'+params+'" name="colorsize[]" value="'+params+'"></div></td></tr>');
+			});		
+		}
+	})
+	
+	$(document).on("click",".add-more-btn",function() {
+		var cust_txtid=1;var add_custom=true; var myarray = [];
+			$('.country-bxtg').each(function(){ myarray.push($(this).val()); });
+			$(".country-bxtg").each(function(index, element) {
+				var childid = element.id;
+				if($('#'+childid).val()=='')
+				{
+					add_custom=false;
+
+				}
+				cust_txtid++;
+			});	
+
+			$(".rate-bxtg").each(function(index, element) {
+				var childid = element.id;
+				if($('#'+childid).val()=='')
+				{
+					add_custom=false;
+
+				}
+			});	
+			$.ajax({
+				  url: baseUrl + "/get-countries",
+				  type: "POST",
+				  data: { selcountry: myarray},
+				  dataType: 'json',
+				  success: function (data) {
+					  if(add_custom){
+						   $(".countrywise-blk").append('<div class="form-row"><div class="col-sm-6"><div class="form-group"><label for="inputEmail4">Country </label><select class="custom-select form-control country-bxtg" id="country_name'+cust_txtid+'" name="country_name[]"><option selected>Select Country</option></select></div></div><div class="col-sm-6"><div class="form-group input-group"><label>Rate</label><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">$</span></div><input type="text" class="form-control rate-bxtg" id="rate'+cust_txtid+'" name="rate[]"></div></div></div>');	  
+						   $(data).each(function (i, val) {
+							  $.each(val, function (k, v) {
+								$("#country_name"+cust_txtid).append('<option value="'+v.id+'">'+v.country+'</option>');  
+							  });
+							}); 
+
+					  }
+				  }
+			})
+	})
+	
+	$(document).ready(function(e) {
+		$("#shipping_countries").chosen({disable_search_threshold: 10});
+        $("#fileuploader").uploadFile({
+		url:baseUrl+"/upload-prodpics",
+		fileName:"myfile",
+		multiple:true,
+		maxFileCount:7,
+		maxFileSize:1024*1024*10,
+		uploadStr:"Choose file to upload",
+		dragDropStr:"<span><b>or drag & drop them here</b></span>",
+		acceptFiles:"image/*",
+		showQueueDiv: "output",
+		showProgress:true,
+		onSelect:function(files)
+		{
+			var expl =  files[0].name.split('.');
+			$("#progress").show();
+			return true;
+		},
+		onSubmit:function(files)
+		{
+			var $bar = $('.ajax-file-upload-bar');
+  			$bar.bind("DOMSubtreeModified");
+		},
+		onSuccess:function(files,data,xhr)
+		{
+			if(data == 'infected') {
+				showAppAlert('Error!!','File is infected.','error');
+			} else if(data == 'invalidext') {
+				showAppAlert('Error!!','Invalid extension. Please upload a valid extension.','error');
+			} else if(data == 'limit_exceeded') {
+				showAppAlert('Error!!','Please upload image of max size 10 MB.','error');
+			}
+			else {
+			$("#product_photos").val(data);
+			$("#product_chk").val(btoa("coven"));
+			var result = data.split(',');
+			$(result).each(function (i, val) {
+				$(".prod-thumbpic[data-id="+i+"]").attr("src","<?= HTTP_PRODUCT_PIC_PATH.'/160/' ?>"+val);	
+			})
+			}
+		}
+		})
+	});
+	
+	$('input[name="product_price"]').on('input', function () {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	});
+	
+	$(document).on('input','.qtynum', function(){
+	 	this.value = this.value.replace(/[^\d]/g,'');
+	})
+	
+	$('input[name="product_globalrate"]').on('input', function () {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	});
+	
+	$(document).on('input','.shipping-rate', function(){
+	 	this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	})
+	
+</script>

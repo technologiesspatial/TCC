@@ -1,0 +1,469 @@
+@font-face{font-family:'poppinsbold';src:url('../../fonts/poppins/poppins-bold-webfont.woff2') format('woff2'),
+url('../../fonts/poppins/poppins-bold-webfont.woff') format('woff');font-weight:normal;font-style:normal;}
+@font-face{font-family:'poppinslight';src:url('../../fonts/poppins/poppins-light-webfont.woff2') format('woff2'),
+url('../../fonts/poppins/poppins-light-webfont.woff') format('woff');font-weight:normal;font-style:normal;}
+@font-face{font-family:'poppinsmedium';src:url('../../fonts/poppins/poppins-medium-webfont.woff2') format('woff2'),
+url('../../fonts/poppins/poppins-medium-webfont.woff') format('woff');font-weight:normal;font-style:normal;}
+@font-face{font-family:'poppinsregular';src:url('../../fonts/poppins/poppins-regular-webfont.woff2') format('woff2'),
+url('../../fonts/poppins/poppins-regular-webfont.woff') format('woff');font-weight:normal;font-style:normal;}
+@font-face{font-family:'poppinssemibold';src:url('../../fonts/poppins/poppins-semibold-webfont.woff2') format('woff2'),
+url('../../fonts/poppins/poppins-semibold-webfont.woff') format('woff');font-weight:normal;font-style:normal;}
+#page-wrapper{
+	background: #fff;
+}
+.white-box{
+	background-color:#fff;
+}
+.footer{
+ background: #01c0c8;
+}
+.Cursor{
+	cursor:pointer;
+}
+.Overflow{
+	overflow:hidden;
+}
+.Clear{
+	clear:both;
+}
+.user-bg .overlay-box{
+	background-color:rgba(0,194,146,0.8);
+}
+.help-block{
+	color: #a94442;
+}
+.MarginAuto{
+	margin:0 auto;
+}
+#blankViewModal .modal-content{
+	background-color:#fff;
+}
+.modal-lg{
+	width:1000px;
+}
+#SaleRequest .form-control{
+	font-size:13px;
+}
+.input-group-addon{
+	cursor:pointer;
+}
+input{
+	background-color:#fff;
+}
+.Overflow{
+	overflow:hidden;
+}
+.Clear{
+	clear:both;
+}
+.PaddingZero{
+	padding:0px;
+}
+.PaddingLeftZero{
+	padding-left:0px;
+}
+.PaddingRightZero{
+	padding-right:0px;
+}
+.MarginZero{
+	margin:0px !important;
+}
+.MarginLeftZero{
+	padding-left:0px;
+}
+.MarginRightZero{
+	padding-right:0px;
+}
+.DisplayTable{
+	display:table;
+	width:100%;
+	height:100%;
+}
+.DisplayTableCell{
+	display:table-cell;
+	vertical-align:middle;
+}
+.DisplayInline{
+	display:inline-block;
+}
+.PositionRelative{
+	position:relative;
+}
+.FloatNone{
+	float:none !important;
+}
+
+/* LOGIN PAGE */
+#wrapper {
+    width: 100%;
+}
+.login-register{
+	background-image:none;
+	background:none !important;
+	background-color:#113d35 !important;
+}
+.LoginBanner{
+	height:400px;
+	background-attachment:fixed;
+	background-image:url(../../../images/home.png);
+	background-repeat:repeat;
+	background-size:contain;
+}
+.LoginBanner h1{
+	font-weight:700;
+	font-size:32px;
+	color:#fff;
+}
+.LoginBanner p{
+	font-size:14px;
+	color:#fff;
+	letter-spacing:1.2px;
+	font-style:italic;
+	margin-top:30px;
+	font-weight:300 !important;
+}
+.LoginBanner p img{
+	margin-top:-10px;
+	margin-left:5px;
+	margin-right:5px;
+}
+.LoginContentDiv{
+	background-color:#cc9f52;
+	height:250px;
+	position: relative;
+	padding:30px 0px;
+}
+.LoginContentDiv .Logo{
+	
+}
+.LoginBanner .container{
+	position:relative;
+	height:100%;
+}
+.LoginBanner .container:before {
+	top: 55%;
+    left: 22%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(255, 132, 0, 0);
+    border-bottom-color: #cc9f52;
+    border-width: 120px 120px 60px 120px;
+    margin-left: -80px;
+}
+.LoginContentDiv .Social{
+	margin-top:25px;
+	margin-bottom:15px;
+}
+.LoginContentDiv .Icon{
+	width: 35px;
+    height: 35px;
+    border: 2px solid #fff;
+    display: inline-block;
+    position: relative;
+    padding-top: 8px;
+    text-align: center;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.LoginContentDiv .Icon img {
+    margin: 0 auto;
+    width: 19px;
+}
+.LoginContentDiv .Phone{
+	font-size:12px;
+	color:#fff;
+	letter-spacing:2px;
+}
+.login-box{
+	position:absolute;
+	right:120px;
+	top:0px;
+	height:450px;
+	padding:15px;
+	padding-top:30px;
+	margin-top:85px;
+	width:350px;
+	box-shadow: 0 10px 3px -4px rgba(0, 0, 0, .2);
+	background-image:url(../../pics/dollar.jpg);
+	background-size:cover;
+}
+.login-box h1{
+	color:#242424;
+	font-size:20px;
+	line-height:22px;
+	font-weight:700;
+	text-align:center;
+	letter-spacing:1.5px;
+	margin-bottom:0px;
+}
+.login-box h5{
+	color:#7a7a7a;
+	font-size:10px;
+	text-align:center;
+	letter-spacing:1px;
+	text-transform:uppercase;
+	margin-bottom:20px;
+}
+.login-box .Inputs{
+	max-width:80%;
+	margin:0 auto;
+	margin-top:30px;
+}
+.login-box .Inputs .form-group{
+	margin-bottom:10px;
+}
+.login-box .Inputs .form-group.has-error .form-control{
+	margin-bottom:5px !important;
+}
+.login-box input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+	-webkit-text-fill-color: #666 !important;
+}
+.login-box input:-webkit-autofill,
+.login-box input:-webkit-autofill:hover,
+.login-box input:-webkit-autofill:focus,
+.login-box input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+	-webkit-text-fill-color: #666 !important;
+}
+.login-box .Inputs input,.login-box .Inputs input:focus,.login-box .Inputs input:active{
+	background-color:#fff !important;
+	height:50px;
+	border-radius:50px;
+	margin-bottom:15px;
+	padding-left:30px;
+	font-size: 12px !important;
+	color: #666 !important;
+	margin-left:0px;
+	border:1px solid #666;
+	background-image:none !important;
+	border-radius:50px;
+}
+.login-box .form-control::-webkit-input-placeholder {
+    font-size: 12px !important;
+    color: #666 !important;
+}
+.login-box .form-control::-moz-placeholder {
+    font-size: 12px !important;
+    color: #666 !important;
+}
+.login-box .form-control:-moz-placeholder {
+    font-size: 12px !important;
+    color: #666 !important;
+}
+.login-box .form-control:-ms-input-placeholder {
+	font-size: 12px !important;
+    color: #666 !important;
+}
+.login-box .Inputs input[type="email"]{
+	background:url(../pics/user.png);
+	background-position:10px;
+	background-repeat:no-repeat;
+}
+.login-box .Inputs input[type="password"]{
+	background:url(../pics/lock.png);
+	background-position:10px;
+	background-repeat:no-repeat;
+	margin-bottom:10px;
+}
+.login-box .Title a{
+	color:#000;
+	font-size:13px;
+	font-weight:700;
+	font-style:italic;
+}
+.login-box button{
+	margin-top:20px;
+	letter-spacing:1.5px;
+	border:1px solid #2a2c2f; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:15px; padding: 10px 15px; text-decoration:none; display:inline-block;color: #FFFFFF;
+ background-color: #45484d; background-image: -webkit-gradient(linear, left top, left bottom, from(#45484d), to(#000000));
+ background-image: -webkit-linear-gradient(top, #45484d, #000000);
+ background-image: -moz-linear-gradient(top, #45484d, #000000);
+ background-image: -ms-linear-gradient(top, #45484d, #000000);
+ background-image: -o-linear-gradient(top, #45484d, #000000);
+ background-image: linear-gradient(to bottom, #45484d, #000000);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#45484d, endColorstr=#000000);
+}
+.login-box .help-block{
+	font-size:11px;
+	padding-left:25px;
+}
+
+
+
+label[for=deletebcchk]:before{
+	background: #ffffff;
+}
+.DeleteBtn{
+	margin-left:15px;
+}
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before{
+	background-color: #005177;
+}
+table.dataTable a:hover{
+	color: #01c0c8;
+}
+.formButton{
+	text-align:center;
+	clear:both;
+}
+.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box>div>div{
+    font-size: 13px;
+    height: 35px !important;
+    padding-top: 5px;
+    letter-spacing: 1.2px;
+}
+.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box>div>div.xdsoft_current{
+	background: #005177 !important;
+    box-shadow: #005177 0 1px 3px 0 inset !important;
+}
+.xdsoft_datetimepicker .xdsoft_calendar td:hover, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box>div>div:hover{
+	    background: #FDB201!important;
+}
+table.dataTable.InnerTable.NoDesign.AppTable{
+	width:100% !important;
+}
+table.dataTable.InnerTable.NoDesign.AppTable .help-block{
+	padding-left:15px;
+}
+table.dataTable.InnerTable.NoDesign.AppTable .InnerTD{
+	padding:0px !important;
+}
+table.dataTable.InnerTable.NoDesign.AppTable input[type="text"]{
+ max-width: 100%; 
+}
+table.dataTable tbody tr{
+	background: #fff !important;
+	background-color: #fff !important;
+}
+table.dataTable.display tbody td {
+    border: 1px solid #ddd;
+	border-bottom:none;
+    border-right: none;
+    border-top: none;
+    padding: 15px;
+}
+table.dataTable.display tbody tr:last-child td{
+	border-bottom: 1px solid #ddd !important;
+}
+.table-responsive{
+	overflow:visible !important;
+}
+textarea.form-control {
+   padding-top:10px !important;
+}
+.SiteButton{background: #f76418;color:#fff !important;width: 167px;font-size:14px;text-transform:uppercase;padding: 14px;margin-bottom:20px;outline:none !important;}
+.SiteButton a,.SiteButton a:hover,.SiteButton a:focus{
+	color:#fff;
+	text-decoration:none;
+}
+#shortImg{
+	margin-top:60px;
+}
+table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1,table.dataTable.display tbody tr.odd>.sorting_1:hover, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1:hover,table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{
+	background-color:#fff !important;
+}
+table.dataTable.display tbody td,table.dataTable.display thead th{
+	font-size:13px;
+}
+table.dataTable.display tbody tr:first-child td{
+	border-top: 1px solid #ddd !important;
+}
+table.dataTable.display tbody tr td:last-child{
+	border-right: 1px solid #ddd !important;
+}
+.planOptsDiv{
+	display:block;
+}
+.planOptsDiv input{
+	margin-right:5px;
+}
+.ErrorPageDiv .DisplayTableCell{vertical-align:middle;}
+.ErrorPageDiv{height:100%;position:relative;height:100vh;}
+.ErrorPageDiv .Overlay{position:absolute;width:100%;height:100%;top:0px;left:0px;padding:100px;padding-top:50px;text-align:center;background-color:rgba(0,0,0,0);}
+.ErrorPageDiv label{font-family:'poppinsbold';;font-size:200px;line-height:200px;color:#000;font-weight:normal;margin-bottom:30px;width:100%;}
+.ErrorPageDiv span{font-family:'poppinsregular';;font-size:30px;text-transform:uppercase;color:#0b74b8;letter-spacing:2px;text-shadow:0px 0px;}
+.ErrorPageDiv span.Small{text-transform:initial;font-size:13px;}
+.ErrorPageDiv hr{border-top:2px solid #eee;max-width:150px;margin:20px auto;}
+.ErrorPageDiv p{margin:0px auto;font-family:'poppinsregular';font-size:20px;color:#000;line-height:2;}
+.browseall , .browseall:hover , .browseall:active , .browseall:focus{background-color:#0b74b8;color:#FFF;text-decoration:none;font-size:13px;font-family:'poppinsmedium';padding:18px 30px;border-radius:4px;border:none;text-shadow:0px 0px;letter-spacing:1px;}
+
+@media screen and (min-width: 1500px) {
+	.LoginBanner{
+		height:700px;
+	}
+	.LoginBanner .container:before {
+		top:78%;
+	}
+	.login-box{
+		margin-top:13%;
+	}
+}
+@media screen and (max-width: 1025px) {
+	.LoginBanner{
+		height:500px;
+	}
+	.login-box{
+		right:30px;
+	}
+	.LoginBanner .container:before{
+		top:64%;
+	}
+}
+@media screen and (max-width: 750px) {
+	
+	.DeleteBtn{
+		margin-left:0px;
+		margin-top:10px;
+	}
+	.LoginBanner{
+		height:150px;
+	}
+	.LoginBanner p{
+		font-size:10px;
+		margin-top:0px;
+	}
+	.LoginBanner .container:before{
+		left:40%;
+	}
+	.LoginContentDiv{
+		padding:15px;
+	}
+	.LoginBanner h1{
+		font-size:18px;
+		margin:0px;
+	}
+	#wrapper{
+		position:relative;
+	}
+	.login-box{
+		position:relative;
+		margin:0 auto !important;
+		margin-top:35px !important;
+		right:0px;
+		top:0px;
+		margin-bottom:30px;
+	}
+	.error-body h1 {
+    	font-size: 100px;
+		line-height: 100px;
+	}
+	.FirstPart h3 {
+		font-size: 23px;
+	}
+	.ImageClass {
+		padding-top: 35px;
+	}
+	.NotFound {
+		font-size: 20px;
+	}
+	.SecondMain p {
+		font-size: 10px;
+	}
+	
+}
+
+

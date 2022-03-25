@@ -1,0 +1,735 @@
+<style type="text/css">
+	.sa-custom + h2{position:relative;}
+	.mandate-txt{color:red !important;}
+	.prodpic-holdtag img {
+    max-height: 115px;
+}
+	.prodsel-btn{margin-top:20px;}
+	#prodtrashModal{z-index:99999;}
+	#prodselModal{z-index:99999;}
+	#prodselModal .modal-content{padding-bottom:30px}
+	#prodselModal .modal-description{margin-bottom:10px;}
+	.sizer-tg{min-width:30px;}
+.propic-inpblk{visibility:visible !important;display:block;margin-left:auto;margin-right:auto;margin-top:5px;}
+input[type='radio']{visibility:hidden;}
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{border:none !important;background:none !important;}
+	.sort-holder{padding-left:0px !important;margin-left:-15px !important;margin-right:-15px !important;padding-right:15px !important;}
+	.ui-widget-content{background:none !important;border:none !important;}
+	.ui-widget-header{border:none !important;background:none !important;font-family:'berkshire_swashregular' !important;}
+	.ui-sortable-handle{padding-left:10px;padding-right:10px;}
+	.table-block .color-and-size p.size span{margin-left:0px;}
+	.user-img{width:74px;height:74px;}
+	.icons img{width:18px;height:18px;vertical-align:text-bottom;}
+	.table-block .table tbody td .user-img{background-color:rgb(241,241,241);}
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+#sample_1 tbody td:first-child {
+           cursor: move;
+        }	
+	@media (max-width: 767px) { .manage-product-page .table-block .table thead th:nth-child(2), .manage-product-page .table-block .table tbody td:nth-child(2) { min-width:auto; } 
+		.manage-btn-box{display:block !important;margin-top:10px;}
+		.btn-prock{display:inline-block;width:110px !important;margin-bottom:4px;vertical-align:top;margin-right:2px !important;}
+	}
+</style>
+<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.min.js"></script>
+<script>
+	$( function() {
+   		/*$('#TabContainer').tabs();
+		$('#TabContainer .ui-tabs-nav').sortable({
+    		update: function(event, ui){
+				var data = $('#TabContainer .ui-tabs-nav').sortable('serialize');
+				$.ajax({
+					url: baseUrl+'/post-order',
+					data: data,
+					type: 'POST',
+					mode: 'abort'
+				});
+    		}
+	});*/
+  } );
+</script>
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Manage Products</h2>
+		</div>
+	</div>	
+</div>
+<div class="profile_page manage-product-page">
+	<div class="container">
+		<div class="profile-section">
+			<div class="profile-nav d-none d-xl-block">
+					<div class="change-image-user-box">
+						<div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+						<div class="user-info">
+							<p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+							<a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+						</div>
+					</div>
+					
+			<div class="side-nav">
+				<?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'product'=>1)); ?>
+			</div>
+			<!-- change user image -->
+			</div>
+			<!--  -->
+
+			
+			<!-- heading box -->
+
+			<div class="right-side">
+				<form method="post" action="<?= APPLICATION_URL.'/remove-selected' ?>" onsubmit="return checkSelects('userForm')" id="userForm">
+				<div class="d-flex manage-btn-box">
+					<button class="btn btn-danger btn-rounded waves-effect waves-classic DeleteBtn waves-effect waves-classic btn-prock"><span class="btn-label"><i class="fa fa-trash"></i></span> Delete selected</button>
+					<?php if(count($products_data) > 0) { ?>
+					<div class="back-btn quick-edit-btn btn-prock"><a href="javascript:void(0)" class="btn view-btn quickedit-btn"> Quick Edit </a></div>
+					<div class="back-btn export-holder btn-prock"><a href="<?= APPLICATION_URL.'/export-products'; ?>" class="btn view-btn export-btn">Export All</a></div>
+					
+					<?php } ?>
+					<div class="back-btn import-holder btn-prock"><a href="javascript:void(0)" class="btn view-btn import-btn">Import</a></div>
+					<div class="back-btn btn-prock"><a href="<?= APPLICATION_URL.'/add-product'; ?>" class="btn view-btn"> Add New </a></div>
+				</div>
+				<p class="manage-txt mandate-txt">*Please add <a href="<?= APPLICATION_URL.'/shipping-profiles'; ?>">shipping profiles</a> before adding products. To change the product order, drag the product image up or down. Before clicking on "Go Live", please make sure you have updated the product as per the new price management.</p>
+				<div class="table-block">
+				<div class="table-responsive">
+				<table class="table" id="sample_1">
+						<thead>
+						<tr class="table-head">							
+							<th scope="col"></th>
+							<th scope="col"><input id="deletebcchk" name="deletebcchk" type="checkbox" class="group-checkable"></th>
+							<th scope="col">Product Name</th>	
+							<th scope="col">Category</th>
+							<th scope="col">Stock</th>
+							<th scope="col">Price</th>
+							<th scope="col"></th>
+						</tr>
+						</thead>
+						<!--  -->
+						<tbody>
+							<?php if(!empty($products_data)) { foreach($products_data as $products_data_key => $products_data_val) {
+								$product_photos = array(); 
+								if(!empty($products_data_val["product_photos"])) { $product_photos = explode(",",$products_data_val["product_photos"]); }
+								$color_sizes = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:TID","fetchAll",array('warray'=>array('TID'=>$products_data_val["product_id"])));
+								$colors_arr = array();
+								$sizes_arr = array();
+								$total_qty = 0; $used_qty = 0;
+								if(!empty($color_sizes)) {
+									foreach($color_sizes as $colors_data_key => $colors_data_val) {
+										$total_qty += $colors_data_val["color_qty"]; 
+									}
+								}
+								$available_qty = $total_qty;
+	
+								$all_colors = array_column($color_sizes,"color_slug");
+								$all_colors = array_unique($all_colors);
+								$all_sizes = array_column($color_sizes,"color_size");
+								$all_sizes = array_unique($all_sizes);
+							?>
+							<tr class="prod-holder" data-id="<?= $products_data_val["product_id"]; ?>">
+								<td>									
+								<div class="user-img">
+								<?php if(!empty($products_data_val["product_defaultpic"])) { ?> 
+									<img src="<?=HTTP_PRODUCT_PIC_PATH.'/60/'.$products_data_val["product_defaultpic"] ?>"> 
+								<?php } else { if(!empty($product_photos[0])) { ?>
+									<img src="<?= HTTP_PRODUCT_PIC_PATH.'/60/'.$product_photos[0]; ?>">
+								<?php } else { ?>
+								<?php } } ?> 
+								</div> </td>
+								<td class="chker-holder">
+									<input class="elem_ids checkboxes" type="checkbox" name="checkbox-tg[]" value="<?= $products_data_val["product_id"]; ?>">
+								</td>
+								<td> 
+									<p class="dress-name"> <?= $products_data_val["product_title"]; ?> </p>
+									<?php if($products_data_val["product_isdigital"] == '1') { ?>
+									<div class="color-and-size d-block">
+										<btn class="btn btn-info btn-sm">Digital Product</btn>
+									</div>
+									<?php } else { ?>
+									<div class="color-and-size d-block"> 
+									<?php if($products_data_val["product_isdigital"] == '1') { ?>
+										<p class="color">Color: N/A</p>
+										<p class="size"><span>Available Qty: <?= $products_data_val["product_qty"]; ?></span></p>
+									<?php } else { if(!empty($all_colors)) { ?>
+									<p class="color"> Color:
+										<?php foreach($all_colors as $all_colors_key => $all_colors_val) { ?>
+										<span class="prod-colortg <?= $all_colors_val ?>" data-id="<?= $all_colors_val ?>"></span>  
+										<?php } ?>
+									</p>
+									<?php } ?>
+									<?php if(!empty($all_sizes)) { $last_key = end(array_keys($all_sizes)); ?>
+									<p class="size"><span class="sizer-tg">Size:</span> <span>
+										<?php foreach($all_sizes as $all_sizes_key => $all_sizes_val) { ?>
+										 <?= $all_sizes_val; if($all_sizes_key != $last_key) { ?>,<?php } ?>   
+										<?php } ?></span>
+									</p>
+									<?php } } ?>  
+									</div>
+									<?php } ?>
+								</td>
+								<td> <?= $products_data_val["category_feild"] ?> </td>
+								<td> <span class="out-of-stock"> <?php if($products_data_val["product_isdigital"] == '1') { echo "N/A"; } else { if(!empty($available_qty)) { echo ''; ?> In stock <?php } else { ?>Out of stock<?php } } ?> </span> </td>
+								<td> <?php if($products_data_val["product_isdigital"] == '1') { echo "$".$products_data_val["product_price"]; } else { ?><a href="javascript:void(0)" class="price-details" data-id="<?= str_replace("=","",myurl_encode($products_data_val["product_id"])); ?>">Price Details</a><?php } ?> </td>
+								<td>
+									<div class="icon-td">
+											<!-- <div class="icons" class="defpic-seltg" data-id="<?= str_replace("=","",myurl_encode($products_data_val["product_id"])) ?>"><img src="<?=HTTP_IMG_PATH?>/dress.svg">  </div>
+											<div class="icons edit"><img src="<?=HTTP_IMG_PATH?>/pencil.svg">  </div>
+											<div class="icons delete"><img src="<?=HTTP_IMG_PATH?>/delete.svg">  </div> -->
+											<?php if($products_data_val["product_status"] != '1') { ?>
+												<div class="icons golive">
+													<a href="javascript:void(0)" class="golive-tg" data-id="<?= str_replace("=","",myurl_encode($products_data_val["product_id"])) ?>" title="Go Live"><img src="<?= HTTP_IMG_PATH.'/golive.svg'; ?>"></a>
+												</div>
+											<?php } ?>
+											<div class="icons view"> <a href="javascript:void(0)" class="defpic-seltg" data-id="<?= str_replace("=","",myurl_encode($products_data_val["product_id"])) ?>" title="Choose Default Image"><img src="<?= HTTP_IMG_PATH.'/dress.svg' ?>" /></a></div>
+											<div class="icons edit"> <a href="<?= APPLICATION_URL.'/edit-product/'.str_replace("=","",myurl_encode($products_data_val["product_id"])); ?>"><img src="<?=HTTP_IMG_PATH?>/edit.svg"></a> </div>
+											<div class="icons delete"> <a href="javascript:void(0)" data-id="<?= str_replace("=","",myurl_encode($products_data_val["product_id"])) ?>" class="prod-trashbtn"><img src="<?=HTTP_IMG_PATH?>/delete.svg"></a></div>
+											<?php if($products_data_val["product_status"] == '1') { ?>
+											<br/><a href="javascript:void(0)" class="activate-tb" data-type="2" data-id="<?= str_replace("=","",myurl_encode($products_data_val["product_id"])) ?>">Deactivate</a>
+											<?php } else { ?>
+											<br/><a href="javascript:void(0)" class="activate-tb" data-type="1" data-id="<?= str_replace("=","",myurl_encode($products_data_val["product_id"])) ?>">Activate</a>
+											<?php } ?>
+									</div>											
+								</td>
+							</tr>
+							<? } } else { ?>
+								<tr><td colspan="4">No product found.</td></tr>
+							<?php } ?>
+						</tbody>
+						<!--  -->
+					</table>
+					</div>
+					</div>		
+				<!-- table block -->
+				</form>
+				<!--  -->
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+	  <h5 class="modal-title" id="prodtrashModalLabel">Are you sure you want to remove the product? </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		  <!-- <p class="modal-description"> Are you sure you want to remove the product? </p> -->
+		  <div class="modal-btn-box">
+			<a href="javascript:void(0)" class="proaccept-acceptbtn btn view-btn">Yes</a>
+			<a href="javascript:void(0)" class="protrash-cancelbtn btn view-btn">Cancel</a>
+		  </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="prodselModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+	  <h5 class="modal-title" id="prodtrashModalLabel">Choose default product image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<!--           <p class="modal-description">  </p> -->
+           <div class="prodpic-holdtag">
+		  </div>
+          <div class="modal-btn-box"><a href="javascript:void(0)" class="prodsel-btn btn view-btn">Save</a></div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="bulkuploadModal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header flagbox-header">
+				<button type="button" class="close flagclose" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title flag-titletag">Upload Products</h4>
+			</div>
+            <form class="profile_form" id="csvform" name="csvform" action="<?= ADMIN_APPLICATION_URL.'/import-properties'; ?>" method="post" enctype="multipart/form-data">
+			<div class="modal-body"> 
+				<div class="form-group"><label for="product_file">Upload File:</label>          	
+				<input type="file" id="product_file" name="product_file" class="required" />
+					<div style="margin-top:2px;">(Only .xls, .xlsx file type allowed)</div></div><br/>
+                <div class="form-group"><label for="zip_file">Upload Zip File:</label>
+                <input type="file" name="zip_file" placeholder="Upload Zip file" class="required demoInputBox" id="zip_file" accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" onchange="return getzipFilesNames();"></div>
+			</div>
+			<div class="modal-footer">
+            	<a href="<?= HTTP_IMG_PATH.'/Instructions_for_uploading_products.docx'; ?>" class="readinstruct-btn btn btn-info" download>Read Instructions</a>
+            	<a href="<?= APPLICATION_URL ?>/export-sample" class="imprt-btn btn">Download Sample File</a>
+				<a href="javascript:void(0)" class="upload-prodctbtn btn btn-success">Submit</a>
+			</div>
+            </form>
+		</div>
+	</div>
+</div>
+<div id="readinstructModal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header flagbox-header">
+				<button type="button" class="close flagclose readintr-btn">&times;</button>
+				<h4 class="modal-title flag-titletag">Instructions for uploading products:</h4>
+			</div>
+			<div class="modal-body" style="padding-top:0px;">
+            	<p class="read-paratxt">- Download the Sample File.</p>
+				<p class="read-paratxt">- Enter the product title & description.</p>
+				<p class="read-paratxt">- Enter the product amount in number without '$' sign.</p>
+				<p class="read-paratxt">- Enter the colors, sizes and available quantity (semicolon separated and comma separated in case more than one) like Red:S:10,Black:Free Size:5</p>
+				<p class="read-paratxt">- Enter the correct category name for the product.</p>
+				<p class="read-paratxt">- Enter the correct sub category name for the product.</p>
+				<p class="read-paratxt">- Enter the name of your shipping profile created under Shipping Profiles section.</p>
+				<p class="read-paratxt">- Product Images: Enter product images. Image name should match with the image name in the zip file otherwise image will not be available. Image name should be written with comma separated: For example- image1.jpg,image2.jpg,image3.jpg</p>
+				<p class="read-paratxt">- Instructions for uploading zip file: Zip file should contain images with extension .jpg, .jpeg, .png. Please upload proper zip file with .zip extension. Otherwise the product images will not be added. Please do not place the images inside folder and zip all of them directly in one zip file.</p>   
+			</div>
+		</div>
+	</div>
+</div>
+<div id="priceModal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header flagbox-header">
+				<button type="button" class="close flagclose" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title flag-titletag">Price Details</h4>
+			</div>
+			<div class="modal-body"> 
+				<div class="price-list"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="//mpryvkin.github.io/jquery-datatables-row-reordering/1.2.3/jquery.dataTables.rowReordering.js"></script>
+<script type="text/javascript">
+var isSubmit=1;
+$(document).on("click",".import-btn",function() {
+	$("#bulkuploadModal").modal("show");
+})	
+
+$(document).on("click",".readintr-btn",function() {
+	$("#readinstructModal").modal("hide");
+})
+
+$(document).on("click",".readinstruct-btn",function() {
+	//$("#bulkuploadModal").modal("hide");
+	//$("#readinstructModal").modal("show");
+})
+
+$(document).on("click",".price-details",function() {
+	var tid = $(this).attr("data-id");
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/price-range",
+		data: {tid:tid},
+		success: function(response) {
+			$(".price-list").html(response);
+			$("#priceModal").modal("show");
+		}
+	})
+})
+
+$(document).on("click",".golive-tg",function() {
+	var tid = $(this).attr("data-id");
+	$.ajax({
+			type: "POST",
+			url: baseUrl+"/launch-product",
+			data: {tid:tid},
+			success: function(response) {
+				if(response == 'success') {
+					showAppAlert('Success!',"Product status has been updated to live.",'success');
+					setTimeout(function(){
+						location.reload();
+					},2000);
+				}	
+			}
+	})
+})
+
+function getzipFilesNames() {
+	$("#file_error").html("");
+	var filesInput = document.getElementById("zip_file").files[0];
+	var reader = new FileReader()
+    reader.readAsBinaryString(filesInput)
+    reader.onload = (e) => {
+        var myZip = e.target.result            
+        var unzipper = new JSUnzip(myZip);
+        var readEntries = unzipper.readEntries();
+		if(readEntries != 'File is not a Zip file.') {
+        var myFiles = unzipper.entries;
+        for(var i = 0; i < myFiles.length; i++) {
+            var name = myFiles[i].fileName;  
+			var todd=name.split('.');  
+		if(todd[1]!='' && (todd[1]=='jpg' || todd[1]=='png' || todd[1]=='jpeg' || todd[1] == 'JPG' || todd[1] == 'JPEG' || todd[1] == 'PNG')){
+			issubmit=0;
+		}   else{
+			showAppAlert('Error!','Invalid file it contains extensions rather than these:-.jpg, .png, .jpeg.','error');
+    		$("#zip_file").val('');
+			issubmit=1;
+			return false;		                    
+		}
+	//}
+	} } else {
+		showAppAlert('Error!','File is not a Zip file.','error');
+		return false;
+	}
+    }
+}
+	
+$(document).on("click",".download-log",function() {
+	var errlog = $(this).attr("data-id");
+	$(this).attr("href","<?= HTTP_PRODUCT_DOCUMENT_PATH.'/' ?>"+errlog);
+	$(this).trigger("click");
+})	
+
+$(document).on("click",".upload-prodctbtn",function() {
+	if($("#csvform").valid()) {
+		$("#bulkuploadModal").modal("hide");
+		$.blockUI({
+            css: {
+                border: 'none',
+                padding: '5px',
+                width: '24%',
+                left: '39%',
+                backgroundColor: '#000000',
+                border: 'solid 1px #424445',
+                opacity: .9,
+                color: '#ffffff',
+            },
+            message: "<div class='Loader'><div class='Text' style='letter-spacing: 2px;'>Please wait...</div></div>",
+        });
+		var formData = new FormData();
+		formData.append('product_file', document.getElementById("product_file").files[0]);
+		formData.append('product_pics', document.getElementById("zip_file").files[0]);
+		$.ajax({
+			type: "POST",
+			url: baseUrl+"/import-products",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(response) {
+				result = JSON.parse(response);
+				$.unblockUI();
+				if(result.type == 'error'){
+					$.notify({
+						message: result.message
+					},{
+						type: 'danger',
+						timer: 10000
+					});
+					$("#product_file").val('');
+					setTimeout(function(){
+						location.reload();
+					},10000);
+				} else if(result.type == 'failure'){
+					$.notify({
+						message: result.message
+					},{
+						type: 'danger',
+						timer: 20000
+					});				
+				} else {
+					showAppAlert('Success!',result.message,'success');
+					setTimeout(function(){
+						location.reload();
+					},2000);
+				}
+			},
+			error: function(errResponse) {
+			}
+		});
+		//$("#csvform").submit();
+		$("#bulkuploadModal").modal("hide");
+	}
+})
+	
+$(document).on("click",".defpic-seltg",function() {
+	var prod = $(this).attr("data-id");
+	$.ajax({
+	  url: baseUrl + "/show-propic",
+	  type: "POST",
+	  data: { prod: prod },
+
+	  success: function (data) {
+		  $(".prodpic-holdtag").html(data);
+		  $(".prodsel-btn").attr("data-id",prod);
+		  $("#prodselModal").modal("show");
+	  }
+	})
+})
+
+$(document).on("click",".prodsel-btn",function() {
+	var prod = $(this).attr("data-id");
+	var propic = $('input[name="defthumb"]:checked').val();
+	$.ajax({
+	  url: baseUrl + "/make-propic",
+	  type: "POST",
+	  data: { propic: propic, prod:prod },
+	  success: function (data) {
+		  $("#prodselModal").modal("hide");
+		  if(data == 'success') {
+		  	showAppAlert('Success!','Default product image has been successfully updated.','success');
+		  	setTimeout(function(){ location.reload(); }, 1000);
+		  } else {
+		  	showAppAlert('Error!','No such product found.','error');
+		  }
+	  }
+	})
+})
+
+$(document).ready(function(e) {	
+	var table = $('#sample_1').DataTable({
+    	"rowReorder": true,
+		"responsive": false,
+		"bAutoWidth": false,
+		"bProcessing":true,
+		"bServerSide":false,
+		"bInfo" : false,
+		"bSort" : false,	
+		"bFilter": false,
+		"bLengthChange" : true,
+		"order"			: [[2,"desc"]],
+		"aoColumnDefs": 
+		[
+			{ "bSortable": false, "aTargets": [1,2] },
+		], 
+		"iDisplayLength": 50,
+		"aLengthMenu"	: [[10,50,100],[10,50,100]],
+		"language": {
+			"lengthMenu": " _MENU_ products"
+	    },
+		"fnDrawCallback":function( oSettings ){	
+			if($(".deimg").length>0){
+				$('.deimg').initial(); 
+			}
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+			elems.forEach(function(html) {
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+			});
+		}
+		})
+		$(".trending-stattxt").addClass("midmenu-txt");
+		$(".trending-stattxt").removeClass("midmenuact-txt"); 
+	    table.on('row-reorder', function ( e, diff, edit ) {
+			var ids = new Array();
+			$('.prod-holder').each(function() {
+				ids.push($(this).attr("data-id")); 
+			})
+			$.ajax({
+				url: baseUrl + "/order-products",
+				type: "POST",
+				data: {proorder: ids},
+				success: function (data) {
+				  if(data == 'success') {
+					  location.reload();
+				  }
+				}
+			})
+		})
+});
+	
+$(document).on("click",".prod-trashbtn",function() {
+	var prod = $(this).attr("data-id");
+	$(".proaccept-acceptbtn").attr("data-id",prod);
+	$("#prodtrashModal").modal("show");
+})
+
+$(document).on("click",".protrash-cancelbtn",function() {
+	$("#prodtrashModal").modal("hide");
+})
+
+$(document).on("click",".proaccept-acceptbtn",function() {
+	var prod = $(this).attr("data-id");
+	$.ajax({
+	  url: baseUrl + "/trash-product",
+	  type: "POST",
+	  data: { prod: prod },
+	  success: function (data) {
+		  $("#prodtrashModal").modal("hide");
+		  if(data == 'success') {  
+		  	showAppAlert('Success!','Product has been deleted successfully.','success');
+			setTimeout(function(){ location.reload(); }, 1200);
+		  } else if(data == 'error') {
+		  	showAppAlert('Error!','Something went wrong. Please check again.','error');
+		  } else if(data == 'restricted') {
+		  	showAppAlert('Error!','You cannot delete the product as it has been approved.','error');
+		  }
+	  }
+	})
+})
+
+$(document).ready(function(e) {
+    $('.img-box img').map(function(){
+      var $th = $(this);
+      width = $th[0].naturalWidth;
+	  if(width < 200) {
+	  	$(this).css("object-fit","contain");
+	  }
+    })
+	
+	$('.manage-products-block').mCustomScrollbar({theme:"dark-3", advanced:{
+ autoExpandHorizontalScroll:true } }); 
+});
+
+$(document).on("click",".quick-savebtn",function() {
+	if($("#quick_form").valid()) {
+		$.blockUI({
+			css: {
+				border: 'none',
+				padding: '5px',
+				width: '24%',
+				left: '39%',
+				backgroundColor: '#000000',
+				border: 'solid 1px #424445',
+				opacity: .9,
+				color: '#ffffff',
+			},
+			message: "<div class='Loader'><div class='Text' style='letter-spacing: 2px;'>Just a moment</div></div>",
+		});
+		var formdata = $('#quick_form').serialize();
+		$.ajax({
+			url: baseUrl+"/publish-product",
+			type: "POST",
+			data: formdata,
+			success: function(data){
+				if(data == 'qtyerror') {
+					showAppAlert('Error!','Invalid quantity specified.','error');
+					//setTimeout(function(){ location.reload(); }, 1200);		
+				} else if(data == 'priceerror') {
+					showAppAlert('Error!','Invalid price specified.','error');	
+					//setTimeout(function(){ location.reload(); }, 1200);	
+				}
+				 else {
+					showAppAlert('Success!','Products have been updated with Quick Edit.','success');
+					//setTimeout(function(){ location.reload(); }, 1200);	
+				}
+				$.unblockUI();
+			}
+		})
+	}
+})
+
+$(document).ready(function() {
+	$('.prod-colortg').each(function(i, obj) {
+		var colortg = $(obj).attr("data-id");
+		$(obj).css("background-color",colortg);
+	})
+})
+
+$(document).on("click",".quickedit-btn",function() {
+	$(".manage-btn-box").remove();
+	$.blockUI({
+		css: {
+			border: 'none',
+			padding: '5px',
+			width: '24%',
+			left: '39%',
+			backgroundColor: '#000000',
+			border: 'solid 1px #424445',
+			opacity: .9,
+			color: '#ffffff',
+		},
+		message: "<div class='Loader'><div class='Text' style='letter-spacing: 2px;'>Just a moment</div></div>",
+	});
+	$.ajax({
+	  url: baseUrl + "/quickpro-edit",
+	  type: "POST",
+	  data: { quick: 1 },
+	  success: function (data) {
+	  	$(".table-block").html(data);
+		//$("#quick_form").validate();
+		$('.number').keypress(function(e) {
+    		$('.number').closest('form').valid();
+		});
+		$(".manage-product-page").addClass("quick-edit-page");
+		$('.quick-holder').mCustomScrollbar({theme:"dark-3", advanced:{
+ autoExpandHorizontalScroll:true } }); 
+		$('.quick-edit-box img').map(function(){
+      		var $th = $(this);
+      		width = $th[0].naturalWidth;
+	  		if(width < 200) {
+	  			$(this).css("object-fit","contain");
+	  		}
+    	})
+		$.unblockUI();
+	  }
+	})
+})
+
+$('#deletebcchk').click(function(e){
+	var current_checked_status = $(this).prop('checked');
+	if(current_checked_status==false){
+		 $('.checkboxes').prop('checked',false);
+	}
+	else{
+		$('.checkboxes').prop('checked',true);
+	}
+});
+	
+function checkSelects(id){
+ 	var checkedRecords=false;	
+	$(".elem_ids").each(function(index, element) {
+        if($(this).prop("checked")==true){checkedRecords=true;}
+    }); 
+	if(checkedRecords==false){
+		showAppAlert("The Collective Coven","No records selected for delete","warning");
+		return false;	
+	}else{
+		swal({
+			title:"Are you sure?",   
+			text:"Do you want to delete selected records?",   
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText:"Yes",
+			cancelButtonText:"Cancel",  
+			closeOnConfirm: false,
+			closeOnCancel: true
+		},
+		function(isConfirm){
+			if(isConfirm){
+		   		document.getElementById(id).submit();
+			}else {
+				return false; 
+			}
+		});
+  		return false;
+ 	}
+}
+	
+$(document).on("click",".activate-tb",function() {
+	var tid = $(this).attr("data-id");
+	var chkVal = $(this).attr("data-type");
+	$.ajax({
+	  url: baseUrl + "/product-updatestat",
+	  type: "POST",
+	  data: { tid:tid,chkVal:chkVal },
+	  success: function (data) {
+		 if(data == 'success') {
+			if(chkVal == '1') { 
+				$(".golive-tg[data-id="+tid+"]").parents(".golive").addClass("d-none"); 
+			} else {
+				$(".golive-tg[data-id="+tid+"]").parents(".golive").removeClass("d-none");
+			}
+			showAppAlert('Success!','Product status has been updated.','success');
+			setTimeout(function(){ location.reload(); }, 1000);	 
+		 } 
+	  }
+	})
+})	
+</script>

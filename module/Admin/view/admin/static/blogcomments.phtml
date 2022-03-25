@@ -1,0 +1,125 @@
+<style type="text/css">
+	.dtr-data{word-break:break-word;}
+</style>
+<div class="panel">
+
+  <div class="panel-body">
+
+    <form method="post" action="<?php echo ADMIN_APPLICATION_URL?>/remove-comment" id="userForm" onsubmit="return checkSelects('userForm')" >
+
+    <div class="row">
+
+        <div class="col-md-6 mb-15"> 
+
+          <button class="btn btn-danger btn-rounded waves-effect waves-classic DeleteBtn"><span class="btn-label"><i class="fa fa-trash"></i></span>
+
+          <?=$this->layout()->translator->translate("del_sel_txt")?>
+
+          </button>
+
+        </div>
+
+      </div>
+
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+
+          <thead>
+
+            <tr>
+
+              <th width="5%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+              <th><div class="checkbox"><input id="deletebcchk" name="deletebcchk" type="checkbox" class="group-checkable"><label for="deletebcchk"></label></div></th>
+              <th width="30%"><?=$this->layout()->translator->translate("User Name")?></th>
+              <th class="none" width="30%"><?=$this->layout()->translator->translate("Blog Title")?></th>
+              <th>Comment</th>
+              <th>Status</th>
+              <th class="none" width="14%"><?=$this->layout()->translator->translate("Posted On")?></th>
+
+            </tr>
+
+          </thead>
+
+          <tbody  class="SortContentMain">
+
+          </tbody>
+
+        </table>
+
+        </form>
+
+    </div>
+
+  </div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function(e) {
+
+
+
+	$('#sample_1').DataTable({
+
+		"language":{"lengthMenu": "Show _MENU_ blogs"},
+
+		"bProcessing":true,
+
+		"bServerSide":true,
+
+		"bAutoWidth":false,
+
+		"responsive":true,
+
+		"bInfo":false,
+
+		"pagingType":"first_last_numbers",
+
+		"order":[[0,"desc"]],
+
+		"aoColumnDefs":[
+
+			{"bSortable":false,"aTargets":[1,4,5]},
+
+			{"bSearchable":false,"aTargets":[2]}
+
+		 ],
+
+		  
+
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getblogcomments",
+
+		"iDisplayLength":50,
+
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+
+		
+
+		"fnDrawCallback":function( oSettings ){
+
+			if($(".deimg").length>0){
+
+				$('.deimg').initial(); 
+
+			}
+
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+
+			elems.forEach(function(html) {
+
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+
+			});
+
+		}
+
+	});
+
+	
+
+});
+
+</script>  
+

@@ -1,0 +1,53 @@
+<style type="text/css">
+	.totalearn-tg{text-align:right;margin-bottom:10px;color:#010101;font-size:15px;}
+</style>
+<div class="panel">
+  <div class="panel-body">
+    <div class="totalearn-tg">Total Earning: <b><?= "$".bcdiv($total_fee,1,2) ?></b></div>
+    <div class="row">
+    	
+      </div>
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+          <thead>
+            <tr>
+              <th width="12%"><?=$this->layout()->translator->translate("Order No.")?></th>
+              <th width="8%"><?=$this->layout()->translator->translate("Product Title")?></th>
+              <th width="15%"><?=$this->layout()->translator->translate("Customer Name")?></th>              
+              <th width="14%"><?=$this->layout()->translator->translate("Seller Name")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Total Amount (including delivery charge)")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Order Date")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Your Share")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Seller Share")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Delivery Charge")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Refund")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Tracking Details")?></th>
+            </tr>
+          </thead>
+          <tbody  class="SortContentMain">
+          </tbody>
+        </table>
+    </div>
+  </div>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(e) {
+	$('#sample_1').DataTable({
+		"language":{"lengthMenu": "Show _MENU_ records"},
+		"bProcessing":true,
+		"bServerSide":true,
+		"bAutoWidth":false,
+		"responsive":true,
+		"bInfo":false,
+		"pagingType":"first_last_numbers",
+		"order":[[5,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":[2,4]},/*
+			{"bSearchable":false,"aTargets":[5]}*/
+		 ],
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getorders",
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		"fnDrawCallback":function( oSettings ){}
+	});
+});
+</script>  
+

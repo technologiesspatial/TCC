@@ -1,0 +1,424 @@
+<?php
+use Zend\Session\Container;
+use Application\Model\AbstractModel;
+use Zend\Db\Sql\Expression;
+$CURRENT_CONTROLLER = $this->layout()->CURRENT_CONTROLLER;
+$CURRENT_ACTION = $this->layout()->CURRENT_ACTION;
+$CURRENT_MODULE = $this->layout()->CURRENT_MODULE;
+$categories_data = $this->layout()->AbstractModel->Super_Get(T_CATEGORY_LIST,"1","fetchAll",array('limit'=>7));
+$procart_data = array();
+if(!empty($this->loggedUser->{T_CLIENT_VAR.'client_id'})) {
+$joinArr = array(
+	'0'=>array('0'=>T_PRODUCTS,'1'=>'product_cart_prodid = product_id','2'=>'Left','3'=>array('product_title','product_price','product_photos','product_defaultpic','product_clientid','product_globalrate')),
+	'1'=>array('0'=>T_STORE,'1'=>'product_clientid = store_clientid','2'=>'Inner','3'=>array('store_name','store_approval')),
+);	
+$procart_data = $this->layout()->AbstractModel->Super_Get(T_PRODCART,"product_cart_clientid =:PID and store_approval = '1' and product_status = '1' and product_delstatus != '1'","fetchAll",array('warray'=>array('PID'=>$this->loggedUser->{T_CLIENT_VAR.'client_id'})),$joinArr);
+$store_data = $this->layout()->AbstractModel->Super_Get(T_STORE,"store_clientid =:UID","fetch",array('warray'=>array('UID'=>$this->loggedUser->yurt90w_client_id)));
+if(empty($_SESSION["logstat"])) { $_SESSION["logstat"] = '1'; }
+} else {
+	$procart_data = $_SESSION["cartArr"];
+}
+	if(!empty($this->loggedUser)) { ?>
+<style type="text/css">
+.dz-show{display:block !important}	
+.search form .form-control{width:190px !important;}
+.header-section .form-group .custom-select option{background:rgba(0, 0, 0,1);color:#fff;}
+</style>
+<?php } ?>
+<header>
+  <div class="container">
+    <div class="main-header">
+      <div class="header-section">
+
+          <a class="navbar-brand desktop-logo" href="<?php echo SITE_HTTP_URL?>"> <img data-src="<?=HTTP_IMG_PATH?>/transparent_new.gif" class="lozad"> <img data-src="<?=HTTP_IMG_PATH?>/logo_new.png" class="logo-picblk logo-picbktg lozad"> </a>
+
+
+            <div class="search d-none d-md-block" id="navbarSupportedContent">
+            <form id="search_form" name="search_form" method="get" action="<?= APPLICATION_URL.'/product-listing'; ?>">
+                <div class="input-group">
+                    <input type="text" id="search_txt" name="search_txt" maxlength="100" class="form-control" placeholder="Search for products..." <?php if(!empty($_GET["search_txt"])) { ?>value="<?= $_GET["search_txt"] ?>"<? } ?>>
+                    <div class="input-group-append">
+                    <span class="input-group-text"><img data-src="<?=HTTP_IMG_PATH?>/search.svg" class="lozad"> </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+          <!-- search box -->
+
+          <nav class="navbar navbar-expand-xl p-0">
+              <ul class="navbar-nav d-none d-xl-flex">
+              <?php if(!empty($store_data) && $store_data["store_approval"] == '1') { ?>
+              <li class="nav-item cart-img">
+                      <form>
+                        <div class="form-group mb-0">
+                          <select class="custom-select tognav-seltg">
+                          	<?php if(empty($_SESSION["logstat"])) { ?>
+                            <option value="1" selected="">Shop Manager</option>
+                            <option value="2">Marketplace</option>
+                            <?php } else { ?>
+                            <option value="1" <?php if($_SESSION["logstat"] == '1') { ?>selected<?php } ?>>Shop Manager</option>
+                            <option value="2" <?php if($_SESSION["logstat"] == '2') { ?>selected<?php } ?>>Marketplace</option>
+							<?php } ?>
+                          </select>
+                        </div>
+                      </form>
+                  </li>
+                  <?php } ?>
+                  <li class="nav-item cart-img custom-link">
+                      <a class="nav-link" href="<?= APPLICATION_URL.'/my-cart'; ?>"><img data-src="<?=HTTP_IMG_PATH?>/shopping-cart.svg" class="lozad"><?php if(count($procart_data) > 0) { ?><span class="cart-bell"><?= count($procart_data); ?></span><?php } ?></a>
+                  </li>
+
+              
+                <?php if(isset($this->loggedUser) && !empty($this->loggedUser)){?>
+                <?php } else { ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo $this->url('front_login')?>"> <img class="cross-img lozad" data-src="<?=HTTP_IMG_PATH?>/cross.svg"> Log In</a>
+                </li> 
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo APPLICATION_URL.'/register';?>"> <img class="cross-img lozad" data-src="<?=HTTP_IMG_PATH?>/cross.svg"> Sign Up</a>
+                </li>
+              <?php } ?>
+
+
+                <?php if(isset($this->loggedUser) && !empty($this->loggedUser)){
+              $total_notification = $this->layout()->AbstractModel->Super_Get(T_NOTIFICATION,"notification_to = '".$this->loggedUser->yurt90w_client_id."' and notification_readstatus = '0'","fetchAll",array('fields'=>'notification_id')); 
+              $overall_notification = $this->layout()->AbstractModel->Super_Get(T_NOTIFICATION,"notification_to = '".$this->loggedUser->yurt90w_client_id."'","fetchAll",array('order'=>'notification_date desc','limit'=>12));
+			    if(!empty($overall_notification)) {
+              ?>
+              <li class="nav-item">
+                    <a class="navc-tg nav-link"><img data-src="<?= HTTP_IMG_PATH.'/notification.svg'; ?>" class="img-responsive bell-icon lozad" /> <span class="notify-bell"><?= count($total_notification); ?></span>
+                        <div class="notify-panel d-none">
+                          <?php foreach($overall_notification as $overall_notification_key => $overall_notification_val) { ?>
+                          <div class="notify-bar">
+                          <?php if($overall_notification_val["notification_type"] == '1') { ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/become-seller'; ?>">Admin has declined your seller application.</a>
+                          <?php } else if($overall_notification_val["notification_type"] == '2') { ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/become-seller'; ?>">Admin has declined your badge verification request.</a>
+                  <?php } else if($overall_notification_val["notification_type"] == '4') {
+				  		$order_recdata = $this->layout()->AbstractModel->Super_Get(T_PRODORDER,"order_serial =:TID","fetch",array('warray'=>array('TID'=>$overall_notification_val["notification_order"])));
+						if($order_recdata["order_status"] == '2') {
+							$mesg = 'is ready to ship.';
+						} else if($order_recdata["order_status"] == '3') {
+							$mesg = 'has been shipped.';
+						}  else {
+							$mesg = 'has been delivered.';
+						}
+				  ?>
+                  		  <a class="notify-anctg" href="<?= APPLICATION_URL.'/customer-orders'; ?>">Your order with order number <?= $overall_notification_val["notification_order"].' '.$mesg ?> </a> 		
+				  <?php } else if($overall_notification_val["notification_type"] == '5') { 
+				  	$message_sender = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id =:TID","fetch",array('fields'=>array(T_CLIENT_VAR.'client_name'),'warray'=>array('TID'=>$overall_notification_val["notification_by"])));
+				  ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/messages'; ?>"><?= $message_sender[T_CLIENT_VAR.'client_name'] ?> has sent you a new message.</a>
+                  <?php } else if($overall_notification_val["notification_type"] == '7') { 
+				  	$message_sender = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id =:TID","fetch",array('fields'=>array(T_CLIENT_VAR.'client_name'),'warray'=>array('TID'=>$overall_notification_val["notification_by"])));
+				  ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/my-wallet'; ?>">Admin has approved your withdrawal request.</a>
+                  <?php } else if($overall_notification_val["notification_type"] == '8') { 
+				  	$message_sender = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id =:TID","fetch",array('fields'=>array(T_CLIENT_VAR.'client_name'),'warray'=>array('TID'=>$overall_notification_val["notification_by"])));
+				  ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/my-wallet'; ?>">Admin has declined your withdrawal request..</a>
+                  <?php } ?>		
+                          <div class="notify-timer"><?= timeAgo($overall_notification_val['notification_date']); ?></div>
+                          </div>
+                          <hr class="sepline" />
+                          <?php } ?>
+                        </div>	
+                      </a>
+                      
+                  </li>
+                  <?php } ?>
+                  <li class="user dropdown nav-item">
+                      <a class="dropdown-toggle nav-link" data-toggle="dropdown" > <img class="cross-img lozad" data-src="<?=HTTP_IMG_PATH?>/cross.svg"> <span> Hello </span> <div class="user_image">  
+                      
+                      <img data-src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"60")?>" class="logo lozad">  </div> 
+                      <?php /*?><img src="<?= HTTP_IMG_PATH.'/notification.svg'; ?>" class="img-responsive" /><?php */?>
+                      </a>
+                      
+                      <div class="dropdown-menu header_menu" aria-labelledby="Preview">
+                            <a class="dropdown-item" href="<?= APPLICATION_URL.'/profile'; ?>">Profile</a>
+                            <a class="dropdown-item" href="<?= APPLICATION_URL.'/logout'; ?>">Logout</a>
+                      </div>
+                  </li>
+            
+                  <? }  ?> 
+              </ul>
+          </nav>
+
+          <!-- remove -->
+
+         <!--  <form class="d-block d-xl-none">
+                <div class="form-group mb-0">
+                  <select class="custom-select">
+                    <option selected="">Shop Manage</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </form> -->
+
+          <div class="d-block d-xl-none mobl-holder">
+
+             
+            <?php if(isset($this->loggedUser) && !empty($this->loggedUser)){ ?>
+            <a class="mobl-beller"><img data-src="<?= HTTP_IMG_PATH.'/notification.svg'; ?>" class="img-responsive bell-icon lozad" /> <span class="notify-bell"><?= count($total_notification); ?></span>
+                        <div class="notify-panel d-none">
+                          <?php foreach($overall_notification as $overall_notification_key => $overall_notification_val) { ?>
+                          <div class="notify-bar">
+                          <?php if($overall_notification_val["notification_type"] == '1') { ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/become-seller'; ?>">Admin has declined your seller application.</a>
+                          <?php } else if($overall_notification_val["notification_type"] == '2') { ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/become-seller'; ?>">Admin has declined your badge verification request.</a>
+                  <?php } else if($overall_notification_val["notification_type"] == '4') {
+				  		$order_recdata = $this->layout()->AbstractModel->Super_Get(T_PRODORDER,"order_serial =:TID","fetch",array('warray'=>array('TID'=>$overall_notification_val["notification_order"])));
+						if($order_recdata["order_status"] == '2') {
+							$mesg = 'is ready to ship.';
+						} else if($order_recdata["order_status"] == '3') {
+							$mesg = 'has been shipped.';
+						} else {
+							$mesg = 'has been delivered.';
+						}
+				  ?>
+                  		  <a class="notify-anctg" href="<?= APPLICATION_URL.'/customer-orders'; ?>">Your order with order number <?= $overall_notification_val["notification_order"].' '.$mesg ?> </a> 		
+				  <?php } else if($overall_notification_val["notification_type"] == '5') { 
+				  	$message_sender = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id =:TID","fetch",array('fields'=>array(T_CLIENT_VAR.'client_name'),'warray'=>array('TID'=>$overall_notification_val["notification_by"])));
+				  ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/messages'; ?>"><?= $message_sender[T_CLIENT_VAR.'client_name'] ?> has sent you a new message.</a>
+                  <?php } else if($overall_notification_val["notification_type"] == '7') { 
+				  	$message_sender = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id =:TID","fetch",array('fields'=>array(T_CLIENT_VAR.'client_name'),'warray'=>array('TID'=>$overall_notification_val["notification_by"])));
+				  ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/my-wallet'; ?>">Admin has approved your withdrawal request.</a>
+                  <?php } else if($overall_notification_val["notification_type"] == '8') { 
+				  	$message_sender = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id =:TID","fetch",array('fields'=>array(T_CLIENT_VAR.'client_name'),'warray'=>array('TID'=>$overall_notification_val["notification_by"])));
+				  ?>
+                          <a class="notify-anctg" href="<?= APPLICATION_URL.'/my-wallet'; ?>">Admin has declined your withdrawal request..</a>
+                  <?php } ?>		
+                          <div class="notify-timer"><?= timeAgo($overall_notification_val['notification_date']); ?></div>
+                          </div>
+                          <hr class="sepline" />
+                          <?php } ?>
+                        </div>	
+                      </a>
+            <img data-src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"60")?>" class="logo sml-logo lozad">  
+              <a class="nav-link custom-link" href="<?= APPLICATION_URL ?>/my-cart"><img data-src="<?= HTTP_IMG_PATH ?>/shopping-cart.svg?date=<?= date("Y-m-d") ?>" class="cart-icn lozad"><?php if(count($procart_data) > 0) { ?><span class="cartsml-bell"><?= count($procart_data); ?></span><?php } ?></a>
+              <!-- Notify bell -->
+              
+			<?php } else { ?>
+          		<a class="nav-link custom-link" href="<?= APPLICATION_URL ?>/my-cart"><img data-src="<?= HTTP_IMG_PATH ?>/shopping-cart.svg?date=<?= date("Y-m-d") ?>" class="cart-icn lozad"><?php if(count($procart_data) > 0) { ?><span class="cartsml-bell"><?= count($procart_data); ?></span><?php } ?></a>
+           	<?php } ?>	
+            <button type="button" class="navbar-toggler search_icons collapsed custom-link" data-target="#site-navbar-search" data-toggle="collapse" aria-expanded="false">
+            <span class="sr-only">Toggle Search</span>
+            <i class="fas fa-search"></i></button>
+
+            <div class="navbar-search-overlap collapse" id="site-navbar-search" style="">
+              <form role="search" method="get" action="<?= APPLICATION_URL.'/product-listing'; ?>">
+                <div class="form-group">
+                  <div class="input-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control" id="search_txt" name="search_txt" placeholder="Search here">
+                    <button type="button" class="input-search-close icon md-close" data-target="#site-navbar-search" data-toggle="collapse" aria-label="Close" aria-expanded="true">X</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="d-block d-xl-none">
+            <div id="btn">
+              <div id='top'></div>
+              <div id='middle'></div>
+              <div id='bottom'></div>
+            </div>
+            
+            <div id="box">
+              <ul id="items">
+              <li class="item">
+              <?php if(!empty($store_data) && $store_data["store_approval"] == '1') { ?>
+              <form class="d-block d-xl-none">
+                <div class="form-group mb-0">
+                  <select class="custom-select tognav-seltg">
+                  	<?php if(empty($_SESSION["logstat"])) { ?>
+                    	<option value="1" selected="">Shop Manager</option>
+                        <option value="2">Marketplace</option>
+                    <?php } else { ?>
+                    	<option value="1" <?php if($_SESSION["logstat"] == '1') { ?>selected<?php } ?>>Shop Manager</option>
+                        <option value="2" <?php if($_SESSION["logstat"] == '2') { ?>selected<?php } ?>>Marketplace</option>
+					<?php } ?>
+                  </select>
+                </div>
+              </form> 
+              <?php } ?>
+              </li>
+              
+              <!--  <li class="item"><a class="nav-link" href="#"><img src="<?=HTTP_IMG_PATH?>/shopping-cart.svg"> </a></li> -->
+                <!-- <li class="item custom-link"> <a class="nav-link" href="<?php echo $this->url('front_aboutus')?>">Origins</a></li> -->
+                <?php /*?><li class="item"><a class="nav-link" href="<?php echo $this->url('front_blog')?>">Last Testament</a></li><?php */?>
+                <?php if(isset($this->loggedUser) && !empty($this->loggedUser)){?>
+                	<li class="item custom-link"><a class="nav-link" href="<?= APPLICATION_URL.'/profile';  ?>">Profile</a></li>
+                <?php } ?>
+				<li class="item custom-link"><a class="nav-link" href="<?= APPLICATION_URL.'/wicked-shops';  ?>">Wicked Shops</a></li>
+				<?php if(!empty($categories_data)) { foreach($categories_data as $product_categories => $product_categories_val) { ?>
+                <li class="item custom-link"><a class="nav-link" href="<?= APPLICATION_URL.'/product-listing?category='.str_replace(" ","",str_replace("&","",$product_categories_val["category_feild"]))."~".str_replace("=","",base64_encode($product_categories_val["category_id"])); ?>"><?= $product_categories_val["category_feild"]; ?></a></li>
+                <?php } } ?>
+                <?php /*?><li class="item custom-link"><a class="nav-link" href="<?= APPLICATION_URL.'/product-listing';?>">View More</a></li><?php */?>
+
+                <?php if(isset($this->loggedUser) && !empty($this->loggedUser)){?>
+                <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+                	<li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/dashboard'; ?>"> Dashboard </a></li>	
+				<?php } ?>
+                <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && $_SESSION["logstat"] == '2') { ?>
+                <?php if($this->loggedUser->yurt90w_client_signup_type != 'social') { ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/change-password/2'; ?>">Change Password</a></li>
+                <?php } } ?>
+                <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/manage-products'; ?>">Manage Store</a></li>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/manage-coupon'; ?>">Manage Coupons</a></li>
+                <?php } ?>
+                <?php if(!empty($store_data["store_approval"]) && $_SESSION["logstat"] == '2') { ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/wish-list'; ?>">Wish List</a></li>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/favourite-shops'; ?>">Favourite Shops</a></li>
+                <?php } ?>
+                <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/seller-orders'; ?>">Orders Listed</a></li>
+				<?php } else { ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/customer-orders'; ?>">Manage Orders</a></li>
+                <?php } ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/messages'; ?>">Messaging</a></li>
+                <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/my-wallet'; ?>">Wallet</a></li>
+                <?php } ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/logout'; ?>">Logout</a></li>
+                <? } else { ?>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/login'; ?>">Log in</a></li>
+                <li class="item"><a class="nav-link" href="<?= APPLICATION_URL.'/register'; ?>">Sign up</a></li> 
+                <? }  ?> 
+              </ul>
+            </div>
+          </div>
+
+
+          <!-- remove -->
+      </div>
+    </div>
+  </div>
+  <!-----------other-menu-header------------->
+  <div class="other-header d-none d-xl-flex">
+        <nav class="navbar p-0">
+            <ul class="navbar-nav d-flex ml-0">
+             
+              <li class="nav-item">
+                <a class="nav-link" href="<?= APPLICATION_URL.'/wicked-shops' ?>"><!--  <img class="menu-hover cross-img " src="<?=HTTP_IMG_PATH?>/cross.svg"> --><span>Wicked Shops</span></a>	
+              </li>
+            <?php if(!empty($categories_data)) { foreach($categories_data as $product_categories => $product_categories_val) { ?>
+              <li class="nav-item">
+                <a class="nav-link" href="<?= APPLICATION_URL.'/product-listing?category='.str_replace(" ","",str_replace("&","",$product_categories_val["category_feild"]))."~".str_replace("=","",base64_encode($product_categories_val["category_id"])); ?>"> <img class="menu-hover cross-img lozad" data-src="<?=HTTP_IMG_PATH?>/cross.svg"><span><?= $product_categories_val["category_feild"]; ?></span></a>
+              </li>
+              <?php } } ?>
+              <?php /*?><li class="nav-item">
+                <a href="<?= APPLICATION_URL.'/product-listing'; ?>" class="nav-link "> <img class="menu-hover cross-img " src="<?=HTTP_IMG_PATH?>/cross.svg"><span>View More</span></a>
+              </li><?php */?>
+            </ul>
+        </nav>
+        
+  </div>
+  <!------>
+</header>
+
+<script>
+
+var nav = $('header');	
+     $(window).scroll(function () {
+         if ($(this).scrollTop() > 60) {
+           $('.navbar-collapse.collapse.in').removeClass('in');
+           nav.addClass("header-fixed");
+         } else {
+           nav.removeClass("header-fixed");
+         }
+       });
+
+
+
+$(document).click(function(event) {
+    if ( !$(event.target).hasClass('notify-panel') && !$(event.target).hasClass('notify-bell')) {
+		 $(".notify-panel").addClass("d-none");
+    }
+});
+	
+$(document).on("click",".mobl-beller",function() {
+	$(this).next(".notify-panel").toggleClass("dz-show");
+	$.ajax({
+		url: baseUrl + "/read-notify",
+		type: "POST",
+		data: { post: 1 },
+		success: function (data) {
+			if(data == 'success') {
+				$(this).find(".notify-bell").text(0);
+			} else {
+				swal({
+				  title: "Alert!",	
+				  text: "Please login to your account.",
+				  icon: "warning"
+				})
+			}
+		}
+	})
+})	
+	
+$(document).on("click",".navc-tg",function() {
+	$(this).next(".notify-panel").toggleClass("dz-show");
+	$.ajax({
+		url: baseUrl + "/read-notify",
+		type: "POST",
+		data: { post: 1 },
+		success: function (data) {
+			if(data == 'success') {
+				$(this).find(".notify-bell").text(0);
+			} else {
+				swal({
+				  title: "Alert!",	
+				  text: "Please login to your account.",
+				  icon: "warning"
+				})
+			}
+		}
+	})
+})	
+
+$(document).on("click",".notify-bell",function() {
+	$(".notify-panel").toggleClass("d-none");
+	$.ajax({
+		url: baseUrl + "/read-notify",
+		type: "POST",
+		data: { post: 1 },
+		success: function (data) {
+			if(data == 'success') {
+				$(".notify-bell").text(0);
+			} else {
+				swal({
+				  title: "Alert!",	
+				  text: "Please login to your account.",
+				  icon: "warning"
+				})
+			}
+		}
+	})
+})
+
+function toggleNav() { $('body').toggleClass('navOpen');}
+
+var sidebarBox = document.querySelector('#box');
+var sidebarBtn = document.querySelector('#btn');
+var pageWrapper = document.querySelector('#main-content');
+// console.log(pageWrapper);
+sidebarBtn.addEventListener('click', function(event){
+
+		if (this.classList.contains('active')) {
+				this.classList.remove('active');
+				sidebarBox.classList.remove('active');
+		} else {
+				this.classList.add('active');
+				sidebarBox.classList.add('active');
+		}
+    $('body').toggleClass('navOpen');
+});
+</script>

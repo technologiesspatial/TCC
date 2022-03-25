@@ -1,0 +1,64 @@
+
+<div class="comman-section">
+  <div class="container">
+    <div class="common-heading">
+      <h2 class="heading">Wicked Shops</h2>
+    </div>
+  </div>	
+</div>
+
+<div class="seller-profile-page">
+  <div class="container">
+    <div class="seller-profile">
+      <div class="seller-bg-box">
+          <div class="first-box">
+            <div class="media">
+              <div class="seller-pic"><img src="<?=HTTP_IMG_PATH?>/image1.jpg"></div>
+              <div class="media-body">
+                <h5 class="seller-name">Chir Evans</h5>
+                <p class="comp-name"> Company name </p>
+                <ul class="rating-star">
+                  <li class=""> <a href=""> <img src="<?=HTTP_IMG_PATH?>/star.svg"></a> </li>
+                  <li class=""> <a href=""> <img src="<?=HTTP_IMG_PATH?>/star.svg"></a> </li>
+                  <li class=""> <a href=""> <img src="<?=HTTP_IMG_PATH?>/star.svg"></a> </li>
+                  <li class=""> <a href=""> <img src="<?=HTTP_IMG_PATH?>/star.svg"></a> </li>
+                  <li class=""> <a href=""> <img src="<?=HTTP_IMG_PATH?>/star.svg"></a> </li>
+                  <li class=""> 92% positive in the last 12 months (148 ratings) </li>
+                </ul>
+                <!-- ul -->
+              </div>
+            </div>
+            <!-- media object -->
+            <div class="border-gradient send-btn"><a class="btn view-btn"> send message </a></div>
+
+          </div>
+          <div class="second-box">
+            <p class="description"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          </div>
+      </div>
+      <!-- seller bg box -->
+
+    </div>
+    <!-- seller profile -->
+
+    <!-- seller product -->
+    <div class="my-product-box">
+      <h2 class="heading"> My Products<img src="<?=HTTP_IMG_PATH?>/bat.png"></h2>
+        <div class="product-list">
+          <?php for($k=0; $k<10; $k++){ ?>
+              <div class="item" >
+                <div class="card menu-card">
+                <div class="slider-img"><div class="card-img-top"><img class="" src="<?=HTTP_IMG_PATH?>/img-3.jpg" alt="Card image cap"><div class="coven-overlay d-none"></div> </div> </div>
+                  <div class="card-body">
+                    <h4 class="card-title">Product name here <span>$57.87</span></h4>
+                  </div>
+                </div>
+              </div>
+            <?php } ?>
+        </div>
+        <!--  -->
+    </div>
+    <!-- seller product -->
+  </div>
+</div>
+

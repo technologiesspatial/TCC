@@ -1,0 +1,75 @@
+<style>
+header , footer { display: none; }
+.border-gradient:hover{background:rgb(255, 255, 255) !important;}	
+.border-gradient:hover .view-btn{color:#000 !important;}	
+</style>
+<div class="coming-soon-page">
+  <div class="container">
+    <div class="bg-img"></div>
+    <h2 class="title"> We are launching soon </h2>
+    <!-- <h1 class="page-heading"> Coming Soon </h1> -->
+    <div class="">
+        <div class="subcribe-form">
+          <h1 class="page-heading"> Coming Soon </h1>
+          <div class="search" id="">
+            <form class="newsletter-form" id="newsletter_form" name="newsletter_form">
+              <div class="form-group">
+                <label> Your Name * </label>
+                <input type="text" class="form-control required" placeholder="" id="newsletter_name" maxlength="200">
+              </div>
+              <div class="form-group">
+                <label> Email * </label>
+                <input type="text" class="form-control required email" placeholder="" id="newsletter_email" maxlength="255">
+              </div>
+
+            </form>
+          </div>
+          <div class="border-gradient"><a href="javascript:void(0)" class="view-btn btn subscribe-btn">Subscribe</a></div>
+        </div>
+      </div>
+  </div>
+</div>
+<script type="text/javascript">
+	$(document).on("click",".subscribe-btn",function() {
+		if($(".newsletter-form").valid()) {
+			var newsletter_name = $("#newsletter_name").val();
+			var newsletter_email = $("#newsletter_email").val();
+			if(newsletter_name != '' && newsletter_email != '') {
+				$.ajax({
+				  url: baseUrl + "/post-newsletter",
+				  type: "POST",
+				  data: { news_name:newsletter_name,news_email: newsletter_email },
+				  success: function (data) {
+					  $("#newsletter_name").val('');
+					  $("#newsletter_email").val('');
+					  if(data == 'already_exists') {
+						  swal({
+							title: "Subscribe to Newsletter!",	
+							text: "This email address is already subscribed to us.",
+							icon: "warning"
+						  })
+					  } else if(data == 'error') {
+						  swal({
+							title: "Subscribe to Newsletter!",	
+							text: "Something went wrong while subscribing you to our newsletter. Please check again.",
+							icon: "warning"
+						  })
+					  } else {
+						  swal({
+							title: "Subscribe to Newsletter!",
+							text: "You have successfully subscribed to our newsletter.",
+							icon: "success"
+						  })
+					  }
+				  }
+				})
+			} else {
+				swal({
+				title: "Subscribe to Newsletter!",	
+				text: "Please fill the email address to subscribe.",
+				icon: "warning"
+			  })
+			}
+		}
+	})
+</script>

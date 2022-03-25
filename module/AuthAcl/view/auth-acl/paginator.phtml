@@ -1,0 +1,133 @@
+<style type="text/css">
+	.pagination li a {
+	color:#000;	
+    background-color: #FFFFFF;
+    padding: 8px 11px 6px 12px;
+    border: solid #d9d9d9 1px;
+    line-height: 20px;
+    display: inline-block;}
+	.active a {
+    color: #ffffff !important;
+    background-color: #000 !important;}
+</style>
+<div class="col-sm-12 text-center">
+
+<?php 
+
+if ($this->pageCount){ ?>
+
+     <div>
+
+         <ul class="pagination">
+
+             <!-- Previous page link -->
+
+             <?php if (isset($this->previous)){ ?>
+
+                 <li>
+					 <?php if(!empty($category)) { ?>
+						<a href="<?php echo $this->url($this->route); ?>/<?php echo $this->previous.'?category='.$category; ?>">
+							 <<
+						</a>
+					 <?php } else if(!empty($tag)) { ?>
+             	 	 	<a href="<?php echo $this->url($this->route); ?>/<?php echo $this->previous.'?tag='.$tag; ?>">
+							 <<
+						</a>
+              	 	 <?php } else { ?>
+               	 		<a href="<?php echo $this->url($this->route); ?>/<?php echo $this->previous; ?>">
+							 <<
+						</a>
+                	 <?php } ?>
+                 </li>
+
+             <?php } else { ?>
+
+                 <li class="disabled">
+
+                     <a href="#">
+
+                         <<
+
+                     </a>
+
+                 </li>
+
+             <?php } ?>
+
+
+
+             <!-- Numbered page links -->
+
+             <?php foreach ($this->pagesInRange as $page){?>
+
+                 <?php if ($page != $this->current){?>
+
+                     <li>
+						<?php if(!empty($category)) { ?>
+							<a href="<?php echo $this->url($this->route);?>/<?php echo $page.'?category='.$category; ?>">
+								 <?php echo $page; ?>
+							</a>
+						<?php } else if(!empty($tag)) { ?>
+							<a href="<?php echo $this->url($this->route);?>/<?php echo $page.'?tag='.$tag; ?>">
+								 <?php echo $page; ?>
+							</a>
+						<?php } else { ?>
+                    		<a href="<?php echo $this->url($this->route);?>/<?php echo $page; ?>">
+								 <?php echo $page; ?>
+							</a>
+                    	<?php } ?>	
+                     </li>
+
+                 <?php  } else {?>
+
+                    <li class="active">
+
+                        <a href="#"><?php echo $page; ?></a>
+
+                    </li>
+
+                 <?php } ?>
+
+             <?php } ?>
+
+             <!-- Next page link -->
+
+             <?php if (isset($this->next)){?>
+
+                 <li>
+					<?php if(!empty($category)) { ?>
+						<a href="<?php echo $this->url($this->route); ?>/<?php echo $this->next.'?category='.$category; ?>">
+							>>
+						</a>
+					<?php } else if(!empty($tag)) { ?>
+						<a href="<?php echo $this->url($this->route); ?>/<?php echo $this->next.'?tag='.$tag; ?>">
+							>>
+						</a>
+					<?php } else { ?>
+               			<a href="<?php echo $this->url($this->route); ?>/<?php echo $this->next; ?>">
+							>>
+						</a>
+                	<?php } ?>	
+                 </li>
+
+             <?php } else{ ?>
+
+                 <li class="disabled">
+
+                     <a href="#">
+
+                         >>
+
+                     </a>
+
+                 </li>
+
+             <?php } ?>
+
+         </ul>
+
+     </div>
+
+ <?php } ?>
+
+</div>

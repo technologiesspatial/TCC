@@ -1,0 +1,50 @@
+<style>
+header { background:none;}
+</style>
+<?php 
+$teamHtml='';
+
+if($pageTag=="about"){?> 
+
+
+
+<? }if($pageTag=="privacy"){?> 
+
+
+
+<? }if($pageTag=="terms"){?> 
+
+
+
+<? }
+
+if(!empty($this->getTeamList)){
+/* for abot action */
+foreach($this->getTeamList as $tKey=>$tValue){
+	$teamHtml.='<div class="col-12 col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                	<div class="members right_shift">
+                    	<img src="'.HTTP_TEAM_IMAGES_PATH.'/'.$tValue['team_member_image'].'" class="members_img">
+                    	<p class="heading">'.$tValue['team_member_name'].'</p>
+                        <p class="description">'.nl2br($tValue['team_member_desc']).'</p>
+                        <ul class="social">';
+                        	if($tValue['team_member_fblink']!=''){
+							$teamHtml.='<li><a href="'.$tValue['team_member_fblink'].'"><img src="'.HTTP_IMG_PATH.'/facebook-letter-logo.svg" class="social_icons"></a></li>';
+							}
+							if($tValue['team_member_twlink']!=''){
+                            $teamHtml.='<li><a href="'.$tValue['team_member_twlink'].'"><img src="'.HTTP_IMG_PATH.'/twitter-logo-silhouette.svg" class="social_icons"></a></li>';
+							}
+							if($tValue['team_member_glink']!=''){
+                            $teamHtml.='<li><a href="'.$tValue['team_member_glink'].'"><img src="'.HTTP_IMG_PATH.'/google-plus.svg" class="social_icons"></a></li>';
+							}
+							if($tValue['team_member_lnlink']!=''){
+                            $teamHtml.='<li><a href="'.$tValue['team_member_lnlink'].'"><img src="'.HTTP_IMG_PATH.'/linked-in-logo.svg" class="social_icons"></a></li>';
+							}
+						 $teamHtml.='</ul>
+						
+                    </div>
+                </div>';
+}
+}
+
+$pageInfo=str_ireplace(array('{team_members_list}'),array($teamHtml),$this->page_content["page_content_".$_COOKIE['currentLang']]);
+echo $pageInfo;?>

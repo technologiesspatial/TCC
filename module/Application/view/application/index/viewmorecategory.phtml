@@ -1,0 +1,8 @@
+<?php if(!empty($product_categories)) { foreach($product_categories as $product_categories_key => $product_categories_val) { ?>
+	<li class=" margin-bottoms catblk-item" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000"><div class="part-1"><a href="<?= APPLICATION_URL.'/product-listing?category='.$product_categories_val["category_id"]; ?>"><?= $product_categories_val["category_feild"] ?></a></div></li>	
+<?php } } ?>
+<script type="text/javascript">
+	<?php if(count($product_categories) < 5) { ?>
+		$(".catmore-btn").parents(".border-gradient").remove();
+	<?php } ?>
+</script>

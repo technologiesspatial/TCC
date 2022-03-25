@@ -1,0 +1,338 @@
+<style type="text/css">
+	.prod-list{margin-top:30px;}
+</style>
+<div class="index-main" >
+		<div class="overlay-wcs"></div>
+			<div class="container">
+				<div class="home-section">
+					<div class="row">
+						<div class="col-xl-6">
+							<div class="video-box">
+								<video class="" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+									<source src="<?=HTTP_IMG_PATH?>/TCC.mp4" type="video/mp4">
+								</video>
+
+							</div>
+						</div>
+
+						<div class="col-xl-6">
+							<div class="content-box">
+								<h1 class="top-heading">Welcome To The Collective Coven</h1>
+								<p class="top-description">A Unique Online Marketplace for Halloween enthusiasts! The Only Place where you can find a Coven of Artists and Creators that specialize in Spooky, Gothic, and Horror themed Dark Arts!  Come conjure up Some Magic and Join the Coven!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+</div>
+
+
+
+
+<div class="second-section">
+	<div class="container">
+		<div class="category-section">
+			<?php /*?><h2 class="heading" data-aos="zoom-in-down"><?php if(!empty($HomePageData[1]["home_content"])) { echo $HomePageData[1]["home_content"]; } else { ?>Category For You<?php } ?> <img src="<?=HTTP_IMG_PATH?>/bat.png"></h2><?php */?>
+			<div class="category-part">
+				<ul class="product-blk">
+                	<?php if(!empty($product_categories)) { foreach($product_categories as $product_categories => $product_categories_val) { ?>
+                    	<li class=" margin-bottoms catblk-item" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000"><div class="part-1"><a href="<?= APPLICATION_URL.'/product-listing?category='.$product_categories_val["category_id"]; ?>"><?= $product_categories_val["category_feild"] ?></a></div></li>	
+					<?php } } ?>
+					<?php /*?><li class=" margin-bottoms" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000"><div class="part-1"><a href="">Wicked Shops</a></div></li>
+					<li class=" margin-bottoms" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" ><div class="part-1"><a href="">Graveyard Accessories</a></div></li>
+					<li class=" margin-bottoms" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" ><div class="part-1"><a href="">Spooky Apparel</a></div></li>
+					<li class=" margin-bottoms"  data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" ><div class="part-1"><a href="">Death & Beauty</a></div></li>
+					<li class="" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" ><div class="part-1"><a href="">Haunted Decor</a></div></li>
+					<li class="" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" ><div class="part-1"><a href="">Wicked Pins & Patches</a></div></li>
+					<li class="" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" ><div class="part-1"><a href="">Special Conjurings</a></div></li><?php */?>
+				</ul>
+			</div>
+			<div class="border-gradient"><a href="javascript:void(0)" class="view-btn btn catmore-btn"><?= $configs["site_view_more"] ?></a></div>
+		</div>
+		<div class="most-popular prod-list">
+			<h2 class="heading" data-aos="zoom-in-down"><?php if(!empty($HomePageData[2]["home_content"])) { echo $HomePageData[2]["home_content"]; } else { ?>Favorite Conjurings<?php } ?><img src="<?=HTTP_IMG_PATH?>/bat.png"></h2>
+			<div class="owl-carousel one" data-aos="fade-up" data-aos-duration="4000">
+			<?php for($k=0; $k<10; $k++){ ?>
+				<div class="item" data-aos="flip-left">
+					<div class="card menu-card">
+						<div class="slider-img"><div class="card-img-top"><img class="" src="<?=HTTP_IMG_PATH?>/img-1.jpg" alt="Card image cap"><div class="coven-overlay d-none"></div> </div> </div>
+						<div class="card-body">
+							<h4 class="card-title">Product name here <span>$57.87</span></h4>
+						</div>
+					</div>
+				</div>
+			<?php } ?>
+			</div>
+			<div class="slider" data-aos="fade-up" data-aos-duration="4000">
+				<div class="owl-carousel three">
+				<?php for($k=0; $k<10; $k++){ ?>
+					<div class="item" data-aos="flip-right">
+						<div class="card menu-card">
+						<div class="slider-img"><div class="card-img-top"><img class="" src="<?=HTTP_IMG_PATH?>/img-3.jpg" alt="Card image cap"><div class="coven-overlay d-none"></div> </div> </div>
+							<div class="card-body">
+								<h4 class="card-title">Product name here <span>$57.87</span></h4>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="index-main" <?php if(!empty($HomePageData[5]["home_content"])) { ?>style="background-image: url(<?php echo HTTP_SLIDER_IMAGES_PATH.'/'.$HomePageData[5]["home_content"]; ?>);"<?php } ?>>
+		
+		<video class="background-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+			<source src="<?=HTTP_IMG_PATH?>/fog-background.mp4" type="video/mp4">
+		</video>
+	<div class="third-section">
+		<div class="container">
+			<div class="third-part-contain" data-aos="zoom-in">
+				<h2 class="title"><?php if(!empty($HomePageData[3]["home_content"])) { echo $HomePageData[3]["home_content"]; } else { ?>Are you an Artist & Seller?<?php } ?></h2>
+				<p class="description"><?php if(!empty($HomePageData[4]["home_content"])) { echo $HomePageData[4]["home_content"]; } else { ?>Come Join us in the Dark where Halloween enthusiasts, fans of gore,horror and the macabre congregate to conjure up some Magic. Come Join the Coven!<?php } ?></p>
+				<?php if(empty($loggedUser)) { ?>
+				<div class="border-gradient "><a href="<?= APPLICATION_URL.'/register'; ?>" class="view-btn btn"><?= $configs["site_join_now"] ?> </a></div>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="second-section four-section" data-aos="fade-up" data-aos-duration="3000">
+	<div class="container">
+		<div class="most-popular">
+			<h2 class="heading" data-aos="zoom-in-down"><?php if(!empty($HomePageData[6]["home_content"])) { echo $HomePageData[6]["home_content"]; } else { ?>New Conjurings<?php } ?><img src="<?=HTTP_IMG_PATH?>/bat.png"></h2>
+			<div class="owl-carousel two">
+			<?php for($k=0; $k<10; $k++){ ?>
+				<div class="item">
+					<div class="card menu-card">
+					<div class="slider-img"><div class="card-img-top"> <img class="card-img-top" src="<?=HTTP_IMG_PATH?>/slider.jpg" alt="Card image cap"><div class="coven-overlay d-none"></div></div></div>
+						<div class="card-body">
+							<h4 class="card-title">Product name here <span>$57.87</span></h4>
+						</div>
+					</div>
+				</div>
+			<?php } ?>
+			</div>
+            <div class="slider" data-aos="fade-up" data-aos-duration="4000">
+				<div class="owl-carousel four">
+				<?php for($k=0; $k<10; $k++){ ?>
+					<div class="item">
+						<div class="card menu-card">
+							<div class="slider-img"> <div class="card-img-top"> <img class="" src="<?=HTTP_IMG_PATH?>/slider1.jpg" alt="Card image cap"><div class="coven-overlay d-none"></div></div></div>
+							<div class="card-body">
+								<h4 class="card-title">Product name here <span>$57.87</span></h4>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="index-main" <?php if(!empty($HomePageData[8]["home_content"])) { ?>style="background-image: url(<?php echo HTTP_SLIDER_IMAGES_PATH.'/'.$HomePageData[8]["home_content"]; ?>);"<?php } ?>>
+		<video class="background-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+			<source src="<?=HTTP_IMG_PATH?>/fog-background.mp4" type="video/mp4">
+		</video>
+		<div class="five-section third-section">
+			<div class="container">
+				<div class="subcribe-letter" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+					<h2 class="title"><?php if(!empty($HomePageData[7]["home_content"])) { echo $HomePageData[7]["home_content"]; } else { ?>Subscribe to Newsletter<?php } ?></h2>
+					<div class="search" id="">
+						<form class="newsletter-form" id="newsletter_form" name="newsletter_form">
+							<div class="input-group">
+								<input type="text" class="form-control required email" placeholder="Type your email address" id="newsletter_email">
+							</div>
+						</form>
+					</div>
+					<div class="border-gradient"><a href="javascript:void(0)" class="view-btn btn subscribe-btn"><?= $configs["site_subscribe_text"] ?></a></div>
+				</div>	
+			</div>
+		</div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+	$(document).on("click",".subscribe-btn",function() {
+		if($(".newsletter-form").valid()) {
+			var newsletter_email = $("#newsletter_email").val();
+			$.ajax({
+			  url: baseUrl + "/post-newsletter",
+			  type: "POST",
+			  data: { news_email: newsletter_email },
+			  success: function (data) {
+				  $("#newsletter_email").val('');
+				  if(data == 'already_exists') {
+					  swal({
+						title: "Subscribe to Newsletter!",	
+						text: "This email address is already subscribed to us.",
+						icon: "warning"
+					  })
+				  } else if(data == 'error') {
+				  	  swal({
+						title: "Subscribe to Newsletter!",	
+						text: "Something went wrong while subscribing you to our newsletter. Please check again.",
+						icon: "warning"
+					  })
+				  } else {
+				  	  swal({
+						title: "Subscribe to Newsletter!",
+  						text: "You have successfully subscribed to our newsletter.",
+  						icon: "success"
+					  })
+				  }
+			  }
+			})
+		}
+	})
+
+$(document).ready(function(){
+	$('.owl-carousel.one').owlCarousel({
+		loop:false,
+		margin:10,
+		nav:true,
+		navText: ["<div class='prev' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>",
+				"<div class='prev next' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>"],
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:2
+			},
+			1000:{
+				items:3
+			},
+			1200:{
+				items:4
+			},
+			1700:{
+				items:5
+			}
+		}
+	});
+
+	$('.owl-carousel.three').owlCarousel({
+		loop:false,
+		margin:10,
+		nav:true,
+		navText: ["<div class='prev' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>",
+				"<div class='prev next' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>"],
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:2
+			},
+			1000:{
+				items:3
+			},
+			1200:{
+				items:4
+			},
+			1700:{
+				items:5
+			}
+		}
+	});
+
+	$('.owl-carousel.two').owlCarousel({
+		loop:false,
+		margin:10,
+		nav:true,
+		navText: ["<div class='prev' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>",
+				"<div class='prev next' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>"],
+				responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:2
+			},
+			1000:{
+				items:3
+			},
+			1200:{
+				items:4
+			},
+			1700:{
+				items:5
+			}
+		}
+	});
+
+	$('.owl-carousel.four').owlCarousel({
+		loop:false,
+		margin:10,
+		nav:true,
+		navText: ["<div class='prev' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>",
+				"<div class='prev next' data-aos='flip-left' data-aos-easing='ease-out-cubic' data-aos-duration='1000'><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>"],
+				responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:2
+			},
+			1000:{
+				items:3
+			},
+			1200:{
+				items:4
+			},
+			1700:{
+				items:5
+			}
+		}
+	});
+});	
+
+$(document).on("click",".catmore-btn",function() {
+	var numItems = $('.catblk-item').length;
+	$.ajax({
+			  url: baseUrl + "/viewmore-category",
+			  type: "POST",
+			  data: { catnum: numItems },
+			  success: function (data) {
+				  if(data == 'finished') {
+				  	$(".catmore-btn").parents(".border-gradient").remove();
+				  } else {
+					$(".product-blk").append(data);  
+				  }
+			  }
+	})
+})
+$('.slider-img').mouseenter(function () {
+    $(this).find(".coven-overlay").removeClass("d-none");
+});
+
+$('.slider-img').mouseleave(function () {
+	$(this).find(".coven-overlay").addClass("d-none");
+});
+</script>
+<script type="text/javascript" src="<?= APPLICATION_URL ?>/assets/js/aos.js"></script>
+<script type="text/javascript" src="<?= APPLICATION_URL ?>/assets/js/wow.min.js"></script>
+<script>
+	  wow = new WOW(
+        {
+        boxClass:     'wow',      // default
+        animateClass: 'animated', // default
+        offset:       0,          // default
+        mobile:       false,       // default
+        live:         true 
+	  }
+      )
+	new WOW().init();
+</script>
+ <script>
+    AOS.init({
+		once: true,
+	});
+  </script>

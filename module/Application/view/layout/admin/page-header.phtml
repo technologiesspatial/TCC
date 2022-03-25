@@ -1,0 +1,22 @@
+<div class="page-header pageheader_admin">
+	<div class="row row-lg page_admin">
+    <div class="col-lg-6 col-xs-12 dashboardheading_admin">
+      <h1 class="page-title title_admin"><?php echo $this->pageHeading ?></h1>
+    </div>
+    <div class="col-lg-6 col-xs-12 ">
+    <?php if($this->backUrl!=''){?>
+    <div class="page-header-actions" >
+   <a href="<?php echo ADMIN_APPLICATION_URL?>/<?php echo $this->backUrl?>" class="pull-right btn btn-sm btn-icon btn-primary btn-round waves-effect waves-classic"><span class="fa fa-arrow-left"></span></a>
+   
+   </div>
+   <? }?>
+      &nbsp;
+<?php 
+	/* $pages=$this->NavHelper()->getNavArray();
+      $container=new Zend_Navigation($pages);
+      $this->getHelper('navigation')->setContainer($container);
+	  echo $this->navigation()->breadcrumbs()->setMaxDepth("2")->setPartial(array('admin/add/breadcrumbs.phtml','default'));*/
+	  ?>
+    </div>
+    </div>
+</div>

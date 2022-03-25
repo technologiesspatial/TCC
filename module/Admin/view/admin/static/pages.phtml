@@ -1,0 +1,98 @@
+<div class="panel">
+
+    	<div class="panel-body">
+
+         
+
+           <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+
+          <thead>
+
+            <tr>
+
+               <th width="5%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+
+              <th width="40%"><?=$this->layout()->translator->translate("table_title_txt")?></th>
+
+              <th width="14%"><?=$this->layout()->translator->translate("last_mod_txt")?></th>
+
+              <th width="8%">Action</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+          </tbody>
+
+        </table>
+
+    </div>
+
+  </div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function(e) {
+
+	
+
+	
+
+	
+
+	$('#sample_1').DataTable({
+
+		"language":{"lengthMenu": "Show _MENU_ pages"},
+
+		"bProcessing":true,
+
+		"bServerSide":true,
+
+		"bAutoWidth":false,
+
+		"responsive":true,
+
+		"bInfo":false,
+
+		"pagingType":"first_last_numbers",
+
+		"order":[[2,"desc"]],
+
+		"aoColumnDefs":[
+
+			{"bSortable":false,"aTargets":[0,3]},
+
+			{"bSearchable":false,"aTargets":[1,2,3]}
+
+		 ],
+
+		 
+
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getpages" ,
+
+		"iDisplayLength":50,
+
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+
+		
+
+		
+
+		"fnDrawCallback":function( oSettings ){}
+
+	});
+
+	
+
+	
+
+});
+
+</script>
+
+
+

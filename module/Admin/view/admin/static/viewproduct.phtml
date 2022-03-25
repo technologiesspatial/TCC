@@ -1,0 +1,124 @@
+<?php 
+	$user =  $this->user_information ;
+?>
+<style type="text/css">
+ul#info_ul span {
+	color:#e35b5a;
+	font-weight:bold;
+}
+.widget-wrap {
+	min-height:auto
+}
+p {
+	white-space:nowrap;
+}
+.prodpic-blk{margin-right:20px;margin-bottom:10px;}
+.download-tg{background:#000;color:#fff;padding:8px 20px;margin-top:2px;display:inline-block;text-decoration:none !important;}
+.download-tg:hover{background:none !important;border:1px solid #000 !important;color:#000 !important;cursor:pointer;}	
+</style>
+
+<div class="panel">
+  <div class="panel-body">
+    <div class="row white-box">
+      <div class="col-sm-12">
+        <div class="form-content" style="padding:20px;">
+          <table class="table table-bordered Clear" style="margin:0px !important;">
+            <tbody>
+              <tr>
+                <td class="" width="30%;"><b>Product Title:</b></td>
+                <td>
+                  <b><?php echo $this->product_info['product_title']==''?'N/A':$this->product_info['product_title'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class="" width="30%;"><b>Product Category:</b></td>
+                <td>
+                  <b><?php echo $this->product_info['category_feild']==''?'N/A':$this->product_info['category_feild'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class="" width="30%;"><b>Sub Category:</b></td>
+                <td>
+                  <b><?php echo $this->product_info['subcategory_title']==''?'N/A':$this->product_info['subcategory_title'];?></b>
+                </td>
+              </tr>	
+              <tr>
+                <td class="" width="30%;"><b>User Name:</b></td>
+                <td>
+                  <b><?php echo $this->product_info[T_USERS_CONST.'_name']; ?></b>
+                </td>
+              </tr>              
+              <tr>
+                <td class="" width="30%;"><b>Product Price:</b></td>
+                <td>
+                  <b><?php if($this->product_info["product_isdigital"] == '1') {
+					  echo $this->product_info['product_price']==''?'N/A':'$'.$this->product_info['product_price'];
+					 } else { 
+						$price_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID","fetch",array('warray'=>array('PID'=>$this->product_info["product_id"])));
+						echo "$".$price_data["color_price"];
+					 } ?></b>
+                </td>
+              </tr>
+              <?php /*?><tr>
+                <td class="" width="30%;"><b>Shipping Rate:</b></td>
+                <td>
+                  <b><?php echo $this->product_info['product_shipping']==''?'N/A':'$'.$this->product_info['product_shipping'];?></b>
+                </td>
+              </tr><?php */?>
+              <tr>
+                <td class="" width="30%;"><b>Product Description:</b></td>
+                <td>
+                  <b><?php echo $this->product_info['product_description']==''?'N/A':$this->product_info['product_description'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Product Images:</b></td>
+                <td>
+                  <div class="row">
+                  <?php if(!empty($this->product_info["product_photos"])) { $product_photos = explode(",",$this->product_info["product_photos"]); foreach($product_photos as $product_photos_key => $product_photos_val) { ?>
+                  	<div class="col-3 prodpic-blk"> 
+                      <a data-gallery="example-gallery" data-toggle="lightbox" href="<?= HTTP_PRODUCT_PIC_PATH.'/900x600/'; ?>" title="Product Images">
+                        <img src="<?= HTTP_PRODUCT_PIC_PATH.'/160/'.$product_photos_val; ?>" class="img_border" />
+                      </a><br />
+                    </div>
+				  <?php } } ?>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+              	<td class=""><b>Digital product:</b></td>
+              	<td><?php if($product_info["product_isdigital"] == '1') { echo "Yes"; } else { echo "No"; } ?></td>
+              </tr>
+              <tr>
+              	<td class=""><b>Uploaded Digital File:</b></td>
+              	<td><?php if($product_info["product_isdigital"] == '1') { ?>
+					<a href="<?= HTTP_DIGITAL_PATH.'/'.$product_info["product_digital"]; ?>" download><?= $product_info["product_digital"] ?></a> 
+				<?php } else { echo "-"; } ?></td>
+              </tr>
+              <?php if(!empty($product_info["product_video"])) { ?>
+              <tr>
+              	<td class=""><b>Uploaded Video</b></td>
+              	<td>
+              		<video src="<?= HTTP_VIDEO_PATH.'/'.$product_info["product_video"]; ?>" width="290px" height="200px" frameborder="0" controls disablepictureinpicture allowfullscreen></video>
+              		<?php /*?><iframe src="<?= HTTP_VIDEO_PATH.'/'.$product_info["product_video"]; ?>" width="290px" height="200px" frameborder="0" sandbox></iframe><?php */?><br/>
+              		<a class="download-tg" href="<?= HTTP_VIDEO_PATH.'/'.$product_info["product_video"]; ?>" download>Download Video</a>
+              	</td>
+              </tr>
+              <?php } ?>            
+            </tbody>
+          </table>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(window).on('load', function() {
+  $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+  });
+});
+</script>

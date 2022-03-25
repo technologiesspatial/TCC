@@ -1,0 +1,34 @@
+<style>
+    header{position: relative; background-color: rgb(255, 255, 255);height: 99px; }
+    .navbar-nav .nav-link {color: #0f0b06 !important;}
+    .change-btn:hover{cursor: pointer;}
+</style>
+<script type="text/javascript">
+    var redirect_url = '<?=$this->Url($this->layout()->currentRoute);?>';
+    var host = '<?=SITE_HOST_URL?>';
+    
+</script>
+<div class="left-side-section">
+    <div class="user-edit-image-box">
+        <div class="user-img"> <img src="<?=getUserImage($this->loggedUser->yurt90w_client_image,'160')?>"> </div>
+        <p class="user-name"> <?=$this->loggedUser->yurt90w_client_name?> </p>
+        <form enctype="multipart/form-data" id="imageForm">
+            <input class="input" type="file" style="display:none" class="image_input" name="image_input" id="image_input"    accept="image/*" >
+            <input type="hidden" id="imageCordinates" name="imageCordinates" value=""   > 
+        </form>
+        <label class="change-btn btn"> <?php echo $this->layout()->translator->translate("change_image") ?> </a>
+    </div>
+    <!-- user edit image box -->
+    <div class="side-navbar d-lg-block d-none">
+        <ul class="side-nav">
+            <li class="side-nav-items ">
+            <a href="<?=$this->Url('front_profile');?>" class="side-nav-links " data-page="profile"> 
+            <span> Account Settings </span> 
+            <i class="fas fa-chevron-right"></i> </a> 
+            </li>
+            <li class="side-nav-items"><a href="<?=$this->Url('change-password')?>" class="side-nav-links"> <span> Change Password </span> <i class="fas fa-chevron-right"></i>  </a> </li>
+        </ul>
+    </div>
+    <!--------------- side navbar ---------------------->
+</div>
+

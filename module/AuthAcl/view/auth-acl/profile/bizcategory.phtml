@@ -1,0 +1,14 @@
+<?php if(!empty($category_pics)) { ?>
+	<div class="f-title" style="text-align:center">or</div>
+	<div class="catpick-section">
+		<p class="f-title">Select from below images</p>
+<?php											
+	$category_images = explode(",",$category_pics); 
+	foreach($category_images as $category_images_key => $category_images_val) { ?>
+		<label>
+		  <input type="checkbox" name="category_picpicks[]" value="<?= $category_images_val ?>" <?php if($category_images_key == '0') { ?>checked="checked"<?php } ?>>
+		  <img src="<?= HTTP_MULTIPLE_PRODUCTS_IMAGES_PATH.'/120/'.$category_images_val ?>">
+		</label>
+<?php } ?>
+	</div>
+<?php } ?>

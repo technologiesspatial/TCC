@@ -1,0 +1,64 @@
+/*
+Error: Undefined variable: "$bd-font-family".
+        on line 4 of //192.168.0.99/sites/Kishan/sandoplan/public/global/src/fonts/brand-icons/scss/path.scss
+
+1: // Font path
+2: // --------------------------
+3: @font-face {
+4:   font-family: '#{$bd-font-family}';
+5:   src: url('#{$bd-font-path}/#{$bd-font-file}.eot?v=#{$bd-version}');
+6:   src: url('#{$bd-font-path}/#{$bd-font-file}.eot?#iefix&v=#{$bd-version}') format('embedded-opentype'),
+7:   url('#{$bd-font-path}/#{$bd-font-file}.woff2?v=#{$bd-version}') format('woff2'),
+8:   url('#{$bd-font-path}/#{$bd-font-file}.woff?v=#{$bd-version}') format('woff'),
+9:   url('#{$bd-font-path}/#{$bd-font-file}.ttf?v=#{$bd-version}') format('truetype'),
+
+Backtrace:
+//192.168.0.99/sites/Kishan/sandoplan/public/global/src/fonts/brand-icons/scss/path.scss:4
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/script/tree/variable.rb:49:in `_perform'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/script/tree/node.rb:50:in `perform'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/script/tree/string_interpolation.rb:93:in `_perform'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/script/tree/node.rb:50:in `perform'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:395:in `visit_prop'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `block in with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:115:in `with_frame'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:502:in `block (2 levels) in visit_directive'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:502:in `map'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:502:in `block in visit_directive'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:501:in `visit_directive'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `block in with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:115:in `with_frame'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:157:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/tree/root_node.rb:20:in `render'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/engine.rb:278:in `render'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/sass_scss.rb:420:in `run'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/sass_scss.rb:63:in `process_result'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/base.rb:52:in `parse'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/lib/sass/exec/base.rb:19:in `parse!'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/lib/ruby/gems/2.2.0/gems/sass-3.4.20/bin/sass:13:in `<top (required)>'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/bin/sass:23:in `load'
+C:/Program Files/Adobe/Adobe Dreamweaver CC 2017/ruby/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$bd-font-family\".\A         on line 4 of //192.168.0.99/sites/Kishan/sandoplan/public/global/src/fonts/brand-icons/scss/path.scss\A \A 1: // Font path\A 2: // --------------------------\A 3: @font-face {\A 4:   font-family: '#{$bd-font-family}';\A 5:   src: url('#{$bd-font-path}/#{$bd-font-file}.eot?v=#{$bd-version}');\A 6:   src: url('#{$bd-font-path}/#{$bd-font-file}.eot?#iefix&v=#{$bd-version}') format('embedded-opentype'),\A 7:   url('#{$bd-font-path}/#{$bd-font-file}.woff2?v=#{$bd-version}') format('woff2'),\A 8:   url('#{$bd-font-path}/#{$bd-font-file}.woff?v=#{$bd-version}') format('woff'),\A 9:   url('#{$bd-font-path}/#{$bd-font-file}.ttf?v=#{$bd-version}') format('truetype'),"; }

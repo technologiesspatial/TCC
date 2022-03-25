@@ -1,0 +1,178 @@
+<?= $page_content['page_content_'.$_COOKIE['currentLang']]; ?>
+
+<style>
+
+/*.comman-section::before { display:none !important; }*/
+<?php if(!empty($first_section["content_image"])) { ?>
+	.how-first-section::before{background:url('<?= HTTP_SLIDER_IMAGES_PATH.'/'.$first_section["content_image"]; ?>');background-position:top center;background-size:cover;}
+<?php } if(!empty($third_section["content_image"])) { ?>
+	<?php /*?>.how-photo-gallery{background:url('<?= HTTP_SLIDER_IMAGES_PATH.'/'.$third_section["content_image"]; ?>');}<?php */?>
+	.how-photo-gallery{background:#000;}
+<?php } ?>
+.fancybox-button.fancybox-button--thumbs, .fancybox-button.fancybox-button--play,.fancybox-infobar{display: none !important ;}
+.guide-headtg{margin-bottom:0px !important;}
+.guide-desctg{text-align:center;font-size:20px;color:#ffff;margin-bottom:60px;font-family:'risqueregular';}
+.guide-regbtn{background:#000;color:#fff;padding:6px 28px;border-radius:0px;}
+.guide-regbtn:hover{background:none !important;border-color:#000 !important;color:#000 !important;box-shadow:none !important;transition:All 1s ease;}
+.how-photo-gallery .photo-text{text-align:left;font-size:16px;word-break:break-word;word-spacing:2px;}
+.how-photo-gallery .heading{margin-bottom:30px;}
+.photobk-tagger{display:flex;}
+.photobk-tagger div{display:inline-flex;}
+.photobk-tagger div img{object-fit:contain;object-position:center;}	
+</style>
+<section class="how-it-works-page">
+	<?php /*?><div class="how-first-section">
+		<div class="container">
+			<div class="first-content-block">
+				<div class="row align-items-center">
+					<div class="col-12">
+						<div class="text-block">
+							<h2 class="text-title"> <?= $first_section["content_heading"] ?> </h2>
+							<p class="text-description"> <?= $first_section["content_shortdesc"]; ?> </p>
+						</div>
+					</div>
+					<div class="col-lg-7">
+						<div class="ul-text-block">
+							<?= $first_section["content_description"] ?>
+						</div>
+					</div>
+					<div class="col-lg-5">
+						<div class="border-gradient "><a href="<?= APPLICATION_URL ?>/register" class="view-btn btn"> Sign Up<!-- Join Now --> </a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><?php */?>
+	
+	<!--  -->
+
+	<div class="how-second-section">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="second-image-block"> <img src="<?= HTTP_SLIDER_IMAGES_PATH.'/'.$second_section["content_image"] ?>">  </div>
+				</div>
+
+				<div class="col-lg-6">
+					<div class="second-content-block">
+						<h1 class="heading"><?= $second_section["content_heading"] ?></h1>
+						<?= $second_section["content_description"] ?>
+
+						<div class="follow-block">
+							<h2 class="follow-title">Join the Coven now!</h2>
+							<a href="<?= APPLICATION_URL ?>/register" class="guide-regbtn btn"> Sign Up</a>
+							<?php /*?><ul class="">
+								<?php if(!empty($second_section["content_fburl"])) { ?>
+									<li class=""> <a href="<?= $second_section["content_fburl"] ?>" target="_blank" class="facebook"> <img src="<?=HTTP_IMG_PATH?>/facebook-new.png">  </a> </li>
+								<?php } if(!empty($second_section["content_instaurl"])) { ?>
+									<li class=""> <a href="<?= $second_section["content_instaurl"] ?>" target="_blank" class="instagram"> <img src="<?=HTTP_IMG_PATH?>/instagram-new.png">  </a> </li>
+								<?php } if(!empty($second_section["content_networkurl"])) { ?>
+									<li class=""> <a href="<?= $second_section["content_networkurl"] ?>" class="network"> <img src="<?=HTTP_IMG_PATH?>/network-new.png">  </a> </li>
+								<?php } ?>
+							</ul><?php */?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- how-second-section -->
+
+	<div class="how-photo-gallery">
+		<div class="container">
+			<div class="photo-gallery-content">
+				<h1 class="heading"> <?= $third_section["content_heading"] ?> </h1>
+				<div class="photobk-tagger row">
+					<div class="col-xl-7 order-xl-1 order-2">
+						<?= $third_section["content_description"] ?>
+					</div>
+					<div class="col-xl-5 order-xl-2 order-1 mb-xl-0 mb-4">
+						<img src="<?= HTTP_SLIDER_IMAGES_PATH.'/'.$third_section["content_image"]; ?>" class="img-responsive img-fluid">
+					</div>
+				</div>
+				<?php /*?><div class="photo-slider owl-carousel">
+				 	 <?php foreach($photo_gallery as $photo_gallery_key => $photo_gallery_val) { ?>
+					 <a href="<?=HTTP_SLIDER_IMAGES_PATH.'/'.$photo_gallery_val["photogallery_image"]?>" class="fancybox" data-fancybox="gallery"> <img  class="image-box" src="<?=HTTP_SLIDER_IMAGES_PATH.'/'.$photo_gallery_val["photogallery_image"] ?>"> </a>
+					 <?php } ?>
+				</div><?php */?>
+			</div>
+		</div>
+	</div>
+	<!--  -->
+
+	<div class="what-offer-block">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="what-content">
+						<h1 class="heading"><?= $fourth_section["content_heading"] ?></h1>
+						<?= $fourth_section["content_description"]; ?>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="video-block">
+						<div class="video-frame"></div>
+						<iframe id="vidblk" width="420" height="380" src="<?= getYoutubeEmbedUrl($fourth_section["content_video"]); ?>"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+
+
+<script>
+	
+$(document).ready(function(){
+
+	$('.owl-carousel.photo-slider').owlCarousel({
+		autoplay: true,
+  		lazyLoad: true,
+		margin:10,
+		nav:false,
+		dot:false,
+		responsive:{
+			0:{
+				items:1
+			},
+			550:{
+				items:2
+			},
+			900:{
+				items:3
+			},
+			1200:{
+				items:4
+			},
+		}
+	});
+});
+	
+$("a.fancybox").fancybox();
+
+
+/* $(document).ready(function(){
+	
+  $("#lightgallery").lightGallery({
+    pager: true,
+	thumbnail:true,
+    animateThumb: false,
+    showThumbByDefault: false,
+  });
+  lightGallery(document.getElementById('responsive-images')); 
+});
+ */
+
+</script>
+
+
+
+
+	 	
+
+
+
+
+

@@ -1,0 +1,260 @@
+<style type="text/css">
+	/* .chosen-container{height:61px !important;} */
+	.chosen-choices{/* min-height:60px; */border:solid 1px rgb(216, 216, 216) !important;border-radius:6px;background-image:none !important;}
+/* 	.search-field{height:53px;line-height:51px !important;}
+	.search-choice{height:53px;line-height:51px !important;} */
+	.search-field input{/* height:58px !important;line-height:58px !important; */font-size:18px !important;color:#010001 !important;
+    width: auto !important;font-family:'berkshire_swashregular' !important;padding-left:15px !important;}
+	.coupon-btnsection{position:relative;}
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Manage Coupons</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+<div class="profile_page manage-coupons-page">
+  <div class="container">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+              <? /* ?>
+              <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+            <? */ ?>
+             <div class="change-image-user-box">
+              <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+              <div class="user-info">
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+              </div>
+            </div>
+
+      <div class="side-nav">
+          <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'coupons'=>1)); ?>
+      </div>
+      <!-- change user image -->
+    </div>
+    <!--  -->
+
+    <div class="right-side">
+
+      <div class="heading-box">
+        <h4 class="heading"> Add New Coupon </h4>
+        <a class="btn view-btn" href="<?= APPLICATION_URL.'/manage-coupon'; ?>"> Back </a>
+      </div>
+      <!-- heading box -->
+
+          <div class=" comman-form">
+            <form id="coupon_form" method="post" class="profile_form" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="client_name"> Name of Coupon <span>*</span> </label>
+                        <?php echo $this->formElement($form->get('coupon_title'))?>
+                      </div>
+                    </div>
+                    <!-- col -->
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="client_name"> Discount(%)<span>*</span> </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">%</span>
+                            </div>
+                            <?php echo $this->formElement($form->get('coupon_discount'))?>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="client_name"> Coupon Code </label>
+                      <div class="input-group coupon-code">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <?php echo $this->formElement($form->get('coupon_code'))?>
+                        <?php /*?><div class="input-group-prepend coupon-genholder">
+                          <span class="input-group-text generate-btn" id="basic-addon1">Generate</span>
+                        </div><?php */?>
+                      </div>
+                      <span class="text">This is the code your client has to enter at checkout to use this coupon.</span>
+                    </div>
+                      <!-- <a href="javascript:void(0)" class="generate-codebtn border-gradient"><span class="">Generate</span></a> -->
+                      
+                  </div>
+                </div>
+                <!-- row -->
+                <div class="radio-button-box">
+                    <h2 class="radio-heading"> Discount Rules </h2>
+                    <div class="radio-button">
+                      <p class="m-0">
+                        <input type="radio" id="test1" name="radio-group" class="rule-chkbox" value="1" checked>
+                        <label for="test1">Certain Products</label>
+                      </p>
+                      <p class="m-0">
+                        <input type="radio" id="test2" name="radio-group" class="rule-chkbox" value="2">
+                        <label for="test2">All Products</label>
+                      </p>
+                      <p class="m-0">
+                        <input type="radio" id="test3" name="radio-group" class="rule-chkbox" value="3">
+                        <label for="test3"> One Single Product</label>
+                      </p>
+                    </div>
+                </div>
+                 <div class="form-row product-holder">
+                 	<div class="col-sm-12">
+                    	<div class="form-group">
+                        	<label for="product_name"> Product<span>*</span></label>
+                            <select data-placeholder="Select Product" class="custom-select form-control required product-selblk" id="product_name" name="product_name[]" multiple="multiple">
+                            	<?php if(!empty($product_list)) { foreach($product_list as $product_list_key => $product_list_val) { ?>
+                                <option value="<?= $product_list_val["product_id"] ?>"><?= $product_list_val["product_title"] ?></option>
+                                <?php } } ?>
+                            </select>
+                        </div>
+                    </div>
+                 </div>   
+                 <div class="form-row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="client_name"> Start Date<span>*</span> </label>
+                      <?php echo $this->formElement($form->get('coupon_start_date'))?>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="client_name"> End Date<span>*</span> </label>
+                      <?php echo $this->formElement($form->get('coupon_end_date'))?>
+                    </div>
+                  </div>
+                 </div>
+                 <!--  -->
+                 <div class="form-row">
+                    <div class="stutus-switch">
+                        <p class="label-text"> Status : </p>
+                        <!-- <span>Active</span>
+                              <label class="switch">
+                                <input type="checkbox" checked="" name="coupon_status" id="coupon_status" onchange="myFunction() ">
+                                <span class="slider round"></span>
+                            </label>
+                        <span>Deactive</span> -->
+
+                        <div class="button-cover">
+                          <div class="button" id="button-13">
+                            <input type="checkbox" class="checkbox">
+                            <div class="knobs">
+                              <span> 
+                                <svg viewBox="0 0 100 100">
+                                  <path d="M20,55 L40,75 L77,27" fill="none" stroke="#4dd850" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                              </span>
+                            </div>
+                            <div class="layer"></div>
+                           
+                          </div>
+                        </div>
+                        <!--  -->
+
+                    </div>
+                 </div>   
+                 <!-- form row -->
+                 <div class="form-row coupon-btnsection">
+                  <div class="col-sm-12">
+                    <div class="form-group mb-0">
+                      <?php echo $this->formElement($form->get('startedbtn'))?>
+                    </div>
+                  </div>
+                 </div>
+            </form>
+
+          </div>
+
+    </div>
+
+    <!-- right-side-block -->
+
+  </div>
+  </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+    $('#coupon_start_date').datepicker({
+        startDate: '-0m'
+        //endDate: '+2d'
+    }).on('changeDate', function(selected){
+		var minDate = new Date(selected.date.valueOf());
+		minDate.setDate(minDate.getDate() + 1);
+        $('#coupon_end_date').datepicker('setStartDate', minDate);
+        //$('#sDate1').text($('.datepicker').data('date'));
+        $('#coupon_start_date').datepicker('hide');
+    });
+	
+	$('#coupon_end_date').datepicker({
+        startDate: '+1d'
+        //endDate: '+2d'
+    }).on('changeDate', function(ev){
+        //$('#sDate1').text($('.datepicker').data('date'));
+        $('#coupon_end_date').datepicker('hide');
+    });
+	
+})
+
+
+$(document).on("click",".generate-btn",function() {
+	$.ajax({
+		url: baseUrl+"/generate-code",
+		type: "POST",
+		data: { codez: 1 },
+		success: function(data){
+			$("#coupon_code").val(data);
+		}
+	})
+})
+
+$(document).on("change",".rule-chkbox",function() {
+	if($(this).val() == '2') {
+		$(".product-holder").addClass("d-none");
+		$("#product_name").removeClass("required");
+	} else if($(this).val() == '1') {
+		$(".product-holder").removeClass("d-none");
+		$("#product_name").addClass("required");
+		$("#product_name").addClass("product-selblk");
+		$("#product_name").attr("multiple","multiple");
+		$(".product-selblk").chosen({disable_search_threshold: 10});
+	} else if($(this).val() == '3') {
+		$("#product_name").removeClass("product-selblk");
+		$(".product-holder").removeClass("d-none");
+		$("#product_name").chosen("destroy");
+		$("#product_name").attr("multiple",false);
+	}
+})
+
+$(document).ready(function(e) {
+    $("#coupon_code").prop("checked",true);
+	$(".product-selblk").chosen({disable_search_threshold: 10});
+});
+	
+$('input[name="coupon_discount"]').on('input', function () {
+	this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	if(this.value > 100) {
+		this.value = 100;
+	}
+});	
+</script>

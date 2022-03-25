@@ -1,0 +1,8 @@
+<?php if(!empty($message_record)) { ?>
+	<div class="right-box msgcommon-panel" data-id="<?= str_replace("=","",base64_encode($message_record_val["chat_id"])); ?>">    
+    	<div class="text_wrapper">
+        	<div class="text"><?= nl2br($message_record["chat_text"]); ?>  </div>
+            <div class="dates"><?= time_elapsed_str($message_record["chat_date"]); ?></div>
+        </div>
+    </div>
+<?php } ?>

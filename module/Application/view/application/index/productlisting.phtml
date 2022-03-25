@@ -1,0 +1,591 @@
+<style type="text/css">
+	.sidenav1{overflow-y:scroll;}
+	.tag-selected{background:#000;color:#fff;padding:4px 6px;margin-bottom:10px;display:inline-block;}
+	.categ-destxt{font-family:rubikregular !important;}
+</style>
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading <?php if(!empty($category_desc)) { ?>categ-descblk<?php } ?>"><?php if(!empty($category_title)) { echo $category_title; } else { echo "Wicked shops"; } ?></h2>
+			<?php if(!empty($category_title)) { ?>
+			<p class="categorytxt-desctg categ-destxt"><?= $category_desc ?></p>
+			<?php } ?>
+		</div>
+	</div>	
+</div>
+
+
+<div class="search-page seller-profile-page">
+	<div class="container">
+
+		<div class="row">
+		<div class="col-3">
+			<div class="toggle-box sidenav1" id="mySidenav1">
+				<a href="javascript:void(0)" class="closebtn d-xl-none d-block" onclick="closeNav1()">&times;</a>
+			<h2 class="heading"> Search </h2>
+			<form id="filter_form" name="filter_form" method="post" enctype="multipart/form-data">
+				<div class="input-group">
+				<div class="input-group-prepend">
+					<div class="input-group-text"><img class="search-prodbtn" src="<?=HTTP_IMG_PATH?>/search1.svg"></div>
+				</div>
+				<input type="text" class="form-control search_prodtxt" id="seller_name" name="seller_name" placeholder="Search items" <?php if(!empty($selected_tag)) { ?>value="<?= $selected_tag ?>"<?php } else if(!empty($search_term)) { ?>value="<?= $search_term ?>"<?php } ?>>
+				</div>
+				
+				<div class="input-group">
+				<div class="input-group-prepend">
+					<div class="input-group-text"><img class="search-prodbtn" src="<?=HTTP_IMG_PATH?>/search1.svg"></div>
+				</div>
+				<input type="text" id="location" name="location" class="form-control search_prodtxt" id="inlineFormInputGroup" placeholder="Search by country or location">
+				</div>
+
+			
+			<!--  -->
+			<div class="product-listing">
+				<h1 class="pcate-heading"> Store Product Category </h1>
+				<?php if(!empty($categories)) { $prod_category = explode("~",$_GET["category"]); ?>	
+					<ul class="collection-list">
+						<?php 									
+							$subcategory_record = $this->layout()->AbstractModel->Super_Get(T_SUBCATEGORY_LIST,"subcategory_id  =:TID","fetch",array('warray'=>array('TID'=>$_GET["subcategory"])));			   
+						?>
+						<li class="list-li"> <a href="<?= APPLICATION_URL.'/product-listing'; ?>" class="item-catlist <?php if(empty(base64_decode($prod_category[1])) && empty($_GET["subcategory"])) { ?>active<?php } ?>" data-id="all"> <span> All </span> <span> <?= $total_products ?> </span> </a> </li>
+						<?php foreach($categories as $product_categories_key => $product_categories_val) {
+							$joinArr2 = array(
+								'1' => array('0' => T_CLIENTS, '1' => 'product_clientid = yurt90w_client_id' . '', '2' => 'Inner', '3' => array('yurt90w_client_planstatus','yurt90w_client_stripe_id')),
+								'2' => array('0' => T_STORE, '1' => 'product_clientid = store_clientid' . '', '2' => 'Inner', '3' => array('store_approval')),
+							);
+							$prodcount_data = $this->layout()->AbstractModel->Super_Get(T_PRODUCTS,"product_category = '".$product_categories_key."' and product_status = '1' and product_delstatus != '1' and store_approval = '1' and yurt90w_client_stripe_id != ''","fetchAll",array('fields'=>'product_id'),$joinArr2);
+						?>
+							<li class="list-li"> <a <?php if(!empty(base64_decode($prod_category[1])) && base64_decode($prod_category[1]) == $product_categories_key) { ?>class="active"<?php } ?> href="<?= APPLICATION_URL.'/product-listing?category='.str_replace(" ","",str_replace("&","",$product_categories_val)).'~'.str_replace("=","",base64_encode($product_categories_key)); ?>" class="item-catlist" data-id="<?= str_replace("=","",base64_encode($product_categories_key)) ?>"> <span> <?= $product_categories_val; ?> </span> <span> <?= count($prodcount_data); ?> </span> </a> 
+								<?php 									
+									$subcategory_data = $this->layout()->AbstractModel->Super_Get(T_SUBCATEGORY_LIST,"subcategory_categoryid =:TID","fetchAll",array('warray'=>array('TID'=>$product_categories_key)));
+									if(!empty($subcategory_data)) {
+								?>
+									<ul class="subcat-holder <?php if(!empty(base64_decode($prod_category[1])) && base64_decode($prod_category[1]) == $product_categories_key) { ?><?php } else if($subcategory_record["subcategory_categoryid"] == $product_categories_key) {} else { ?>d-none<?php } ?>">
+										<?php $sub_catid = explode("~",$_GET["subcategory"]);
+										foreach($subcategory_data as $subcategory_data_key => $subcategory_data_val) {
+											$joinArr2 = array(
+										'1' => array('0' => T_CLIENTS, '1' => 'product_clientid = yurt90w_client_id' . '', '2' => 'Inner', '3' => array('yurt90w_client_planstatus','yurt90w_client_stripe_id')),
+												'2' => array('0' => T_STORE, '1' => 'product_clientid = store_clientid' . '', '2' => 'Inner', '3' => array('store_approval')),
+									);
+											$subprodcount_data = $this->layout()->AbstractModel->Super_Get(T_PRODUCTS,"product_subcategory = '".$subcategory_data_val["subcategory_id"]."' and product_status = '1' and product_delstatus != '1' and store_approval = '1' and yurt90w_client_stripe_id != ''","fetchAll",array('fields'=>'product_id'),$joinArr2);
+										?>
+											<li>
+												<a <?php if(!empty($_GET["subcategory"]) && base64_decode($sub_catid[1]) == $subcategory_data_val["subcategory_id"]) { ?>class="active"<?php } ?> href="<?= APPLICATION_URL.'/product-listing?subcategory='.str_replace(" ","",str_replace("&","",($subcategory_data_val["subcategory_title"]))).'~'.str_replace("=","",base64_encode($subcategory_data_val["subcategory_id"])); ?>"><span> <?= $subcategory_data_val["subcategory_title"]; ?> </span> <span> <?= count($subprodcount_data); ?> </span></a>
+											</li>
+										<?php } ?>
+									</ul>
+								<?php } ?>
+							
+							</li>
+						<?php } ?>
+					</ul>
+				<?php } ?>
+			</div>
+			<!--  -->
+
+			
+			<div class="price-block">
+				<h1 class="p-title"> BY Price </h1>
+
+				<div class="range">
+					<input type="text" class="js-range-slider" name="my_range" id="my_range" 
+						data-type="double"
+						data-min="0"
+						data-max="1000"
+						data-from="0"
+						data-to="1000"
+						data-grid="true"/>
+				</div>
+				<p class="ranger-blk">$0 - $1000</p>
+		
+				<!-- text <span class="price-span"> Price : $10 - $70 </span> -->
+			</div>
+
+			<a href="javascript:void(0)" class="btn filter-btn search-btn"> Filter </a>
+
+			<a href="javascript:void(0)" class="reset-text d-block reset-btn"> Reset </a>
+			<input type="hidden" id="category" name="category" value="<?= $current_category ?>">
+			<input type="hidden" id="subcategory" name="subcategory" value="<?= $current_subcategory ?>">
+			</form>	
+			<hr/>
+
+			<?php /*?><p class="txt"> 18460 Admirers </p><?php */?>
+
+			</div>
+		</div>
+		<!--  -->
+		<div class="col-xl-9">
+			<div class="my-product-box">  
+				<h2 class="heading mb-0 pb-0"><span class="d-xl-none d-inline-block" style="font-size:30px;cursor:pointer" onclick="openNav1()">☰</span></h2>      
+				
+						<div class="found-row">  
+							<p class="found-result"> <?php /*?><span> 12 </span> Product Found <?php */?></p>
+							<select class="custom-select sortby-tg" id="inlineFormCustomSelect">
+								<option value="1">Price - High to Low</option>
+								<option value="2">Price - Low to High</option>
+                            	<option value="3" selected>Newest First</option>
+							</select>
+						</div>
+				<!--  -->
+				<div class="product-list">
+					<?php if(count($this->paginator)>0) {
+					foreach($this->paginator as $prodct_data_key => $prodct_data_val){ 
+						$priceqty_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID","fetch",array('warray'=>array('PID'=>$prodct_data_val["product_id"])));
+						$product_photos = explode(",",$prodct_data_val["product_photos"]);
+					?>
+					<div class="item">
+						<div class="itmanc-tg" data-href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>">
+							<div class="card menu-card">
+								<?php if($prodct_data_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+									<div class="ribbon-pop"><span>Best Seller</span></div>
+								<?php } ?>
+								<div class="slider-img"><div class="card-img-top">
+									<a href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>">
+									<?php if(!empty($prodct_data_val["product_defaultpic"])) { ?>
+									<img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/thumb/<?= $prodct_data_val["product_defaultpic"]; ?>" alt="Card image cap">
+									<?php } else { ?>
+									<img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/thumb/<?= $product_photos[0]; ?>" alt="Card image cap">
+									<?php } ?>
+									</a>
+									<div class="coven-overlay d-none"></div> 
+								</div>
+								<?php if($prodct_data_val["shipping_free"] == '1' && $prodct_data_val[T_CLIENT_VAR."client_country"] == $loggedUser->{T_CLIENT_VAR."client_country"} && $prodct_data_val["product_isdigital"] != '1') { ?>
+									<div class="freeship-holder"><div class="freeship-txt">Free Shipping</div></div>
+								<?php } else { ?>
+									<div class="freeship-holder">&nbsp;</div>
+								<?php } ?> 
+							</div>
+							<div class="card-body">
+								<a href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>" class="card-anctg"><h4 class="card-title"><?php echo $prodct_data_val["product_title"]; ?> </h4></a>
+								<?php if($prodct_data_val["product_isdigital"] != '1') { ?>
+									<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $priceqty_data["color_price"]; ?></span> </p>
+								<?php } else { ?>
+									<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $prodct_data_val["product_price"]; ?></span> </p>
+								<?php } ?>	
+								<!-- <a href="<?= APPLICATION_URL.'/product-listing?category='.$prodct_data_val["product_category"]; ?>" class="category-txt"> <?= $prodct_data_val["category_feild"]; ?> </a> -->
+								<div class="btn-block">
+									<a href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>" class="btn view-btn"> View Detail </a>
+									<a href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>#cart" class="btn cart-btn" data-id="<?= str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>"> Add to cart </a>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+					<?php } ?>
+					<?php echo $this->paginationControl($this->paginator, 'Sliding','auth-acl/paginator.phtml', array('page'=>$page,'category'=>$_GET["category"],'tag'=>$_GET["tag"])); ?>
+				<? 
+} else { ?>
+	<p class="col-md-12">No product found.</p>
+<?php } ?>
+				</div>
+				<!--  -->
+			</div>
+		</div>
+		<!-- seller product -->
+	</div>
+
+
+
+</div>
+<div class="modal add-to-cart-modal fade" id="addcartModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Cart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media product-infotg">
+			
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="cancle-btn btn">Cancel</button>
+        <button type="button" class="btn  add-cart-btn view-btn addcart-btntg">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&amp;key=<?= GOOGLE_MAP_API_KEY ?>&sensor=false"></script>
+<script>
+$(document).ready(function(){	
+$(".js-range-slider").ionRangeSlider({
+        type: "double",
+        min: 0,
+        max: 1000,
+        from: 0,
+        to: 500,
+        grid: true,
+		onChange: function (data) {
+			$(".ranger-blk").text("$"+data.from+" - $"+data.to);
+            // fired on every range slider update
+		},
+    });
+var creator_address = document.getElementById('location');
+	 var autocomplete2 = new google.maps.places.Autocomplete(creator_address);	
+});
+
+$(document).on("click",".addlog-cartbtn",function() {
+	showAppAlert('Error!!','Please login to add the product in the cart.','error');
+})
+
+$(document).on("change",".sortby-tg",function() {
+	var order = $(this).val();
+	$.ajax({
+		url: baseUrl + "/sort-products",
+		type: "POST",
+		data: { order: order },
+		success: function (data) {
+			$("#seller_name").val('');
+			$("#location").val('');
+			$(".product-list").html(data);
+			var instance = $("#my_range").data("ionRangeSlider");
+			 instance.update({
+			   from: 0,
+			   to: 500
+			 });
+			instance.reset(); 
+			$(".ranger-blk").text('');
+			$('.product-img img').map(function(){
+			  var $th = $(this);
+			  width = $th[0].naturalWidth;
+			  if(width < 200) {
+				$(this).css("object-fit","contain");
+			  }
+			})
+			window.history.pushState({}, null,'<?= APPLICATION_URL.'/product-listing'; ?>');
+		}
+	})
+})
+$(document).on("change",".prodcat-sorttg",function() {
+	var order = $(this).val();
+	$("#seller_name").val('');
+	$("#location").val('');
+	if(order != '') {
+		window.location.replace(baseUrl+"/product-listing?category="+order);
+	} else {
+		window.location.replace(baseUrl+"/product-listing");
+	}
+	/*$.ajax({
+		url: baseUrl + "/productby-category",
+		type: "POST",
+		data: { order: order },
+		success: function (data) {
+			$(".product-sbblk").html(data);
+		}
+	})*/
+})
+$(document).on("click",".reset-btn",function() {
+	$("#seller_name").val('');
+	$("#location").val('');
+	$("#my_range").val('');
+	var instance = $("#my_range").data("ionRangeSlider");
+	 instance.update({
+	   from: 200,
+	   to: 500
+	 });
+	 window.location.replace("<?= APPLICATION_URL.'/product-listing'; ?>");
+})
+
+$(document).on("click",".cart-btn",function() {
+	/*var tid = $(this).attr("data-id");
+	$.ajax({
+			url: baseUrl+"/cart-details",
+			type: "POST",
+			data: {tid:tid},
+			success: function(data){
+				$(".product-infotg").html(data);
+				$(".addcart-btntg").attr("data-id",tid);
+				$("#addcartModal").modal("show");
+			}
+	})*/
+	//$(".addcart-btntg").attr("data-id",tid);
+	
+})
+
+$(document).on("click",".addcart-btntg",function() {
+	var tid = $(this).attr("data-id");
+	var qty = $(".cartqty-inptg").val();
+	var coupon = $("#coupon_code").val();
+	var color = $(".selected_color").val();
+	var size = $(".selected_size").val();
+	if(color == '') {
+		$.notify({
+			message: "Please select the color of the product."
+		},{
+			type: 'danger',
+			timer: 50
+		});
+	} else if(size == '') {
+		$.notify({
+			message: "Please select the size of the product."
+		},{
+			type: 'danger',
+			timer: 50
+		});
+	} else {
+		$.ajax({
+				url: baseUrl+"/addmy-cart",
+				type: "POST",
+				data: {tid:tid,qty:qty,coupon_code:coupon,color:color,size:size},
+				success: function(data){
+					if(data == 'success'){
+						window.location.replace(baseUrl+"/my-cart");
+					} else  if(data == 'error') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','No such product found.','error');
+					} else  if(data == 'invalid_coupon') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','You have entered invalid coupon.','error');
+					} else  if(data == 'invalid_qty') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','You have entered invalid quantity.','error');
+					}
+					 else if(data == 'qtyerror') {
+						 $("#addcartModal").modal("hide");
+						showAppAlert('Error!','You cannot purchase this product as it is out of stock.','error');
+					} else if(data == 'restricted') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','You cannot purchase your own product.','error');
+					}
+				}
+		})
+	}
+})
+
+$(document).ready(function(e) {
+    $('.product-img img').map(function(){
+      var $th = $(this);
+      width = $th[0].naturalWidth;
+	  if(width < 200) {
+	  	$(this).css("object-fit","contain");
+	  }
+    }) 
+});
+
+$(document).on("click",".cancle-btn",function() {
+	$("#addcartModal").modal("hide");
+})
+
+$(document).on("click",".search-btn",function() {
+	if($("#filter_form").valid()) {
+		var formdata = $('#filter_form').serialize();
+		$.ajax({
+			url: baseUrl+"/filter-products",
+			type: "POST",
+			data: formdata,
+			success: function(data){
+				if($(".sidenav1").is(':visible') && $(window).width() < 1024) {
+					$(".closebtn").trigger("click");
+				}
+				//$(".filter-btn").trigger("click");
+				$(".product-list").html(data);
+				/*$('.product-img img').map(function(){
+				  var $th = $(this);
+				  width = $th[0].naturalWidth;
+				  if(width < 200) {
+					$(this).css("object-fit","contain");
+				  }
+				}) */
+			}
+		})
+	}
+})
+
+$(document).on("click",".apply-btn",function() {
+	var tid = $(this).attr("data-id");
+	var inptxt = $(".input-number").val();
+	var coupon_code = $("#coupon_code").val();
+	var color = $(".selected_color").val();
+	  var size = $(".selected_size").val();
+		if(color == '') {
+			$.notify({
+				message: "Please select the color of the product."
+			},{
+				type: 'danger',
+				timer: 50
+			});
+		} else if(size == '') {
+			$.notify({
+				message: "Please select the size of the product."
+			},{
+				type: 'danger',
+				timer: 50
+			});
+		} else { 
+			$.ajax({
+				url: baseUrl+"/show-price",
+				type: "POST",
+				data: {tid:tid,qty:inptxt,coupon_code:coupon_code,color:color,size:size},
+				success: function(data){
+					if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted' && data != 'invalid_coupon') {
+						$(".amount").html("$"+parseFloat(data));
+					} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'qty_restricted') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'invalid_coupon') {
+						showAppAlert('Error!!','Invalid coupon entered.','error');
+						$("#addcartModal").modal("hide");
+					}
+					 else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					}
+				}
+			})
+		}
+})
+
+$(function () {
+	   $(document).on("click",".prev-qbtn",function() {
+	      var max = parseInt($(".input-number").attr('max'));
+          var min = parseInt($(".input-number").attr('min'));
+		  var tid = $(this).attr("data-id");
+          var inptxt = $(".input-number").val();
+		  var inptxt = parseInt(inptxt) - 1;
+		  var coupon_code = $("#coupon_code").val();
+		  var color = $(".selected_color").val();
+		  var size = $(".selected_size").val();
+			if(color == '') {
+				$.notify({
+					message: "Please select the color of the product."
+				},{
+					type: 'danger',
+					timer: 50
+				});
+			} else if(size == '') {
+				$.notify({
+					message: "Please select the size of the product."
+				},{
+					type: 'danger',
+					timer: 50
+				});
+			} else { 
+			  if (inptxt > max)
+			  {
+				  var inptxt = max;
+			  }
+			  else if (inptxt < min)
+			  {
+				  var inptxt = min;
+			  }
+			  $(".input-number").val(inptxt);
+			  $.ajax({
+				url: baseUrl+"/show-price",
+				type: "POST",
+				data: {tid:tid,qty:inptxt,coupon_code:coupon_code,color:color,size:size},
+				success: function(data){
+					if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted' && data != 'invalid_coupon') {
+						$(".amount").html("$"+parseFloat(data));
+					} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'qty_restricted') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					}
+				}
+			  })
+			}
+	   })
+	   
+	   $(document).on("click",".next-qbtn",function() {
+          var max = parseInt($(".input-number").attr('max'));
+          var min = parseInt($(".input-number").attr('min'));
+		  var tid = $(this).attr("data-id");
+          var inptxt = $(".input-number").val();
+		  var inptxt = parseInt(inptxt) + 1;
+		  var coupon_code = $("#coupon_code").val();
+		  var color = $(".selected_color").val();
+		  var size = $(".selected_size").val();
+			if(color == '') {
+				$.notify({
+					message: "Please select the color of the product."
+				},{
+					type: 'danger',
+					timer: 50
+				});
+			} else if(size == '') {
+				$.notify({
+					message: "Please select the size of the product."
+				},{
+					type: 'danger',
+					timer: 50
+				});
+			} else { 
+			  if (inptxt > max)
+			  {
+				  var inptxt = max;
+			  }
+			  else if (inptxt < min)
+			  {
+				  var inptxt = min;
+			  }
+			  $(".input-number").val(inptxt);
+			  $.ajax({
+				url: baseUrl+"/show-price",
+				type: "POST",
+				data: {tid:tid,qty:inptxt,coupon_code:coupon_code,color:color,size:size},
+				success: function(data){
+					if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted' && data != 'invalid_coupon') {
+						$(".amount").html("$"+parseFloat(data));
+					} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'qty_restricted') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					}
+				}
+			  })
+			}
+        }); 
+});
+
+$(document).ready(function(e) {
+    $(".star-panel").starRating({
+		minRating: 0,
+		starShape:'rounded',
+		readOnly: true,
+		ratedColor: '#f4a925',
+  		activeColor: '#f4a925',
+		emptyColor: '#bebebe',
+		hoverColor: '#f4a925',
+  		strokeWidth:0,
+  		starSize: 23,
+		useGradient: false,
+		callback: function(currentRating, $el){
+			$(".review_rate").val(currentRating);
+    	}
+	});
+});	
+</script>
+
+<script>
+function openNav1() {
+  $("#mySidenav1").css("display","block");	
+  document.getElementById("mySidenav1").style.width = "250px";
+}
+
+function closeNav1() {
+  $("#mySidenav1").css("display","none");	
+  document.getElementById("mySidenav1").style.width = "0";
+}
+</script>

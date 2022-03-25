@@ -1,0 +1,82 @@
+<div class="page d-table" data-animsition-in="fade-in" data-animsition-out="fade-out" style="width:100%;">
+  <div class="page-content content_admin d-table-cell align-middle">
+    <div class="page-brand-info hidden-sm-down">
+      <div class="brand" style="text-align:center;"> <img class="brand-img brand_image" src="<?php echo HTTP_IMG_PATH?>/logo.png" alt="Site Logo" width="200"> </div>
+      <h2 class="brand-text brand_heading font-size-40" style="margin-left:0;text-align:center;width:100%;"><?php echo $this->SITE_CONFIG['site_name']?></h2>
+    </div>
+    <div class="page-login-main mainadmin d-table" style="height:100%;">
+      <div class="brand hidden-md-up"> <img class="brand-img" src="<?php echo HTTP_IMG_PATH?>/transparent-HQ.png" alt="Site Logo" width="200">
+        <h3 class="brand-text font-size-40"><?php echo $this->SITE_CONFIG['site_name']?></h3>
+      </div>
+      
+      <?php 
+			 $PostUrl="";
+			 if($this->type=='login') {
+				 $PostUrl=ADMIN_APPLICATION_URL."/login";
+				  ?>
+      <? }elseif($this->type=='forgotpassword') {
+				 $PostUrl=ADMIN_APPLICATION_URL."/forgot-password";
+			 }
+			 if(isset($_GET["url"]) && $_GET["url"]!=''){
+			  $PostUrl=$PostUrl."?url=".$_GET["url"];
+			 }
+			 ?>
+      <form method="post" action="<?php echo $PostUrl?>" autocomplete="off" class="profile_form d-table-cell align-middle backendloginform">
+        <?php if($this->type=='login') { ?>
+        <h3 class="font-size-24 login_heading">Log In</h3>
+        <div class="form-group form-material floating" data-plugin="formMaterial"> <?php echo $this->formElement($form->get('client_email')); ?>
+          <label class="floating-label admin_label" for="inputEmail">Email</label>
+        </div>
+        <div class="form-group form-material floating passadmin" data-plugin="formMaterial"> <?php echo $this->formElement($form->get('client_password')); ?>
+          <label class="floating-label admin_label" for="inputPassword">Password</label>
+        </div>
+        <?php echo $this->formElement($form->get('post_csrf'));?>
+        <div class="form-group clearfix"> <a class="float-right forgot_admin" href="<?=$this->url('forgotpassword')?>">Forgot password?</a> </div>
+        <div class="Overflow Clear text-center">
+          <button type="submit" class="btn admin_btn btn-primary btn-block waves-effect waves-classic">Log In</button>
+        </div>
+         <?php } else if($this->type=='forgotpassword') { ?>
+         	<h3 class="font-size-24 login_heading">Forgot Your Password ?</h3>
+         	<p class="forgot_admin">Input your registered email to reset your password</p>
+			<div class="form-group form-material floating" data-plugin="formMaterial" style="min-height:60px;">
+				<?php echo $this->formElement($form->get('client_email')); ?>
+        		<label class="floating-label admin_label" for="inputEmail">Email</label>
+        	</div>
+        	 <?php echo $this->formElement($form->get('post_csrf'));?>
+         	 <div class="Overflow Clear text-center">
+            <button type="submit" class="btn admin_btn btn-primary btn-block waves-effect waves-classic"><?=$this->layout()->translator->translate("send_email_txt")?></button>
+        	</div>
+            <p style="margin-top:20px;"><a class="forgot_admin" href="<?=$this->url('adminlogin')?>" style="margin-left:0;">Log In</a></p>
+            
+      <?php }
+		
+		 else { ?>
+        		<h3 class="font-size-24">Reset Your Password</h3>
+       			 <div class="form-group form-material floating" data-plugin="formMaterial">
+					<?php echo $this->formElement($form->get('client_password')); ?>
+        			<label class="floating-label" for="inputEmail">Enter Password</label>
+        		</div>
+                <div class="form-group form-material floating" data-plugin="formMaterial">
+					<?php echo $this->formElement($form->get('client_rpassword')); ?>
+        			<label class="floating-label" for="inputEmail">Re Type Password</label>
+        		</div>
+        	   <?php echo $this->formElement($form->get('post_csrf'));?>
+       		
+         	 <button type="submit" class="btn btn-primary btn-block waves-effect waves-classic">
+         		 <?=$this->layout()->translator->translate("resetpass_btn_txt")?>
+          	</button>
+       	 
+        <?php } ?>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+var type='<?=$this->type?>';
+$(document).ready(function(e) {
+    if(type=='login'){
+		$('#client_password').rules("remove","minlength");
+		$('#client_password').rules("remove","maxlength");
+	}
+});
+</script> 

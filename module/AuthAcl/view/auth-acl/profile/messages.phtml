@@ -1,0 +1,395 @@
+<style type="text/css">
+<?php if(($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) && $store_data["store_approval"] == '1') { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Messages</h2>
+		</div>
+	</div>	
+</div>
+<div class="profile_page message-page">
+  <div class="container">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+          <? /* ?>
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"470x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+          <? */ ?>
+
+          <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+      <div class="side-nav">
+        <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'message'=>1)); ?>
+      </div>
+      <!-- change user image -->
+    </div>
+    <!--  -->
+
+    <div class="right-side">
+      <!-- new message box -->
+            <div class="">
+                <div class="message-page">
+                    <div class="row m-0">
+                        <div class="col-12 col-lg-4 p-0">
+                            <div class="online-users">
+                                <div class="search-box">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control search-inptg search-nametg" placeholder="Search by name">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <img src="<?=HTTP_IMG_PATH?>/search1.svg"/> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- search box -->
+
+                                <div class="user-block">
+                                 <?php if(!empty($message_record)) {
+									$senders = array_column($message_record,"chat_by");
+									$receivers = array_column($message_record,"chat_to");
+									foreach($message_record as $message_record_key => $message_record_val) {
+									if(!empty($usrid)) {
+										$usr_record = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id = '".base64_decode($usrid)."'","fetch",array('fields'=>array(T_CLIENT_VAR."client_name",T_CLIENT_VAR."client_image")));
+									}	
+									if($message_record_val["chat_by"] != $loggedUser->{T_CLIENT_VAR."client_id"}) {
+										$usid = str_replace("=","",base64_encode($message_record_val["chat_by"]));
+									} else {
+										$usid = str_replace("=","",base64_encode($message_record_val["chat_to"]));
+									}
+									$unread_msgdata = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_to = '".$loggedUser->{T_CLIENT_VAR."client_id"}."' and chat_by = '".base64_decode($usid)."' and chat_readstatus != '1'","fetchAll",array('fields'=>'chat_id'));	
+								 ?>
+                                  <?php if(!empty($usr_record) && $message_record_key < 1) { ?>
+                                  	<div class="user-section active" data-id="<?= $usrid; ?>">
+                                      <div class="img-user"> 
+                                          <div class=""> 
+                                          <?php if(!empty($usr_record[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$usr_record[T_CLIENT_VAR."client_image"])) { ?>
+                                          	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/60/<?= $usr_record[T_CLIENT_VAR."client_image"] ?>"/> 
+                                          <?php } else { ?>
+                                          	<img src="<?= HTTP_PROFILE_IMAGES_PATH ?>/60/default.png">
+                                          <?php } ?>
+                                          </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> <?= $usr_record[T_CLIENT_VAR."client_name"] ?> </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> <?= 0; ?> </p>
+                                  	</div>
+                                  <?php } if(base64_decode($usrid) != $message_record_val["chat_by"] && base64_decode($usrid) != $message_record_val["chat_to"]) { ?>
+                                  <div class="user-section <? if($uid == $usid && empty($usr_record)) { ?>active<? } ?>" data-id="<?= $usid; ?>">
+                                      <div class="img-user"> 
+                                          <div class=""> 
+                                          <?php if(!empty($message_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$message_record_val[T_CLIENT_VAR."client_image"])) { ?>
+                                          	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/60/<?= $message_record_val[T_CLIENT_VAR."client_image"] ?>"/> 
+                                          <?php } else { ?>
+                                          	<img src="<?= HTTP_PROFILE_IMAGES_PATH ?>/60/default.png">
+                                          <?php } ?>
+                                          </div> 
+                                          <div class="">
+                                              <div class="d-flex name-times"> <span class="user-name d-inline-block"> <?= $message_record_val[T_CLIENT_VAR."client_name"] ?> </span></div> 
+                                          </div>
+                                      </div>
+                                      <p class="unread-message"> <?= count($unread_msgdata); ?> </p>
+                                  </div>
+                                  <?php } } } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <!----------------- chat user -------------------->
+                        <div class="col-12 col-lg-8 p-0">
+                            <div class="">
+                                <div class="chat-box" id="message6">
+                                    <div class="message-window">
+                                       	<?php if(!empty($chat_record)) {
+										array_multisort( array_column($chat_record, "chat_id"), SORT_ASC, $chat_record );
+			  							foreach($chat_record as $chat_record_key => $chat_record_val) { 
+											if($chat_record_val["chat_by"] != $this->loggedUser->{T_CLIENT_VAR."client_id"}) {
+										?>
+											<div class="left-box cmnchat-box">
+												<div class="text_wrapper">
+
+													<div class="text"><?= nl2br($chat_record_val["chat_text"]); ?>  </div>
+												</div>
+												<div class="text-user">
+												  <div class="avatar">
+												  <?php if(!empty($chat_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"])) { ?>
+												  	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"]; ?>">
+												  <?php } else { ?>
+												  	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>">
+												  <?php } ?>
+												  </div>
+												  <span class="times d-block"> <?= time_elapsed_str($chat_record_val["chat_date"]) ?> </span>
+												</div>
+											</div>
+                                        <?php } else { ?>
+                                        	<div class="right-box cmnchat-box">
+                                                <div class="text_wrapper">
+                                                    <div class="text"><?= nl2br($chat_record_val["chat_text"]); ?></div>
+                                                </div>
+                                                <div class="text-user">
+                                                <span class="times d-block"> <?= time_elapsed_str($chat_record_val["chat_date"]) ?></span>
+                                                <div class="avatar">
+                                                <?php if(!empty($chat_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"])) { ?>
+                                                	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"]; ?>">
+                                                <?php } else { ?>
+                                                	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>">
+                                                <?php } ?>
+                                                </div>
+                                                </div>
+                                        	</div>
+                                        <?php } } } ?>
+                                    </div>
+                                    <div class="message-type-window">
+                                        <form id="chat_form" method="post">
+                                            <div class="self-img">
+                                            <?php if(!empty($loggedUser->{T_CLIENT_VAR.'client_image'}) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$loggedUser->{T_CLIENT_VAR."client_image"})) { ?>
+                                            	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$loggedUser->{T_CLIENT_VAR.'client_image'} ?>">
+                                            <?php } else { ?>
+                                            	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>">
+                                            <?php } ?>
+                                            </div>
+                                            <div class="input-group">
+                                                <textarea class="form-control required" id="chat_txt" name="chat_txt" placeholder="Enter your message" data-id="<?= $uid ?>" autocomplete="off" style="resize:none"></textarea>
+                                                <div class="input-group-addon">
+                                                	<a href="javascript:void(0)" class="chat-btntg" data-id="<?= $uid ?>"><img src="<?=HTTP_IMG_PATH?>/send1.svg"></a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!--------------------- chat box -------------------------------------->
+
+
+                            </div>
+                        </div>
+                        <!---------------------------- message box --------------------->
+                    </div><!---------- row ------------------>
+                </div><!------------- message ---------------->
+            </div>
+      <!-- new message box -->
+
+      <? /* ?>
+      <div class="right-side massage-box">
+            <?php if(empty($store_approval) && empty($message_record)) { ?>
+                <p>No message found.</p>
+              <?php } else { ?>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1"> <img src="<?=HTTP_IMG_PATH?>/search1.svg"> </span>
+                        </div>
+                        <input type="text" id="search_txt" name="search_txt" class="form-control" placeholder="Search by name">
+                    </div>
+                    <?php } ?>
+                    <!-- input group -->
+
+                    <div class="row message-blkholder">
+                      <?php if(!empty($store_approval)) { 
+                          $msgcount_data = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_by =:UID and chat_readstatus = '2'","fetchAll",array('fields'=>'chat_id','warray'=>array('UID'=>1)));
+                          if(empty($modchk)) {
+                        ?>
+                        <div class="col-sm-6">
+                            <div class="user-list">
+                                <div class="media">
+                                    <?php if(!empty($mod_data[T_CLIENT_VAR.'client_image'])) { ?>
+                                        <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/'.$mod_data[T_CLIENT_VAR.'client_image']; ?>" />
+                                      <?php } else { ?>
+                                          <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+                                    <?php } ?>
+                                    <div class="media-body">
+                                      <div class="d-flex">
+                                        <div class="">
+                                            <h5 class="name"><?= $mod_data[T_CLIENT_VAR.'client_name']; ?></h5>
+                                            <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/admin'; ?>" class="message-btn view-btn btn">Message</a> </div>
+                                        </div>
+                                        <!--  -->
+                                        <?php if(count($msgcount_data) > 0) { ?>
+                                          <div class="unread-box">
+                                              <div class="count-no"> <span><?= count($msgcount_data); ?></span> </div>
+                                              <p class="mb-0">New Message</p>
+                                          </div>
+                                        <?php } ?>
+                                        <!--  -->
+                                      </div>
+                                      <!-- d flex -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+		                  <?php } } ?>
+                  <?php if(!empty($message_record)) { foreach ($message_record as $message_record_key => $message_record_val) {
+                    $msgcount_data = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_by =:UID and chat_to =:TID and chat_readstatus = '2'","fetchAll",array('fields'=>'chat_id','warray'=>array('TID'=>$this->loggedUser->yurt90w_client_id,'UID'=>$message_record_val["chat_by"]))); ?>
+                          <div class="col-sm-6">
+                              <div class="user-list">
+                              <div class="media">
+                                <?php if(!empty($message_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+                                  <img src="<?=HTTP_PROFILE_IMAGES_PATH.'/160/'.$message_record_val[T_CLIENT_VAR.'client_image']; ?>">
+                                <?php } else { ?>
+                                  <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+                      <?php } ?>
+                                <div class="media-body">
+                                  <div class="d-flex">
+                                    <div class="">
+                                      <h5 class="name"><?= $message_record_val[T_CLIENT_VAR.'client_name']; ?></h5>
+                                      <?php if($message_record_val["chat_by"] == '1') { ?>
+                                      <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/admin'; ?>" class="message-btn view-btn btn">Message</a> </div>	
+                          <?php } else { if($message_record_val["chat_by"] == $this->loggedUser->{T_CLIENT_VAR.'client_id'}) { ?>
+                          <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/'.str_replace("=","",base64_encode($message_record_val["chat_to"])); ?>" class="message-btn view-btn btn">Message</a> </div>
+                          <?php } else { ?>
+                          <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/'.str_replace("=","",base64_encode($message_record_val["chat_by"])); ?>" class="message-btn view-btn btn">Message</a> </div>
+                          <?php } } ?>
+                        </div>
+                        <!--  -->
+                        <?php if(count($msgcount_data) > 0) { ?>
+                        <div class="unread-box">
+                          <div class="count-no"> <span><?= count($msgcount_data); ?></span> </div>
+                          <p class="mb-0">New Message</p>
+                        </div>
+                        <?php } ?>
+                        <!--  -->
+                      </div>
+                      <!-- d flex -->
+                    </div>
+                    <!-- media body -->
+                  </div>
+                  <!-- media -->
+                  </div>
+              </div>
+              <?php } } ?>
+              <!--  -->
+            </div>
+            
+          </div>
+      </div>
+      <? */ ?>
+
+    <!-- right-side-block -->
+
+  </div>
+  </div>
+</div>
+<script type="text/javascript">	
+	var Scrollingvar=0;
+	$(window).scroll(function() {
+		var length=  $(".cmnchat-box").length;
+		var start = length;
+		var tid = $(".chat-btntg").attr("data-id");
+		if(Scrollingvar==0){
+			Scrollingvar=1; 
+			$.ajax({
+				url: baseUrl+"/getscroll-msglist",
+				type: "POST",
+				data: {start:start,tid:tid},
+				success: function(data){
+					if(data != '') {
+						Scrollingvar=0; 
+						$(".message-window").prepend(data);	
+					} else {
+						Scrollingvar=1; 
+					}
+				}
+			})
+		}
+	})
+	
+$(document).ready(function() {
+	//$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+	$('.message-window').scrollTop($('.message-window')[0].scrollHeight);
+})
+
+$(document).on("click",".user-section",function() {
+	var tid = $(this).attr("data-id");
+	var $this = $(this);
+	$(".user-section").removeClass("active");
+	$(this).addClass("active");
+	history.pushState(null, null, '<?= APPLICATION_URL.'/messages/'; ?>'+tid);
+	$.ajax({
+			url: baseUrl+"/get-messages",
+			type: "POST",
+			data: {tid:tid},
+			success: function(data){
+				$(".message-window").html(data);
+				$('.message-window').scrollTop($('.message-window')[0].scrollHeight);
+				$this.find(".unread-message").html('0');
+				Scrollingvar=0; 
+			}
+	})
+})
+
+$('#chat_txt').keypress(function (e) {
+	if (e.which == 13 && e.shiftKey) {
+	} else if (e.which == 13) {
+	var chat_txt = $("#chat_txt").val().trim();
+	$("#chat_txt").val(chat_txt);
+	var tid = $(this).attr("data-id");	
+	if($("#chat_form").valid()) {
+		$("#chat_txt").val('');
+		$.ajax({
+			url: baseUrl+"/chat-message",
+			type: "POST",
+			data: {chat_txt:chat_txt,chat:tid},
+			success: function(data){
+				if(data == 'restricted') {
+					showAppAlert('Error!','You cannot send message to yourself.','error');
+				}
+				else {
+				if(data != '') {
+					$('.message-window').append(data);
+					$('.message-window').scrollTop($('.message-window')[0].scrollHeight);
+				} }
+			}
+		})
+	}
+	}
+});
+
+$(document).on("click",".chat-btntg",function() {
+	var tid = $(this).attr("data-id");
+	var chat_txt = $("#chat_txt").val().trim();
+	$("#chat_txt").val(chat_txt);
+	if($("#chat_form").valid()) {
+		$("#chat_txt").val('');
+		$.ajax({
+			url: baseUrl+"/chat-message",
+			type: "POST",
+			data: {chat_txt:chat_txt,chat:tid},
+			success: function(data){
+				if(data == 'restricted') {
+					showAppAlert('Error!','You cannot send message to yourself.','error');
+				}
+				else { if(data != '') {
+					$('.message-window').append(data);
+					$('.message-window').scrollTop($('.message-window')[0].scrollHeight);
+				} }
+			}
+		})
+	}
+})	
+
+$(document).on("keyup",".search-nametg",function() {
+	var search_txt = $(this).val().trim();
+	$.ajax({
+		url: baseUrl+"/getsearch-person",
+		type: "POST",
+		data: {search_txt:search_txt},
+		success: function(data){
+			$(".user-block").html(data);
+		}
+	}) 
+})
+</script>

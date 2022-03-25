@@ -1,0 +1,1009 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+  $accountid = $this->loggedUser->yurt90w_client_account_id;
+?>
+
+<div class="commen-sec-images">
+    <h2 class="heading">Account Settings</h2>
+</div>
+
+<!-------------------------- after login nav bar --------------------------------->
+
+<div class="profile-header d-lg-block d-none">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg p-0">
+    
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav nav-active m-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="<?php echo $this->url('front_memberupdateprofile'); ?>">Account Settings</a>
+          </li> 
+          <li class="nav-item">
+            <a class="nav-link" href="#">Upload Videos</a>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link" href="#">Manage Videos</a>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link" href="#">Manage Availability</a>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link" href="#">View Bookings</a>
+          </li>    
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-------------------------------------------------------------------------------------------->
+
+<div class="profile_page comman-bg">
+  <div class="container">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link <?php if($active_tabid=='1'){ echo 'active'; } ?>" href="#profile" role="tab" data-toggle="tab">Account Settings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <?php if($active_tabid=='2'){ echo 'active'; } ?>" href="#change" role="tab" data-toggle="tab">Change Password</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <?php if($active_tabid=='3'){ echo 'active'; } ?> last-nav" href="#stripe" role="tab" data-toggle="tab">Stripe Connect</a>
+    </li>
+  </ul>
+
+     <h1 class="heading" id="tabPageTitle"><?php echo $tabPageTitle; ?></h1>
+
+    <div class="row form-section m-0">
+      <div class="left-side-block">
+        <div class="tab-content ">
+          <div role="tabpanel" class="tab-pane fade <?php if($active_tabid=='1'){ echo 'show active'; } ?>" id="profile">
+            <div class="comman-form comman-form2">
+            <form action="<?php echo $this->url('front_memberupdateprofile'); ?>/1" method="post" class="profile_form" enctype="multipart/form-data">
+              
+              <div class="form-row">
+                <div class="col-sm-6">
+                  <div class="form-group ">
+                    <label for="client_name">Full Name</label>
+                    <?php echo $this->formElement($form->get('client_name'))?>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group ">
+                    <label for="client_email">Email Address</label>
+                    <?php echo $this->formElement($form->get('client_email'))?>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-sm-6">
+                  <div class="form-group ">
+                    <label for="client_company_name">Company Name</label>
+                    <?php echo $this->formElement($form->get('client_company_name'))?>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group ">
+                    <label for="client_company_address">Company Address</label>
+                    <?php echo $this->formElement($form->get('client_company_address'))?>
+                    <?php echo $this->formElement($form->get('client_address_lat'))?>
+                    <?php echo $this->formElement($form->get('client_address_long'))?>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-sm-6">
+                  <div class="form-group ">
+                    <label for="client_phone">Telephone Number</label>
+                    <?php echo $this->formElement($form->get('client_phone'))?>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group ">
+                    <label for="client_website_url">Website</label>
+                    <?php echo $this->formElement($form->get('client_website_url'))?>
+                  </div>
+                </div>
+              </div>
+
+              <div class="upload-box">
+                <label>Photos</label>
+
+                <?php echo $this->formElement($form->get('client_images_name'))?>
+
+                <div class="upload-img-box">
+                  <div class="drop-img-box">
+
+                    <div id="pic-progress1" class="progress progress-sm" style="display:none;height:2px;">
+                      <div id="pic-bar1" class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <div class="upload-img FileArea"> 
+                      <div class="hide">
+                        <!-- <input type="file" name="client_images_six" class="form-control" id="client_images_six" accept="image/jpeg, image/png" > -->
+                        <?php echo $this->formElement($form->get('client_images_six'))?>
+                      </div>
+                      <?php echo $this->formElement($form->get('client_default_image_name'))?>
+                      <img src="<?=HTTP_IMG_PATH?>/picture.svg" alt="front" class="dragndrop_wrapper" onclick="$('#client_images_six').trigger('click')">
+                      <p class="browse-text">Drag and drop a photo <br>or <a href="javascript:void(0)"  onclick="$('#client_images_six').trigger('click')"> Browse </a> to choose a file  </p>
+
+                    </div>
+
+                    <small><i>*Able to upload of upto 6 photos.</i></small>
+
+                    <div id="mediaErrorDiv" class="help-block p0 m-0"></div>
+
+                  </div>
+                  <!-----------------------  ----------------------->
+                  
+                  <div class="avtar-box">
+                    <ul class="">
+                      <?php $count_imgs = count($userPhotosData); 
+                      $blank_img = 6 - $count_imgs;
+                      ?>
+                      <?php if($count_imgs > 0){ 
+                        foreach($userPhotosData as $img_data){ 
+                      ?>
+                        <li class="has-image">
+                          <div class="upload-img"> 
+                            <i class="fa fa-times-circle"></i>
+                            <img src="<?php echo APPLICATION_URL.'/avatars/206x137/'.$img_data['cp_photo_name'];?>" file-name="<?php echo $img_data['cp_photo_name'];?>" alt="front">
+                          </div>
+                        </li>
+                      <?php } } ?>
+
+                      <?php for($x=0;$x < $blank_img;$x++){ ?>
+                        <li class="has-no-image">
+                          <div class="upload-img"> 
+                            <img src="<?=HTTP_IMG_PATH?>/default-113x68.png" alt="front">
+                          </div>
+                        </li>
+                      <?php } ?>
+                    </ul>
+                  </div>
+                  <!------------------- avtar box ---------------------->
+                </div>
+
+              </div>
+              <!----------------------- upload box ------------------------>
+
+              <br>
+              <div class="form-row">
+                <div class="col-sm-12">
+                  <div class="form-group ">
+                    <label for="client_email_password">Password <small>(Required in case of changing email)</small></label>
+                    <?php echo $this->formElement($form->get('client_email_password'))?>
+                  </div>
+                </div>
+              </div>
+
+              <?php echo $this->formElement($form->get('post_csrf'))?>
+
+              <button type="button" name="bttnsubmit" class="btn submit-btns" id="profilebtn" value="">Submit</button>
+              <?php // echo $this->formElement($form->get('bttnsubmit'))?>
+              
+            </form>
+          </div>
+        </div>
+        <!----------------------------- profile ---------------------------------->
+        <div role="tabpanel" class="tab-pane fade <?php if($active_tabid=='2'){ echo 'show active'; } ?>" id="change">
+          <div class="comman-form">
+            <form action="<?php echo $this->url('front_memberupdateprofile'); ?>/2" method="post" class="user_password_form" enctype="multipart/form-data">
+              
+              <div class="form-group">
+                <label for="client_old_password">Old Password</label>
+                <?php echo $this->formElement($form1->get('client_old_password'))?>
+              </div>
+
+              <div class="form-group">
+                <label for="client_password">New Password </label>
+                <?php echo $this->formElement($form1->get('client_password'))?>
+              </div>
+              
+              <div class="form-group">
+                <label for="client_rpassword">Retype New Password</label>
+                <?php echo $this->formElement($form1->get('client_rpassword'))?>
+              </div>
+
+              <?php echo $this->formElement($form1->get('password_csrf'))?>
+              <?php echo $this->formElement($form1->get('btnchpasswordsubmit'))?>
+
+            </form>
+          </div>
+        </div>
+        <!-------------------------------- change passwrod -------------------------------------->
+        <div role="tabpanel" class="tab-pane fade <?php if($active_tabid=='3'){ echo 'show active'; } ?>" id="stripe">
+          <div class="comman-form" style="min-height: 365px;">
+            <?php if($accountid!=''){ ?>
+              <div class="text-center">
+                <br>
+                <label class="account_id">ACCOUNT ID: <strong><?php echo $accountid; ?></strong></label>
+                <br><br>
+                <button type="button" class="btn default_btn">Edit</button>
+              </div>
+              <br><br>
+            <?php } ?>
+            <form action="<?php echo $this->url('front_memberupdateprofile'); ?>/3" method="post" class="account_form" id="account_form" enctype="multipart/form-data">              
+              <div class="form-group">
+                <label for="client_ssnnumber">SSN</label>
+                <?php echo $this->formElement($paymentform->get('client_ssnnumber'))?>
+              </div>
+
+              <div class="form-group">
+                <label for="client_dob">Date of Birth</label>
+                <?php echo $this->formElement($paymentform->get('client_dob'))?>
+                <img src="<?=HTTP_IMG_PATH?>/calendar.svg" class="logo  calendericon dateofbirthcol img-fluid">
+              </div>
+              
+              <div class="form-group">
+                <label for="client_accnumber">Account Number</label>
+                <?php echo $this->formElement($paymentform->get('client_accnumber'))?>
+              </div>
+
+              <div class="form-group">
+                <label for="client_accnumber">Route Number</label>
+                <?php echo $this->formElement($paymentform->get('client_routenumber'))?>
+              </div>
+
+              <?php echo $this->formElement($paymentform->get('payment_csrf'))?>
+              <button type="submit" class="btn submit-btns">Submit</button>
+            </form>
+          </div>
+        </div>
+        <!-------------------------------- stripe -------------------------------------->
+      </div>
+    </div>
+    
+      <div class="right-side-block">
+
+        <div class="change-image updates">
+          <form action="<?php echo $this->url('front_updateprofileimage'); ?>" method="post" class="profile_img_form" enctype="multipart/form-data">
+            <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+            <input type="hidden" name="uploadImageType" id="uploadImageType" value="" autocomplete="off">
+            <div class="fileinput fileinput-new" data-provides="fileinput" style="width:200px;margin:0px auto;text-align: center;display: block;">
+
+              <div class="fileinput-new thumbnail update_logo" style="max-width:200px;max-height:200px;"> 
+                <?php if(isset($this->loggedUser->yurt90w_client_image) and !empty($this->loggedUser->yurt90w_client_image)){
+                  $user_img = getUserImage($this->loggedUser->yurt90w_client_image,"206x137");
+                } else {
+                  $user_img = APPLICATION_URL.'/avatars/206x137/default.png';
+                }
+                ?>
+                <img src="<?php echo $user_img; ?>" alt="" class="img-circle" width="200" /> 
+              </div>
+
+              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width:200px;max-height:200px;"> </div>
+
+              <div style="margin-top:0px;" id="img_uploader_wrapper"> 
+                <span class="rgt_btn btn-file btn btn-outline-secondary update_button"> 
+                  <span class="fileinput-new"> Change Photo </span> 
+                  <span class="fileinput-exists"> Change Photo </span>
+
+                 <?php echo $this->formElement($form->get('client_image'))?>
+
+                 <?php echo $this->formElement($form->get('post_csrf'))?>
+
+                <!-- </span> <a href="#" class="rgt_btn btn btn-xs btn-danger default fileinput-exists update_button" data-dismiss="fileinput" style="vertical-align:top" id="filedismiss">Remove Photo </a>  -->
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" id="changeImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Select photo area and press save button</h5>
+            </div>
+            <div class="modal-body">
+                <div id="cropimage_block" class="text-center">
+                <center>
+                    <div class="cropping_area text-center"><img src="" class="img-responsive" id="targetimg" /></div>
+                </center>
+                    <button type="button" class="upload_btn mt-5 btn submit-btn default_btn" id="SubmitForm">Save</button>
+                    <button type="button" class="btn btn-secondary mt-5 cancel_btn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwBN9L602wvTjN55p7bQ0NpaXJ6qOHlWc&libraries=places&sensor=false"></script> 
+
+<script type="text/javascript">
+var isSubmit=1;
+
+var global_six_file_data = '';
+
+/* start upload image section */
+var uploaded_images_arr = Array();
+
+<?php if($count_imgs > 0){ 
+  foreach($userPhotosData as $img_data){ 
+?>
+  uploaded_images_arr.push("<?php echo $img_data['cp_photo_name']?>");
+<?php } } ?>
+
+$(document).ready(function(){
+
+  $("#client_phone").inputmask("+99 999 999 9999", {
+      onKeyValidation: function (key, result) {
+      
+    }
+  });
+
+  $('#changeImg').on('hidden.bs.modal', function (e) {
+    // do something...
+    $('#client_image').val('');
+    $('#client_images_six').val('');
+  });
+
+  /* Side profile image */
+  $('#client_image').change(function (e) { 
+    var files = $('#client_image')[0].files[0];
+    var file_size = bytesToMBSize(files.size);
+    var Ext = files.name.split('.');
+    Ext = Ext.pop();
+    var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+
+    $('.fileinput .thumbnail').css("display", "inline-block");
+    $('.fileinput div.fileinput-exists').css("display", "none");
+    if(($.inArray(Ext, extension_array)<0)){ 
+      swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+    } else {
+      // alert('called next readURL_modal function');
+      if(file_size <= 10){
+        readURL_modal(this, 'mainprofile');
+
+      } else {
+        showAppAlert('Error!!','You can upload a photo upto 10 MB in size.','error');
+      }
+    }
+  });
+
+  
+
+  $('#SubmitForm').on('click', function(){
+    $('#changeImg').modal('hide');
+
+    $.blockUI({
+        css: {
+            border: 'none',
+            padding: '5px',
+            width: '24%',
+            left: '39%',
+            color: '#ffffff',
+            border: '1px solid #424445',
+            backgroundColor: '#AB191A',
+            'z-index': '999999999999999999999999999',
+            opacity: .9,
+            color: '#fff',
+        },
+        message: "<div class='Loader'><div class='Text' style='letter-spacing: 2px;'>Just a moment</div></div>",
+    });
+
+    var post_csrf = $('.profile_img_form input[name=post_csrf]').val();
+    var imageCordinates = $('input[name="imageCordinates"]').val();
+    // mainprofile = for right side image
+    // siximage = for one of six images
+    var uploadImageType = $('input[name="uploadImageType"]').val();
+    if(uploadImageType=='mainprofile'){
+      var files = $('#client_image')[0].files[0];
+    } else {
+      var files = global_six_file_data[0];
+    }
+    var fd = new FormData();
+    fd.append('client_image',files);
+    fd.append('post_csrf',post_csrf);
+    fd.append('cordinates',imageCordinates);
+    fd.append('uploadImageType',uploadImageType);
+    $.ajax({
+        url: "<?php echo $this->url('front_updateprofileimage'); ?>",
+        type: 'post',
+        data: fd,
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        success: function(response){
+            $.unblockUI();
+            if(response.status == 200){
+                if(response.data.image!=''){
+
+                  if(uploadImageType=='mainprofile'){
+                      // mainprofile = for right side image
+                      var src = "<?php echo APPLICATION_URL.'/avatars/206x137/'?>" + response.data.image;
+                      $('.fileinput div.fileinput-exists img').attr('src', src);
+                      $('.fileinput .thumbnail img').attr('src', src);
+
+                      $('.fileinput .thumbnail').css("display", "inline-block");
+                      $('.fileinput div.fileinput-exists').css("display", "none");
+
+                      $('#header_profile_img').attr("src", "<?php echo APPLICATION_URL.'/avatars/200/'?>"+response.data.image);
+
+                      $('.update_button > span.fileinput-new').text('Change Photo');
+                      $('.update_button > span.fileinput-exists').text('Change Photo');
+                      showAppAlert('Success!!',response.message,'success');
+
+                  } else {
+                      // siximage = for one of six images
+                      $('#pic-progress1').hide();
+                      $('#mediaErrorDiv').html('');
+
+                      var no_img_cnt = $('.avtar-box li.has-no-image').length;
+                      
+                      if(response.status==200){
+                        if(no_img_cnt > 0){
+                          var thisElement = $('.avtar-box li.has-no-image');
+                          var fileInfoText = '<div class="upload-img"><i class="fa fa-times-circle"></i>';
+                          fileInfoText += '<img src="<?php echo APPLICATION_URL?>/avatars/206x137/'+ response.data.image +'" file-name="'+response.data.image+'" alt="front">';
+                          fileInfoText += '</div>';
+                          $(thisElement).eq(0).removeClass('has-no-image').addClass('has-image');
+                          $(thisElement).eq(0).html(fileInfoText);
+
+                          uploaded_images_arr.push(response.data.image);
+                          $('#client_images_name').val(uploaded_images_arr);
+
+                          if(no_img_cnt==6){
+                            $('.has-image .upload-img').eq(0).trigger('click');
+                          }
+
+                        }
+
+                      } else {
+                        showAppAlert('Error!!',data_result.message,'error');
+                      }
+
+                  }
+                }
+
+            } else {
+                if(uploadImageType=='mainprofile'){
+                    // mainprofile = for right side image
+                    $('.update_button > span.fileinput-new').text('Change Photo');
+                    $('.update_button > span.fileinput-exists').text('Change Photo');
+                    showAppAlert('Error!!',response.message,'error');
+
+                } else {
+                    // siximage = for one of six images
+                    // showAppAlert('Error!!','siximage = for one of six images','error');
+                }
+            }
+
+            /* reset file elements at the end */
+            $('#client_image').val('');
+            $('#client_images_six').val('');
+
+        },
+    });
+
+  });
+
+
+
+  /*$("#client_image").on('change', function(){
+      var fd = new FormData();
+      var files = $('#client_image')[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      // console.log(files.size);
+      // console.log(' MB:'+bytesToMBSize(files.size));
+      var post_csrf = $('.profile_img_form input[name=post_csrf]').val();
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      $('.update_button > span.fileinput-new').text('Changing Photo...');
+      $('.update_button > span.fileinput-exists').text('Changing Photo...');
+
+      if(file_size <= 10){
+        fd.append('client_image',files);
+        fd.append('post_csrf',post_csrf);
+        $.ajax({
+            url: "<?php //echo $this->url('front_updateprofileimage'); ?>",
+            type: 'post',
+            data: fd,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function(response){
+              if(response.status == 200){
+                if(response.data.image!=''){
+                  
+                  var src = "<?php //echo APPLICATION_URL.'/avatars/thumb/'?>" + response.data.image;
+                  $('.fileinput div.fileinput-exists img').attr('src', src);
+                  $('.fileinput .thumbnail img').attr('src', src);
+
+                  $('.fileinput .thumbnail').css("display", "inline-block");
+                  $('.fileinput div.fileinput-exists').css("display", "none");
+
+                  $('#header_profile_img').attr("src", "<?php //echo APPLICATION_URL.'/avatars/160/'?>"+response.data.image);
+
+                  $('.update_button > span.fileinput-new').text('Change Photo');
+                  $('.update_button > span.fileinput-exists').text('Change Photo');
+                    showAppAlert('Success!!',response.message,'success');
+                }
+              }else{
+                $('.update_button > span.fileinput-new').text('Change Photo');
+                $('.update_button > span.fileinput-exists').text('Change Photo');
+                showAppAlert('Error!!',response.message,'error');
+
+              }
+            },
+        });
+      } else {
+        $('.update_button > span.fileinput-new').text('Change Photo');
+        $('.update_button > span.fileinput-exists').text('Change Photo');
+        showAppAlert('Error!!','You can upload a file upto 10 MB.','error');
+        
+      }
+  });*/
+    
+}); 
+
+
+/* Common function for both image upload feature */
+  function readURL_modal(input, uploadImageType){
+    // alert(1);
+    // console.log('inread',  global_six_file_data);
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      $('.cropping_area').html('');
+      reader.onload = function (e) {
+          var data = '<img   src="'+e.target.result+'" class="img-fluid" id="targetimg" />';
+          $('.cropping_area').html(data);
+          $('#changeImg').modal('show');
+          $('#cropimage_block').show();
+      }
+      reader.readAsDataURL(input.files[0]);
+      $('.cropped_image').hide();
+      setTimeout(function () {  jCrop(uploadImageType); }, 500);
+    }
+  }
+
+  /* Common function for both image upload feature */
+  function jCrop(uploadImageType){
+    var screenImage = $('#cropimage_block').find('#targetimg');
+    var theImage = new Image();
+    theImage.src = screenImage.attr("src");
+    var imageWidth = theImage.width;
+    var imageHeight = theImage.height;
+    var cropWidth = 206;
+    var cropHeight = 137;
+    $('#targetimg').Jcrop({
+        bgFade: true,
+        setSelect: [0,0,cropWidth,cropHeight],
+        animateTo : [0,0,cropWidth,cropHeight],
+        aspectRatio: 3/2,
+        boxWidth: 800,   
+        boxHeight: 600, 
+        trueSize: [imageWidth,imageHeight],
+        allowResize : true,
+        minSize: [206,137],
+        maxSize: [4500,3000],
+        allowSelect : true,
+        onSelect: function(c){
+          // console.log(c);
+          var create_cordinates = '{"cordinates":[{"X":"'+c.x+'"},{"Y":"'+c.y+'"},{"W":"'+c.w+'"},{"H":"'+c.h+'"}]}';
+          $('input[name="imageCordinates"]').val(create_cordinates);
+          // mainprofile = for right side image
+          // siximage = for one of six images
+          $('input[name="uploadImageType"]').val(uploadImageType);
+
+        }    
+    }); 
+  }
+
+
+</script>
+
+
+<script>
+$(document).ready(function(){
+  $('form,input,select,textarea').attr('autocomplete', 'off');
+  /* upload one of 6 images */
+
+  // var baseUrl = '<?php // echo $this->url('front_updatememberprofileimages'); ?>';
+  var baseUrl = '<?php echo $this->url('front_updateprofileimage'); ?>';
+
+  $('#client_images_six').fileupload({      
+    url:baseUrl+'',
+    add:function(e, data) {  
+      var uploadErrors=[];
+      var selectedFileData = data.originalFiles;
+      var thisEle = $('#client_images_six');
+      global_six_file_data = data.originalFiles;
+      // console.log('set:', global_six_file_data);
+
+      var isValidFiles = true;
+      var isValidFilesSize = true;
+      var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+      for(var x = 0; x < selectedFileData.length; x++){
+        // console.log(selectedFileData[x]);
+        var file_name = selectedFileData[x]['name'];
+        var file_size = selectedFileData[x]['size'];
+        var file_size_in_MB = bytesToMBSize(file_size);
+        var Extension = file_name.substr((file_name.lastIndexOf('.') + 1));     
+        if($.inArray(Extension, extension_array) < 0) { 
+          isValidFiles = false;
+        } 
+        if(file_size_in_MB > 10){
+          isValidFilesSize = false;
+        }
+      }
+      if(isValidFiles == false) { 
+        $('#mediaErrorDiv').html('Invalid file extension');
+        showAppAlert('Error!!','Valid Extentions for media is jpg,jpeg,png,PNG,JPG,JPEG','error');
+
+      } else if(isValidFilesSize == false) { 
+        $('#mediaErrorDiv').html('Invalid file size');
+        showAppAlert('Error!!','You can upload a photo upto 10 MB in size.','error');
+
+      } else {
+        var no_img_cnt = $('.avtar-box li.has-no-image').length;
+        if(no_img_cnt > 0){
+          // console.log(data);
+          readURL_modal(data, 'siximage');
+          // data.submit();
+
+            /*if (data.originalFiles && data.originalFiles[0]) {
+              var reader = new FileReader();
+              $('.cropping_area').html('');
+              reader.onload = function (e) {
+                  var data = '<img   src="'+e.target.result+'" class="img-fluid" id="targetimg" />';
+                  $('.cropping_area').html(data);
+                  $('#changeImg').modal('show');
+                  $('#cropimage_block').show();
+              }
+              reader.readAsDataURL(data.originalFiles[0]);
+              $('.cropped_image').hide();
+              setTimeout(function () {  jCrop('siximage'); }, 500);
+            }*/
+
+        } else {
+          showAppAlert('Error!!','Please remove a photo to upload new photo','error');
+        }
+      }
+    },
+    done: function(e,data){
+      // alert('im from done part');
+      /*$('#pic-progress1').hide();
+      $('#mediaErrorDiv').html('');
+
+      var no_img_cnt = $('.avtar-box li.has-no-image').length;
+      
+      var data_result = JSON.parse(data.result);
+      if(data_result.status==200){
+        if(no_img_cnt > 0){
+          var thisElement = $('.avtar-box li.has-no-image');
+          var fileInfoText = '<div class="upload-img"><i class="fa fa-times-circle"></i>';
+          fileInfoText += '<img src="<?php //echo APPLICATION_URL?>/avatars/160/'+ data_result.filename +'" file-name="'+data_result.filename+'" alt="front">';
+          fileInfoText += '</div>';
+          $(thisElement).eq(0).removeClass('has-no-image').addClass('has-image');
+          $(thisElement).eq(0).html(fileInfoText);
+
+          uploaded_images_arr.push(data_result.filename);
+          $('#client_images_name').val(uploaded_images_arr);
+
+          if(no_img_cnt==6){
+            $('.has-image .upload-img').eq(0).trigger('click');
+          }
+
+        }
+
+      } else {
+        showAppAlert('Error!!',data_result.message,'error');
+      }*/
+    },
+    progress: function(e, data){
+      /*$('#pic-progress1').show();
+      var progress = parseInt(data.loaded / data.total * 100, 10);
+      $("#pic-bar1").width(progress+'%');
+      $('#pic-progress1').css('width', progress+'%');*/
+    }
+    });
+
+
+
+
+
+
+  /*$('#client_images_six').fileupload({      
+    url:baseUrl+'',
+    add:function(e, data) {  
+      var uploadErrors=[];
+      var selectedFileData = data.originalFiles;
+      var isValidFiles = true;
+      var isValidFilesSize = true;
+      var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+      for(var x = 0; x < selectedFileData.length; x++){
+        console.log(selectedFileData[x]);
+        var file_name = selectedFileData[x]['name'];
+        var file_size = selectedFileData[x]['size'];
+        var file_size_in_MB = bytesToMBSize(file_size);
+        var Extension = file_name.substr((file_name.lastIndexOf('.') + 1));     
+        if($.inArray(Extension, extension_array) < 0) { 
+          isValidFiles = false;
+        } 
+        if(file_size_in_MB > 10){
+          isValidFilesSize = false;
+        }
+      }
+      if(isValidFiles == false) { 
+        $('#mediaErrorDiv').html('Invalid file extension');
+        showAppAlert('Error!!','Valid Extentions for media is jpg,jpeg,png,PNG,JPG,JPEG','error');
+
+      } else if(isValidFilesSize == false) { 
+        $('#mediaErrorDiv').html('Invalid file size');
+        showAppAlert('Error!!','You can upload a file upto 10 MB.','error');
+
+      } else {
+        var no_img_cnt = $('.avtar-box li.has-no-image').length;
+        if(no_img_cnt > 0){
+          data.submit();
+        } else {
+          showAppAlert('Error!!','Please remove an image to upload new image','error');
+        }
+      }
+    },
+    done: function(e,data){
+      $('#pic-progress1').hide();
+      $('#mediaErrorDiv').html('');
+
+      var no_img_cnt = $('.avtar-box li.has-no-image').length;
+      
+      var data_result = JSON.parse(data.result);
+      if(data_result.status==200){
+        if(no_img_cnt > 0){
+          var thisElement = $('.avtar-box li.has-no-image');
+          var fileInfoText = '<div class="upload-img"><i class="fa fa-times-circle"></i>';
+          fileInfoText += '<img src="<?php //echo APPLICATION_URL?>/avatars/160/'+ data_result.filename +'" file-name="'+data_result.filename+'" alt="front">';
+          fileInfoText += '</div>';
+          $(thisElement).eq(0).removeClass('has-no-image').addClass('has-image');
+          $(thisElement).eq(0).html(fileInfoText);
+
+          uploaded_images_arr.push(data_result.filename);
+          $('#client_images_name').val(uploaded_images_arr);
+
+          if(no_img_cnt==6){
+            $('.has-image .upload-img').eq(0).trigger('click');
+          }
+
+        }
+
+      } else {
+        showAppAlert('Error!!',data_result.message,'error');
+      }
+    },
+    progress: function(e, data){
+      $('#pic-progress1').show();
+      var progress = parseInt(data.loaded / data.total * 100, 10);
+      $("#pic-bar1").width(progress+'%');
+      $('#pic-progress1').css('width', progress+'%');
+    }
+    }); */
+
+    /* select default image */
+    $(document).on('click', '.has-image .upload-img', function(index){
+        // var selected_item_index = $('.has-image .upload-img').index(this);
+        var is_exist_img = false;
+        var client_default_image_name = $('#client_default_image_name').val();
+        var filename = $(this).find('img').attr('file-name');
+        
+        if(uploaded_images_arr.length > 0 && client_default_image_name!=''){
+          for(var i = 0; i < uploaded_images_arr.length; i++){ 
+            if (uploaded_images_arr[i] == client_default_image_name) {
+              is_exist_img = true;
+              $('#client_default_image_name').val(filename);
+            }
+          }
+          if(is_exist_img==false){
+            $('#client_default_image_name').val('');
+          }
+          
+        } else if(client_default_image_name!='') {
+          $('#client_default_image_name').val('');
+
+        } else {
+          $('#client_default_image_name').val(filename);
+        }
+    });
+
+    /* remove image */
+    $(document).on('click', '.has-image .fa-times-circle', function(index){
+        var del_img_name = $(this).parent().find('img').attr('file-name');
+        $(this).parent().parent().remove();
+        var default_ele = '<li class="has-no-image"><div class="upload-img">';
+        default_ele += '<img src="<?php echo HTTP_IMG_PATH?>/default-113x68.png" alt="front">';
+        default_ele += '</div></li>';
+        $('.avtar-box ul').append(default_ele);
+
+        var client_default_image_name = $('#client_default_image_name').val();
+        for(var i = 0; i < uploaded_images_arr.length; i++){ 
+          if (uploaded_images_arr[i] == del_img_name) {
+            uploaded_images_arr.splice(i, 1); 
+            $('#client_images_name').val(uploaded_images_arr);
+          }
+        }
+    });
+
+    /* Strip form */
+    $('.account_form').validate();
+
+    $('.default_btn').on('click', function(){
+      $('#account_form').toggle();
+    });
+
+    var account='<?php echo $accountid?>';
+    if(account!=''){
+      $('#account_form').hide();
+    }
+   
+    $(function () {
+      $("#client_paydob").datepicker({
+        autoclose: true,
+        autoUpdateInput: true,
+        autoclose: true,
+        format: 'dd-mm-yyyy',
+        endDate: '-15y'
+      });
+    });
+
+    function formValidate(){
+      // custom function
+        $('#client_email_password').rules("remove");
+
+        $('.profile_form').validate({
+          ignore:'',
+          rules:{
+              client_name:{
+                  required:true,
+              },
+              client_email:{
+                  required:true,
+              },
+              client_company_name:{
+                  required:true,
+              },
+              client_company_address:{
+                  required:true,
+              },
+              client_phone:{
+                  required:true,
+              },
+              client_website_url:{
+                  required:true,
+              },
+              
+          },
+          messages:{
+              /*hiddenGRecaptchaResponse:{
+                required:"Please check captcha",
+              }*/
+          },
+          errorPlacement:function(error,element){
+              error.insertAfter(element);
+          },
+            
+      });
+
+    }
+
+    
+    $('#client_email_password').val('');
+    $('#client_email_password').parent().parent().hide();
+    var user_current_email = '<?php echo $loggedusermail; ?>';
+
+    $('#client_email').on('keyup', function(){
+        var thisVal = $(this).val();
+        $('#client_email_password').val('');
+        $('#client_email_password').parent().parent().hide();
+        if(thisVal != user_current_email){
+          $('#client_email_password').parent().parent().show();
+        }
+    });
+
+    $(document).on("click","#profilebtn",function(e){
+    /*$('#profilebtn').on('click', function(){*/
+      var client_email_val = $('#client_email').val();
+      formValidate();
+      if($('.profile_form').valid()){
+        /* valid form */
+        if($('#client_address_lat').val()=='' || $('#client_address_long').val()==''){
+          if($('#client_company_address').parent().next('.location-help-block').length==0){
+            $('.location-help-block').remove();
+            $('#client_company_address').parent().append("<span class='location-help-block'>We are having a hard time locating your address. Please try again.</span>");
+          }
+          return false;
+        }
+
+        $('#user_current_email_error').remove();        
+        if(client_email_val != user_current_email){
+          /*$('#client_email_password').parent().append("<span id='user_current_email_error' class='error-msg-block'>Please enter password to change email.</span>");*/
+          $('#client_email_password').rules("add", 
+          {
+              required: true
+          });
+
+          if($('.profile_form').valid())
+          {
+            // alert('it is valid');
+          } else {
+            // alert('it is NOT valid');
+            return false;
+          }
+          
+        } else {
+          // $('#client_email_password').rules("remove");
+          // alert(2);
+        }
+        passwordEncrypt();
+        $('.profile_form').submit();
+      }
+
+    });
+
+
+  // change page title as per tab click
+  $('.profile_page .nav-link').on('click', function(){
+      $('#tabPageTitle').text($(this).text());
+  });
+
+
+  $('#btnchpasswordsubmit').on('click',function(){
+        $('.user_password_form').validate({
+            /*ignore:'',*/
+            rules:{
+                client_old_password: {
+                    minlength: 8
+                },
+                client_password: {
+                    minlength: 8,
+                    notDefaultText: true
+                },
+                client_rpassword: {
+                    equalTo: '#client_password',
+                    minlength: 8,
+                },
+            },
+            errorPlacement:function(error,element){
+                // alert($(element).attr('id'));
+                error.insertAfter(element);
+            },
+        });
+
+        if($('.user_password_form').valid())
+        {
+          passwordEncrypt();
+          $('.user_password_form').submit();
+
+        } else {
+          // alert('Please check the form and complete it.');
+        }
+
+    });
+
+
+    /*swal({   
+      title:'hello',
+      text:'do you want to continue',   
+      type:'error',
+      // timer:5000,   
+      confirmButtonText: 'Thank you',
+      showConfirmButton:true
+    });*/
+
+
+  
+});
+
+</script>

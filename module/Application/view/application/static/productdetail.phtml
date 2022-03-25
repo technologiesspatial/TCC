@@ -1,0 +1,1843 @@
+<style type="text/css">
+
+	.product-heading{text-align:left;}
+	#wrapper{background:#eeeeee;}
+	#slider .slides{width:100%;}
+	<?php if(count(explode(",",$product_data["product_photos"])) > 3) { ?>
+	.prodslide-pic{object-fit:cover;object-position:top;}
+	<?php } ?>
+	#MainDiv{overflow:hidden;margin-bottom:20px;}
+	.seller-info-box .seller-name{color:#fff;}
+	.seller-info-box .seller-company{color:#fff;}
+	header.header-fixed{z-index:111;}
+	.rating-data{margin-top:35px;}
+	/* 	#MainDiv{text-align:center;height:auto;max-height:300px;min-height:300px;} */
+	.heading-tb.active{color:#000;}
+	.active > .heading-tb{color:#000080;}
+	.rating-panel .description{padding-left:5px;}
+	.product-heading{max-width:99%;}
+	.moreshop-txt{text-transform:lowercase;font-family:'rubikregular';font-size:24px;}
+	.out-stock{margin-left:0px;}
+	.product-detail-page .first-block .product-detail .left-block .product-detail-box .product-category{max-width:95%;}
+	.fancybox-button.fancybox-button--thumbs, .fancybox-button.fancybox-button--play,.fancybox-infobar{display: none !important ;}
+	.sweet-alert{z-index:999999;}
+	.sa-icon + h2{margin-top:25px;}
+	div.svg div.rateit-range {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-default.svg' ?>') /*star-normal.svg*/;
+	}
+	div.svg div.rateit-hover {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-active.svg' ?>') /*star-hover.svg*/;
+	}
+	div.svg div.rateit-selected {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-active.svg' ?>') /*star-selected.svg*/;
+	}
+	div.svg div.rateit-preset {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-default.svg' ?>') /*star-preset.svg*/;
+	}
+	.rateit-bg{vertical-align:top;}
+	#slider .slide{height:60px;}
+	.prodvideo-heading{margin-bottom:0px;margin-top: 5px;}
+	.prodvideo-frame{border:solid 1px rgb(235, 235, 235);background-color:rgb(255, 255, 255);width:100%;padding:8px 15px;margin-top:10px;}
+	.video-framer{width:100%;height:560px;margin-top:10px;}
+	.prod-boxtgs{list-style:none;padding:0px;margin-top:30px;}
+	.prod-boxtgs li{display:inline-block}
+	.prod-boxtgs li a{background:#000;color:#fff;padding:4px 10px;margin-right:2px;border:1px solid #000;}
+	.prod-boxtgs li a:hover{text-decoration:none;background: #fff;color:#000;border:1px solid #000;}
+	.adcrt-btn{background:#000 !important;color:#fff !important;}
+	.addcrt-holder{background:#000 !important;}
+	.addcrt-holder:hover{background-color:transparent !important;}
+	.adcrt-btn:hover{background:transparent !important;color:#000 !important;}
+	.seller-infoholder {margin-top:1px;background:#000;margin-right:3px;padding:10px;color:#fff;border-radius:4px;}
+	@media (min-width:768px) and (max-width:1024px){
+		.product-detail-page #MainDiv{height:475px !important;}
+		.product-detail-page #MainDiv .prodpic-anctg{height:475px !important;}		
+	}
+	@media (max-width:767px) {
+		.video-framer{height:auto;max-height:360px;}
+	}
+	@media (max-width: 500px) {
+		.menu-card .slider-img {height:170px;}
+		#slider .slide{height:60px;}
+		.button-box .border-gradient{max-width:100%;}
+	}
+</style>
+<script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=607bfc28ddd84000181a6d39&product=sticky-share-buttons' async='async'></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h1 class="heading"><?= $product_data["category_feild"] ?></h1>
+		</div>
+	</div>	
+</div>
+<div class="product-detail-page">
+	<div class="container">
+		<div class="first-block">
+			<div class="row m-0">
+				<div class="first-left-panel">
+					<div class="slider-data parent-container">
+						<!----------------slider---------------------->
+						<?php $product_photos = explode(",",$product_data["product_photos"]); 
+						$product_data["product_description"] = str_replace('"',"",$product_data["product_description"]);
+						?>
+                        <div id="MainDiv" class="parholdtg">
+                           	<?php if($product_data[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+								<div class="ribbon-pop"><span>Best Seller</span></div>
+							<?php } ?>
+                            <?php if(!empty($product_data["product_defaultpic"])) { 
+								$prod_defpic = HTTP_PRODUCT_PIC_PATH.'/'.$product_data["product_defaultpic"];	
+							?>
+                            <a href="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_data["product_defaultpic"]; ?>" class="prodpic-anctg data_lightslider" style="cursor:default" data-fancybox="gallery">
+                            <img data-src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_data["product_defaultpic"]; ?>" alt="About Us" id="MainImage" width="100%" height="100%" class="prodmain-slide lozad"/>
+                            </a>
+							<?php } else { 
+								$prod_defpic = HTTP_PRODUCT_PIC_PATH.'/'.$product_photos["0"];
+							?>
+                            <a href="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_photos["0"]; ?>" class="prodpic-anctg data_lightslider" data-fancybox="gallery">
+                            <img data-src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_photos["0"]; ?>" alt="About Us" id="MainImage" width="100%" height="100%" class="prodmain-slide lozad"/>
+                            </a>
+							<?php } ?>
+							<?php if($product_data["shipping_free"] == '1' && $product_data[T_CLIENT_VAR."client_country"] == $loggedUser->{T_CLIENT_VAR."client_country"} && $product_data["product_isdigital"] != '1') { ?>
+								<div class="freeship-holder"><div class="freeship-txt">Free Shipping</div></div>
+							<?php } else { ?>
+								<div class="freeship-holder">&nbsp;</div>
+							<?php } ?>
+						</div>
+						<div class="main-slider">
+							<div id="slider">
+								<ul class="slides lightSlider" >
+                                	<?php if(!empty($product_data["product_defaultpic"])) { ?>
+                                    	<li class="slide slkdlide data_lightslider active" data-src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_data["product_defaultpic"] ?>" <?php /*?>data-effect="mfp-zoom-in"<?php */?>>
+                                       		<div class="easyzoom">
+                                        		<a href="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_data["product_defaultpic"] ?>" class="ancg-tg" data-fancybox="gallery"><img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_data["product_defaultpic"]; ?>" alt="Image 1" class="prodslide-pic" /></a>
+											</div>
+                                        </li>
+									<?php } ?>
+                                	<?php foreach($product_photos as $product_photos_key => $product_photos_val) { 
+										if($product_data["product_defaultpic"] == $product_photos_val) { } else {
+											if(file_exists(PRODUCT_PIC_PATH.'/'.$product_photos_val)) {
+									?>  
+									
+									<li class="slide slkdlide data_lightslider" data-src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_photos_val ?>" <?php /*?>data-effect="mfp-zoom-in"<?php */?>>
+										<div class="easyzoom">
+											<a href="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_photos_val ?>" data-fancybox="gallery"><img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_photos_val; ?>" alt="Image 1" class="prodslide-pic" /></a>
+										</div>
+									</li>
+                                    <?php } }
+									} ?> 
+								</ul>
+									
+							</div>
+							<div id="child" class="d-block">
+								<img id="Next" src="<?=HTTP_IMG_PATH?>/icright.png"  class="img-responsive NextButton"/>
+								<img id="Previous" src="<?=HTTP_IMG_PATH?>/icleft.png"  class="img-responsive PreButton"/>
+							</div>
+						</div>
+						<!------------------------------------------->
+					</div>
+				</div>
+				<!-- col -->
+				<div class="first-right-panel">
+						<div class="product-detail">
+							<div class="left-block">
+								<div class="product-detail-box">
+									<h1 class="product-heading"> <?= substr($product_data["product_title"],0,80); ?> </h1>
+									<!-- <p class="product-category"><?= $product_data["category_feild"] ?></p> -->
+									<?php if($product_data["product_isdigital"] == '1') { ?>
+										<p class="product-category"><?= nl2br($digital_text); ?></p>
+									<?php } ?>
+									<?php if(!empty($colors_arr)) { ?>
+									<div class="color-box">									    
+										<p class="text-c"> Color </p>
+										<?php foreach($colors_arr as $colors_arr_key => $colors_arr_val) { ?>
+											<div class="colors-bucket <?php if($colors_arr_key == 0) { ?>active<?php } ?>" <?php if($colors_arr_key == 0) { ?>style="border:1px solid <?= $colors_arr_val ?>"<?php } ?> data-id="<?= $colors_arr_val ?>">
+												<div class="colors" data-id="<?= $colors_arr_val ?>"></div>
+											</div>											
+										<?php } ?>
+									</div>
+									<?php } ?>
+									<!-- product color -->
+									<div class="sizep-zone">
+										<?php if($product_data["product_isdigital"] == '1') { ?>
+										<?php } else { ?>
+										<div class="product-size">
+											<p class="text-s"> Size </p>
+											<ul class="">
+												<?php $fixed_sizes = array_unique($fixed_sizes); 
+												if(!empty($fixed_sizes)) { foreach($fixed_sizes as $sizes_arr_key => $sizes_arr_val) { ?>
+												<li class=""> <a href="javascript:void(0)" class="nocursor-tg piece-tg <?php if($sizes_arr_key == 0) { ?>active<?php } ?>" data-id="<?= $sizes_arr_val ?>"> <?= $sizes_arr_val ?> </a> </li>
+												<?php } } else { ?>
+												<li class=""> <a href="javascript:void(0)" class="nocursor-tg piece-tg"> N/A </a> </li>
+												<?php } ?>
+											</ul>
+										</div>
+										<?php } ?>
+										<div class="priceqty-blk">
+											<p class="product-price"> <span class=""> </span> <span class="nocursor-tg"> $<?= $product_balance ?> </span> </p>									
+											<?php if($product_data["product_isdigital"] != '1') { ?>
+											<p class="quantity-txt"> Available Quantity :
+											<?php /*?><?php if(!empty($qty_arr)) { $last_key = end(array_keys($qty_arr));
+											foreach($qty_arr as $qty_arr_key => $qty_arr_val) {  ?>
+											<span class="nocursor-tg"> <?= $qty_arr_key.' - '.$qty_arr_val ?><?php if($qty_arr_key != $last_key) { echo ','; } ?></span> 
+											<?php } } else { echo "0"; } ?><?php */?>
+											<?= $qty_balance ?>
+											</p>
+											<?php } else { ?>
+											<?php } ?>
+										</div>
+									</div>
+									<!-- product size -->
+									<?php /*?><div class="price-suggestion">
+										<p>Click <a href="javascript:void(0)" class="offer-price">here</a> to know the best offers.</p>
+									</div><?php */?>
+									<div class="star-list">
+										<div class="rateit svg" data-rateit-starwidth="32" data-rateit-starheight="25" data-rateit-value="<?= $avg_rating; ?>" data-rateit-readonly="true"></div>
+										<?php /*?><?php if(!empty($avg_rating)) { ?>
+                                        	<div class="star-propanel" data-rating="<?= $avg_rating; ?>"></div>
+										<?php } else { ?>
+                                        	<div class="star-propanel" data-rating="0"></div>
+                                        <?php } ?><?php */?>
+									</div>
+									<!-- <div class="product-pricing-box">
+										<p class=""> <span> Price : </span> <span> $<?= $product_data["product_price"] ?> </span> </p>
+									</div> -->
+									<?php if(!empty($loggedUser)) { ?>
+									<div class="button-box d-flex">
+										<?php if(!empty($wish_data)) { ?>
+                                        <div class="comman-btns added-wish-btn ml-0">
+                                        <a href="javascript:void(0)" class="btn "> Added to Wish List  </a>
+                                        </div>
+										<?php } else { ?>
+                                        <div class="comman-btns add-wish-btn ml-0">
+                                        <a href="javascript:void(0)" class="btn "> Add to Wish List  </a>
+                                        </div>
+                                        <?php } ?>
+										<?php /*?><div class="comman-btns mr-0 border-gradient"><a href="javascript:void(0)" class="btn add-cart-btn view-btn prodcart-btn" data-id="<?= str_replace("=","",base64_encode($product_data["product_id"])); ?>"> Add to Cart </a></div><?php */?>
+                                        <?php if(!empty($loggedUser)) { if($available_qty > 0 || $product_data["product_isdigital"] == '1') { ?>
+											<div class="comman-btns mr-0 addcrt-holder"><a href="javascript:void(0)" class="btn add-cart-btn view-btn prodcart-btn adcrt-btn" data-id="<?= str_replace("=","",base64_encode($product_data["product_id"])); ?>"> Add to Cart </a></div>
+                                		<?php } else { ?>
+                                			<div class="out-stock">Out of Stock</div>
+										<?php } } ?>
+									</div>
+									<?php } else { ?>
+                                    	<div class="button-box d-flex">
+									<!--  -->
+                                   	<?php if($available_qty > 0 || $product_data["product_isdigital"] == '1') { ?>
+                                    	<div class="comman-btns mr-0 addcrt-holder" style="margin-left:0px;"><a href="javascript:void(0)" class="btn add-cart-btn view-btn addlog-cartbtn adcrt-btn" data-id="<?= str_replace("=","",base64_encode($product_data["product_id"])) ?>"> Add to Cart </a></div>
+                                    <?php } else { ?>
+										<div class="out-stock">Out of Stock</div>
+									<?php } ?>
+                                    </div>
+                                    <?php } ?>
+									<!-- <div class="icons-box d-flex">
+										<a class="icons social-sharetg" href="javascript:void(0)"> <span>Share</span> <img src="<?=HTTP_IMG_PATH?>/share.svg"> </a>
+                                        <?php if(!empty($loggedUser) && empty($report_data)) { ?>
+										<a class="icons report-tg" data-id="<?= str_replace("=","",base64_encode($product_data["product_id"])) ?>" href="javascript:void(0)"> <span>Report</span> <img src="<?=HTTP_IMG_PATH?>/red-flag.svg"> </a>
+                                        <?php } ?>
+									</div>
+                                    <ul class="social-sharelist">
+                                    	<li><a href="javascript:void(0)" class="fbshare-tag socshare-tg" data-share="facebook" data-title="<?= slugify($product_data["product_title"]).'~'.str_replace("=","",base64_encode($product_data["product_id"])) ?>" data-description="<?= $product_data["product_description"] ?>" data-pic="<?= $prod_defpic ?>" title="Share on Facebook"><img src="<?= HTTP_IMG_PATH ?>/fb_share.svg" class="fb-share" alt="preview not available"></a></li>
+                                        <li><a href="javascript:void(0)" class="tweetshare-tag socshare-tg" data-share="twitter" data-title="<?= trim(slugify($product_data["product_title"])).'~'.str_replace("=","",base64_encode($product_data["product_id"])) ?>" data-description="<?= str_replace("%","",$product_data["product_description"]) ?>" data-pic="<?= $prod_defpic ?>" title="Share on Twitter"><img src="<?= HTTP_IMG_PATH ?>/tweet_share.svg" class="tweet-share" alt="preview not available"></a></li>
+                                    </ul> -->
+								</div>
+								<!-- product detial box -->
+							</div>
+							<!-- left block -->
+
+							<div class="right-block">
+								<div class="seller-info">
+									<h5 class="seller-title"> Seller Info:</h5>
+
+									<div class="seller-info-box" <?php if(!empty($store_data["store_banner"])) { ?>style="background:url('<?= HTTP_STORE_BANNER_PATH.'/thumb/'.$store_data["store_banner"]; ?>') !important;background-position:center;background-size:cover !important"<?php } ?>>
+										<div class="seller-img">
+										<?php if(!empty($store_data[T_CLIENT_VAR."client_image"])) { ?>
+											<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/60/<?= $store_data[T_CLIENT_VAR.'client_image'] ?>"> 
+										<?php } else { ?>
+											<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/60/default.png" />
+										<?php } ?> 
+                                        <?php /* if(!empty($store_data[T_CLIENT_VAR.'client_image'])) { 
+											$owner_pic = HTTP_PROFILE_IMAGES_PATH.'/160/'.$store_data[T_CLIENT_VAR.'client_image'];
+										?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/<?= $store_data[T_CLIENT_VAR.'client_image'] ?>"> 
+                                        <?php } else { 
+											$owner_pic = HTTP_PROFILE_IMAGES_PATH.'/160/default.png';
+										?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/default.png" />
+										<?php } */ ?>
+											
+                                        </div>
+										<div class="seller-info-inside">
+											<?php if($product_data[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+												<div class="ribbon-pop"><span>Best Seller</span></div>
+											<?php } ?>
+											<div class="">
+												<p class="seller-name"> <?= $store_data[T_CLIENT_VAR.'client_name'] ?></p>
+												<p class="seller-company"> <?= $store_data["store_name"] ?> </p>
+											</div>
+											<div class="border-gradient "><a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$store_data["store_name"]); ?>" class="btn seller-profile-btn"> Seller Profile </a> </div>										
+
+										</div>									
+										<!--  -->
+									</div>
+									<div><p class="seller-infoholder"><?= $store_data["store_title"] ?></p></div>
+									<?php if($store_data["store_closed"] == '1' && strtotime($store_data["store_closed_tilldate"]) > strtotime(date("Y-m-d"))) { ?>
+										<div class="close-hangertg text-center">
+											<div class="pendulum-holder" style="margin-left:auto;margin-right:auto;">
+												<img src="<?= HTTP_IMG_PATH.'/closed.png'; ?>">
+											</div>
+											<?php if($store_data["store_acceptorder"] == '1') { ?>
+												<p class="closed-hangertxt">Sorry we're closed. You can place your order but it will be processed after <?= date("F d, Y",strtotime($store_data["store_closed_tilldate"])); ?>.</p>
+											<?php } else { ?>
+												<p class="closed-hangertxt">Sorry we're closed. You cannot place your order at the moment.</p>
+											<?php } ?>
+										</div>									
+									<?php } ?>	
+								</div>
+							</div>
+							<!-- right block -->
+						</div>
+						<!--  -->
+						<div class="description-box-one">
+							<p class="description prodct-desctg"><?php echo str_replace("<br><br>","<br>",nl2br(strip_tags($product_data["product_description"]))); ?></p>
+						</div>
+				</div>
+				<!-- col -->
+				<?php if(!empty($product_data["product_video"])) { ?>
+					<div class="prodvideo-frame">
+						<h4 class="prodvideo-heading">Product Video</h4>
+							<video src="<?= HTTP_VIDEO_PATH.'/'.$product_data["product_video"]; ?>" class="video-framer" frameborder="0" controls disablepictureinpicture controlslist="nodownload" allowfullscreen></video>
+					</div>
+					<?php } 
+				if(!empty($product_data["product_tags"])) { $product_tags = explode(",",$product_data["product_tags"]); ?>
+				<ul class="prod-boxtgs">Tags:
+				<?php foreach($product_tags as $product_tags_key => $product_tags_val) { ?>
+					<li><a href="<?= APPLICATION_URL.'/product-listing?tag='.$product_tags_val ?>"><?= $product_tags_val ?></a></li>
+				<?php } ?>
+				</ul>
+				<?php }	?>
+			</div>
+		</div>
+
+        <!-- <div class="review-and-rating-box ">
+        <ul class="nav nav-tabs">
+    		<li class="<?php if(empty($loggedUser->{T_CLIENT_VAR.'client_id'}) && empty($comment_record)) { ?>d-none<?php } ?>"><a href="#tab1" class="active" data-toggle="tab"><h2 class="heading-tb active">Comments</h2></a></li>
+    		<li><a href="#tab2" data-toggle="tab"><h2 class="heading-tb">Review and Rating</h2></a></li>
+   
+		</ul>
+		<div class="tab-content" id="tabs">
+    		<div class="tab-pane  <?php if(empty($loggedUser->{T_CLIENT_VAR.'client_id'}) && empty($comment_record)) { ?>d-none<?php } else { ?>active<?php } ?>" id="tab1">
+            	<div class="comment-section">
+            	<?php if(!empty($loggedUser->{T_CLIENT_VAR.'client_id'})) { ?>
+            	<div class="comment-box" id="comment-boxgrp">
+                	<form id="commentform" name="commentform" class="commentform">
+                    	<div class="form-group">		
+                        	<textarea class="form-control required comment-txtbox" rows="3" maxlength="400" spellcheck="false"></textarea>
+                            <a href="javascript:void(0)" class="comment-btntg btn btn-xs">Comment</a>
+                        </div>    
+                    </form>
+                </div>
+                <?php } ?>
+                <div class="comment-holder">
+                	<?php if(!empty($comment_record)) { foreach($comment_record as $comment_record_key => $comment_record_val) { 
+						if(!empty($loggedUser->{T_CLIENT_VAR.'client_id'})) {
+							$reported_comment=$this->layout()->AbstractModel->Super_Get(T_CMTREPORT,"comment_report_cid = '".$comment_record_val['procomment_id']."' and comment_report_uid = '".$loggedUser->{T_CLIENT_VAR.'client_id'}."'","fetch");
+						}
+						$comment_replies = $this->layout()->AbstractModel->Super_Get(T_REPLIES,"comment_reply_cmtid =:CID","fetch",array('warray'=>array('CID'=>$comment_record_val["procomment_id"])));
+					?>
+                    	<div class="first-section comnt-sector" id="cmtsection<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])); ?>">
+					<div class="rating-panel">
+						<div class="common-rating-box">
+							<div class="media media-section">
+								<div class="review-img">
+                                <?php $client_uname = explode(" ",$comment_record_val[T_CLIENT_VAR."client_name"]); if(!empty($comment_record_val[T_CLIENT_VAR.'client_image'])) { 
+									
+								?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/<?= $comment_record_val[T_CLIENT_VAR.'client_image'] ?>"> 
+                                        <?php } else { ?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/default.png" />
+                                        <?php }  ?> </div>
+								<div class="media-body">
+									<h5 class="title"><?= $client_uname[0]; ?></h5>
+									<p class="post-date mb-0"> <?= time_elapsed_str($comment_record_val["procomment_date"]); ?> </p>
+								</div>
+							</div>
+                            <?php if(empty($reported_comment) && (!empty($loggedUser->{T_CLIENT_VAR.'client_id'}) && $loggedUser->{T_CLIENT_VAR.'client_id'} != $comment_record_val["procomment_uid"])) { ?>
+							<a href="javascript:void(0)" class="report report-cmttg" data-id="<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])); ?>"><span>Report</span> <img src="<?=HTTP_IMG_PATH?>/red-flag.svg"></a>
+                            <?php } if(!empty($loggedUser->{T_CLIENT_VAR.'client_id'}) && $loggedUser->{T_CLIENT_VAR.'client_id'} == $product_data["product_clientid"] && ($loggedUser->{T_CLIENT_VAR.'client_id'} != $comment_record_val["procomment_uid"]) && empty($comment_replies)) { ?>
+                            	<a href="javascript:void(0)" class="report reply-cmttg" data-id="<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])); ?>"><span>Reply</span> </a>
+							<?php } ?>
+						</div>
+						<p class="description"><?= nl2br($comment_record_val["procomment_text"]); ?></p>	
+					</div>
+                    <div class="reply-sector d-none" data-id="<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])) ?>">
+                    		<textarea class="form-control required reply-txtbox" data-id="<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])); ?>" rows="3" maxlength="400" spellcheck="false"></textarea>
+                        <a href="javascript:void(0)" class="reply-btntg">Submit</a>
+                    </div>
+                    <div class="reply-holder" data-id="<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])) ?>">
+                    <?php  if(!empty($comment_replies)) { ?>
+                    	<div class="replyinner-holder">
+                        	<p class="replyinner-ptg"><?= nl2br($comment_replies["comment_reply_text"]); ?></p>
+                            <div class="replypic-holder">
+                            	<?php if(!empty($store_data[T_CLIENT_VAR.'client_image'])) { ?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/<?= $store_data[T_CLIENT_VAR.'client_image'] ?>"> 
+                                <?php } else { ?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/default.png" />
+                                <?php } ?>
+                            	<p class="reply-nametg"> <?= $store_data[T_CLIENT_VAR.'client_name'] ?></p>
+                                <p class=""><?= time_elapsed_str($comment_replies["comment_reply_date"]); ?></p>
+                            </div>
+                        </div>
+					<?php } ?>
+                    </div>
+				</div>
+                    <?php } }  ?>
+                </div>
+                
+            	</div>
+    		</div>
+            <div class="tab-pane <?php if(empty($loggedUser->{T_CLIENT_VAR.'client_id'}) && empty($comment_record)) { ?>active<?php } ?>" id="tab2">
+            	<div class="rating-data">
+                <?php if(!empty($review_record)) { foreach($review_record as $review_record_key => $review_record_val) { ?>
+				<div class="first-section">
+					<div class="rating-panel">
+						<div class="common-rating-box">
+							<div class="media media-section">
+								<div class="review-img">
+                                <?php if(!empty($review_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+                                	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/<?= $review_record_val[T_CLIENT_VAR.'client_image']; ?>"> 
+                                <?php } else { ?>
+                                	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/default.png">
+								<?php } ?>
+                                </div>
+								<div class="media-body">
+									<h5 class="title"><?= $review_record_val[T_CLIENT_VAR.'client_name']; ?></h5>
+                                    	<?php if(!empty($review_record_val["review_starrating"])) { ?>
+										<div class="star-panel" data-rating="<?= $review_record_val["review_starrating"] ?>"></div>
+                                        <?php } ?>
+								</div>
+							</div>
+							<a href="javascript:void(0)" class="report report-ratetg" data-id="<?= str_replace("=","",base64_encode($review_record_val["review_id"])); ?>"><span>Report</span> <img src="<?=HTTP_IMG_PATH?>/red-flag.svg"></a>
+						</div>
+						<p class="description"><?= nl2br($review_record_val["review_text"]); ?></p>
+					</div>
+				</div>
+                <?php } } else { ?>
+                	<p>No review found.</p>
+                <?php } ?>
+			</div>
+            </div>
+    	</div>
+		</div> -->
+
+		<!--  -->
+		
+		<div class="review-block">
+			<div class="review-heading"> Review<?php if(count($review_record) > 1) { echo "s"; } ?>  (<?= count($review_record) ?>) </div>
+			 <?php if(!empty($review_record)) { foreach($review_record as $review_record_key => $review_record_val) { ?>
+			<div class="review-box">
+					<?php if($review_record_key == '0') { ?>					
+						<p class="description">Only logged in customers who have purchased this product may leave a review.</p>
+					<?php } ?>
+					<div class="media">
+						<div class="review-user">
+						<?php if(!empty($review_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$review_record_val[T_CLIENT_VAR."client_image"])) { ?> 
+							<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/60/<?= $review_record_val[T_CLIENT_VAR."client_image"] ?>"> 
+						<?php } else { ?>
+							<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png' ?>">
+						<?php } ?>
+						</div>
+						<div class="media-body">
+							<p class="user-name"> <?= $review_record_val[T_CLIENT_VAR."client_name"] ?> </p>
+							<div class="rateit svg" data-rateit-starwidth="32" data-rateit-starheight="25" data-rateit-value="<?= $review_record_val["review_starrating"]; ?>" data-rateit-readonly="true"></div>
+							<?php /*?><div class="star-panel" data-rating="<?= $review_record_val["review_starrating"] ?>"></div><?php */?>
+						</div>
+					</div>
+					<p class="description"> <?= nl2br($review_record_val["review_text"]); ?></p>
+					<?php $review_photos = unserialize($review_record_val["review_photos"]); ?>																															
+					<?php if(!empty($review_photos)) { ?>
+					<div class="review-img-block">
+						<?php foreach($review_photos as $review_photos_key => $review_photos_val) { ?>
+							<div class="rieview-img">
+								<a href="<?=HTTP_REVIEW_PATH?>/<?= $review_photos_key ?>" target="_blank"><img src="<?=HTTP_REVIEW_PATH?>/200/<?= $review_photos_key ?>"></a>
+							</div>
+						<?php } ?>
+					</div>
+					<?php } ?>
+				</div>
+				<?php } } else { ?>
+				<?php /*?><div class="review-box">
+					<p class="description">There are no reviews yet.</p>
+				</div><?php */?>
+				<div class="review-box">					
+					<p class="description">Only logged in customers who have purchased this product may leave a review from Orders section.</p>
+				</div>
+			<?php } ?>
+			<!-- review box -->
+		</div>
+
+		<!--  -->
+
+
+		<?php /* if(!empty($familiar_products)) { ?>
+		<div class="Familiar-conjuring">
+			<video class="background-video" playsinline="playsinline" autoplay muted loop>
+				<source src="<?=HTTP_IMG_PATH?>/fog-background.mp4" type="video/mp4">
+			</video>
+			<h2 class="heading">Familiar Conjurings</h2>
+			<div class="owl-carousel two">
+				<?php foreach($familiar_products as $familiar_products_key => $familiar_products_val) { 
+					if(!empty($familiar_products_val["product_photos"])) {
+								$product_picarr = explode(",",$familiar_products_val["product_photos"]); }
+				?>
+                <a href="<?= APPLICATION_URL.'/product/'.slugify($familiar_products_val["product_title"]).'~'.str_replace("=","",base64_encode($familiar_products_val["product_id"])); ?>">
+				<div class="item">
+					<div class="card menu-card">
+						<div class="slider-img">
+                        <div class="card-img-top">
+                        <?php if(!empty($familiar_products_val["product_defaultpic"])) { ?>
+                        	<img src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $familiar_products_val["product_defaultpic"] ?>" alt="Card image cap">
+                        <?php } else { if(!empty($familiar_products_val["product_photos"])) { ?>
+                        	<img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $product_picarr[0] ?>" alt="Card image cap">
+                        <?php } } ?>
+                        <div class="coven-overlay d-none">
+						<div class="card-body">
+							<h4 class="card-title"><?= $familiar_products_val["product_title"]; ?> <span>$<?= $familiar_products_val["product_price"]; ?></span></h4>
+						</div>
+                        </div>
+                        </div>
+                        </div>
+					</div>
+				</div>
+                </a>
+				<? } ?>
+			</div>
+		</div>
+		<?php } */ ?>
+		<!------------------>
+
+	</div>
+</div>
+<!-- product detail page -->
+
+<?php if(!empty($familiar_products)) { ?>
+<div class="Familiar-conjuring">
+	<video class="background-video" playsinline="playsinline" autoplay muted loop>
+		<source src="<?=HTTP_IMG_PATH?>/fog-background.mp4" type="video/mp4">
+	</video>
+
+	<div class="container">
+		<div class="conjuring-blogs">
+			<h1 class="heading"> Familiar Conjurings <?php /*?><span class="moreshop-txt">(more from this shop)</span><?php */?></h1>
+			<div class="row">
+				<?php foreach($familiar_products as $familiar_products_key => $familiar_products_val) { 
+					if(!empty($familiar_products_val["product_photos"])) {
+						$product_picarr = explode(",",$familiar_products_val["product_photos"]); 
+					}
+					$priceqty_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID","fetch",array('warray'=>array('PID'=>$familiar_products_val["product_id"])));
+				?>
+				<div class="col-xl-3 col-lg-4 col-6">
+					<div class="item">
+						<div class="itmanc-tg" data-href="<?= APPLICATION_URL.'/product/'.slugify($familiar_products_val["product_title"]).'~'.str_replace("=","",base64_encode($familiar_products_val["product_id"])); ?>">
+							<div class="card menu-card">
+								<?php if($familiar_products_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+									<div class="ribbon-pop"><span>Best Seller</span></div>
+								<?php } ?>
+								<div class="slider-img">
+									<div class="card-img-top">
+										<a href="<?= APPLICATION_URL.'/product/'.slugify($familiar_products_val["product_title"]).'~'.str_replace("=","",base64_encode($familiar_products_val["product_id"])); ?>">
+										<?php if(!empty($familiar_products_val["product_defaultpic"])) { ?>
+											<img src="<?=HTTP_PRODUCT_PIC_PATH?>/thumb/<?= $familiar_products_val["product_defaultpic"] ?>" alt="Card image cap" style="object-fit: contain;">
+										<?php } else { if(!empty($familiar_products_val["product_photos"])) { ?>
+											<img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/thumb/<?= $product_picarr[0] ?>" alt="Card image cap" style="object-fit: contain;">
+										<?php } } ?>
+										</a>
+									</div>
+									<?php if($familiar_products_val["shipping_free"] == '1' && $familiar_products_val[T_CLIENT_VAR."client_country"] == $loggedUser->{T_CLIENT_VAR."client_country"} && $familiar_products_val["product_isdigital"] != '1') { ?>
+										<div class="freeship-holder"><div class="freeship-txt">Free Shipping</div></div>
+									<?php } else { ?>
+										<div class="freeship-holder">&nbsp;</div>
+									<?php } ?> 
+								</div>
+								<div class="card-body">
+									<h4 class="card-title"><?= $familiar_products_val["product_title"]; ?> </h4>
+									<?php if($familiar_products_val["product_isdigital"] != '1') { ?>
+										<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $priceqty_data["color_price"]; ?></span> </p>
+									<?php } else { ?>
+										<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $familiar_products_val["product_price"]; ?></span> </p>
+									<?php } ?>								
+									<div class="btn-block">
+										<a href="<?= APPLICATION_URL.'/product/'.slugify($familiar_products_val["product_title"]).'~'.str_replace("=","",base64_encode($familiar_products_val["product_id"])); ?>" class="btn view-btn"> View Detail </a>
+										<a href="<?= APPLICATION_URL.'/product/'.slugify($familiar_products_val["product_title"]).'~'.str_replace("=","",base64_encode($familiar_products_val["product_id"])); ?>#cart" class="btn cart-btn"> Add to cart </a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- items -->
+				</div>
+				<? } ?>
+				<!-- col-xl-3 -->
+			</div>
+		</div>
+	</div>
+</div>
+<?php } ?>
+<?php if(!empty($other_conjurings)) { ?>
+<div class="Other-conjuring">
+	<div class="container">
+		<div class="conjuring-blogs">
+			<h1 class="heading"> Other Conjuring </h1>
+			<div class="row">
+				<?php foreach($other_conjurings as $other_conjurings_key => $other_conjurings_val) { 
+					if(!empty($other_conjurings_val["product_photos"])) {
+						$product_picarr = explode(",",$other_conjurings_val["product_photos"]); 
+					}
+					$priceqty_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID","fetch",array('warray'=>array('PID'=>$other_conjurings_val["product_id"])));
+				?>
+				<div class="col-xl-3 col-lg-4 col-6">
+					<div class="item">
+						<div class="itmanc-tg" data-href="<?= APPLICATION_URL.'/product/'.slugify($other_conjurings_val["product_title"]).'~'.str_replace("=","",base64_encode($other_conjurings_val["product_id"])); ?>">
+							<div class="card menu-card">
+								<?php if($other_conjurings_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+									<div class="ribbon-pop"><span>Best Seller</span></div>
+								<?php } ?>
+								<div class="slider-img">
+									<div class="card-img-top">
+										<a href="<?= APPLICATION_URL.'/product/'.slugify($other_conjurings_val["product_title"]).'~'.str_replace("=","",base64_encode($other_conjurings_val["product_id"])); ?>">
+										<?php if(!empty($other_conjurings_val["product_defaultpic"])) { ?>
+											<img src="<?=HTTP_PRODUCT_PIC_PATH?>/thumb/<?= $other_conjurings_val["product_defaultpic"] ?>" alt="Card image cap" style="object-fit: contain;">
+										<?php } else { if(!empty($other_conjurings_val["product_photos"])) { ?>
+											<img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/thumb/<?= $product_picarr[0] ?>" alt="Card image cap" style="object-fit: contain;">
+										<?php } } ?>
+										</a>
+									</div>
+									<?php if($other_conjurings_val["shipping_free"] == '1' && $other_conjurings_val[T_CLIENT_VAR."client_country"] == $loggedUser->{T_CLIENT_VAR."client_country"} && $other_conjurings_val["product_isdigital"] != '1') { ?>
+										<div class="freeship-holder"><div class="freeship-txt">Free Shipping</div></div>
+									<?php } else { ?>
+										<div class="freeship-holder">&nbsp;</div>
+									<?php } ?>  
+								</div>
+								<div class="card-body">
+									<h4 class="card-title"><?= $other_conjurings_val["product_title"]; ?> </h4>
+									<?php if($other_conjurings_val["product_isdigital"] != '1') { ?>
+										<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $priceqty_data["color_price"]; ?></span> </p>
+									<?php } else { ?>
+										<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $other_conjurings_val["product_price"]; ?></span> </p>
+									<?php } ?>							
+									<div class="btn-block">
+										<a href="<?= APPLICATION_URL.'/product/'.slugify($other_conjurings_val["product_title"]).'~'.str_replace("=","",base64_encode($other_conjurings_val["product_id"])); ?>" class="btn view-btn"> View Detail </a>
+										<a href="<?= APPLICATION_URL.'/product/'.slugify($other_conjurings_val["product_title"]).'~'.str_replace("=","",base64_encode($other_conjurings_val["product_id"])); ?>#cart" class="btn cart-btn"> Add to cart </a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- items -->
+				</div>
+				<? } ?>
+				<!-- col-xl-3 -->
+			</div>
+		</div>
+	</div>
+
+
+</div>
+<?php } ?>
+
+<!-- modal -->
+
+
+<div class="modal add-to-cart-modal fade" id="addcartModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Cart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media product-infotg">
+			
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="cancle-btn btn cart-clbtn">Cancel</button>
+        <button type="button" class="btn  add-cart-btn view-btn addmy-cartbtn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal add-to-cart-modal fade" id="addwishModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Add to Wish List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media">
+			
+			<div class="media-body">
+					<div class="">
+						<h4 class="product-name wishlbl-tg"> Are you sure you want to add this product to your wish list?</h4>						
+					</div>
+			</div>
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn  add-cart-btn view-btn addwish-btn">Add to Wish List</button>
+        <button type="button" class="cancle-btn btn wishcancl-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal add-to-cart-modal fade" id="addedwishModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Remove from Wish List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media">
+			
+			<div class="media-body">
+					<div class="">
+						<h4 class="product-name wishlbl-tg"> Are you sure you want to remove this product from your wish list?</h4>						
+					</div>
+			</div>
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn  add-cart-btn view-btn remwish-btn">Remove</button>
+        <button type="button" class="cancle-btn btn wishrmcancl-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> It will be integrated in the 6th milestone. </p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal add-to-cart-modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Report Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media">
+			
+			<div class="media-body">
+					<div class="">
+						<textarea id="report_txt" name="report_txt" rows="4" class="form-control" placeholder="Enter reason for reporting product" maxlength="400"></textarea>		
+					</div>
+			</div>
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn  add-cart-btn view-btn reportfinal-btn">Report</button>
+        <button type="button" class="cancle-btn btn reprmcancl-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal add-to-cart-modal fade" id="reportcmtModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Report Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media">
+			
+			<div class="media-body">
+					<div class="">
+						<textarea id="report_cmttxt" name="report_cmttxt" rows="4" class="form-control" placeholder="Enter reason for reporting comment" maxlength="400"></textarea>		
+					</div>
+			</div>
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn  add-cart-btn view-btn reportcmt-btn">Report</button>
+        <button type="button" class="cancle-btn btn repcmtcancl-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal add-to-cart-modal fade" id="reportreviewModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Report Review</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media">
+			
+			<div class="media-body">
+					<div class="">
+						<textarea id="report_revtxt" name="report_revtxt" rows="4" class="form-control" placeholder="Enter reason for reporting review" maxlength="400"></textarea>		
+					</div>
+			</div>
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn  add-cart-btn view-btn reportreview-btn">Report</button>
+        <button type="button" class="cancle-btn btn cancelreview-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="priceModal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header flagbox-header">
+				<button type="button" class="close flagclose" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title flag-titletag">Price Details</h4>
+			</div>
+			<div class="modal-body"> 
+				<div class="price-list"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="readmoreModal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close flagclose" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title flag-titletag">Product Description</h4>
+			</div>
+			<div class="modal-body"> 
+				<div class="product-desclist"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="sellermoreModal" class="modal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close flagclose" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title flag-titletag">Seller Description</h4>
+			</div>
+			<div class="modal-body"> 
+				<div class="seller-desclist"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="<?= PLUGIN_PATH.'/plugins/' ?>/customscroolbar/mcustomscroolbar.js"></script>
+<script>
+	//$('.description-box-one').mCustomScrollbar({theme:"dark-3"});
+</script>
+
+<script>	
+$(document).ready(function(){
+	$('.colors').each(function(i, obj) {
+		var colortg = $(obj).attr("data-id");
+		$(obj).css("background-color",colortg);
+	})
+	
+	var fmcount = '<?= count($familiar_products) ?>';
+	if(fmcount > 5) {
+		var navp = true
+		var navTxt = ["<div class='prev' ><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>",
+				"<div class='prev next' ><img src='<?=HTTP_IMG_PATH?>/bat-2.png' class='img-back'></div>"];
+	} else {
+		var navp = false
+		var navTxt = '';
+	}
+	$('.owl-carousel.two').owlCarousel({
+		loop:false,
+		margin:10,
+		nav:navp,
+		navText: navTxt,
+		responsive:{
+			0:{
+				items:1
+			},
+			600:{
+				items:2
+			},
+			1000:{
+				items:2
+			},
+			1300:{
+				items:4
+			}
+		}
+	});
+
+	/* plus minus js */
+
+	$('.minus').click(function () {
+		var $input = $(this).parent().find('input');
+		var count = parseInt($input.val()) - 1;
+		count = count < 1 ? 1 : count;
+		$input.val(count);
+		$input.change();
+		return false;
+	});
+	$('.plus').click(function () {
+		var $input = $(this).parent().find('input');
+		$input.val(parseInt($input.val()) + 1);
+		$input.change();
+		return false;
+	});
+	
+});	
+
+
+</script>
+
+<!--  -->
+
+
+<!--  -->
+<script>
+
+$('.btn-number').click(function(e){
+    e.preventDefault();
+    
+    fieldName = $(this).attr('data-field');
+    type      = $(this).attr('data-type');
+    var input = $("input[name='"+fieldName+"']");
+    var currentVal = parseInt(input.val());
+    if (!isNaN(currentVal)) {
+        if(type == 'minus') {
+            
+            if(currentVal > input.attr('min')) {
+                input.val(currentVal - 1).change();
+            } 
+            if(parseInt(input.val()) == input.attr('min')) {
+                $(this).attr('disabled', true);
+            }
+
+        } else if(type == 'plus') {
+
+            if(currentVal < input.attr('max')) {
+                input.val(currentVal + 1).change();
+            }
+            if(parseInt(input.val()) == input.attr('max')) {
+                $(this).attr('disabled', true);
+            }
+
+        }
+    } else {
+        input.val(0);
+    }
+});
+$('.input-number').focusin(function(){
+   $(this).data('oldValue', $(this).val());
+});
+	
+$(document).on("change",".input-number",function() {
+    var colorsel = $(".selected_color").val();
+	var sizesel = $(".selected_size").val();
+	if(colorsel == '') {
+		$(this).val('');
+		$.notify({
+			message: "Please select the color of the product."
+	    },{
+			type: 'danger',
+			timer: 50
+	    });
+	} else if(sizesel == '') {
+		$(this).val('');
+		$.notify({
+			message: "Please select the size of the product."
+	    },{
+			type: 'danger',
+			timer: 50
+	    });
+	} else {
+		minValue =  parseInt($(this).attr('min'));
+		maxValue =  parseInt($(this).attr('max'));
+		valueCurrent = parseInt($(this).val());
+		name = $(this).attr('name');
+		if(valueCurrent >= minValue) {
+			$(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+		} else {
+			$.notify({
+				message: "Sorry, the minimum value was reached."
+			},{
+				type: 'danger',
+				timer: 50
+			});
+			$(this).val($(this).data('oldValue'));
+		}
+		if(valueCurrent <= maxValue) {
+			$(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+		} else {
+			$.notify({
+				message: "Sorry, quantity selected is not available at the moment."
+			},{
+				type: 'danger',
+				timer: 50
+			});
+			$(this).val($(this).data('oldValue'));
+		}
+	}
+});
+$(".input-number").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+             // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+});
+
+
+</script>
+
+<script>
+	
+   var tn_array = $(".slides img").map(function () {
+        return $(this).attr("src");
+    }).get();
+
+    $('#MainImage').attr('src', tn_array[0]); // set first image of the list as the MainImage src
+    // $('#Previous').css("visibility", "hidden"); 
+
+    var lengthImages = tn_array.length; // Length of the image list
+    var CurrImage = 0; // Keep current Image index
+    var widthImg = 200; // Width of a image in the list 
+    var BottomLength = 4; // How many images currently shows in the bottom slide
+    var IndexDiff;  //This variable is used in the bottom slider click event 
+        //as a reference for animate the slider
+
+        $('#Next').click(function () {
+    $('#MainImage').fadeOut('slow', function () {
+        CurrImage = CurrImage + 1; // Update current image index
+        $('#slider .slides').animate({ 'margin-left': '-=' +
+        widthImg}, 1000); //animate left margin of the slides list with the value
+                //of -widthImg (-200px). So the bottom slider will animate to left side
+        $('#MainImage').attr('src', tn_array[CurrImage]); // set next image to Main image
+		$(".slkdlide").removeClass("active");
+		$("a[href='"+tn_array[CurrImage]+"']").parents(".slkdlide").addClass("active");
+        // if (CurrImage == lengthImages - BottomLength) { //This condition is checking
+        //                 //whether the bottom slider has comes to end or not.
+        //     $('#Next').css("visibility", "hidden"); // if true then hide
+        // }
+        // if ($('#Previous').css("visibility") ==
+        //         "hidden") { // if Previous button is hidden
+        //     $('#Previous').css("visibility",
+        //         "visible"); //then set it to visible
+        // }
+    }).fadeIn(1000);
+    });
+
+    $('#Previous').click(function () {
+    $('#MainImage').fadeOut('slow', function () {
+        CurrImage = CurrImage - 1; // Update the current image index
+        $('#slider .slides').animate({ 'margin-left': '+=' + widthImg },
+            1000); //animate the bottom slider with += widthImg, it will animate the slider to right
+        $('#MainImage').attr('src', tn_array[CurrImage]); // set corresponding image to main image
+		$(".slkdlide").removeClass("active");
+		$("a[href='"+tn_array[CurrImage]+"']").parents(".slkdlide").addClass("active");
+        // if (CurrImage == 0) { // if current slide is the first image
+        //     $('#Previous').css("visibility", "hidden"); // then hide the previous button
+        // }
+        // if ($('#Next').css("visibility") == "hidden") { // if next button is hidden
+        //     $('#Next').css("visibility", "visible"); // then set it to visible
+        // }
+
+    }).fadeIn(1000);
+});
+
+
+$('.slides li img').click(function () {
+       var Imagesrc = $(this).attr('src'); // get the selected image src
+       var ImageIndex = $(this).parent('.slide').index(); // get the selected list item index
+
+       $('#MainImage').fadeOut('slow', function () {
+           if (ImageIndex <= lengthImages - BottomLength) { // this condition checks
+                   //whether the bottom slider has come to the end or not.
+                   //Also this will prevent sliding bottom slider to the left.
+               IndexDiff = CurrImage; // Assign Current image index to IndexDiff temporary
+               CurrImage = ImageIndex; // Assign selected image index to current image value
+               IndexDiff = Math.abs(IndexDiff - CurrImage); // get the difference
+               $('#slider .slides').animate({ 'margin-left': '-=' +
+                   widthImg * IndexDiff }, 1000); // slide the bottom slider to left by setting
+                               //left margin to (widthImg * IndexDiff) pixels.
+               $('#MainImage').attr('src', Imagesrc); // set selected image source as main image
+
+            //    if (ImageIndex != 0) { // image index is not equals to zero
+            //        if ($('#Previous').css("visibility") == "hidden") { // if previous button is hidden
+            //            $('#Previous').css("visibility", "visible"); //set it to visible
+            //        }
+            //    }
+            //    if (ImageIndex == lengthImages - BottomLength) { // check whether the
+            //                    // slider has come to end or not
+            //        if ($('#Next').css("visibility") == "visible") { // if visible
+            //            $('#Next').css("visibility", "hidden"); // hide next button
+            //        }
+            //    }
+           }
+           else { // if bottom slider has come to end
+               $('#MainImage').attr('src', Imagesrc); // set the image source only.
+                           // No need to update the image index
+           }
+           }).fadeIn(1000);
+   });
+
+
+
+
+/* $(document).ready(function(){
+	$('.slkdlide').magnificPopup({
+		delegate: 'a', // child items selector, by clicking on it popup will open
+		type: 'image',
+		closeBtnInside: false,
+    	closeOnContentClick: false,
+		gallery:{
+			enabled:true
+		},
+		zoom: {
+			enabled: true, // By default it's false, so don't forget to enable it
+
+			duration: 300, // duration of the effect, in milliseconds
+			easing: 'ease-in-out', // CSS transition easing function
+
+			// The "opener" function should return the element from which popup will be zoomed in
+			// and to which popup will be scaled down
+			// By defailt it looks for an image tag:
+			opener: function(openerElement) {
+			// openerElement is the element on which popup was initialized, in this case its <a> tag
+			// you don't need to add "opener" option if this code matches your needs, it's defailt one.
+			return openerElement.is('img') ? openerElement : openerElement.find('img');
+			}
+		}
+	});
+}); */
+
+$(document).on("click",".slkdlide",function() {
+	$(".slkdlide").removeClass("active");
+	$(this).addClass("active");
+})
+
+$(document).on("click",".prodcart-btn",function() {
+	//$("#prodtrashModal .modal-description").text("It will be integrated in the next milestone.");
+	//$("#prodtrashModal").modal("show");	
+	var tid = $(this).attr("data-id");
+	var color = $(".colors-bucket.active").attr("data-id");
+	var size = $(".piece-tg.active").attr("data-id");
+	$.ajax({
+			url: baseUrl+"/cart-details",
+			type: "POST",
+			data: {tid:tid,color:color,size:size},
+			success: function(data){
+				if(data != 'closed') {
+					$(".product-infotg").html(data);
+					$(".addmy-cartbtn").attr("data-id",tid);
+					$("#addcartModal").modal("show");
+				} else {
+					showAppAlert('Error!','Sorry we are closed. You cannot place your order at the moment.','error');
+				}
+			}
+	})
+})
+
+$(document).on("click",".addlog-cartbtn",function() {
+	var tid = $(this).attr("data-id");
+	var color = $(".colors-bucket.active").attr("data-id");
+	var size = $(".piece-tg.active").attr("data-id");
+	$.ajax({
+			url: baseUrl+"/getcart-details",
+			type: "POST",
+			data: {tid:tid,color:color,size:size},
+			success: function(data){
+				if(data != 'closed') {
+					$(".product-infotg").html(data);
+					$(".addmy-cartbtn").attr("data-id",tid);
+					$("#addcartModal").modal("show");
+				} else {
+					showAppAlert('Error!','Sorry we are closed. You cannot place your order at the moment.','error');
+				}
+			}
+	})
+	//showAppAlert('Error!!','Please login to add the product in the cart.','error');
+})
+
+$(document).on("click",".addmy-cartbtn",function() {
+	var tid = $(this).attr("data-id");
+	var qty = $(".cartqty-inptg").val();
+	var coupon = $("#coupon_code").val();
+	var color = $(".selected_color").val();
+	var size = $(".selected_size").val();
+	var note = $(".cart-note").val();
+	if(color == '') {
+		$.notify({
+			message: "Please select the color of the product."
+		},{
+			type: 'danger',
+			timer: 50
+		});
+	} else if(size == '') {
+		$.notify({
+			message: "Please select the size of the product."
+		},{
+			type: 'danger',
+			timer: 50
+		});
+	} else {
+		$.ajax({
+				url: baseUrl+"/addmy-cart",
+				type: "POST",
+				data: {tid:tid,qty:qty,coupon_code:coupon,color:color,size:size,note:note},
+				success: function(data){
+					if(data == 'success'){
+						window.location.replace(baseUrl+"/my-cart");
+					} else  if(data == 'error') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','No such product found.','error');
+					} else if(data == 'qtyfull') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','You have already chosen the maximum available quantity.','error');
+					} else if(data == 'qtyerror') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','Product quantity is out of stock.','error');
+					} else  if(data == 'invalid_qty') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','Product quantity is out of stock.','error');
+					} else if(data == 'restricted') {
+						$("#addcartModal").modal("hide");
+						showAppAlert('Error!','You cannot purchase your own product.','error');
+					}
+				}
+		})
+	}
+})
+
+$(document).on("click",".add-wish-btn",function() {
+	$("#addwishModal").modal("show");	
+})
+
+$(document).on("click",".wishcancl-btn",function() {
+	$("#addwishModal").modal("hide");
+})
+
+$(document).on("click",".addwish-btn",function() {
+	$.ajax({
+		url: baseUrl+"/addwish-list",
+		type: "POST",
+		data: { prod: '<?= str_replace("=","",myurl_encode($product_data["product_id"])) ?>' },
+		success: function(data){
+			$("#addwishModal").modal("hide");
+			if(data == 'success') {
+				showAppAlert('Success!','Product has been added to your wish list.','success');
+				setTimeout(function(){ location.reload(); }, 1500);
+			} else if(data == 'already') {
+				showAppAlert('Error!','You have already added this product to your wish list.','error');
+			} else if(data == 'blocked') {
+				showAppAlert('Error!','You cannot add your own product to wish list.','error');
+			} else {
+				showAppAlert('Error!','No such product found.','error');
+			}
+		}
+	})	
+})
+
+$(document).on("click",".added-wish-btn",function() {
+	$("#addedwishModal").modal("show");
+})
+
+$(document).on("click",".wishrmcancl-btn",function() {
+	$("#addedwishModal").modal("hide");
+})
+
+$(document).on("click",".remwish-btn",function() {
+	$.ajax({
+		url: baseUrl+"/removewish-list",
+		type: "POST",
+		data: { prod: '<?= str_replace("=","",myurl_encode($product_data["product_id"])) ?>' },
+		success: function(data){
+			$("#addwishModal").modal("hide");
+			if(data == 'success') {
+				showAppAlert('Success!','Product has been removed from your wish list.','success');
+				setTimeout(function(){ location.reload(); }, 1500);
+			} else {
+				showAppAlert('Error!','No such product has been added to your wish list.','error');
+			}
+		}
+	})
+})
+
+$('.slider-img').mouseenter(function () {
+    $(this).find(".coven-overlay").removeClass("d-none");
+});
+
+$('.slider-img').mouseleave(function () {
+	$(this).find(".coven-overlay").addClass("d-none");
+});
+
+$(document).on("click",".social-sharetg",function() {
+	$(".social-sharelist").toggle();
+})
+
+$(document).on("click",".socshare-tg",function() {
+	var type = $(this).attr('data-share');
+	var title = $(this).attr("data-title");
+	var descrip = $(this).attr("data-description");
+	var pic = $(this).attr("data-pic");
+	if(type == 'facebook'){
+		var facebookshare = window.open("https://www.facebook.com/sharer/sharer.php?u=<?=APPLICATION_URL?>/product/" + title + "&description=" + descrip + "&picture=" + pic, "", "width=500,height=400");
+	}else{
+		var twittershare = window.open("https://twitter.com/intent/tweet?url=<?=APPLICATION_URL?>/product/" + title + "&description=" + descrip + "&picture=" + pic, "sharer", "width=580,height=325");
+	}
+})
+
+$(document).on("click",".report-tg",function() {
+	var prod = $(this).attr("data-id");
+	$(".reportfinal-btn").attr("data-id",prod);
+	$("#report_txt").val('');
+	$("#reportModal").modal("show");
+})
+
+$(document).on("click",".report-cmttg",function() {
+	var cmt = $(this).attr("data-id");
+	$(".reportcmt-btn").attr("data-id",cmt);
+	$("#reportcmtModal").modal("show");
+})
+
+$(document).on("click",".repcmtcancl-btn",function() {
+	$("#reportcmtModal").modal("hide");
+})
+
+$(document).on("click",".reprmcancl-btn",function() {
+	$("#reportModal").modal("hide");
+})
+
+$(document).on("click",".reportcmt-btn",function() {
+	var $this = $(this);
+	var cmt = $(this).attr("data-id");
+	var reptxt = $("#report_cmttxt").val().trim();
+	if(reptxt != '') {
+		$(this).prop("disabled",true);
+		$.ajax({
+		  url: baseUrl+"/report-comment",
+		  type: "POST",
+		  data: { cmt: cmt, reptxt:reptxt },
+		  success: function(data){
+			  $("#report_cmttxt").val('');
+			  $this.prop("disabled",false);
+			  if(data == 'success') {
+			  	showAppAlert('Success!','Comment has been successfully reported by you.','success');
+				setTimeout(function(){ location.reload(); }, 1500);
+			  } else if(data == 'nocomment') {
+			  	showAppAlert('Error!','No such comment found.','error');
+			  } else if(data == 'already') {
+			  	showAppAlert('Error!','You have already reported this comment.','error');
+			  } else {
+			  	showAppAlert('Error!','Please fill the form correctly.','error');
+			  }
+		  }
+		})
+	} else {
+		showAppAlert('Error!','Please fill the reason to report comment.','error');
+	}
+})
+
+$(document).on("click",".reportfinal-btn",function() {
+	var $this = $(this);
+	var prod = $(this).attr("data-id");
+	var reptxt = $("#report_txt").val().trim();
+	if(reptxt != '') {
+		$(this).prop("disabled",true);
+		$.ajax({
+		  url: baseUrl+"/report-product",
+		  type: "POST",
+		  data: { prod: prod, reptxt:reptxt },
+		  success: function(data){
+			  $("#report_txt").val('');
+			  $this.prop("disabled",false);
+			  if(data == 'success') {
+			  	showAppAlert('Success!','Product has been successfully reported by you.','success');
+				setTimeout(function(){ location.reload(); }, 1500);
+			  } else if(data == 'noproduct') {
+				 $("#reportModal").modal("hide"); 
+			  	showAppAlert('Error!','No such product found.','error');
+			  } else if(data == 'notvalid') {
+				$("#reportModal").modal("hide");  
+			  	showAppAlert('Error!','You cannot report your own product.','error');
+			  } 
+			  else if(data == 'already') {
+				$("#reportModal").modal("hide");  
+			  	showAppAlert('Error!','You have already reported this product.','error');
+			  } else {
+			  	showAppAlert('Error!','Please fill the form correctly.','error');
+			  }
+		  }
+		})
+	} else {
+		showAppAlert('Error!','Please fill the reason to report post.','error');
+	}
+})
+
+var Scrollingvar=0;	
+$(window).scroll(function() {
+	var length=  $(".comnt-sector").length;
+	var start = length;
+	if(Scrollingvar==0){ Scrollingvar=1; 
+	  $.ajax({
+		  url: baseUrl+"/getscroll-comments",
+		  type: "POST",
+		  data: {prod: '<?= str_replace("=","",base64_encode($product_data["product_id"])) ?>',start:start},
+		  success: function(data){
+			  if(data!='error' && data != ''){
+				$(".comment-holder").append(data);
+				Scrollingvar=0; 
+			  }else{
+				Scrollingvar=1; 
+			  }
+		  }
+	  })
+	}
+})
+
+$(document).on("click",".comment-btntg",function() {
+	var $this = $(this);
+	if($(".commentform").valid()) {
+		$(this).prop("disabled",true);
+		var cmnt = $(".comment-txtbox").val().trim();
+		if(cmnt != '') {
+		$.ajax({
+			url: baseUrl+"/product-comment",
+			type: "POST",
+			data: { prod: '<?= str_replace("=","",base64_encode($product_data["product_id"])) ?>',cmnt:cmnt },
+			success: function(data){
+				$(".comment-txtbox").val(''); 
+				$this.prop("disabled",false);
+				$("#addwishModal").modal("hide");
+				if(data == 'error') {
+				  showAppAlert('Error!','Please fill the form correctly.','error');	
+				} else if(data == 'noproduct') {
+				  showAppAlert('Error!','No such product found.','error');
+				} else {
+				   $(".comment-txtbox").val(''); 	
+				  $(".comment-holder").prepend(data);	
+				}
+			}
+		})
+		} else {
+			showAppAlert('Error!','Please fill the form correctly.','error');
+		}
+	}
+})
+
+$(document).on("click",".reply-cmttg",function() {
+	var tid = $(this).attr("data-id");
+	$(".reply-sector").addClass("d-none");
+	$(".reply-sector[data-id="+tid+"]").removeClass("d-none");
+	$(".reply-btntg").attr("data-id",tid);
+})
+
+$(document).on("click",".reply-btntg",function() {
+	var tid = $(this).attr("data-id");
+	var replytxt = $(".reply-txtbox[data-id="+tid+"]").val();
+	var $this = $(this);
+	$(this).prop("disabled",true);
+	if(replytxt == '') {
+		$this.prop("disabled",false);
+		showAppAlert('Error!','Please submit the reply.','error');	
+	} else {
+		$.ajax({
+			url: baseUrl+"/reply-comment",
+			type: "POST",
+			data: {tid:tid,prod: '<?= str_replace("=","",base64_encode($product_data["product_id"])) ?>',replytxt:replytxt },
+			success: function(data){
+				$this.prop("disabled",false);
+				if(data == 'noproduct') {
+					showAppAlert('Error!','No such product found.','error');
+					$this.prop("disabled",false);
+				} else if(data == 'invalid_user') {
+					showAppAlert('Error!','Invalid user.','error');
+					$this.prop("disabled",false);
+				} else if(data == 'error'){
+					showAppAlert('Error!','Please fill the form correctly.','error');
+					$this.prop("disabled",false);
+				} else if(data == 'already') {
+					showAppAlert('Error!','You have already replied to this comment.','error');
+					$this.prop("disabled",false);
+				} else {
+					$(".reply-sector").addClass("d-none");
+					$(".reply-holder[data-id="+tid+"]").html('<div class="replyinner-holder"><p class="replyinner-ptg">'+data+'</p><div class="replypic-holder"><img src="<?= $owner_pic ?>"><p class="reply-nametg"><?= $store_data[T_CLIENT_VAR.'client_name'] ?></p><p class="">just now</p></div></div>');
+					$(".reply-cmttg[data-id="+tid+"]").remove();
+				}
+			}
+		})
+	}
+})
+
+$(document).on("click",".mfp-arrow",function() {
+			var srct = $(".mfp-img").attr("src");
+			$(".prodmain-slide").attr("src",srct);
+			$(".prodpic-anctg").attr("href",srct);
+			//$(".slkdlide").removeClass("active");
+			//$(".slkdlide[data-src='"+srct+"']").addClass("active");
+		})
+		
+$(document).ready(function(e) {
+	$(".star-propanel").starRating({
+		minRating: 0,
+		readOnly: true,
+		starShape:'rounded',
+		ratedColor: '#f4a925',
+  		activeColor: '#f4a925',
+		emptyColor: '#bebebe',
+		hoverColor: '#f4a925',
+  		strokeWidth:0,
+  		starSize: 23,
+		useGradient: false,
+		callback: function(currentRating, $el){
+			$(".review_rate").val(currentRating);
+    	}
+	});
+	
+    $(".star-panel").starRating({
+		minRating: 0,
+		readOnly: true,
+		starShape:'rounded',
+		ratedColor: '#f4a925',
+  		activeColor: '#f4a925',
+		emptyColor: '#bebebe',
+		hoverColor: '#f4a925',
+  		strokeWidth:0,
+  		starSize: 15,
+		useGradient: false,
+		callback: function(currentRating, $el){
+			$(".review_rate").val(currentRating);
+    	}
+	});
+});		
+
+$(document).on("click",".apply-btn",function() {
+	var tid = $(this).attr("data-id");
+	var inptxt = $(".input-number").val();
+	var coupon_code = $("#coupon_code").val();
+	var selcolor = $(".selected_color").val();
+	var selsize = $(".selected_size").val();
+	if(coupon_code != '') {
+		$.ajax({
+			url: baseUrl+"/show-price",
+			type: "POST",
+			data: {tid:tid,qty:inptxt,coupon_code:coupon_code,color:selcolor,size:selsize},
+			success: function(data){
+				if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted' && data != 'invalid_coupon') {
+					$(".amount").html("$"+parseFloat(data));
+					showAppAlert('Success!!','Coupon applied successfully.','success');
+				} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'qty_restricted') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'invalid_coupon') {
+					showAppAlert('Error!!','Invalid coupon entered.','error');
+					$("#addcartModal").modal("hide");
+				} else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					}
+			}
+		})
+	} else {
+		showAppAlert('Error!!','Please enter coupon code.','error');
+	}
+})
+
+$(function () {
+	   $(document).on("click",".prev-qbtn",function() {
+	      var max = parseInt($(".input-number").attr('max'));
+          var min = parseInt($(".input-number").attr('min'));
+		  var tid = $(this).attr("data-id");
+          var inptxt = $(".input-number").val();
+		  var inptxt = parseInt(inptxt) - 1;
+		  var coupon_code = $("#coupon_code").val();
+		  var selcolor = $(".selected_color").val();
+		  var selsize = $(".selected_size").val(); 
+		  if (inptxt > max)
+          {
+              var inptxt = max;
+          }
+          else if (inptxt < min)
+          {
+			  var inptxt = min;
+          }
+		  $(".input-number").val(inptxt);
+		  $.ajax({
+			url: baseUrl+"/show-price",
+			type: "POST",
+			data: {tid:tid,qty:inptxt,coupon_code:coupon_code,color:selcolor,size:selsize},
+			success: function(data){
+				if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted') {
+					$(".amount").html("$"+parseFloat(data));
+				} else if(data == 'error') {
+					showAppAlert('Error!!','No such product found.','error');
+					$("#addcartModal").modal("hide");
+				} else if(data == 'qty_restricted') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+					$("#addcartModal").modal("hide");
+				} else if(data == 'invalid_number') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+					$("#addcartModal").modal("hide");
+				}
+			}
+		  })
+	   })
+	   
+	   $(document).on("click",".next-qbtn",function() {
+          var max = parseInt($(".input-number").attr('max'));
+          var min = parseInt($(".input-number").attr('min'));
+		  var tid = $(this).attr("data-id");
+          var inptxt = $(".input-number").val();
+		  var inptxt = parseInt(inptxt) + 1;
+		  var coupon_code = $("#coupon_code").val();
+		  var selcolor = $(".selected_color").val();
+		  var selsize = $(".selected_size").val();
+		  if(selcolor == '') {
+			  $.notify({
+					message: "Please select the color of the product."
+			  },{
+					type: 'danger',
+					timer: 50
+			  });
+		  } else if(selsize == '') {
+			  $.notify({
+					message: "Please select the size of the product."
+			  },{
+					type: 'danger',
+					timer: 50
+			  });
+		  } else {
+			  if (inptxt > max)
+			  {
+				  var inptxt = max;
+			  }
+			  else if (inptxt < min)
+			  {
+				  var inptxt = min;
+			  }
+			  $(".input-number").val(inptxt);
+			  $.ajax({
+				url: baseUrl+"/show-price",
+				type: "POST",
+				data: {tid:tid,qty:inptxt,coupon_code:coupon_code,color:selcolor,size:selsize},
+				success: function(data){
+					if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted') {
+						$(".amount").html("$"+parseFloat(data));
+					} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'qty_restricted') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					} else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+						$("#addcartModal").modal("hide");
+					}
+				}
+			  })
+		  }
+        }); 
+});
+
+$(document).on("click",".cart-clbtn",function() {
+	$("#addcartModal").modal("hide");
+})
+
+$(document).on("click",".reportreview-btn",function() {
+	var tid = $(this).attr("data-id");
+	var review_txt = $("#report_revtxt").val().trim();
+	var $this = $(this);
+	if(review_txt != '') {
+		$("#reportreviewModal").modal("hide");
+		$(this).prop("disabled",true);
+		$.ajax({
+		  url: baseUrl+"/report-review",
+		  type: "POST",
+		  data: { tid: tid, review_txt:review_txt },
+		  success: function(data){
+			  $("#report_revtxt").val('');
+			  $this.prop("disabled",false);
+			  if(data == 'success') {
+			  	showAppAlert('Success!','Review has been successfully reported by you.','success');
+				setTimeout(function(){ location.reload(); }, 1500);
+			  } else if(data == 'noreview') {
+			  	showAppAlert('Error!','No such review found.','error');
+			  } else if(data == 'already') {
+			  	showAppAlert('Error!','You have already reported this review.','error');
+			  } else {
+			  	showAppAlert('Error!','Please fill the form correctly.','error');
+			  }
+		  }
+		})
+	} else {
+		showAppAlert('Error!','Please fill the reason to report review.','error');
+	}
+})
+
+$(document).on("click",".report-ratetg",function() {
+	var tid = $(this).attr("data-id");
+	$(".reportreview-btn").attr("data-id",tid);
+	$("#reportreviewModal").modal("show");
+})
+
+$(document).on("click",".cancelreview-btn",function() {
+	$("#reportreviewModal").modal("hide");
+})
+
+$(document).ready(function(e) {
+	var tid = window.location.href;
+	exp = tid.split("#");
+	if(exp[1] == 'cart') {
+		<?php if(!empty($loggedUser)) { ?>
+			if($(".prodcart-btn").length) {
+				$(".prodcart-btn").trigger("click");
+			} else {
+				showAppAlert('Error!','Selected product is out of stock.','error');
+			}
+		<?php } else { ?>
+			if($(".addlog-cartbtn").length) {
+				$(".addlog-cartbtn").trigger("click");	
+			} else {
+				showAppAlert('Error!','Selected product is out of stock.','error');
+			}			
+		<?php } ?>
+	}
+})
+
+$(document).on("click",".colors",function() {
+	$(".colors-bucket").css("border","none");
+	$(".colors-bucket").removeClass("active");
+	$(this).parents(".colors-bucket").addClass("active");
+	var tid = $(this).attr("data-id");
+	$(this).parents(".colors-bucket").css("border","1px solid "+tid);
+	$.ajax({
+		  url: baseUrl+"/color-details",
+		  type: "POST",
+		  data: { tid: tid, prod:'<?= $product_data["product_id"] ?>' },
+		  success: function(data){
+			  $(".sizep-zone").html(data);
+		  }
+	})
+})
+
+$(document).on("click",".piece-tg",function() {
+	$(".piece-tg").removeClass("active");
+	$(this).addClass("active");
+	var tid = $(this).attr("data-id");
+	var color = $(".colors-bucket.active").attr("data-id");
+	$.ajax({
+		  url: baseUrl+"/getprice-details",
+		  type: "POST",
+		  data: { tid: tid, color:color, prod:'<?= $product_data["product_id"] ?>' },
+		  success: function(data){
+		  	$(".priceqty-blk").html(data); 	  
+		  }
+	})
+})
+
+$(document).on("click",".prodslide-pic",function() {
+	var srct = $(this).attr("src");
+	$(".prodpic-anctg").attr("href",srct);
+})
+
+$(document).on("click",".NextButton",function() {
+	setTimeout(function(){ 
+		var srct = $(".data_lightslider.active").attr("data-src");
+		$(".prodpic-anctg").attr("href",srct);
+	}, 2000);
+})
+
+$(".adcrt-btn").mouseenter(function() {
+    $(this).attr("style","color:#000 !important");
+}).mouseleave(function() {
+   $(this).attr("style","color:#fff !important");
+});
+
+$(document).on("click",".offer-price",function() {
+	var tid = $(this).attr("data-id");
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/price-details",
+		data: {tid:'<?= str_replace("=","",myurl_encode($product_data["product_id"])) ?>'},
+		success: function(response) {
+			$(".price-list").html(response);
+			$("#priceModal").modal("show");
+		}
+	})
+})
+
+$(document).on("click",".readmore-btn",function() {
+	var tid = $(this).attr("data-id");
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/productmore-text",
+		data: {tid:tid},
+		success: function(response) {
+			$(".product-desclist").html(response);
+			$("#readmoreModal").modal("show");
+		}
+	})
+})
+
+$(document).on("click",".sellermore-btn",function() {
+	var tid = $(this).attr("data-id");
+	$.ajax({
+		type: "POST",
+		url: baseUrl+"/sellermore-text",
+		data: {tid:tid},
+		success: function(response) {
+			$(".seller-desclist").html(response);
+			$("#sellermoreModal").modal("show");
+		}
+	})
+})
+</script>

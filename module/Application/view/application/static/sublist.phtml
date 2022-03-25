@@ -1,0 +1,104 @@
+<?php if(!empty($product_categories)) { 
+				 ?>
+            <h2 class="heading mb-0 pb-0"><span class="d-xl-none d-inline-block" style="font-size:30px;cursor:pointer" onclick="openNav1()">☰</span></h2>     
+            <div class="product-list">
+              <?php foreach($product_data as $prodct_data_key => $prodct_data_val){
+				$priceqty_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID","fetch",array('warray'=>array('PID'=>$prodct_data_val["product_id"])));	 
+			  	$product_photos = explode(",",$prodct_data_val["product_photos"]); 
+			  ?>
+                  <div class="item">
+                  	<div class="itmanc-tg" data-href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>">
+                    <div class="card menu-card">
+                    <?php if($prodct_data_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+						<div class="ribbon-pop"><span>Best Seller</span></div>
+					<?php } ?>
+                    <div class="slider-img"><div class="card-img-top">
+                    <?php if(!empty($prodct_data_val["product_defaultpic"])) { ?>
+                    <img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $prodct_data_val["product_defaultpic"]; ?>" alt="Card image cap">
+                    <?php } else { ?>
+                    <img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $product_photos[0]; ?>" alt="Card image cap">
+					<?php } ?>
+                    <div class="coven-overlay d-none"></div> </div> 
+                    	<?php if($prodct_data_val["shipping_free"] == '1' && $prodct_data_val[T_CLIENT_VAR."client_country"] == $loggedUser->{T_CLIENT_VAR."client_country"} && $prodct_data_val["product_isdigital"] != '1') { ?>
+							<div class="freeship-holder"><div class="freeship-txt">Free Shipping</div></div>
+						<?php } else { ?>
+							<div class="freeship-holder">&nbsp;</div>
+						<?php } ?> 
+                    </div>
+                      <div class="card-body">
+						<h4 class="card-title"><?php echo $prodct_data_val["product_title"]; ?> </h4>
+						<?php if($prodct_data_val["product_isdigital"] != '1') { ?>
+							<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $priceqty_data["color_price"]; ?></span> </p>
+						<?php } else { ?>
+							<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $prodct_data_val["product_price"]; ?></span> </p>
+						<?php } ?>					
+						<div class="btn-block">
+							<a href="#" class="btn view-btn"> View Detail </a>
+							<a href="#" class="btn cart-btn"> Add to cart </a>
+						</div>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                <?php } ?>
+            </div>
+            <?php 
+} else { if(!empty($product_data)) { ?>
+<h2 class="heading mb-0 pb-0"><span class="d-xl-none d-inline-block" style="font-size:30px;cursor:pointer" onclick="openNav1()">☰</span></h2> 
+<div class="product-list">
+	<?php foreach($product_data as $prodct_data_key => $prodct_data_val){ 
+			$priceqty_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID","fetch",array('warray'=>array('PID'=>$prodct_data_val["product_id"])));
+			$product_photos = explode(",",$prodct_data_val["product_photos"]); 
+	  ?>
+		  <div class="item">
+			<div class="itmanc-tg" data-href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>">
+			<div class="card menu-card">
+			<?php if($prodct_data_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+				<div class="ribbon-pop"><span>Best Seller</span></div>
+			<?php } ?>
+			<div class="slider-img"><div class="card-img-top">
+			<?php if(!empty($prodct_data_val["product_defaultpic"])) { ?>
+			<img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $prodct_data_val["product_defaultpic"]; ?>" alt="Card image cap">
+			<?php } else { ?>
+			<img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $product_photos[0]; ?>" alt="Card image cap">
+			<?php } ?>
+			<div class="coven-overlay d-none"></div> </div> 
+		  	<?php if($prodct_data_val["shipping_free"] == '1' && $prodct_data_val[T_CLIENT_VAR."client_country"] == $loggedUser->{T_CLIENT_VAR."client_country"} && $prodct_data_val["product_isdigital"] != '1') { ?>
+				<div class="freeship-holder"><div class="freeship-txt">Free Shipping</div></div>
+			<?php } else { ?>
+				<div class="freeship-holder">&nbsp;</div>
+			<?php } ?>
+		  </div>
+			  <div class="card-body">
+				<h4 class="card-title"><?php echo $prodct_data_val["product_title"]; ?> </h4>
+				<?php if($prodct_data_val["product_isdigital"] != '1') { ?>
+					<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $priceqty_data["color_price"]; ?></span> </p>
+				<?php } else { ?>
+					<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $prodct_data_val["product_price"]; ?></span> </p>
+				<?php } ?>
+				<!-- <a href="<?= APPLICATION_URL.'/product-listing?category='.$prodct_data_val["product_category"]; ?>" class="category-txt"> <?= $prodct_data_val["category_feild"]; ?> </a> -->
+
+				<div class="btn-block">
+					<a href="#" class="btn view-btn"> View Detail </a>
+					<a href="#" class="btn cart-btn"> Add to cart </a>
+				</div>
+			  </div>
+			</div>
+			</div>
+		  </div>
+		<?php } ?>
+</div>
+<?php }  else { ?>
+<p>No product found.</p>
+<?php } } ?>
+<script type="text/javascript">
+	$(document).ready(function(e) {
+    $('.slider-img img').map(function(){
+      var $th = $(this);
+      width = $th[0].naturalWidth;
+	  if(width < 200) {
+	  	$(this).css("object-fit","contain");
+	  }
+    }) 
+});
+</script>

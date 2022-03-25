@@ -1,0 +1,480 @@
+<style type="text/css">
+	.help-block{position:absolute;margin-top:-22px;}
+	.itmanc-tg:hover{text-decoration:none !important;}
+	.jq-star{cursor:default;}
+	.star-panel{display:inline-block;vertical-align:top;}
+	#mySidenav1{z-index:99999999;}
+	.menu-card .card-img-top img{background:#fff;}
+	.my-product-box{padding-top:50px;}
+	.media-body-inside{position:relative;}
+	.media-body-inside a{position:absolute;right:0px;}
+	.favourite-txt{padding-left:4px;}
+	.favourite-txt:hover{cursor:pointer;}
+	.seller-profile-page .my-product-box .heading{padding-top:0px;}
+	.clear-search{display:block;width:100%;color:#000;font-size:14px;text-align:right;}
+	.filter-green{
+        filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+    }
+	.seller-profile-page .seller-description{max-width:90%;}
+	.fav-zone{min-width:210px;}
+	div.svg div.rateit-range {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-default.svg' ?>') /*star-normal.svg*/;
+	}
+	div.svg div.rateit-hover {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-active.svg' ?>') /*star-hover.svg*/;
+	}
+	div.svg div.rateit-selected {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-active.svg' ?>') /*star-selected.svg*/;
+	}
+	div.svg div.rateit-preset {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-default.svg' ?>') /*star-preset.svg*/;
+	}
+	.rateit-bg{vertical-align:top;}
+	@media (min-width:1200px) and (max-width:6000px){
+		
+		.seller-profile-page .my-product-box .item{margin-right:5px;}
+	}
+	@media (min-width:200px) and (max-width:767px){
+		.second-box .media{display:block;}
+		.fav-zone{margin-top:30px;}
+	}
+</style>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Wicked shops</h2>
+		</div>
+	</div>	
+</div>
+
+
+<div class="seller-profile-page">
+  <div class="container">
+    <div class="seller-profile">
+      <div class="seller-bg-box">
+          <div class="first-box" <?php if(!empty($store_data["store_banner"]) && file_exists(STORE_BANNER_PATH.'/'.$store_data["store_banner"])) { ?>style="background:url('<?= HTTP_STORE_BANNER_PATH.'/'.$store_data["store_banner"]; ?>') !important;background-position:top center!important;background-size:cover !important"<?php } ?>>
+          </div>
+          <div class="second-box">
+            <div class="media">
+              <div class="seller-pic"><?php if(!empty($store_data['store_logo']) && file_exists(STORE_LOGO_PATH.'/160/'.$store_data["store_logo"])) { ?>					
+                    <img src="<?= HTTP_STORE_LOGO_PATH?>/160/<?= $store_data["store_logo"] ?>" />  
+                <?php } else { ?>
+                   <img src="<?=HTTP_IMG_PATH?>/slider1.jpg">
+                <?php } if($store_data["store_verification"] == '1') { ?>
+                	<img class="badge-img" src="<?=HTTP_IMG_PATH?>/badge.svg">
+                <?php } ?>
+                </div>
+              <div class="media-body">
+                <div class="media-body-inside">
+                  <div class="user-info">
+                    <h1 class="seller-name"><?= $store_data["store_name"]; ?>  <?php if($store_data["store_closed"] == '1' && strtotime($store_data["store_closed_tilldate"]) > strtotime(date("Y-m-d"))) { ?>
+											<div class="pendulum-holder">
+                    <img src="<?= HTTP_IMG_PATH.'/closed.png'; ?>">
+						</div>
+                    
+                    <?php } ?></h1>
+                    <?php if($store_data["store_closed"] == '1' && strtotime($store_data["store_closed_tilldate"]) > strtotime(date("Y-m-d"))) { ?>
+                    	<?php if($store_data["store_acceptorder"] == '1') { ?>
+                    		<p class="closed-hangertxt">Sorry we're closed. You can place your order but it will be processed after <?= date("F d, Y",strtotime($store_data["store_closed_tilldate"])); ?>.</p>
+                    	<?php } else { ?>
+                    		<p class="closed-hangertxt">Sorry we're closed. You cannot place your order at the moment.</p>
+                    	<?php } ?>
+                    <?php } ?>
+                    <!-- <p class="comp-name"> <?= $store_data[T_CLIENT_VAR.'client_name']; ?> </p> -->
+					<p class="seller-description"><?= $store_data["store_title"] ?></p>
+					<?php /*?><p class="seller-description"><? $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i'; 
+					$strlink = preg_replace($url, '<a href="$0" target="_blank" style="position:relative" title="$0">$0</a>', strip_tags($store_data["store_description"]));
+			 		echo nl2br($strlink); ?></p><?php */?>
+                  </div>
+                 <?php /*?> <a class="addfav-btn" data-id="<?= str_replace("=","",base64_encode($store_data["store_id"])) ?>">Add to favourite</a><?php */?>
+                  
+                  <div class="fav-zone">
+                  <?php if(!empty($store_data[T_CLIENT_VAR."client_image"])) { ?>
+                  	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$store_data[T_CLIENT_VAR."client_image"]; ?>" class="seller-phototg" />
+                  <?php } else { ?>
+                  	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>" class="seller-phototg" />
+                  <?php } ?>
+                  <div class="seller-holdblk">
+                  	<h5><?= $store_data[T_CLIENT_VAR."client_name"] ?></h5>
+                  	<h6>Owner</h6>
+				  </div>
+                  <?php if(!empty($loggedUser->{T_CLIENT_VAR.'client_id'})) { ?>
+                  <p class="favourite-txt" data-id="<?= str_replace("=","",base64_encode($store_data["store_id"])) ?>"><?php if(!empty($fav_data)) { ?>Added to favourite <img src="<?=HTTP_IMG_PATH?>/fill.svg" class=""><?php } else { ?>Add to favourite <img src="<?=HTTP_IMG_PATH?>/interface.svg" class=""><?php } ?> </p>
+                  <?php } else { ?>
+                  
+                  <?php } ?>
+                  <ul class="rating-star text-center">
+                  <?php if(!empty($total_reviews)) { ?>
+                  	<div class="rateit svg" data-rateit-starwidth="32" data-rateit-starheight="25" data-rateit-value="<?= $average_rating; ?>" data-rateit-readonly="true"></div>
+                  	<?php /*?><div class="star-panel" data-rating="<?= $average_rating; ?>"></div><?php */?>
+                  	<li class=""> <?php if(!is_nan($review_percentile)) { echo bcdiv($review_percentile,1,2); } else { echo '0'; } ?>% in the last <?= $ago_var ?> (<?= $total_reviews ?> <?php if($total_reviews > 1) { ?>ratings<?php } else { ?>rating<?php } ?>) </li>
+                	<?php } else { ?>
+                    <div class="rateit svg" data-rateit-starwidth="32" data-rateit-starheight="25" data-rateit-value="0" data-rateit-readonly="true"></div>	
+                    <?php } ?>
+                </ul>
+                	</div>
+                  <!-- ul -->
+                </div>
+                <!-- media-body-inside -->
+              </div>
+            </div>
+            <!-- media object -->
+            <p class="description d-none"> <?php $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i'; 
+			$strlink = preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', strip_tags($store_data["store_description"]));
+			 echo nl2br($strlink); ?></p>
+          </div>
+      </div>
+      <!-- seller bg box -->
+
+    </div>
+    <!-- seller profile -->
+
+    <!-- seller product -->
+    <div class="row">
+      <div class="col-3">
+        <div class="toggle-box sidenav1" id="mySidenav1">
+        <a href="javascript:void(0)" class="closebtn d-xl-none d-block" onclick="closeNav1()">&times;</a>
+          <h2 class="heading"> Wicked Collections </h2>
+          <form id="search_prodfrm" name="search_prodfrm" method="post">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><img class="search-prodbtn" src="<?=HTTP_IMG_PATH?>/search1.svg"></div>
+              </div>
+              <input type="text" class="form-control search_prodtxt required" id="inlineFormInputGroup" placeholder="Search items">
+            </div>
+
+
+          </form>
+          <!--  -->
+          <?php if(!empty($product_categories)) { ?>
+          <ul class="collection-list">
+          	<li class="list-li"> <a href="javascript:void(0)" class="item-catlist active" data-id="all"> <span> All </span> <span> <?= $total_products ?> </span> </a> </li>
+			<?php foreach($product_categories as $product_categories_key => $product_categories_val) {
+				$joinArr2 = array(
+					'1' => array('0' => T_CLIENTS, '1' => 'product_clientid = yurt90w_client_id' . '', '2' => 'Inner', '3' => array('yurt90w_client_planstatus'))
+				);
+				$prodcount_data = $this->layout()->AbstractModel->Super_Get(T_PRODUCTS,"product_category = '".$product_categories_val["product_category"]."' and product_clientid = '".$store_data[T_CLIENT_VAR.'client_id']."' and product_status = '1' and product_delstatus != '1'","fetchAll",array('fields'=>'product_id'),$joinArr2);
+			?>
+            	<li class="list-li"> <a href="javascript:void(0)" class="item-catlist" data-id="<?= str_replace("=","",base64_encode($product_categories_val["product_category"])) ?>"> <span> <?= $product_categories_val["category_feild"]; ?> </span> <span> <?= count($prodcount_data); ?> </span> </a>
+            		<?php
+						
+						$subcategory_data = $this->layout()->AbstractModel->Super_Get(T_SUBCATEGORY_LIST,"subcategory_categoryid =:TID","fetchAll",array('warray'=>array('TID'=>$product_categories_val["product_category"])));
+									if(!empty($subcategory_data)) {
+								?>
+									<ul class="subcat-holder d-none" data-id="<?= str_replace("=","",base64_encode($product_categories_val["product_category"])) ?>">
+										<?php foreach($subcategory_data as $subcategory_data_key => $subcategory_data_val) {
+											$joinArr2 = array(
+							'1' => array('0' => T_CLIENTS, '1' => 'product_clientid = yurt90w_client_id' . '', '2' => 'Inner', '3' => array('yurt90w_client_planstatus'))
+						);
+											$subprodcount_data = $this->layout()->AbstractModel->Super_Get(T_PRODUCTS,"product_subcategory = '".$subcategory_data_val["subcategory_id"]."' and product_status = '1' and product_clientid = '".$store_data[T_CLIENT_VAR.'client_id']."' and product_delstatus != '1'","fetchAll",array('fields'=>'product_id'),$joinArr2);
+										?>
+											<li>
+												<a href="javascript:void(0)" class="item-subcat" data-id="<?= str_replace("=","",base64_encode($subcategory_data_val["subcategory_id"])) ?>" data-tid="<?= str_replace("=","",base64_encode($product_categories_val["product_category"])) ?>"><span> <?= $subcategory_data_val["subcategory_title"]; ?> </span> <span> <?= count($subprodcount_data); ?> </span></a>
+											</li>
+										<?php } ?>
+									</ul>
+								<?php } ?>
+            	</li>
+            <?php } ?>
+          </ul>
+          <?php } ?>
+          <!--  -->
+
+          <a href="<?= APPLICATION_URL.'/messages/'.str_replace("=","",base64_encode($store_data[T_CLIENT_VAR.'client_id'])); ?>" class="btn contact-btn"> <img class="" src="<?=HTTP_IMG_PATH?>/message.svg"> Contact shop owner </a>
+
+          <hr/>
+
+          <?php /*?><p class="txt"> 18460 Admirers </p><?php */?>
+
+        </div>
+      </div>
+      <!--  -->
+      <div class="col-xl-9">
+        <div class="my-product-box">  
+        	<h2 class="heading mb-0 pb-0"><span class="d-xl-none d-inline-block" style="font-size:30px;cursor:pointer" onclick="openNav1()">☰</span></h2>        
+            <div class="product-list">
+              <?php if(!empty($product_data)) { foreach($product_data as $prodct_data_key => $prodct_data_val){
+				$priceqty_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID","fetch",array('warray'=>array('PID'=>$prodct_data_val["product_id"])));
+			  	$product_photos = explode(",",$prodct_data_val["product_photos"]); 
+			  ?>
+                  <div class="item">
+                  	<div class="itmanc-tg" data-href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>">
+                    <div class="card menu-card">
+                    <?php if($prodct_data_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+						<div class="ribbon-pop"><span>Best Seller</span></div>
+					<?php } ?>
+                    <div class="slider-img"><div class="card-img-top">
+                    <?php if(!empty($prodct_data_val["product_defaultpic"])) { ?>
+                    <img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $prodct_data_val["product_defaultpic"]; ?>" alt="Card image cap">
+                    <?php } else { ?>
+                    <img class="" src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $product_photos[0]; ?>" alt="Card image cap">
+					<?php } ?>
+                    <div class="coven-overlay d-none"></div> </div> 
+                     <?php if($prodct_data_val["shipping_free"] == '1' && $prodct_data_val[T_CLIENT_VAR."client_country"] == $loggedUser->{T_CLIENT_VAR."client_country"} && $prodct_data_val["product_isdigital"] != '1') { ?>
+						<div class="freeship-holder"><div class="freeship-txt">Free Shipping</div></div>
+					<?php } else { ?>
+						<div class="freeship-holder">&nbsp;</div>
+					<?php } ?> 
+                     </div>
+                      <div class="card-body">
+						<a href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>" class="card-anctg"><h1 class="card-title"><?php echo $prodct_data_val["product_title"]; ?> </h1></a>
+						<?php if($prodct_data_val["product_isdigital"] != '1') { ?>
+							<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $priceqty_data["color_price"]; ?></span> </p>
+						<?php } else { ?>
+							<p class="price-txt"> <span class="mrp-price"> </span> <span>$<?= $prodct_data_val["product_price"]; ?></span> </p>
+						<?php } ?>	
+						<!-- <a href="<?= APPLICATION_URL.'/product-listing?category='.$prodct_data_val["product_category"]; ?>" class="category-txt"> <?= $prodct_data_val["category_feild"]; ?> </a> -->
+						<div class="btn-block">
+							<a href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])) ?>" class="btn view-btn"> View Detail </a>
+							<a href="<?= APPLICATION_URL.'/product/'.slugify($prodct_data_val["product_title"]).'~'.str_replace("=","",base64_encode($prodct_data_val["product_id"])); ?>#cart" class="btn cart-btn"> Add to cart </a>
+						</div>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                <?php } } else { ?>
+					<p>No product found.</p>
+                <?php } ?>
+            </div>
+            <!--  -->
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+      <div class="col-md-9 shop-story">
+
+	  	<!-- review block -->
+	  	<?php if(!empty($review_record)) { ?>
+		  <div class="review-block">
+				<div class="review-heading"> Review<?php if(count($review_record) > 1) { echo "s"; } ?> (<?= count($review_record) ?>) </div>
+				<?php foreach($review_record as $review_record_key => $review_record_val) { ?>
+			 	<div class="review-box">
+					<div class="media">
+						<div class="review-user">
+						<?php if(!empty($review_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$review_record_val[T_CLIENT_VAR."client_image"])) { ?> 
+							<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/60/<?= $review_record_val[T_CLIENT_VAR."client_image"] ?>"> 
+						<?php } else { ?>
+							<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png' ?>">
+						<?php } ?>
+						</div>
+						<div class="media-body">
+							<p class="user-name"> <?= $review_record_val[T_CLIENT_VAR."client_name"] ?> </p>
+							<div class="rateit svg" data-rateit-starwidth="32" data-rateit-starheight="25" data-rateit-value="<?= $review_record_val["review_starrating"] ; ?>" data-rateit-readonly="true"></div>
+							<?php /*?><div class="star-panel" data-rating="<?= $review_record_val["review_starrating"] ?>"></div><?php */?>
+						</div>
+					</div>
+					<p class="description"> <?= nl2br($review_record_val["review_text"]); ?></p>
+					<?php $review_photos = unserialize($review_record_val["review_photos"]); ?>																														
+					<?php if(!empty($review_photos)) { ?>
+					<div class="review-img-block">
+						<?php foreach($review_photos as $review_photos_key => $review_photos_val) { ?>
+							<div class="rieview-img"><a href="<?=HTTP_REVIEW_PATH?>/<?= $review_photos_key ?>" target="_blank"><img src="<?=HTTP_REVIEW_PATH?>/200/<?= $review_photos_key ?>"></a></div>
+						<?php } ?>
+					</div>
+					<?php } ?>
+				</div>
+				<?php } ?>
+		</div>
+		<?php } else { ?>
+ 			<div class="review-block">
+				<div class="review-heading"> Review (0) </div>
+			 	<div class="review-box">
+					<p class="description">There are no reviews yet.</p>
+				</div>
+			</div>
+  		<?php } ?>
+	  	<!-- review block -->
+      	<h3><?= $store_data["store_headline"] ?></h3>
+      	<p class="seller-description"><? $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i'; 
+					$strlink = preg_replace($url, '<a href="$0" target="_blank" style="position:relative" title="$0">$0</a>', strip_tags($store_data["store_description"]));
+			 		echo nl2br($strlink); ?></p>
+		<?php if(!empty($store_data["store_policy"])) { ?>	 		
+			<br/><h5>Shop Policies</h5>	 		
+			<p class="seller-description"><? $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
+				$policystr = preg_replace($url, '<a href="$0" target="_blank" style="positon:relative" title="$0">$0</a>',strip_tags($store_data["store_policy"]));
+				echo nl2br($policystr);
+			?></p>	 		
+		<?php } ?>
+		<?php if(!empty($store_members)) { ?>
+		<div class="shop-user-row">
+		 	<div class="row">
+				<?php foreach($store_members as $store_members_key => $store_members_val) { ?>
+					<div class="col-xl-6">
+						<div class="shop-user-block">
+							<div class="media">
+									<div class="media-img">
+										<?php if(!empty($store_members_val["member_pic"])) { ?>
+											<img src="<?=HTTP_TEAM_IMAGES_PATH?>/160/<?= $store_members_val["member_pic"] ?>">
+										<?php } else { ?>
+											<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>">
+										<?php } ?>
+									</div>
+									<div class="media-body">
+											<p class="shop-user-name"><?= $store_members_val["member_name"] ?></p>
+											<p class="shop-location"><?= $store_members_val["member_role"] ?></p>
+											<p class="shop-text"><?= nl2br($store_members_val["member_bio"]); ?></p>
+									</div>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
+			</div>
+		</div>	
+		<?php } ?>	
+		 <!--  -->
+      </div>
+    <!-- seller product -->
+  </div>
+</div>
+<script>
+function openNav1() {	
+  $("#mySidenav1").css("display","block");
+  document.getElementById("mySidenav1").style.width = "350px";
+}
+
+function closeNav1() {
+	$("#mySidenav1").css("display","none");
+  document.getElementById("mySidenav1").style.width = "0";
+}
+</script>
+<script type="text/javascript">
+	$(document).ready(function(e) {
+    $(".star-panel").starRating({
+		minRating: 0,
+		readOnly: true,
+		starShape:'rounded',
+		ratedColor: '#f4a925',
+  		activeColor: '#f4a925',
+		emptyColor: '#bebebe',
+		hoverColor: '#f4a925',
+  		strokeWidth:0,
+  		starSize: 23,
+		useGradient: false,
+		callback: function(currentRating, $el){
+			$(".review_rate").val(currentRating);
+    	}
+	});
+});	
+	$(document).ready(function(e) {
+    $('.slider-img img').map(function(){
+      var $th = $(this);
+      width = $th[0].naturalWidth;
+	  if(width < 200) {
+	  	$(this).css("object-fit","contain");
+	  }
+    }) 
+});
+
+$(document).on("click",".item-catlist",function() {
+	var cat = $(this).attr("data-id");
+	$(".item-catlist").removeClass("active");
+	$(this).addClass("active");
+	$.ajax({
+		url: baseUrl+"/product-categorylist",
+		type: "POST",
+		data: {cat:cat,keycode:'<?= $store_data[T_CLIENT_VAR.'client_id'] ?>'},
+		success: function(data){
+			$(".my-product-box").html(data);
+			$(".subcat-holder").addClass("d-none");
+			$(".subcat-holder[data-id="+cat+"]").removeClass("d-none");
+			if($(".closebtn").length && $(window).width < 1025) {
+				$(".closebtn").trigger("click");
+			}
+		}
+	}) 
+})
+
+$(document).on("click",".item-subcat",function() {
+	var cat = $(this).attr("data-id");
+	var catg = $(this).attr("data-tid");
+	$(".item-catlist").removeClass("active");
+	$(".item-subcat").removeClass("active");
+	$(".item-catlist[data-id="+catg+"]").removeClass("active");
+	$(this).addClass("active");
+	$.ajax({
+		url: baseUrl+"/product-sublist",
+		type: "POST",
+		data: {cat:cat,keycode:'<?= $store_data[T_CLIENT_VAR.'client_id'] ?>'},
+		success: function(data){
+			$(".my-product-box").html(data);
+			$(".subcat-holder").addClass("d-none");
+			$(".subcat-holder[data-id="+catg+"]").removeClass("d-none");
+			if($(".closebtn").length && $(window).width < 1025) {
+				$(".closebtn").trigger("click");
+			}
+		}
+	}) 
+})
+
+$(document).on("click",".favourite-txt",function() {
+	var favtg = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl+"/addmy-favourite",
+		type: "POST",
+		data: {keycode:favtg},
+		success: function(data){
+			if(data == 'success') {
+				$(".favourite-txt").html('Added to favourite   <img src="<?=HTTP_IMG_PATH?>/fill.svg" class=""> ');
+			} else if(data == 'removed') {
+				$(".favourite-txt").html('Add to favourite   <img src="<?=HTTP_IMG_PATH?>/interface.svg" class=""> ');
+			} else if(data == 'restricted') {
+				showAppAlert('Error!','You cannot add yourself to Favourites.','error');
+			} else if(data == 'nonlog') {
+				showAppAlert('Error!','Please login to your account.','error');
+			} else {
+				showAppAlert('Error!','No such store found.','error');
+			}
+		}
+	}) 
+})
+
+
+$(".search_prodtxt").keydown(function(event){
+    if (event.keyCode == '13') {
+      event.preventDefault();
+	  if($("#search_prodfrm").valid()) {
+		var prod_txt = $(".search_prodtxt").val();
+		$.ajax({
+			url: baseUrl+"/search-productzone",
+			type: "POST",
+			data: {prod_txt:prod_txt,keycode:'<?= $store_data[T_CLIENT_VAR.'client_id'] ?>'},
+			success: function(data){
+				$(".clear-search").remove();
+				$(".my-product-box").html(data);
+				$('<a href="" class="clear-search">Clear Search</a>').insertAfter(".search_prodtxt");
+				if($(".closebtn").length && $(window).width < 1025) {
+					$(".closebtn").trigger("click");
+				}
+			}
+		})
+	}
+    }
+  });
+  
+$(document).on("click",".itmanc-tg",function() {
+	var itanc = $(this).attr("data-href");
+	window.location.href = itanc;
+})
+
+$(document).on("click",".search-prodbtn",function() {
+	if($("#search_prodfrm").valid()) {
+		var prod_txt = $(".search_prodtxt").val();
+		$.ajax({
+			url: baseUrl+"/search-productzone",
+			type: "POST",
+			data: {prod_txt:prod_txt,keycode:'<?= $store_data[T_CLIENT_VAR.'client_id'] ?>'},
+			success: function(data){
+				$(".clear-search").remove();
+				$(".my-product-box").html(data);	
+				$('<a href="" class="clear-search">Clear Search</a>').insertAfter(".search_prodtxt");
+				if($(".closebtn").length && $(window).width < 1025) {
+					$(".closebtn").trigger("click");
+				}
+			}
+		})
+	}
+})
+</script>
+
+
+

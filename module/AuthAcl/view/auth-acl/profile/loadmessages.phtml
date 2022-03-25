@@ -1,0 +1,30 @@
+<?php use Zend\Db\Sql\Expression; ?>
+<?php if(!empty($message_record)) { foreach($message_record as $message_record_key => $message_record_val) {
+	 $chk_data["chat_readstatus"] = '1';
+	 $this->layout()->AbstractModel->Super_Get(T_CHAT,$chk_data,"chat_id = '".$message_record_val["chat_id"]."'");
+	 if($message_record_val["chat_by"] != $loggedUser->{T_CLIENT_VAR.'client_id'}) { ?>
+	<div class="left-box msgcommon-panel" data-id="<?= str_replace("=","",base64_encode($message_record_val["chat_id"])); ?>">
+    	<div class="avatar">
+        <?php if(!empty($message_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+        	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$message_record_val[T_CLIENT_VAR."client_image"]; ?>">
+        <?php } else { ?>
+        	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+		<?php } ?>
+        </div>
+        <div class="text_wrapper">
+        	<div class="message-content">
+            	<div class="text"><?= nl2br($message_record_val["chat_text"]); ?> </div>
+                </div>
+                <div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+            </div>
+        </div>
+        <?php } else { ?>
+        <div class="right-box msgcommon-panel" data-id="<?= str_replace("=","",base64_encode($message_record_val["chat_id"])); ?>">     
+        	<div class="text_wrapper">
+            	<div class="message-content">
+                	<div class="text"><?= nl2br($message_record_val["chat_text"]); ?>  </div>
+                    </div>
+                    <div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+                </div>
+        </div>
+<?php } } } ?>

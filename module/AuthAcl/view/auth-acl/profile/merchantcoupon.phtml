@@ -1,0 +1,60 @@
+<h1 class="card-title"> Become a Seller $<?= bcdiv($coupon_amount,1,2) ?> <span> Monthly/Recurring </span> </h1>
+<a href="javascript:void(0)" class="apply-coupontg">Apply Coupon Code</a>
+<?php if($coupon_amount != '0') { ?>
+<div class="form-group">
+  <label> Name on Card</label>
+  <input type="text" class="form-control card_name" placeholder="Name on Card" id="card_name" name="card_name">
+</div>
+
+<div class="form-group">
+  <label> Card Number</label>
+  <input type="text" class="form-control card_number" placeholder="Card Number" id="card_number" name="card_number" maxlength="16" onkeypress="return isNumber(event)">
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+	<div class="form-group">
+	  <label> Expiration Date</label>
+	  <div class="form-row">
+		<div class="col-sm-6">
+		  <select class="custom-select form-control exp_month" id="exp_month" name="exp_month">
+		   <?php for($i = 1;$i <= 12; $i++) { 
+		   if($i < 10) { $i = '0'.$i; } ?>
+			<option value="<?= $i ?>"><?= $i ?></option>
+		   <?php } ?> 
+		  </select>
+		</div>
+		<div class="col-sm-6">
+		  <select class="custom-select form-control exp_year" id="exp_year" name="exp_year" >
+		   <?php for($y = 2020; $y <2037; $y++) { ?>
+			<option value="<?= $y ?>"><?= $y ?></option>
+		   <?php } ?> 
+		  </select>
+		</div>
+	  </div>
+	  <!-- form-row -->
+
+	</div>
+	<!-- form gorup -->
+  </div>
+  <!-- col -->
+  <div class="col-sm-6">
+	<div class="form-group">
+	  <label> CVV</label>
+	  <input type="text" class="form-control cvv_code" id="cvv_code" name="cvv_code" placeholder="CVV" onkeypress="return isNumber(event)" maxlength="4">
+	</div>
+  </div>
+</div>
+<?php } ?>
+<input type="hidden" id="coupon_code" name="coupon_code" value="<?= $coupon_code ?>">
+<script type="text/javascript">
+	<?php if($coupon_amount == '0') { ?>
+		$(".getverify-btn").attr("onclick","updatestore(event)");
+	<?php } else {
+		if($loggedUser->{T_CLIENT_VAR."client_planstatus"} != '1') { ?>
+			$(".getverify-btn").attr("onclick","stripePay(event)");
+		<? } else { ?>
+			$(".getverify-btn").attr("onclick","updatestore(event)");
+		<? }
+	} ?>
+</script>

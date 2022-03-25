@@ -1,0 +1,51 @@
+<?php use Application\Form\StaticForm;
+$form = new StaticForm();
+$form->newsletter();
+
+/*$CURRENT_CONTROLLER = $this->layout()->CURRENT_CONTROLLER;
+$CURRENT_ACTION = $this->layout()->CURRENT_ACTION;
+echo 'controller: '.$CURRENT_CONTROLLER;
+echo '<br>action: '.$CURRENT_ACTION;*/
+//pr($this->SITE_CONFIG['site_footertxt']);
+
+?>
+
+<footer>
+    <div class="container">
+      <ul class="menu-footer">
+          <li class="wow lightSpeedIn"><a class="nav-link" href="<?php echo $this->url('front_aboutus')?>"> Origins </a></li>
+          <li class="wow lightSpeedIn"><a class="nav-link" href="<?php echo $this->url('front_contactus')?>">Summon us </a></li>
+          <li class="wow lightSpeedIn"><a class="nav-link" href="<?php echo $this->url('front_howitworks')?>">Guide to the coven  </a></li>
+          <?php /*?> <li class="wow lightSpeedIn"><a class="nav-link" href="<?php echo $this->url('front_testament')?>"> Last testament </a></li> <?php */?>
+          <li class="wow lightSpeedIn"><a class="nav-link" target="_blank" href="https://blog.thecollectivecoven.com/"> Blog </a></li>
+          <li class="wow lightSpeedIn"><a class="nav-link" href="<?php echo $this->url('front_faq')?>"> FAQ </a></li>
+          <li class="wow lightSpeedIn"><a class="nav-link" href="<?php echo $this->url('front_termsandconditions')?>"> Terms</a></li>
+          <li class="wow lightSpeedIn"><a class="nav-link" href="<?php echo $this->url('front_privacypolicy')?>"> Policies </a></li>
+      </ul>
+      <ul class="social-icon menu-footer">
+          <li class="wow flipInX" data-wow-delay=".1s"><a class="soical-icon-1"  href="<?php echo $this->SITE_CONFIG['facebook_link']?>" target="blank">  <img data-src="<?=HTTP_IMG_PATH?>/facebook-circle.svg" class="lozad"></a></li>
+          <li class=" wow flipInX" data-wow-delay=".2s"><a class="soical-icon-1" href="<?php echo $this->SITE_CONFIG['pinterest_link']?>" target="blank" ><img data-src="<?=HTTP_IMG_PATH?>/pinterest.svg" class="lozad"></a></li>
+          <li class=" wow flipInX" data-wow-delay=".3s"><a class="soical-icon-1" href="<?php echo $this->SITE_CONFIG['youtube_link']?>" target="blank" ><img data-src="<?=HTTP_IMG_PATH?>/youtube.svg" class="lozad"></a></li>
+          <li class=" wow flipInX" data-wow-delay=".4s"><a class="soical-icon-1" href="<?php echo $this->SITE_CONFIG['instagram_link']?>" target="blank" ><img data-src="<?=HTTP_IMG_PATH?>/instagram.svg" class="lozad"></a></li>
+          <li class=" wow flipInX" data-wow-delay=".4s"><a class="soical-icon-1" href="<?php echo $this->SITE_CONFIG['tiktok_link']?>" target="blank" ><img data-src="<?=HTTP_IMG_PATH?>/tiktok.svg" class="lozad"></a></li>
+      </ul>
+      <p class="copy_text">Copyright ©  <?php echo date('Y'); ?> <a href="<?php echo APPLICATION_URL; ?>" class="copy_text"><?php echo $this->SITE_CONFIG['site_name']?></a></p>
+    </div>
+</footer>
+<script>
+	$(document).ready(function(e) {
+		<?php if(empty($_SESSION["nwletter"]) && empty($_COOKIE["nwletter"])) { ?>
+			$("#subscriberModal").modal("show");
+		<?php } ?>
+		setTimeout(function(){ //console.clear(); }, 50);
+    	});
+	})
+</script>
+<!-- <script>
+$(document).ready(function(e) {
+
+	<?php //if($this->pageType!=''){?>
+    $('a[data-title="<?php //echo $this->pageType?>"]').addClass('active');
+	<? //}?>
+});
+</script> -->

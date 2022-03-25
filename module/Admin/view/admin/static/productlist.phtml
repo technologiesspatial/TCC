@@ -1,0 +1,328 @@
+<style type="text/css">
+	.ready-lbltg{position:relative;top:-2px;margin-left:5px;margin-bottom:5px;display:inline-block;}
+</style>
+<div class="panel">
+
+  <div class="panel-body">
+
+    <form method="post" action="<?php echo ADMIN_APPLICATION_URL?>/remove-product" id="userForm" onsubmit="return checkSelects('userForm')" >
+	<input type="checkbox" id="upl_readytg" name="upl_readytg"><span class="ready-lbltg">Show Favorite Products</span>
+    <div class="row">
+
+        <div class="col-md-6 mb-15"> 
+          <button class="btn btn-danger btn-rounded waves-effect waves-classic DeleteBtn"><span class="btn-label"><i class="fa fa-trash"></i></span>
+          <?=$this->layout()->translator->translate("del_sel_txt")?>
+          </button>
+        </div>
+      </div>
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+          <thead>
+            <tr>
+              <th width="5%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+              <th><div class="checkbox"><input id="deletebcchk" name="deletebcchk" type="checkbox" class="group-checkable"><label for="deletebcchk"></label></div></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Product Title")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Image")?></th>
+              <th width="30%" class="none"><?=$this->layout()->translator->translate("category_title")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Posted By")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Price")?></th>
+              <th width="30%"><?=$this->layout()->translator->translate("Status")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Last Updated On: ")?></th>
+              <th width="8%"><?=$this->layout()->translator->translate("action_txt")?></th>
+            </tr>
+          </thead>
+          <tbody  class="SortContentMain">
+          </tbody>
+        </table>
+        </form>
+    </div>
+  </div>
+<div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Product Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to approve the product request? </p>
+          <a href="javascript:void(0)" class="badge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="badge-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="declineModal" tabindex="-1" role="dialog" aria-labelledby="declineModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Product Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to decline the product request? </p>
+          <form id="declineform" name="declineform" class="profile_form">
+          <div class="form-group">
+          <textarea id="decline_txt" name="decline_txt" maxlength="200" class="required" rows="4" style="width:100%;" placeholder="Please enter the reason to decline" /></textarea>
+          </div>
+          <a href="javascript:void(0)" class="debadge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="debadge-cancelbtn btn btn-danger">Cancel</a>
+          </form>
+      </div>
+      
+    </div>
+  </div>
+</div>  
+<div class="modal fade" id="acceptfavModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Add to Favorite <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to add the product to favorite list? </p>
+          <a href="javascript:void(0)" class="fav-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="fav-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="remfavModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Remove from Favorites <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to remove the product from favorite list? </p>
+          <a href="javascript:void(0)" class="fav-declinebtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="fav-canclbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(e) {
+	$('#sample_1').DataTable({
+		"language":{"lengthMenu": "Show _MENU_ products"},
+		"bProcessing":true,
+		"bServerSide":true,
+		"bAutoWidth":false,
+		"responsive":true,
+		"bInfo":false,
+		"pagingType":"first_last_numbers",
+		"order":[[8,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":[0,1,3,4,5,6,7,9]},
+			{"bSearchable":false,"aTargets":[1]}
+		 ],
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getproductlist",
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		"fnDrawCallback":function( oSettings ){
+
+			if($(".deimg").length>0){
+
+				$('.deimg').initial(); 
+
+			}
+
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+
+			elems.forEach(function(html) {
+
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+
+			});
+
+		}
+	});
+});
+
+$(document).on("click",".approve-prodtg",function() {
+	var prod = $(this).attr("data-id");
+	$(".badge-acceptbtn").attr("data-id",prod);
+	$("#acceptModal").modal("show");
+})
+
+$(document).on("click",".decline-prodtg",function() {
+	var prod = $(this).attr("data-id");
+	$(".debadge-acceptbtn").attr("data-id",prod);
+	$("#declineModal").modal("show");
+})
+
+$(document).on("click",".badge-cancelbtn",function() {
+	$("#acceptModal").modal("hide");
+})
+
+$(document).on("click",".debadge-cancelbtn",function() {
+	$("#declineModal").modal("hide");
+})
+
+$(document).on("click",".addfav-btn",function() {
+	var prod = $(this).attr("data-id");
+	$(".fav-acceptbtn").attr("data-id",prod);
+	$("#acceptfavModal").modal("show");
+})
+
+$(document).on("click",".removefav-btn",function() {
+	var prod = $(this).attr("data-id");
+	$(".fav-declinebtn").attr("data-id",prod);
+	$("#remfavModal").modal("show");
+})
+
+$(document).on("click",".fav-declinebtn",function() {
+	var prod = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/declineprod-favorite",
+		type: "POST",
+		data: { prod: prod },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Product has been been removed from favorites.",'success');
+				$("#remfavModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+})
+
+$(document).on("click",".fav-canclbtn",function() {
+	$("#remfavModal").modal("hide");
+})
+
+$(document).on("click",".fav-acceptbtn",function() {
+	var prod = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/addprod-favorite",
+		type: "POST",
+		data: { prod: prod },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Product has been been added to favorite.",'success');
+				$("#acceptfavModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else if(data == 'denied') {
+				toastInit("You cannot add more than 8 products to favorite list.",'success');
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+})
+
+$(document).on("click",".fav-cancelbtn",function() {
+	$("#acceptfavModal").modal("hide");
+})
+
+$(document).on("click",".badge-acceptbtn",function() {
+	var id = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/accept-product",
+		type: "POST",
+		data: { id: id },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Product request has been approved successfully.",'success');
+				$("#acceptModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+})
+
+$(document).on("click",".debadge-acceptbtn",function() {
+	var id = $(this).attr("data-id");
+	var desc = $("#decline_txt").val();
+	if($("#declineform").valid()) {
+	$.ajax({
+		url: baseUrl + "/decline-product",
+		type: "POST",
+		data: { id: id,desc:desc },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Product request has been declined successfully.",'success');
+				$("#declineModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+	}
+})
+
+$(document).on("click","#upl_readytg",function(){
+	var slength=[0,1,5,8];
+	if($(this).prop('checked') == true){
+		var surl='<?php echo APPLICATION_URL.'/'.BACKEND?>/getfavproductlist';
+	} else {		
+		var surl='<?php echo APPLICATION_URL.'/'.BACKEND?>/getproductlist';
+	}
+	$('#sample_1').DataTable().clear().destroy();
+	$('#sample_1').DataTable({
+		"language":{"lengthMenu": "Show _MENU_ products"},
+		"bProcessing":true,
+		"bServerSide":true,
+		"bAutoWidth":false,
+		"responsive":true,
+		"bInfo":false,
+		"pagingType":"first_last_numbers",
+		"order":[[7,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":[0,1,3,4,5,6,7,8,9]},
+			{"bSearchable":false,"aTargets":[1]}
+		 ],
+		"sAjaxSource": surl,
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		"fnDrawCallback":function( oSettings ){
+
+			if($(".deimg").length>0){
+
+				$('.deimg').initial(); 
+
+			}
+
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+
+			elems.forEach(function(html) {
+
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+
+			});
+
+		}
+	});
+})
+</script>  
+

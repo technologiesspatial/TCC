@@ -1,0 +1,324 @@
+<style type="text/css">
+	#prodtrashModal{z-index:99999;}
+	.viewreason-tg:hover{text-decoration:none;}
+	.refamt-lbl{background:#000;color:#fff;font-size:16px;padding:8px 14px;float:right;margin-bottom:5px;}
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+	.wallet-section .amount-box{height:100px;}
+<?php } ?>
+.status-btn{background-color:rgb(255, 245, 214);width:79px;padding:5px;border-radius:25px;margin-bottom:7px;height:auto;font-size:12px;color:rgb(255, 199, 29);font-family:'rubikregular';box-shadow:none !important;border:none !important;}	
+.status-btn.Processing{color:#999900;width:auto;min-width:79px;background-color:#EEE8AA;cursor:default !important;}
+.status-btn.Ready_to_ship{color:rgb(199,21,133);width:auto;min-width:79px;background-color:#FFC0CB;cursor:default !important;}
+.status-btn.Shipped{color:rgb(255, 0, 0);width:auto;min-width:79px;background-color:#ffcccb;cursor:default !important;}
+.status-btn.Delivered{color:rgb(0,100,0);width:auto;min-width:79px;background-color:#90ee90;cursor:default !important;}
+.wallet-section .amount-box{max-width:270px;}	
+.tx-picker{display:inline-block;float:right;}	
+.pick_date{height:30px;font-size:16px;}	
+.generate-btn{height:30px;line-height:6px;background:#000;color:#fff;box-shadow:none;border:1px solid #000;width:32px;text-align:center;position:relative;top:0px;}
+.generate-btn:hover{cursor:pointer;}
+.generate-btn i{font-size:12px;}	
+</style>
+<?php $current_year = date("y");
+	$current_month = date("m");
+	$start_date = date('m/01/Y',strtotime($current_year."-".$current_month."-01"));
+	$end_date = date('m/t/Y',strtotime($current_year."-".$current_month."-01")); 
+?>
+
+
+
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">My Wallet</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+
+
+
+<div class="profile_page my-wallet-page">
+  <div class="container">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+            <? /* ?>
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"470x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+            <? */ ?>
+
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+
+        <div class="side-nav">
+          <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'wallet'=>1)); ?>
+        </div>
+        <!-- change user image -->
+      </div>
+      <!--  -->
+
+
+        <div class="right-side wallet-section">
+            <div class="amount-block">
+              <div class="spider-img"></div>
+              <div class="row">
+                  <?php /*?><div class="col-sm-4">
+                      <div class="amount-box"> 
+                        <p class="amount">$<?= round($total_earned,2); ?></p>
+                        <p class="amount-txt">Total Earned</p>
+                      </div>
+                  </div>
+                  <!--  -->
+                  <div class="col-sm-4">
+                      <div class="amount-box"> 
+                        <p class="amount">$<?= round($total_withdrawal,2); ?></p>
+                        <p class="amount-txt">Total Withdrawal</p>
+                      </div>
+                  </div>
+                  <!--  -->
+                  <div class="col-sm-4">
+                      <div class="amount-box"> 
+                        <p class="amount">$<?= round($available_balance,2); ?></p>
+                        <p class="amount-txt">Available Balance</p>
+                      </div>
+                  </div><?php */?>
+                  <!--  -->
+                  <div class="col-sm-6">
+                  	<div class="amount-box">
+                  		<p class="amount"><?= "$".bcdiv($pending_funds,1,2) ?></p>
+                  		<p class="amount-txt">Pending Funds</p>
+                  	</div>
+                  </div>
+                  <div class="col-sm-6">
+                  	<div class="amount-box">
+                  		<p class="amount"><?= "$".bcdiv($available_funds,1,2) ?></p>
+                  		<p class="amount-txt">Available Funds to Release Automatically on <?= date("F d",strtotime($autorelease_date)) ?></p>
+                  	</div>
+                  </div>
+              </div>
+            </div>
+            <!-- row -->
+            <?php /*?><div class="wallet-group">
+
+                <form id="withdraw_form" name="withdraw_form" class="form-inline">
+                  <div class="form-left-side"> 
+                    <div class="mb-0 form-group">
+                      <label for="">Withdrawal</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="text" class="form-control required" id="withdrawal_amt" name="withdrawal_amt" maxlength="10" placeholder="">  
+                        <div class="input-group-prepend"><button type="button" class="btn submit-btn send-btn" id="startedbtn">Submit</button></div>
+                      </div>
+                    </div>
+                    <small> Enter Amount </small>
+                    
+                  </div>
+
+                </form>
+
+            </div><?php */?>
+
+            <div class="table-box">
+                <h2 class="table-heading">Transaction History <?php /*?><span class="refamt-lbl">Refunded Amount: $<?php if(!empty($refund_amount)) { echo bcdiv($refund_amount,1,2); } else { echo '0'; } ?></span<?php */?>
+                	<div class="tx-picker"><input type="text" id="start_date" name="start_date" class="pick_date start_date" autocomplete="off" value="<?= $start_date ?>" readonly>
+                	<input type="text" id="end_date" name="end_date" class="pick_date end_date" autocomplete="off" value="<?= $end_date ?>" readonly>
+                	<button class="generate-btn" title="Export CSV"><i class="fa fa-download"></i></button></div>
+                </h2>
+
+                <div class="table-block">
+                  <div class="table-responsive">
+                    <table class="table" id="sample_1">
+                      <thead>
+                        <tr class="table-head">
+                          <th scope="col">Date payment received</th>
+                          <th scope="col">Order No</th>
+                          <th scope="col">Client's Name</th>
+                          <th scope="col">Product</th>
+                          <th scope="col">Total Order Amount</th>
+                          <th scope="col">Action</th>
+                          <th scope="col">Released Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php if(!empty($tx_data)) { foreach($tx_data as $tx_data_key => $tx_data_val) { ?>
+							<tr>
+								<td><?= $tx_data_val["order_date"] ?></td>
+								<td><?= $tx_data_val["order_serial"] ?></td>
+								<td><?= $tx_data_val[T_CLIENT_VAR."client_name"] ?></td>
+								<td><a style="color:#524f63" href="<?= APPLICATION_URL.'/product/'.slugify($tx_data_val["product_title"]).'~'.str_replace("=","",base64_encode($tx_data_val["product_id"])); ?>" target="_blank"><u><?= $tx_data_val["product_title"] ?></u></a></td>
+								<td><?= "$".round($tx_data_val["order_total"] - $tx_data_val["order_sitefee"],2) ?></td>
+								<?php $release_date = date("Y-m-d",strtotime("+14 days", strtotime($tx_data_val["order_date"]))); 
+								if(strtotime(date("Y-m-d")) > strtotime($release_date)) {
+									$release_data = $this->layout()->AbstractModel->Super_Get(T_WITHDRAWAL,"withdrawal_date >= '".$release_date."'","fetch");
+									if(!empty($release_data["withdrawal_date"])) {
+								?>
+									<td>Approved</td>
+									<td><?= $release_data["withdrawal_date"] ?></td>
+								<?php } else { ?>
+									<td>Pending</td>
+									<td>-</td>	
+								<?php } } else { ?>
+									<td>Pending</td>
+									<td>-</td>
+								<?php } ?>
+							</tr>
+                        <?php } }  ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <!-- wallet-group -->
+        </div>
+
+        <!-- right side -->
+
+
+  </div>
+  </div>
+</div>
+
+
+
+<!-- modal -->
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	  <h3>Reason to decline the withdrawal:</h3>
+          <div class="modal-description"></div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	
+	$(document).ready(function(e) {
+        $("#sample_1").dataTable({
+		 "responsive": true,
+		 "bAutoWidth": false,
+		 "bInfo" : false,
+		 "bSort" : false,
+		 "bFilter": false,
+			 "bLengthChange" : false,
+			  "order"			: [[2,"desc"]],
+			 "aoColumnDefs": 
+			 [
+				{ "bSortable": false, "aTargets": [1,2] },
+			 ], 
+		"iDisplayLength": 10,
+		"aLengthMenu"	: [[10,50,100],[10,50,100]],
+			 "fnDrawCallback":function( oSettings ){
+			
+			if($(".deimg").length>0){
+				$('.deimg').initial(); 
+			}
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+			elems.forEach(function(html) {
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+			});
+		}
+		})
+		$(".trending-stattxt").addClass("midmenu-txt");
+		$(".trending-stattxt").removeClass("midmenuact-txt");   
+    });
+	
+	$('#withdrawal_amt').on('keypress',function (event) {
+    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+    }
+    var input = $(this).val();
+    if ((input.indexOf('.') != -1) && (input.substring(input.indexOf('.')).length > 2)) {
+        event.preventDefault();
+    }
+});
+	
+	$(document).on("click",".send-btn",function() {
+		var withdraw = $("#withdrawal_amt").val();
+		var $this = $(this);
+		$(this).prop("disabled",true);
+		if($("#withdraw_form").valid()) {
+		$.ajax({
+	  		url: baseUrl + "/withdrawal-amount",
+	  		type: "POST",
+	  		data: { withdraw: withdraw },
+	  		success: function (data) {	
+				if(data == 'insufficient') {
+					showAppAlert('Error!!','You cannot claim more amount than you have.','error');
+					$this.prop("disabled",false);
+				} else if(data == 'invalid_amount') {
+					showAppAlert('Error!!','Invalid withdrawal amount specified.','error');
+					$this.prop("disabled",false);
+				} else if(data == 'success') {
+					showAppAlert('Success!!','You have successfully sent the withdrawal request to Admin.','success');					
+					setTimeout(function(){ location.reload(); }, 1500);
+				}
+	  		}
+		})
+		} else {
+			$this.prop("disabled",false);
+		}
+	})
+	
+	$(document).on("click",".viewreason-tg",function() {
+		var txt = $(this).attr("data-text");
+		$("#prodtrashModal").find(".modal-description").html(txt);
+		$("#prodtrashModal").modal("show");	
+	})
+	
+	$(document).ready(function(e) {
+		$(".start_date").datepicker().on('change', function(){
+			var start_date = $(this).val();
+			var end_date = $(".end_date").val();
+			if(new Date(start_date) > new Date(end_date)) {
+				$(".end_date").val('');
+			}
+			$('.datepicker').hide();
+		});
+
+		$(".end_date").datepicker().on('change', function() {
+			var start_date = $(".start_date").val();
+			var end_date = $(this).val();
+			if(new Date(start_date) > new Date(end_date)) {
+				$(".end_date").val('');
+			}
+			$(".datepicker").hide();
+		})
+	})
+	
+	$(document).on("click",".generate-btn",function() {
+		var start_date = $(".start_date").val();
+		var end_date = $(".end_date").val();
+		start_date = start_date.split("/");
+		end_date = end_date.split("/");
+		start_date = start_date[2]+'-'+start_date[1]+'-'+start_date[0];
+		end_date = end_date[2]+'-'+end_date[1]+'-'+end_date[0];
+		var date_tg = start_date+'~'+end_date;
+		document.location.href = baseUrl+'/export-tx/'+date_tg;
+	})
+</script>

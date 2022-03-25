@@ -1,0 +1,30 @@
+<?php if(!empty($comment_record)) { foreach($comment_record as $comment_record_key => $comment_record_val) { 
+						if(!empty($loggedUser->{T_CLIENT_VAR.'client_id'})) {
+						$reported_comment=$this->layout()->AbstractModel->Super_Get(T_CMTREPORT,"comment_report_cid = '".$comment_record_val['procomment_id']."' and comment_report_uid = '".$loggedUser->{T_CLIENT_VAR.'client_id'}."'","fetch");
+						}
+					?>
+                    	<div class="first-section comnt-sector" id="cmtsection<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])); ?>">
+					<div class="rating-panel">
+						<div class="common-rating-box">
+							<div class="media media-section">
+								<div class="review-img">
+                                <?php $client_uname = explode(" ",$comment_record_val[T_CLIENT_VAR."client_name"]); if(!empty($comment_record_val[T_CLIENT_VAR.'client_image'])) { 
+									
+								?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/<?= $comment_record_val[T_CLIENT_VAR.'client_image'] ?>"> 
+                                        <?php } else { ?>
+                                        	<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/default.png" />
+                                        <?php }  ?> </div>
+								<div class="media-body">
+									<h5 class="title"><?= $client_uname[0]; ?></h5>
+									<p class="post-date mb-0"> <?= time_elapsed_str($comment_record_val["procomment_date"]); ?> </p>
+								</div>
+							</div>
+                            <?php if(empty($reported_comment) && (!empty($loggedUser->{T_CLIENT_VAR.'client_id'}) && $loggedUser->{T_CLIENT_VAR.'client_id'} != $comment_record_val["procomment_uid"])) { ?>
+							<a href="javascript:void(0)" class="report report-cmttg" data-id="<?= str_replace("=","",base64_encode($comment_record_val["procomment_id"])); ?>"><span>Report</span> <img src="<?=HTTP_IMG_PATH?>/red-flag.svg"></a>
+                            <?php } ?>
+						</div>
+						<p class="description"><?= $comment_record_val["procomment_text"]; ?></p>
+					</div>
+				</div>
+                    <?php } }

@@ -1,0 +1,14 @@
+<?php if(!empty($story_rec)) { ?>
+<tr>
+	<td><a href="javascript:void(0)"><?= $story_rec["story_place_address"]; ?></a></td>
+    <td><?= $story_rec["story_place_city"]; ?></td>
+    <td><?= $story_rec["story_place_state"]; ?> </td>
+    <td><?= $story_rec["story_place_from"]; ?> </td>
+    <td><?= $story_rec["story_place_to"]; ?> </td>
+    <td><div class="imagess">
+    	<?php if(!empty($story_rec["story_place_image"])) { ?>
+    	<img src="<?= HTTP_PLACE_IMAGES_PATH.'/60/'.$story_rec["story_place_image"]; ?>">
+        <?php } ?>
+	</div></td>
+</tr>
+<?php } ?>                                        

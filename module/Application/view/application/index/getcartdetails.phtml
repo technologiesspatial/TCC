@@ -1,0 +1,175 @@
+<img class="product-img cartprod-pic" src="<?= $product_pic ?>" alt="image">
+			<div class="media-body">
+					<div class="">
+                    	<h2 class="product-name"> <?= $product_details["product_title"] ?></h2>
+						<p class="category-name"><?= $product_details["category_feild"]; ?></p>
+						<?php if($product_details["product_isdigital"] != '1') { ?>
+						<div class="choose-color-box">
+							<p class="color-name mb-0">Choose Color </p>
+							<div class="color-box">
+							<?php if(!empty($colors_arr)) { foreach($colors_arr as $colors_arr_key => $colors_arr_val) { ?>
+								<a href="javascript:void(0)" class="color-maintg <?php if($colors_arr_val == $sizeprice_data["color_title"]) { ?>active<?php } ?>" data-id="<?= $colors_arr_val ?>" <?php if($colors_arr_val == $sizeprice_data["color_title"]) { ?>style="border:1px solid <?= $colors_arr_val ?>"<?php } ?>><span class="cart-colortg" data-id="<?= $colors_arr_val ?>"></span></a>
+							<?php } } ?>
+							<input type="hidden" class="selected_color" value="<?= $sizeprice_data["color_title"] ?>" />
+							</div>
+						</div>
+						<div class="sizeqty-holder">
+						<div class="product-size-box">
+							<p class="size-name mb-0">Size: </p>
+							<div class="p-size-box">
+								<?php if(!empty($sizes_arr)) { foreach($sizes_arr as $sizes_arr_key => $sizes_arr_val) { ?>
+									<a href="javascript:void(0)" class="size-maintg <?php if($sizes_arr_val == $sizeprice_data["color_size"]) { ?>active<?php } ?>" data-id="<?= $sizes_arr_val ?>"><?= $sizes_arr_val ?></a> 
+								<?php } } ?>
+								<input type="hidden" class="selected_size" value="<?= $sizeprice_data["color_size"] ?>">	
+							</div>
+						</div>
+                        <div class="qty-box"> 
+                              <div class="quant-box">
+                                  <label>QTY</label>
+                                  <div class="input-group">	
+                                      <span class="input-group-btn prev-qbtn" data-id="<?= str_replace("=","",base64_encode($product_details["product_id"])); ?>">
+                                          <button type="button" class="btn btn-number" data-type="minus" data-field="quant[1]">
+                                              <i class="fas fa-minus"></i>
+                                          </button>
+                                      </span>
+                                      <input type="text" name="quant[1]" class="input-number cartqty-inptg" value="<?php if(empty($sizeprice_data["color_qty"])) { echo $sizeprice_data["color_qty"]; } else { echo "1"; } ?>" min="1" max="<?= $sizeprice_data["color_qty"] ?>" readonly>
+                                      <span class="input-group-btn next-qbtn" data-id="<?= str_replace("=","",base64_encode($product_details["product_id"])); ?>">
+                                          <button type="button" class="btn btn-number" data-type="plus" data-field="quant[1]">
+                                              <i class="fas fa-plus"></i>
+                                          </button>
+                                      </span>
+                                  </div>
+                              </div>
+                              <p class="amount">$<?php echo $sizeprice_data["color_price"]; ?></p>
+                          </div>
+                        <?php } else { ?>
+                        	 <p class="amount">$<?= $product_details["product_price"] ?></p>
+                         <?php } ?> 
+                         </div> 
+                          <div class="coupon">
+                          <form>
+                          	<div class="form-group">
+								<label class="">Coupon Code</label>
+								<input type="text" id="coupon_code" name="coupon_code" class="form-control">
+						    </div>
+                            <button type="button" class="btn apply-btn" data-id="<?= str_replace("=","",base64_encode($product_details["product_id"])); ?>">Apply</button>
+                          </form>
+                          </div>
+                    </div>
+                    <?php if($product_details["store_closed"] == '1' && strtotime($product_details["store_closed_tilldate"]) > strtotime(date("Y-m-d")) && $product_details["product_isdigital"] != '1') { ?>
+						<div class="close-hangerblk">
+							<div class="pendulum-holder" style="display:inline-block">
+								<img src="<?= HTTP_IMG_PATH.'/closed.png'; ?>">
+							</div>							
+							<p class="closed-hangerblk" style="margin-left:25px;">Sorry we're closed. You can place your order but it will be processed after <?= date("F d, Y",strtotime($product_details["store_closed_tilldate"])); ?>.</p>
+						</div>									
+					<?php } ?>
+                    <?php /*?><div class="best-offertg">
+						<?php if(!empty($best_offers)) { ?>
+						<div class="best-offers">
+							<h6>Best Offers</h6>
+							<div class="offer-holder">
+								<div class="table-block table-prices">
+									<div class="table-responsive">
+									<table class="table">
+										<thead>
+										<tr class="table-head">
+											<th scope="">From Quantity</th>
+											<th scope="">To Quantity</th>
+											<th scope="col">price</th>
+										</tr>
+										</thead>
+										<!--  -->
+										<tbody>
+											<?php foreach($best_offers as $best_offers_key => $best_offers_val) { ?>
+												<tr>
+													<td><?= $best_offers_val["color_qtyfrom"]; ?></td>
+													<td><?= $best_offers_val["color_qtyto"]; ?></td>
+													<td><?= "$".$best_offers_val["color_price"]; ?></td>
+												</tr>
+											<?php } ?>
+										</tbody>
+										<!--  -->
+									</table>
+									<!-- table -->
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php } ?>
+				</div><?php */?>
+			</div>
+<script type="text/javascript">
+	$('.cart-colortg').each(function(i, obj) {
+		var colortg = $(obj).attr("data-id");
+		$(obj).css("background-color",colortg);
+	})
+	
+	$(document).on("click",".size-maintg",function() {
+		if($(".selected_color").val() == '') {
+		  $.notify({
+				message: "Please select the color of the product."
+		  },{
+				type: 'danger',
+				timer: 50
+		  });
+		} else {
+			var sizesel = $(this).attr("data-id");
+			$(".size-maintg").removeClass("active");
+			$(".size-maintg").removeClass("size-active");
+			$(this).addClass("size-active");
+			$(this).addClass("active");
+			$(this).find(".cart-colortg").attr("data-id");
+			$(".selected_size").val(sizesel);
+			$.ajax({
+				url: baseUrl+"/pick-quantity",
+				type: "POST",
+				data: {cid:$(".selected_color").val(),pid:'<?= str_replace("=","",base64_encode($product_details["product_id"])) ?>',sid:$(".selected_size").val()},
+				success: function(data){
+					var result = '';
+					result = JSON.parse(data);
+					$(".amount").html("$"+result.price);
+					if(result.qty < 1) {
+						$(".cartqty-inptg").val(0);
+					} else {
+						$(".cartqty-inptg").val(1);
+					}
+					$(".cartqty-inptg").attr("max",result.qty);
+					$.ajax({
+						url: baseUrl+"/price-details",
+						type: "POST",
+						data: {tid:$(".selected_color").val(),pid:'<?= str_replace("=","",base64_encode($product_details["product_id"])) ?>',sid:$(".selected_size").val()},
+						success: function(data){
+							$(".best-offertg").html(data);
+						}
+					})
+				}
+			})
+		}
+	})
+	
+	$(document).on("click",".color-maintg",function() {
+		$(".color-maintg").removeClass("active");
+		$(this).addClass("active");
+		$(".color-maintg").removeAttr("style");
+		var colorsel = $(this).find(".cart-colortg").attr("data-id");
+		$(this).css("border","1px solid "+colorsel);
+		$(".selected_color").val(colorsel);
+		$.ajax({
+			url: baseUrl+"/show-sizes",
+			type: "POST",
+			data: {tid:colorsel,pid:'<?= str_replace("=","",base64_encode($product_details["product_id"])) ?>'},
+			success: function(data){
+				$(".sizeqty-holder").html(data);
+				$.ajax({
+					url: baseUrl+"/price-details",
+					type: "POST",
+					data: {tid:colorsel,pid:'<?= str_replace("=","",base64_encode($product_details["product_id"])) ?>'},
+					success: function(data){
+						$(".best-offertg").html(data);
+					}
+				})
+			}
+		})
+	})
+</script>			

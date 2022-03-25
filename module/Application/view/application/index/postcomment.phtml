@@ -1,0 +1,11 @@
+<?php if(!empty($last_comment)) { ?>
+    <div class="comment-subblk">
+    <p class="comment-timer">
+    <?php if(!empty($last_comment[T_CLIENT_VAR."client_image"])) { ?>
+    <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$last_comment[T_CLIENT_VAR.'client_image'] ?>" class="rounded-circle img-fluid comment-pictg" />
+    <?php } else { ?>
+    <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png' ?>" class="rounded-circle img-fluid comment-pictg" />
+    <?php } ?> <?= $last_comment[T_CLIENT_VAR.'client_name']; ?> <span class="comment-timetg"><?= time_elapsed_str($last_comment["comment_date"]); ?></span></p>
+    <p class="comment-para"><?= nl2br($last_comment["comment_text"]); ?></p>
+    </div>
+<?php } ?>

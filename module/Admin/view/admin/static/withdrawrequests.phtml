@@ -1,0 +1,202 @@
+<style type="text/css">
+	.decline-reasontxt{width:100%;}
+	.totalearn-tg{text-align:right;margin-bottom:10px;color:#010101;font-size:15px;}
+	.generate-btn{background:#000;color:#fff;border:1px solid #000;padding:2px 8px;}
+	.generate-btn:hover{cursor:pointer;}
+</style>
+<?php $current_year = date("y");
+	$current_month = date("m");
+	$start_date = date('m/01/Y',strtotime($current_year."-".$current_month."-01"));
+	$end_date = date('m/t/Y',strtotime($current_year."-".$current_month."-01")); 
+?>
+<div class="panel">
+  <div class="panel-body">
+    <div class="row">
+    	<div class="col-md-12 mb-15">
+			<h5>Pick date range</h5>
+			<input type="text" name="start_date" id="start_date" value="<?= $start_date ?>" class="pick_date start_date" autocomplete="off" readonly>
+			<input type="text" name="end_date" id="end_date" value="<?= $end_date ?>" class="pick_date end_date" autocomplete="off" readonly>
+			<button class="generate-btn" title="Export CSV"><i class="fa fa-download"></i></button>
+		</div>
+      </div>
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+          <thead>
+            <tr>
+              <th width="3%"><?=$this->layout()->translator->translate("Order No.")?></th>
+              <th width="10%"><?=$this->layout()->translator->translate("Seller Email")?></th>              
+              <th width="8%"><?=$this->layout()->translator->translate("Shop Name")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Date payment received")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Total Order Amount")?></th>
+              <th width="14%" class="none"><?=$this->layout()->translator->translate("Collective Coven 8%")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Action")?></th>
+            </tr>
+          </thead>
+          <tbody  class="SortContentMain">
+          </tbody>
+        </table>
+    </div>
+  </div>
+ <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Withdrawal Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to approve the withdrawal request? </p>
+          <a href="javascript:void(0)" class="badge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="badge-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="declineModal" tabindex="-1" role="dialog" aria-labelledby="declineModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Withdrawal Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to decline the withdrawal request? </p>
+          <form id="declineform" name="declineform" class="profile_form">
+          <div class="form-group">
+          <textarea class="decline-reasontxt required" rows="3" placeholder="Specify reason in case you decline"></textarea>
+          </div>
+          <a href="javascript:void(0)" class="debadge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="debadge-cancelbtn btn btn-danger">Cancel</a>
+          </form>
+      </div>
+      
+    </div>
+  </div>
+</div> 
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(e) {
+	$('#sample_1').DataTable({
+		"language":{"lengthMenu": "Show _MENU_ records"},
+		"bProcessing":true,
+		"bServerSide":true,
+		"bAutoWidth":false,
+		"responsive":true,
+		"bInfo":false,
+		"pagingType":"first_last_numbers",
+		"order":[[0,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":[2,4,5,6]},/*
+			{"bSearchable":false,"aTargets":[5]}*/
+		 ],
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getwithdraw-requests",
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		"fnDrawCallback":function( oSettings ){}
+	});
+});
+
+$(document).on("click",".accept-withbtn",function() {
+	var withdraw = $(this).attr("data-id");
+	$(".badge-acceptbtn").attr("data-id",withdraw);
+	$("#acceptModal").modal("show"); 
+})
+
+$(document).on("click",".badge-acceptbtn",function() {
+	var withdraw = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/approve-withdrawal",
+		type: "POST",
+		data: {withdraw : withdraw},
+		success: function (data) {
+			$("#acceptModal").modal("hide");
+			var items = '';
+			var items = $.parseJSON(data);
+			if(items.response_code == 'success') {
+				showAppAlert('Success!!',items.message,'success');
+				$('#sample_1').DataTable().ajax.reload();
+			} else {
+				showAppAlert('Error!!',items.message,'error');
+			}
+		}
+	})
+})
+
+$(document).on("click",".badge-cancelbtn",function() {
+	$("#acceptModal").modal("hide");
+})
+
+$(document).on("click",".decline-withbtn",function() {
+	var withdraw = $(this).attr("data-id");
+	$(".debadge-acceptbtn").attr("data-id",withdraw)
+	$("#declineModal").modal("show");
+})
+
+$(document).on("click",".debadge-acceptbtn",function() {
+	var withdraw = $(this).attr("data-id");
+	var txt = $(".decline-reasontxt").val().trim();
+	$(".decline-reasontxt").val(txt);
+	if($("#declineform").valid()) {
+		$.ajax({
+			url: baseUrl + "/decline-withdrawal",
+			type: "POST",
+			data: {withdraw:withdraw,txt:txt},
+			success: function (data) {
+				$("#declineModal").modal("hide");
+				if(data == 'success') {
+					showAppAlert('Success!!','Withdrawal has been declined successfully.','success');
+					$('#sample_1').DataTable().ajax.reload();
+				} else if(data == 'already_approved') {
+					showAppAlert('Error!!','Withdrawal has already been approved.','error');
+				} else if(data == 'already_declined') {
+					showAppAlert('Error!!','Withdrawal has already been declined.','error');
+				} else if(data == 'empty') {
+					showAppAlert('Error!!','Please enter the decline reason.','error');
+				}
+				 else {
+					showAppAlert('Error!!','No such withdrawal requested.','error');
+				}
+			}
+		})
+	}
+})
+
+$(document).on("click",".debadge-cancelbtn",function() {
+	$("#declineModal").modal("hide");
+})
+
+$(document).ready(function(e) {
+	$(".start_date").datepicker().on('change', function(){
+		var start_date = $(this).val();
+		var end_date = $(".end_date").val();
+		if(new Date(start_date) > new Date(end_date)) {
+			$(".end_date").val('');
+		}
+		$('.datepicker').hide();
+	});
+	
+	$(".end_date").datepicker().on('change', function() {
+		var start_date = $(".start_date").val();
+		var end_date = $(this).val();
+		if(new Date(start_date) > new Date(end_date)) {
+			$(".end_date").val('');
+		}
+		$(".datepicker").hide();
+	})
+})
+
+$(document).on("click",".generate-btn",function() {
+	var start_date = $(".start_date").val();
+	var end_date = $(".end_date").val();
+	start_date = start_date.split("/");
+	end_date = end_date.split("/");
+	start_date = start_date[2]+'-'+start_date[1]+'-'+start_date[0];
+	end_date = end_date[2]+'-'+end_date[1]+'-'+end_date[0];
+	var date_tg = start_date+'~'+end_date;
+	document.location.href = baseUrl+'/export-payouts/'+date_tg;
+})
+</script>  

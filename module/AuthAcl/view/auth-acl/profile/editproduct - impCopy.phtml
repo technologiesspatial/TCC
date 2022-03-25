@@ -1,0 +1,219 @@
+<style type="text/css">
+	.uploaded-images-box{margin-bottom:105px;}
+	.ajax-file-upload-error{color:red;font-size:14px;}
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style>
+<link rel="stylesheet" href="<?= FRONT_CSS ?>/uploadfile.css" />
+<script src="<?= FRONT_JS ?>/jquery.uploadfile.min.js" type="text/javascript"></script>
+<div class="profile_page">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+      <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+      <div class="side-nav">
+        <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'product'=>1)); ?>
+      </div>
+      <!-- change user image -->
+    </div>
+    <!--  -->
+
+    <div class="right-side-block">
+
+      <div class="heading-box">
+        <h4 class="heading">Edit Product</h4>
+        <div class="border-gradient seller-btn back-btn become-sellerbtn"><a class="btn view-btn" href="<?= APPLICATION_URL.'/manage-products'; ?>"> Back </a></div>
+      </div>
+      <!-- heading box -->
+          <div class="right-side comman-form" style="position:relative">
+            <form id="coupon_form" method="post" class="profile_form" enctype="multipart/form-data">
+            	 <div class="form-row">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="client_name"> Product Title </label>
+                    <?php echo $this->formElement($form->get('product_title'))?>
+                  </div>
+                  </div>
+                 </div>
+                 <div class="form-row">
+                  <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="client_name"> Category </label>
+                    <?php echo $this->formElement($form->get('product_category'))?>
+                  </div>
+                  </div>
+                  <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="client_name"> Price </label>
+                    <?php echo $this->formElement($form->get('product_price'))?>
+                  </div>
+                  </div>
+                 </div>
+                 <div class="form-row">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="client_name"> Available Quantity </label>
+                    <?php echo $this->formElement($form->get('product_qty'))?>
+                  </div>
+                  </div>
+                 </div>
+                 <div class="form-row">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="client_name"> Description </label>
+                    <?php echo $this->formElement($form->get('product_description'))?>
+                  </div>
+                  </div>
+                 </div>
+                 
+                 <div class="form-row">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="upl_phtos"> Upload Photos </label>
+                    <div class="text-center uplphoto-picker"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="photo-picblk"></div>
+                    
+                    <input type="hidden" id="product_chk" name="product_chk" />
+                    <?php echo $this->formElement($form->get('product_photos'))?>
+                  </div>
+                  </div>
+                 </div>
+                 <div class="form-row prod-btnsection">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                  	<div class="border-gradient">
+                    <?php echo $this->formElement($form->get('startedbtn'))?>
+                  	</div>
+                  </div>
+                  </div>
+                 </div>
+            </form>
+            <div id="fileuploader">Upload</div>
+            <?php if(!empty($product_images)) { ?>
+            <div class="uploaded-images-box">
+			<?php foreach($product_images as $product_images_key => $product_images_val) { if(!empty($product_images_val)) { if (file_exists(PRODUCT_PIC_PATH.'/160/'.$product_images_val) && !empty($product_images_val)) {?>
+                <div class="uploaded-img"><img src="<?=HTTP_PRODUCT_PIC_PATH.'/160/'.$product_images_val; ?>" class="prod-thumbpic" data-id="t<?= $product_images_key ?>"> <a href="javascript:void(0)" class="trash-prosector"><img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>" class="trash-iconpc" data-id="<?= $product_images_key ?>" /></a></div>
+			<?php } } } ?>
+            	</div>
+            	<div class="uploaded-images-box">
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="0"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="1"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="2"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="3"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="4"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="5"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="6"></div>
+              </div>
+            <?php } else { ?>
+            <div class="uploaded-images-box">
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="0"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="1"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="2"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="3"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="4"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="5"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="6"></div>
+              </div>
+              <?php } ?>
+          </div>
+    </div>
+
+    <!-- right-side-block -->
+
+  </div>
+</div>
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to remove the product image? </p>
+          <a href="javascript:void(0)" class="proaccept-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="protrash-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>   
+<script type="text/javascript">
+	$(document).ready(function(e) {
+        $("#fileuploader").uploadFile({
+		url:baseUrl+"/upload-prodpics",
+		fileName:"myfile",
+		multiple:true,
+		maxFileCount:7,
+		maxFileSize:1024*1024*10,
+		uploadStr:"Choose file to upload",
+		dragDropStr:"<span><b>or drag & drop them here</b></span>",
+		acceptFiles:"image/*",
+		showQueueDiv: "output",
+		showProgress:true,
+		onSelect:function(files)
+		{
+			var expl =  files[0].name.split('.');
+			$("#progress").show();
+			return true;
+		},
+		onSubmit:function(files)
+		{
+			var $bar = $('.ajax-file-upload-bar');
+  			$bar.bind("DOMSubtreeModified");
+		},
+		onSuccess:function(files,data,xhr)
+		{
+			if(data == 'infected') {
+				showAppAlert('Error!!','File is infected.','error');
+			} else if(data == 'invalidext') {
+				showAppAlert('Error!!','Invalid extension. Please upload a valid extension.','error');
+			} else if(data == 'limit_exceeded') {
+				showAppAlert('Error!!','Please upload image of max size 10 MB.','error');
+			}
+			else {
+			$("#product_photos").val(data);
+			$("#product_chk").val(btoa("coven"));
+			var result = data.split(',');
+			$(result).each(function (i, val) {
+				$(".prod-thumbpic[data-id="+i+"]").attr("src","<?= HTTP_PRODUCT_PIC_PATH.'/160/' ?>"+val);	
+			})
+			}
+		}
+		})
+	});
+	
+	$(document).on("click",".proaccept-acceptbtn",function() {
+		var tid = $(this).attr("data-id");
+		$.ajax({
+		  url: baseUrl + "/trash-propic",
+		  type: "POST",
+		  data: { tid: tid, prod:'<?= $product_id ?>' },
+		  success: function (data) {
+			  $("#product_photos").val(data);
+			  $(".prod-thumbpic[data-id=t"+tid+"]").parents(".uploaded-img").remove();
+			  $("#prodtrashModal").modal("hide");
+		  }
+		})
+	})
+	
+	$(document).on("click",".protrash-cancelbtn",function() {
+		$("#prodtrashModal").modal("hide");
+	})
+	
+	$(document).on("click",".trash-iconpc",function() {
+		var tid = $(this).attr("data-id");
+		$(".proaccept-acceptbtn").attr("data-id",tid);
+		$("#prodtrashModal").modal("show");
+	})	
+</script>

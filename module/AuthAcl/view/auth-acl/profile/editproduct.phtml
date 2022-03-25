@@ -1,0 +1,1037 @@
+<style type="text/css">
+	.uploaded-images-box{margin-bottom:105px;}
+	.ajax-file-upload-error{color:red;font-size:14px;}
+	.proaccept-acceptbtn{margin-right:10px;}
+	.qtyprice{display:inline-block;max-width:90%;}
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+		.other-header{display:none !important;}
+		#navbarSupportedContent{display:none !important;}
+		.custom-link{display:none;}
+	<?php } ?>
+	.canpic-box{position:relative;top:-3px;}
+	.prices-holder{position:relative;}
+	.prices-holder .form-group{width:90%;display:inline-block;}
+	.prices-holder .help-block{position:absolute;bottom:-25px;width:100%;right:-10px;}
+	.bootstrap-tagsinput{width:100%;color:#000;font-size:12px;font-family:'rubikregular';}
+	.bootstrap-tagsinput .tag{color:#000;background:#eee;padding:4px 8px;border-radius:15px;margin-bottom:5px;display:inline-block;}
+</style>
+<link rel="stylesheet" href="<?= FRONT_CSS ?>/uploadfile.css" />
+<script src="<?= FRONT_JS ?>/jquery.uploadfile.min.js" type="text/javascript"></script>
+<script src="<?= FRONT_JS ?>/fine-uploader.js?time='<?= date("Y-m-d H:i:s"); ?>'"></script>
+<script type="text/template" id="qq-template-gallery">
+	<div class="qq-uploader-selector qq-uploader qq-gallery">
+		<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+			<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+		</div>
+		<div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+			<span class="qq-upload-drop-area-text-selector"></span>
+		</div>
+		<div class="qq-upload-button-selector qq-upload-button">
+			<div>Upload Video</div>
+		</div>
+		<span class="qq-drop-processing-selector qq-drop-processing">
+			<span>Processing dropped files...</span>
+			<span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+		</span>
+		<ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+			<li>
+				<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+				<div class="qq-progress-bar-container-selector qq-progress-bar-container">
+					<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+				</div>
+				<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+				<div class="qq-thumbnail-wrapper">
+					<img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
+				</div>
+				<button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
+				<button type="button" class="qq-upload-retry-selector qq-upload-retry">
+					<span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
+					Retry
+				</button>
+				<div class="qq-file-info">
+					<div class="qq-file-name">
+						<span class="qq-upload-file-selector qq-upload-file"></span>
+						<span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
+					</div>
+					<input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+					<span class="qq-upload-size-selector qq-upload-size"></span>
+					<button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
+						<span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
+					</button>
+					<button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
+						<span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
+					</button>
+					<button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
+						<span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
+					</button>
+				</div>
+			</li>
+		</ul>
+		<dialog class="qq-alert-dialog-selector">
+			<div class="qq-dialog-message-selector"></div>
+			<div class="qq-dialog-buttons">
+				<button type="button" class="qq-cancel-button-selector">Close</button>
+			</div>
+		</dialog>
+		<dialog class="qq-confirm-dialog-selector">
+			<div class="qq-dialog-message-selector"></div>
+			<div class="qq-dialog-buttons">
+				<button type="button" class="qq-cancel-button-selector">No</button>
+				<button type="button" class="qq-ok-button-selector">Yes</button>
+			</div>
+		</dialog>
+		<dialog class="qq-prompt-dialog-selector">
+			<div class="qq-dialog-message-selector"></div>
+			<input type="text">
+			<div class="qq-dialog-buttons">
+				<button type="button" class="qq-cancel-button-selector">Cancel</button>
+				<button type="button" class="qq-ok-button-selector">Ok</button>
+			</div>
+		</dialog>
+	</div>
+</script>
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Manage Products</h2>
+		</div>
+	</div>	
+</div>
+<div class="profile_page manage-product-page add-product-page">
+  <div class="container">	
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+      <?php /*?><div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+      </div><?php */?>
+      <div class="change-image-user-box">
+			<div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+			<div class="user-info">
+				<p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+				<a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+			</div>
+		</div>
+
+      <div class="side-nav">
+        <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'product'=>1)); ?>
+      </div>
+      <!-- change user image -->
+    </div>
+    <!--  -->
+
+    <div class="right-side comman-form" style="position:relative">
+    	<div class="page-heading-row">
+			<h2 class="page-heding"> Edit Product </h2>
+			<a class="btn back-btn view-btn d-block" href="<?= APPLICATION_URL.'/manage-products'; ?>"> Back </a>
+		</div>
+      <!-- heading box -->
+            <form id="coupon_form" method="post" class="profile_form" enctype="multipart/form-data">
+            	 <div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="client_name"> Product Title<span>*</span> </label>
+									<?php echo $this->formElement($form->get('product_title'))?>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="client_name"> Category<span>*</span></label>
+									<?php echo $this->formElement($form->get('product_category'))?>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="client_name"> Sub-Category<span>*</span></label>
+									<?php echo $this->formElement($form->get('product_subcategory'))?>
+								</div>
+							</div>
+
+							<!-- <div class="col-sm-12">
+								<div class="form-group">
+									<label for="client_name"> Available Quantity </label>
+									<?php /*?><?php echo $this->formElement($form->get('product_qty'))?><?php */?>
+								</div>
+							</div> -->
+						</div>
+						<!--  -->
+						<div class="form-row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="product_tags"> Product Tags</label>
+									<?php echo $this->formElement($form->get('product_tags'))?>
+								</div>
+							</div>							
+						</div>	
+						<div class="form-row digital-blk">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<input type="checkbox" id="product_isdigital" name="product_isdigital" <?php if(!empty($product_isdigital) && $product_isdigital == '1') { ?>checked<?php } ?>>
+										<label for="product_isdigital"> Check if it is a digital product</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group digital-uploader <?php if(!empty($product_isdigital) && $product_isdigital == '1') {} else { ?>d-none<?php } ?>">
+								<label for="client_name">Price<span>*</span></label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">$</span>
+									</div>
+									<?php echo $this->formElement($form->get('product_price'))?>    
+								</div>
+							</div>
+							<div class="form-group digital-uploader <?php if(!empty($product_isdigital) && $product_isdigital == '1') {} else { ?>d-none<?php } ?>">
+								<label> Upload Digital Product </label>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="digital_product" name="digital_product">
+									<label class="custom-file-label digital_product" for="digital_product">Upload Digital Product</label>
+								</div>
+								<div class="digital-holder">
+									<?php if(!empty($product_digital)) { ?><a href="<?= HTTP_DIGITAL_PATH.'/'.$product_digital ?>" download><?= $product_digital; ?></a><?php } ?>
+								</div>
+							</div>
+						<div class="form-row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="client_name"> Description<span>*</span></label>
+									<?php echo $this->formElement($form->get('product_description'))?>
+								</div>
+							</div>
+						</div>
+                 
+                 <div class="form-row">
+                  <div class="col-sm-12">
+                  <div class="form-group mb-0">
+                    <label for="upl_phtos"> Upload Photos (Image with resolution of 640 x 480 in pixel is recommended & maximum file size allowed is 10MB.)</label>
+                    <div class="text-center uplphoto-picker"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="photo-picblk"></div>
+                    
+                    <input type="hidden" id="product_chk" name="product_chk" />
+                    <?php /*?><?php echo $this->formElement($form->get('product_photos'))?><?php */?>
+                  </div>
+                  </div>
+                 </div>
+                 <div class="col-12 dropzone-holder">
+					<div class="image-upload-row">
+						<div class="dropzone needsclick dz-clickable">
+							<ul>
+								<div class="outerFormElement uplodFile">
+									<label for="upload_file"></label>												
+									<div id="documentUploader" class="imagestorage needsclick dz-clickable">
+										<div class="dz-message needsclick">
+											<li class=""> <a href="javascript:void(0)" class=""> <span class="icon-box"> <img src="<?= HTTP_IMG_PATH.'/photo.svg'; ?>" class="photo-defblk"> 
+											<br/><a class="file-chooser">Choose File to Upload</a> </span> </a> <br/><small id="onepicreq">or drag & drop them here</small></li>
+										</div>
+									</div>
+									<div id="documentPreview" class="">
+
+									</div>
+								</div>
+							</ul>
+						</div>
+						<div class="categorypics-blk">
+						</div>
+					</div>
+				</div>
+				 <?php /*?><div class="">
+					<div id="fileuploader">Upload</div>
+						<div class="uploaded-images-box">
+							<div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="0"></div>
+							<div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="1"></div>
+							<div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="2"></div>
+							<div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="3"></div>
+							<div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="4"></div>
+							<div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="5"></div>
+							<div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="6"></div>
+						</div>
+					</div><?php */?>	
+							<label for="video">Upload Video (Allowed file type is .MP4 or .MOV & maximum file size allowed is 100MB)</label>
+							<div id="fine-uploader-gallery"></div>
+							<?php if(!empty($product_video)) { ?>
+								<?php /*?><iframe src="<?= HTTP_VIDEO_PATH.'/'.$product_video; ?>" width="290px" height="200px" frameborder="0" sandbox></iframe><?php */?>
+								<video src="<?= HTTP_VIDEO_PATH.'/'.$product_video; ?>" width="290px" height="200px" frameborder="0" controls disablepictureinpicture controlslist="nodownload" allowfullscreen></video>
+							<?php } ?>					
+							<div class="manage-row shipto-product <?php if(!empty($product_isdigital) && $product_isdigital == '1') { ?>d-none<?php } ?>">
+								<h3 class="manage-title">Manage Color, Size & Quantity</h3>
+								<div class="row colorsize-holder">
+									<?php if(!empty($all_colors)) { 
+									$colorkeys=array_keys($all_colors);
+									$first_color = $colorkeys[0];
+									foreach($all_colors as $all_colors_key => $all_colors_val) {
+									?>
+									<div class="col-sm-6 colorsize-pdtg" data-id="<?= strtolower($all_colors_key) ?>">
+										<div class="form-group">
+											<label>Color<span>*</span></label>
+											<input id="color" type="text" class="form-control color" placeholder="" data-id="<?= strtolower($all_colors_key) ?>" value="<?= $all_colors_key ?>" >  
+										</div>
+									</div>
+									<div class="col-sm-6 colorsize-pdtg" data-id="<?= strtolower($all_colors_key) ?>">
+										<div class="form-group">
+											<label>Enter sizes like S,M,L as comma separated<span>*</span></label>
+											<input id="size" type="text" class="form-control size" placeholder="" data-id="<?= strtolower($all_colors_key) ?>" value="<?= implode(",",array_unique($all_colors_val)); ?>"> 
+											<input type="hidden" class="all_sizes" data-id="<?= strtolower($all_colors_key) ?>" value="<?= implode(",",array_unique($all_colors_val)) ?>">
+											<?php if($all_colors_key != $first_color) { ?>
+										<a href="javascript:void(0)" class="trash-canbtn" data-id="<?= strtolower($all_colors_key) ?>"><img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>" class="trash-can"></a>
+									<?php } ?>
+										</div>
+									</div>
+									<?php } } ?>									
+								</div>
+								<div class="col-12 colorbtn-holder"> <a href="javascript:void(0)" class="btn add-more add-colorbtn"> Add More </a> </div>
+								<!-- row -->
+								<div class="table-block">
+									<div class="table-responsive">
+									<table class="table">
+										<thead>
+										<tr class="table-head">
+											<th scope="col">Color</th>
+											<th scope="col">Size</th>
+											<th scope="col">available quantity</th>
+											<th scope="col">Price</th>
+											<th scope="col">ACTION</th>
+										</tr>
+										</thead>
+										<!--  -->
+										<tbody>
+											<?php if(!empty($colorsize_data)) { $i = 1;								   
+											foreach($colorsize_data as $colorsize_data_key => $colorsize_data_val) {
+												$spl_id = $colorsize_data_val["color_title"].'~'.$colorsize_data_val["color_size"];
+												$tid = $colorsize_data_val["color_title"];
+												if($colorsize_data_val["color_title"] == $tid) {
+													
+												} else {
+													$i++;
+												}
+												$params = $colorsize_data_val["color_title"].'~'.$colorsize_data_val["color_size"];
+												if(!in_array($spl_id,$my_arr)) {	
+											?>
+												<tr data-id="<?= strtolower($colorsize_data_val["color_title"]) ?>" data-yid="<?= $spl_id ?>"><td><?= $colorsize_data_val["color_title"] ?></td><td> <?= $colorsize_data_val["color_size"] ?> </td><td><div class="form-group mb-0"><input id="qty<?= $params ?>" name="qty[]" type="text" class="form-control qtynum" data-id="<?= $params ?>" placeholder="" value="<?= $colorsize_data_val["color_qty"] ?>"><input type="hidden" id="color_size<?= $params ?>" name="colorsize[]" value="<?= $params ?>"></div></td><td class="prices-holder" colspan="2">
+												<?php if(!in_array($spl_id,$my_arr)) { ?>
+													<div class="form-group mb-0">
+														<input type="text" id="price<?= $params ?>" name="fixed_price[<?= $params ?>]" class="form-control qtyprice required" data-id="<?= $params ?>" value="<?= $colorsize_data_val["color_fixedprice"] ?>" placeholder="Price">
+													</div>
+												<?php } ?>
+												<a href="javascript:void(0)" class="trash-grpbtn" data-id="<?= $spl_id ?>">
+													<img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>">
+												</a></td></tr>
+											<?php }  $my_arr[] = $spl_id; $i++; } } ?>
+										</tbody>
+										<!--  -->
+									</table>
+									<!-- table -->
+									</div>
+								</div>
+								<!-- table block -->
+							</div>
+							<!-- manage row -->
+							<div class="shipping-rate-block shipto-product <?php if(!empty($product_isdigital) && $product_isdigital == '1') { ?>d-none<?php } ?>">
+								<div class="row shipping-subblk">
+									<div class="col-12"><h3 class="shipping-title">Shipping Profile Selection</h3></div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label for="client_name">Shipping Options<span>*</span></label>
+										</div>
+										<div class="radios main-radio">
+											<?php foreach($shipping_profile as $shipping_profile_key => $shipping_profile_val) {  ?>
+												<div class="sub-radio">
+												<input type="radio" name="shipping_id" value="<?= $shipping_profile_val["shipping_id"] ?>" id="r<?= $shipping_profile_val["shipping_id"] ?>" <?php if($shipping_profile_val["shipping_id"] == $shipping_id) { ?>checked="checked"<?php } ?> />
+												<label class="radio" for="<?= $shipping_profile_val["shipping_id"] ?>"><?= $shipping_profile_val["shipping_name"] ?><br/><span>Processing Time: <?= $shipping_profile_val["shipping_time"] ?></span><br/><span>Standard Shipping Rate: <?php if(!empty($shipping_profile_val["shipping_free"])) { echo "Free Shipping"; } else { echo "$".$shipping_profile_val["shipping_rate"]; } ?></span><br/><span>International Shipping Rate: <?= "$".$shipping_profile_val["shipping_globalrate"] ?></span></label>
+												</div>
+											<?php } ?>
+										</div>
+									</div>									
+								</div>
+							</div>
+                
+                 <div class="form-row">
+                  <input type="hidden" id="upload_tag" name="upload_tag" value="<?= $product_video ?>">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                  	<div class="">
+                    	<button type="button" name="startedbtn" class="btn view-btn send-btn submit-btns" id="startedbtn" value=""><span>Submit</span></button>
+                  	</div>
+                  </div>
+                  </div>
+                 </div>
+            
+            <div id="fileuploaders">Uploaded Photos</div>
+            <?php if(!empty($product_images)) { ?>
+            <div class="uploaded-images-box">
+			<?php foreach($product_images as $product_images_key => $product_images_val) { if(!empty($product_images_val)) { if (file_exists(PRODUCT_PIC_PATH.'/160/'.$product_images_val) && !empty($product_images_val)) {?>
+                <div class="uploaded-img"><img src="<?=HTTP_PRODUCT_PIC_PATH.'/160/'.$product_images_val; ?>" class="prod-thumbpic" data-id="t<?= $product_images_key ?>"> <a href="javascript:void(0)" class="trash-prosector"><img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>" class="trash-iconpc" data-id="<?= $product_images_key ?>" /></a></div>
+                <input type="hidden" name="doc_org_name[<?= $product_images_val ?>]" value="<?= $product_images_val ?>" />
+			<?php } } } ?>
+            	</div>
+            <?php } else { ?>
+            <div class="uploaded-images-box">
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="0"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="1"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="2"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="3"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="4"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="5"></div>
+                        <div class="uploaded-img"><img src="<?=HTTP_IMG_PATH?>/photo.svg" class="prod-thumbpic" data-id="6"></div>
+              </div>
+              <?php } ?>
+           </form>   
+    </div>
+    <!-- right-side-block -->
+  </div>
+</div>
+</div>
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+          <p class="modal-description"> Are you sure you want to remove the product image? </p>
+          <a href="javascript:void(0)" class="proaccept-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="protrash-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>   
+<script type="text/javascript">
+	var limit = '104857600';
+	var galleryUploader = new qq.FineUploader({
+		element: document.getElementById("fine-uploader-gallery"),
+		template: 'qq-template-gallery',
+		request: {
+			endpoint: baseUrl + '/upload-postfile'
+		},
+		multiple: false,
+		chunking: {
+			enabled: true,
+			concurrent: {
+				enabled: true
+			},
+			partSize: 71680,
+			success: {
+				endpoint: baseUrl + "/upload-postfile/5"
+			}
+		},
+		deleteFile: {
+			enabled: true,
+			endpoint: baseUrl + "/delete-file",
+			params: {
+				element_id: 'fine-uploader-gallery',
+				file_id: 'upload_tag',
+			}
+		},
+		resume: {
+			enabled: true
+		},
+		retry: { //enable retry on upload
+			enableAuto: true
+		},
+		thumbnails: {
+			placeholders: {
+				waitingPath: '<?= HTTP_IMG_PATH; ?>/waiting-generic.png',
+				notAvailablePath: '<?= HTTP_IMG_PATH; ?>/not_available-generic.png'
+			}
+		},
+		validation: {
+			allowedExtensions: ['mp4','mov'],
+			sizeLimit: limit,
+		},
+		callbacks: {
+			onUploadChunkSuccess: function(response) {
+				$("#upload_tag").val(response.uploadName);
+			},
+			onDeleteComplete: function(response) {
+				$("#upload_tag").val('');
+			},
+			onComplete: function(id, fileName, response, xhr) {
+				$("#upload_tag").val(response.uploadName);
+			},
+			onAllComplete: function(respose) {
+				var upl_tg = $("#upload_tag").val();
+				var result = upl_tg.split('.');
+				//if(result[1] != 'mp4' && result[1] != 'mov' && result[1] != 'MP4' && result[1] != 'MOV') {
+				if (result[1] == 'mp4' || result[1] == 'MP4' || result[1] == 'mov' || result[1] == 'MOV') {
+					
+				} else {
+					$("#upload_tag").val('');
+					$(".qq-upload-success").html('');
+					toastNotification('error', "File type not allowed.");
+				}
+				$("#startedbtn").prop("disabled", false);
+			},
+			onProgress: function() {
+				$("#startedbtn").prop("disabled", true);
+			}
+		}
+	});
+	
+	var isSubmit=1;
+	
+	<?php if($product_isdigital != '1') { ?>
+		$("#product_price").removeClass("required");
+	<?php } ?>
+	
+	$(document).on("change","#product_category",function() {
+		var category = $(this).val();
+		$.ajax({
+			url: baseUrl + "/getsub-categories",
+			type: "POST",
+			data: { category: category},
+			success: function (data) {
+				$("#product_subcategory").html('');
+				var response = $.parseJSON(data);
+				$("#product_subcategory").append('<option value="">Please Select</option>');
+				$(response).each(function(index, element1) {
+					if(element1.id) {
+						$("#product_subcategory").append('<option value="'+element1.id+'">'+element1.title+'</option>');
+					}
+				})
+		  	}
+		})
+	})
+	
+	var errfrm = []; var frrfrm = []; var trrfrm = []; var rrrfrm = []; var qqqfrm = [];
+	$(document).on("click","#startedbtn",function() {
+		
+		if($("#coupon_form").valid()) {
+			$(".qtynum").each(function() {
+				var qty = $(this).val();
+				if(qty == '') {
+					errfrm.push("1");
+					showAppAlert('Error!!','Please enter the available quantity.','error');
+				} else {
+					errfrm.pop("1");
+				}
+			})
+			$(".qty_from").each(function() {
+				var qtyfrom = $(this).val();
+				if(qtyfrom == '') {
+					frrfrm.push("1");
+					showAppAlert('Error!!','Please enter the From quantity.','error');
+				} else {
+					frrfrm.pop("1");
+				}
+			})
+			$(".qty_to").each(function() {
+				var qtyto = $(this).val();
+				if(qtyto == '') {
+					trrfrm.push("1");
+					showAppAlert('Error!!','Please enter the To quantity.','error');
+				} else {
+					trrfrm.pop("1");
+				}
+			})
+			$(".range_price").each(function() {
+				var range = $(this).val();
+				if(range == '') {
+					rrrfrm.push("1");
+					showAppAlert('Error!!','Please enter the Price.','error');
+				} else {
+					rrrfrm.pop("1");
+				}
+			})
+			$(".qtyprice").each(function() {
+				var qty_price = $(this).val();
+				if(qty_price == '') {
+					qqqfrm.push("1");
+					showAppAlert('Error!!','Please enter the Price.','error');
+				} else {
+					qqqfrm.pop("1");
+				}
+			})
+			if(errfrm.length === 0 && frrfrm.length === 0 && trrfrm.length === 0 && rrrfrm.length === 0 && qqqfrm.length === 0) {
+				$("#coupon_form").submit();
+			}
+		} else {
+			if ($(".help-block").length) {
+				if($(".help-block:visible").first().length) {
+					$('html, body').animate({
+							scrollTop: ($(".help-block:visible").first().offset().top - 180)
+					},500);
+				}
+			}
+		}
+	})
+	
+	$(document).on("click",".addmore-shipbtn",function() {
+		var ship_txtid=2;var ship_custom=true;	
+		$(".shipping-country").each(function(index, element) {
+			var childid = element.id;
+			if($(this).val()=='')
+			{
+				ship_custom=false;
+			}
+			ship_txtid++;
+		});
+		$(".shipping-rate").each(function(index, element) {
+			var childid = element.id;
+			if($(this).val()=='')
+			{
+				ship_custom=false;
+			}
+			ship_txtid++;
+		});
+		if(ship_custom){
+			$(".shipping-subblk").append('<div class="col-sm-6"><div class="form-group"><label for="client_name">Country</label><?php if(!empty($country_arr)) { ?><select name="shipping_country[]" class="custom-select form-control shipping-country" id="shipping_country" aria-invalid="false"><?php foreach($country_arr as $country_arr_key => $country_arr_val) { ?><option value="<?= $country_arr_key ?>"><?= $country_arr_val; ?></option><?php } ?></select><?php } ?></div></div><div class="col-sm-6"><div class="form-group"><label for="client_name">Rate</label><div class="input-group"><div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">$</span></div><input type="text" class="form-control shipping-rate" name="shipping_rate[]" id="shipping_rate"></div></div></div>');
+		}
+	})
+	
+	$(document).on("click",".add-colorbtn",function() {
+		var len = $(".color").length;
+		var cust_txtid=2;var add_custom=true;
+		$(".color").each(function(index, element) {
+			var childid = element.id;
+			if($('#'+childid).val()=='')
+			{
+				add_custom=false;
+			}
+			cust_txtid++;
+		});	
+		
+		$(".size").each(function(index, element) {
+			var childid = element.id;
+			if($('#'+childid).val()=='')
+			{
+				add_custom=false;
+			}
+		});
+		if(add_custom){
+			$(".colorsize-holder").append('<div class="col-sm-6 colorsize-pdtg" data-id="'+cust_txtid+'"><div class="form-group"><label>Color<span>*</span></label><input id="color" type="text" class="form-control color" data-id="'+cust_txtid+'"></div></div><div class="col-sm-6 colorsize-pdtg" data-id="'+cust_txtid+'"><div class="form-group"><label>Size<span>*</span> (Enter All Sizes)</label><input id="size" type="text" class="form-control size" placeholder="" data-id="'+cust_txtid+'"><input type="hidden" class="all_sizes" data-id="'+cust_txtid+'" value=""><a href="javascript:void(0)" class="trash-canbtn" data-id="'+cust_txtid+'"><a href="javascript:void(0)" class="trash-canbtn" data-id="'+cust_txtid+'"><img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>" class="trash-can"></a>');	  
+		}
+	})
+	
+	function capitalizeFirstLetter(string) {
+	  return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+	
+	$(document).on("focusout",".color",function() {		
+		var tid = $(this).attr("data-id");
+		var color = $(".color[data-id='"+tid+"']").val();
+		var size = $(".size[data-id='"+tid+"']").val();
+		var sizes = size.split(",");
+		$(".color[data-id!='"+tid+"']").each(function() {
+			if($(this).val() == color || $(this).val() == color.toLowerCase() || $(this).val() == color.toUpperCase() || $(this).val() == capitalizeFirstLetter(color)) {
+				showAppAlert('Error!!','Color already exists.','error');
+				$(".color[data-id="+tid+"]").val('');
+				return false;
+			}
+		})
+		if(color != '' && size != '') {
+			if($("tr[data-id='"+tid+"']").length) {
+				$("tr[data-id='"+tid+"']").remove();	
+			}
+			$.each(sizes, function (key, val) {
+				var params = color+'~'+val;
+				var parmt = ucwords(color)+'~'+val;
+				$(".table-block").find("tbody").append('<tr data-id="'+tid+'"><td> '+color+' </td><td> '+val+' </td><td><div class="form-group mb-0"><input id="qty'+params+'" name="qty[]" type="text" class="form-control qtynum" placeholder="" data-id="'+params+'" value=""><input type="hidden" id="color_size'+params+'" name="colorsize[]" value="'+params+'"></div></td><td class="prices-holder" colspan="2"><div class="form-group mb-0"><input type="text" id="'+params+'" name="fixed_price['+parmt+']" class="form-control qtyprice required" data-id="'+params+'" placeholder="Price" aria-required="true" aria-invalid="false"></div><a href="javascript:void(0)" class="trashit-tg" data-id="'+tid+'" data-yid="'+params+'"><img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>" class="trash-can"></a></td><tr data-id="'+params+'" class="d-none"></tr>');
+			});		
+		}
+	})
+	
+	$(document).on("focusout",".qtynum",function() {
+		var tid = $(this).attr("id");
+		var qty = $(this).val();
+		var pid = tid.replace("qty","");
+		$(".qty_from[data-id='"+pid+"']").attr("data-vid",qty);
+		$(".qty_to[data-id='"+pid+"']").attr("data-vid",qty);
+		$(".range_price[data-id='"+pid+"']").attr("data-vid",qty);
+		$(".range_price[data-id='"+pid+"']").next(".qty_colorsize").next(".main_qty").val(qty);
+		$(".qty_to[data-id='"+pid+"']").each(function() {
+			if(parseInt($(this).val()) > parseInt(qty)) {
+				$(this).val(qty);
+			}
+		})
+	})
+	
+	function isBetween(n, a, b) {
+	   return (n - a) * (n - b) <= 0
+	}
+	
+	$(document).on("focusout",".qty_from",function() {
+		if($(this).val() < 2) {
+			$(this).val('');
+		}
+		$(this).parents(".form-group").parents("td").next("td").find("div").find(".pricenum").trigger("click");
+		var tid = $(this).attr("data-tid");
+		var sid = $(this).attr("data-id");
+		var qty_from = $(this).val();
+		var qty_to = $(this).next(".qty_to[data-tid='"+tid+"']").val();
+		var total_qty = $(this).attr("data-vid");
+		var qtyVals = [];		
+		var minqty = $(this).attr("data-min");
+		var maxqty = $(this).attr("data-max");
+		var chk = isBetween(qty_from,minqty,maxqty);
+		if(chk == true) {
+			$(this).val('');
+			showAppAlert('Error!!','Please enter from quantity correctly.','error');
+		}
+		if(parseInt(qty_from) >= parseInt(qty_to) && parseInt(qty_to) != '' && parseInt(qty_to) != undefined) {
+			$(this).val('');
+			showAppAlert('Error!!','Please enter from quantity less than to quanity.','error');
+		}
+	})
+	
+	$(document).on("focusout",".qty_to",function() {
+		if($(this).val() < 2) {
+			$(this).val('');
+		}
+		var tid = $(this).attr("data-tid");
+		var sid = $(this).attr("data-id");
+		var qty_to = $(this).val();
+		var total_qty = $(this).attr("data-vid");
+		var qty_from = $(".qty_from[data-tid='"+tid+"']").val();
+		var qtyVals = [];
+		$(".qty_to[data-id='"+sid+"']").each(function(index,value) {
+			if(jQuery.inArray($(this).val(), qtyVals) !== -1) {
+				$(this).val('');
+				showAppAlert('Error!!','Please enter to quantity correctly.','error');
+			} else {
+				qtyVals.push($(this).val());	
+			}
+		})
+		if(parseInt(qty_from) >= parseInt(qty_to) && parseInt(qty_to) != '' && parseInt(qty_to) != undefined) {
+			$(this).val('');
+			showAppAlert('Error!!','Please enter from quantity less than to quanity.','error');
+		}
+	})
+	
+	$(document).on("focusout",".size",function() {
+		var tid = $(this).attr("data-id");
+		var color = $(".color[data-id='"+tid+"']").val();
+		var size = $(".size[data-id='"+tid+"']").val();
+		var sizes = size.split(",");
+		if($(".all_sizes[data-id='"+tid+"']").length) {
+			var presizes = $(".all_sizes[data-id='"+tid+"']").val();
+			var pre_sizes = presizes.split(",");
+			var difference = [];
+			jQuery.grep(pre_sizes, function(el) { 
+				if (jQuery.inArray(el, sizes) == -1) difference.push(el);
+			});
+		}
+		if(color != '' && size != '') {
+			$.each(difference,function(key2,val2) {
+				var paramz = color+'~'+val2;
+				$("tr[data-yid='"+paramz+"']").remove();	
+			})
+			$(".all_sizes[data-id='"+tid+"']").val(size);
+			$.each(sizes, function (key, val) {				
+				var params = color+'~'+val;
+				var parmt = ucwords(color)+'~'+val;
+				if($("tr[data-yid='"+params+"']").length) {
+				} else {
+					$(".table-block").find("tbody").append('<tr data-id="'+tid+'" data-yid="'+params+'"><td> '+color+' </td><td> '+val+' </td><td><div class="form-group mb-0"><input id="qty'+params+'" name="qty[]" type="text" class="form-control qtynum" placeholder="" data-id="'+params+'" value=""><input type="hidden" id="color_size'+params+'" name="colorsize[]" value="'+params+'"></div></td></td><td class="prices-holder" colspan="2"><div class="form-group mb-0"><input type="text" id="'+params+'" name="fixed_price['+parmt+']" class="form-control qtyprice required" data-id="'+params+'" placeholder="Price" aria-required="true" aria-invalid="false"></div><a href="javascript:void(0)" class="trashit-tg" data-id="'+tid+'" data-yid="'+params+'"><img src="<?= HTTP_IMG_PATH.'/delete2.svg'; ?>" class="trash-can"></a></td></tr>');	
+				}
+			});		
+		}
+	})
+	
+	function ucwords (str) {
+		return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+			return $1.toUpperCase();
+		});
+	}
+	
+	function remove(array,to_remove)
+	{
+	  var elements=array.split(",");
+	  var remove_index=elements.indexOf(to_remove);
+	  elements.splice(remove_index,1);
+	  var result=elements.join(",");
+	  return result;
+	}
+	
+	$(document).on("click",".trashit-tg",function() {
+		var tid = $(this).attr("data-id");
+		var yid = $(this).attr("data-yid");
+		var sizes = $(".size[data-id='"+tid+"']").val();
+		var size = yid.split("~");
+		var new_list = remove(sizes,size[1]);
+		$(".size[data-id='"+tid+"']").val(new_list);
+		$("tr[data-yid='"+yid+"']").remove();
+	})
+	
+	$(document).on("click",".trash-canbtn",function() {
+		var tid = $(this).attr("data-id");
+		$(".color[data-id="+tid+"]").val('');
+		$(".size[data-id="+tid+"]").val('');
+		if($("tr[data-id="+tid+"]").length) {
+			$("tr[data-id="+tid+"]").remove();
+			$("tr[data-hid="+tid+"]").remove();
+		}
+		$(".colorsize-pdtg[data-id="+tid+"]").remove();
+	})
+	
+	
+	
+	$(document).ready(function(e) {
+		multiUploader();
+        /*$("#fileuploader").uploadFile({
+		url:baseUrl+"/upload-prodpics",
+		fileName:"myfile",
+		multiple:true,
+		maxFileCount:7,
+		maxFileSize:10,
+		uploadStr:"Choose file to upload",
+		dragDropStr:"<span><b>or drag & drop them here</b></span>",
+		acceptFiles:"image/*",
+		showQueueDiv: "output",
+		showProgress:true,
+		onSelect:function(files)
+		{
+			var expl =  files[0].name.split('.');
+			$("#progress").show();
+			return true;
+		},
+		onSubmit:function(files)
+		{
+			var $bar = $('.ajax-file-upload-bar');
+  			$bar.bind("DOMSubtreeModified");
+		},
+		onSuccess:function(files,data,xhr)
+		{
+			if(data == 'infected') {
+				showAppAlert('Error!!','File is infected.','error');
+			} else if(data == 'invalidext') {
+				showAppAlert('Error!!','Invalid extension. Please upload a valid extension.','error');
+			} else if(data == 'limit_exceeded') {
+				showAppAlert('Error!!','Please upload image of max size 10 MB.','error');
+			}
+			else {
+			$("#product_photos").val(data);
+			$("#product_chk").val(btoa("coven"));
+			var result = data.split(',');
+			$(result).each(function (i, val) {
+				$(".prod-thumbpic[data-id="+i+"]").attr("src","<?= HTTP_PRODUCT_PIC_PATH.'/160/' ?>"+val);	
+			})
+			}
+		}
+		})*/
+	});
+	
+	$(document).on("click",".proaccept-acceptbtn",function() {
+		var tid = $(this).attr("data-id");
+		$.ajax({
+		  url: baseUrl + "/trash-propic",
+		  type: "POST",
+		  data: { tid: tid, prod:'<?= $product_id ?>' },
+		  success: function (data) {
+			  $("#product_photos").val(data);
+			  $(".prod-thumbpic[data-id=t"+tid+"]").parents(".uploaded-img").remove();
+			  $("#prodtrashModal").modal("hide");
+		  }
+		})
+	})
+	
+	$(document).on("click",".protrash-cancelbtn",function() {
+		$("#prodtrashModal").modal("hide");
+	})
+	
+	$(document).on("click",".trash-iconpc",function() {
+		var tid = $(this).attr("data-id");
+		$(".proaccept-acceptbtn").attr("data-id",tid);
+		$("#prodtrashModal").modal("show");
+	})
+	
+	$('input[name="product_price"]').on('input', function () {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	});
+	
+	$(document).on('input','.qtynum', function(){
+	 	this.value = this.value.replace(/[^\d]/g,'');
+	})
+	
+	$('input[name="product_globalrate"]').on('input', function () {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	});
+	
+	$(document).on('input','.shipping-rate', function(){
+	 	this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	})
+	
+	$(document).on("click",".sub-radio",function() {
+		$(this).find("input[type='radio']").prop("checked","checked");	
+	})
+	
+	$(document).on("change","#digital_product",function(e){
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['zip','jpg','jpeg','png','doc','docx','pdf','JPG','JPEG','PNG','DOC','DOCX','PDF'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file with extension as pdf, doc, docx, jpg, jpeg and png",type:"error",timer:3000,showConfirmButton:false });
+      } else {
+        if(file_size <= 30){
+          readdoc1_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a digital product upto 30 MB in size.','error');
+        }
+      }
+    });	
+	
+	function readdoc1_modal(input){
+      if (input.files && input.files[0]) {
+		  $(".digital-holder").html(input.files[0]["name"]);
+      }
+    }
+	
+	$(document).on("click",".more-rangebtn",function() {
+		var sid = $(this).attr("data-id");
+		var add_custom=true;
+		$(".qty_from[data-id='"+sid+"']").each(function(index, element) {
+			if($(this).val()=='')
+			{
+				add_custom=false;
+				
+			}
+		});
+		$(".qty_to[data-id='"+sid+"']").each(function(index, element) {
+			if($(this).val()=='')
+			{
+				add_custom=false;
+				
+			}
+		});
+		$(".range_price[data-id='"+sid+"']").each(function(index, element) {
+			if($(this).val()=='')
+			{
+				add_custom=false;
+				
+			}
+		});
+		if(add_custom) {
+			$(this).parent(".form-group").children(".qty_from").addClass("kft");
+			var tid = $(this).parent(".form-group").children(".kft").attr("data-tid");
+			var pid = $(this).parent(".form-group").children(".kft").attr("data-id");
+			var vid = $(this).parent(".form-group").children(".kft").attr("data-vid");
+			//var tid = $(".qty_from:last").attr("data-tid");
+			//var pid = $(".qty_from:last").attr("data-id");
+			//var vid = $(".qty_from:last").attr("data-vid");
+			var tsid = parseInt(tid) + 1;
+			var q_from = 1;
+			var q_to = $(this).parent(".form-group").find(".qty_to").val();
+			$(this).parent(".form-group").append('<a href="javascript:void(0)">&nbsp;</a>');
+			$(this).remove();
+			$(".range-pricegrp[data-id='"+sid+"']:last").append('<div class="form-group"><input type="text" class="qty_from" id="qty_from" name="qty_from[]" placeholder="From Quantity" maxlength="6" data-id="'+pid+'" data-vid="'+vid+'" data-tid="'+tsid+'" data-min="'+q_from+'" data-max="'+q_to+'"><input type="text" class="qty_to" id="qty_to" name="qty_to[]" placeholder="To Quantity" maxlength="6" data-id="'+pid+'" data-vid="'+vid+'" data-tid="'+tsid+'" data-min="'+q_from+'" data-max="'+q_to+'"><input type="text" class="range_price" id="range_price" name="range_price[]" placeholder="Price" maxlength="8" data-id="'+pid+'" data-tid="'+tsid+'" data-min="'+q_from+'" data-max="'+q_to+'"><input type="hidden" id="qty_colorsize" name="qty_colorsize[]" value="'+pid+'" class="qty_colorsize"><input type="hidden" id="main_qty" name="main_qty[]" class="main_qty" value="'+vid+'"><a href="javascript:void(0)" class="trash-pricesgrp"><img src="<?= HTTP_IMG_PATH ?>/delete2.svg" class="trash-can canpic-box"></a>&nbsp;<a href="javascript:void(0)" class="more-rangebtn" data-id="'+pid+'">More +</a></div>');
+		}
+	})
+	
+	$(document).on('input','.pricenum', function(){
+	 	this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	})
+	
+	$(document).on('input','.qty_from', function() {
+		this.value = this.value.replace(/[^\d]/g,'');	
+	})
+	
+	$(document).on('input','.qty_to', function() {
+		this.value = this.value.replace(/[^\d]/g,'');	
+	})
+	
+	$(document).on('input','.range_price', function() {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);	
+	})
+	
+	$(document).on("input",".qtyprice",function() {
+		this.value = this.value.match(/^\d+\.?\d{0,2}/);
+	})
+	
+	$(document).on("click",".pricenum",function() {
+		var colorsize = $(this).attr("data-id");
+		var qty = $(".qtynum[data-id='"+colorsize+"']").val();
+		if(typeof(qty) == 'undefined' || qty == '') {
+			showAppAlert('Error!!','Please enter available quantity.','error');
+		} else {
+			var nums = $(".qty_from:last").attr("data-tid");
+			if(typeof(nums) != 'undefined' && nums != '') {
+				var nums_inc = parseInt(nums) + 1;
+				$("tr[data-id='"+colorsize+"']").html('<td colspan="5"><div class="range-pricegrp" data-id="'+colorsize+'"><div class="form-group"><input type="text" class="qty_from" id="qty_from" name="qty_from[]" placeholder="From Quantity" maxlength="6" data-id="'+colorsize+'" data-vid="'+qty+'" data-tid="'+nums_inc+'"><input type="text" class="qty_to" id="qty_to" name="qty_to[]" placeholder="To Quantity" maxlength="6" data-id="'+colorsize+'" data-vid="'+qty+'" data-tid="'+nums_inc+'"><input type="text" class="range_price" id="range_price" name="range_price[]" placeholder="Price" maxlength="8" data-id="'+colorsize+'" data-vid="'+qty+'" data-tid="'+nums_inc+'"><input type="hidden" id="qty_colorsize" name="qty_colorsize[]" class="qty_colorsize" value="'+colorsize+'"><input type="hidden" id="main_qty" name="main_qty[]" class="main_qty" value="'+qty+'"><a href="javascript:void(0)" class="more-rangebtn" data-id="'+colorsize+'">More +</a></div></div></td>');
+				$("tr[data-id='"+colorsize+"']").removeClass("d-none");
+			} else {
+				$("tr[data-id='"+colorsize+"']").html('<td colspan="5"><div class="range-pricegrp" data-id="'+colorsize+'"><div class="form-group"><input type="text" class="qty_from" id="qty_from" name="qty_from[]" placeholder="From Quantity" maxlength="6" data-id="'+colorsize+'" data-vid="'+qty+'" data-tid="1"><input type="text" class="qty_to" id="qty_to" name="qty_to[]" placeholder="To Quantity" maxlength="6" data-id="'+colorsize+'" data-vid="'+qty+'" data-tid="1"><input type="text" class="range_price" id="range_price" name="range_price[]" placeholder="Price" maxlength="8" data-id="'+colorsize+'" data-vid="'+qty+'" data-tid="1"><input type="hidden" id="qty_colorsize" name="qty_colorsize[]" class="qty_colorsize" value="'+colorsize+'"><input type="hidden" id="main_qty" name="main_qty[]" class="main_qty" value="'+qty+'"><a href="javascript:void(0)" class="more-rangebtn" data-id="'+colorsize+'">More +</a></div></div></td>');
+				$("tr[data-id='"+colorsize+"']").removeClass("d-none");
+			}
+		}
+	})
+	
+	$(document).on("click",".trash-grpbtn",function() {
+		var tid = $(this).attr("data-id");
+		var exp = tid.split('~');
+		var sizes = $(".size[data-id='"+exp[0].toLowerCase()+"']").val();
+		var sizestr = remove(sizes,exp[1]);
+		var all_sizes = $(".all_sizes").val();
+		var allsize = remove(all_sizes,exp[1]);
+		$(".size[data-id='"+exp[0].toLowerCase()+"']").val(sizestr);
+		$(".all_sizes").val(allsize);
+		$("tr[data-yid='"+tid+"']").remove();
+	})
+	
+	function remove(array,to_remove)
+	{
+	  var elements=array.split(",");
+	  var remove_index=elements.indexOf(to_remove);
+	  elements.splice(remove_index,1);
+	  var result=elements.join(",");
+	  return result;
+	}
+	
+	$(document).on("click","#product_isdigital",function() {
+		if($("#product_isdigital:checked").val()) {
+			$(".digital-uploader").removeClass("d-none");
+			$(".shipto-product").addClass("d-none");
+			$("#qty_mg").removeClass("required");
+			$("#product_price").addClass("required");
+		} else {
+			$(".digital-uploader").addClass("d-none");
+			$(".shipto-product").removeClass("d-none");
+			//$("#qty_mg").addClass("required");
+			$("#product_price").removeClass("required");
+		}	
+	})
+	
+	$(document).on("click",".trash-pricegrp",function() {
+		var tid = $(this).next(".more-rangebtn").attr("data-id");
+		$(this).parents(".form-group").parents(".form-group").parents(".range-pricegrp").parents("td").parents("tr").prev("tr").prev("tr").find("td").find(".range-pricegrp").find(".form-group").find(".form-group").append('<a href="javascript:void(0)" class="more-rangebtn" data-id="'+tid+'">More +</a>');
+		$(this).parents(".form-group").parents(".form-group").parents(".range-pricegrp").parents("td").parents("tr").remove();	
+	})
+	
+	$(document).on("keypress",".color",function(event) {
+		var regex = new RegExp("^[a-zA-Z]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		if (!regex.test(key)) {
+		   event.preventDefault();
+		   return false;
+		}
+	});
+	
+	$(document).on("keypress",".size",function(event) {
+		var regex = new RegExp("^[a-zA-Z0-9,]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		if (!regex.test(key)) {
+		   event.preventDefault();
+		   return false;
+		}
+	});
+	
+	$(document).on("click",".trash-pricesgrp",function() {
+		var tid = $(this).next(".more-rangebtn").attr("data-id");
+		$(this).parents(".form-group").prev(".form-group").find(".form-group").append('<a href="javascript:void(0)" class="more-rangebtn" data-id="'+tid+'">More +</a>');
+		$(this).parents(".form-group").remove();	
+	})
+	
+	$(document).ready(function() {
+		$('#product_tags').tagsinput({
+			maxTags: 10
+		})
+	})
+</script>

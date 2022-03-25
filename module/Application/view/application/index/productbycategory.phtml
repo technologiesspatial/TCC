@@ -1,0 +1,46 @@
+<?php if(count($this->paginator)>0) { 
+					foreach($this->paginator as $product_data_key=>$product_data_val){ 
+					$product_images = explode(",",$product_data_val["product_photos"]);
+					$review_rating = $this->layout()->AbstractModel->Super_Get(T_REVIEWS,"review_prodid =:PID","fetch",array('warray'=>array('PID'=>$product_data_val["product_id"]),'fields'=>array('avgreview'=>new Expression('AVG(review_starrating)'))));
+				?>
+				<div class="col-lg-6">
+					<div class="manage-product-box">
+						<div class="product-img"> 
+                        <a href="<?= APPLICATION_URL.'/product/'.slugify($product_data_val["product_title"]).'~'.str_replace("=","",base64_encode($product_data_val["product_id"])); ?>">
+						<?php if(!empty($product_data_val["product_defaultpic"])) { ?>
+                        	<img src="<?= HTTP_PRODUCT_PIC_PATH ?>/240/<?= $product_data_val["product_defaultpic"] ?>" />
+						<?php } else { if(file_exists(PRODUCT_PIC_PATH.'/240/'.$product_images[0]) && !empty($product_images[0])) { ?>
+                        <img src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $product_images[0]; ?>">  
+                        <?php } } ?></a>
+                        </div>
+						<div class="product-detail-box">
+							<a href="<?= APPLICATION_URL.'/product/'.slugify($product_data_val["product_title"]).'~'.str_replace("=","",base64_encode($product_data_val["product_id"])); ?>"><h2 class="product-heading"><?php if(strlen($product_data_val["product_title"]) > 20) { echo substr($product_data_val["product_title"],0,20).'...'; } else { echo $product_data_val["product_title"]; } ?> </h2></a>
+							<p class="product-category"><?= $product_data_val["category_feild"]; ?></p>
+							<div class="star-list">
+                            	<?php if(!empty($review_rating["avgreview"])) { ?>
+                                	<div class="star-panel" data-rating="<?= $review_rating["avgreview"]; ?>"></div>
+								<?php } else { ?>
+                                	<div class="star-panel" data-rating="0"></div>
+                                <?php } ?>
+							</div>
+							<div class="product-pricing-box">
+								<p class=""> <span> Price : </span> <span> $<?= $product_data_val["product_price"]; ?> </span> </p>
+							</div>
+							
+							<div class="button-box d-flex">
+								<div class="comman-btns view-detail-btn ml-0"><a href="<?= APPLICATION_URL.'/product/'.slugify($product_data_val["product_title"]).'~'.str_replace("=","",base64_encode($product_data_val["product_id"])); ?>" class="btn view-prodbtn"> View Details </a></div>
+                                <?php if(!empty($loggedUser)) {  ?>
+								<div class="comman-btns mr-0 border-gradient"><a href="javascript:void(0)" class="btn add-cart-btn view-btn add-cartbtn" data-id="<?= str_replace("=","",base64_encode($product_data_val["product_id"])); ?>"> Add to Cart </a></div>
+                                <?php } else { ?>
+                                <div class="comman-btns mr-0 border-gradient"><a href="javascript:void(0)" class="btn add-cart-btn view-btn addlog-cartbtn" data-id="<?= str_replace("=","",base64_encode($product_data_val["product_id"])); ?>"> Add to Cart </a></div>
+                                <?php } ?>
+							</div>
+						</div>
+					</div>
+				</div>
+				<? } ?>
+                <?php echo $this->paginationControl($this->paginator, 'Sliding','auth-acl/paginator.phtml', array('page'=>$page)); ?>
+				<? 
+} else { ?>
+	<p class="col-md-12">No product found.</p>
+<?php } ?>

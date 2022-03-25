@@ -1,0 +1,96 @@
+<?php 
+	$user =  $this->user_information ;
+?>
+<style type="text/css">
+ul#info_ul span {
+	color:#e35b5a;
+	font-weight:bold;
+}
+.widget-wrap {
+	min-height:auto
+}
+p {
+	white-space:nowrap;
+}
+</style>
+
+<div class="panel">
+  <div class="panel-body">
+    <div class="row white-box">
+      
+      <div class="col-sm-3"> 
+      	  <?php if(!empty($seller_data["store_logo"]) && file_exists(STORE_LOGO_PATH.'/160/'.$seller_data["store_logo"])) { ?>
+          <img src="<?php echo HTTP_STORE_LOGO_PATH.'/160/'.$seller_data["store_logo"];?>" class="img_border" />
+          <?php } ?>
+        <br>
+      </div>
+      <div class="col-sm-9">
+        <div class="form-content" style="padding:20px;">
+          <table class="table table-bordered Clear" style="margin:0px !important;">
+            <tbody>
+              <tr>
+                <td class="" width="30%;"><b>Store Name:</b></td>
+                <td>
+                  <b><?= $seller_data['store_name']; ?></b>
+                </td>
+              </tr> 
+              <tr>
+                <td class=""><b>Shop Title:</b></td>
+                <td><b><?php echo $seller_data['store_title']==''?'N/A':nl2br($seller_data['store_title']);?></b>
+                </td>
+              </tr>             
+              <tr>
+                <td><b>Company Legal Name:</b></td>
+                <td>
+                  <b><?php echo $seller_data['store_company']==''?'N/A':$seller_data['store_company'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Contact Person:</b></td>
+                <td><b><?php echo $seller_data['store_contact']==''?'N/A':$seller_data['store_contact'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Location:</b></td>
+                <td><b><?php echo $seller_data['store_location']==''?'N/A':$seller_data['store_location'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Seller's Paypal Email Address:</b></td>
+                <td><b><?php echo $seller_data[T_CLIENT_VAR.'client_paypal_email']==''?'N/A':$seller_data[T_CLIENT_VAR.'client_paypal_email'];?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Logo:</b></td>
+                <td>
+                	<?php if(!empty($seller_data["store_logo"]) && file_exists(STORE_LOGO_PATH.'/160/'.$seller_data["store_logo"])) { ?>
+                		<img src="<?php echo HTTP_STORE_LOGO_PATH.'/160/'.$seller_data["store_logo"];?>" class="img_border" />
+                	<?php } ?>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Banner Image:</b></td>
+                <td>
+                	<?php if(!empty($seller_data["store_banner"]) && file_exists(STORE_BANNER_PATH.'/160/'.$seller_data["store_banner"])) { ?>
+                	<img src="<?php echo HTTP_STORE_BANNER_PATH.'/160/'.$seller_data["store_banner"];?>" class="img_border" />
+                	<?php } ?>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Story Headline:</b></td>
+                <td><b><?php echo $seller_data['store_headline']==''?'N/A':nl2br($seller_data['store_headline']);?></b>
+                </td>
+              </tr>
+              <tr>
+                <td class=""><b>Story Description:</b></td>
+                <td><b><?php echo $seller_data['store_description']==''?'N/A':nl2br($seller_data['store_description']);?></b>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

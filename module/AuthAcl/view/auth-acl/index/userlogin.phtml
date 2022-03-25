@@ -1,0 +1,179 @@
+
+<div class="comman-section">
+  <div class="container">
+    <div class="common-heading">
+      <h2 class="heading">LOG IN</h2>
+    </div>
+  </div>	
+</div>
+
+
+<div class="login_page">
+  <div class="container">
+    <div class="login">
+      <div class="login-signup-form ">
+         
+        <div class="right-side comman-form">
+            <div class="social-links">
+              <ul class="">
+                <li class="other-text"> Log In With</li>
+                <li class=""><a href="javascript:void(0)" class="social-regbtn"><img src="<?=HTTP_IMG_PATH?>/facebook-circle.svg"></a></li>
+                <?php /*?><li class=""><a href="<?= APPLICATION_URL.'/twitter'; ?>" class=""><img src="<?=HTTP_IMG_PATH?>/twitter-new.svg"></a></li><?php */?>
+                <li class=""><a href="javascript:void(0)" class="social-regbtn"> <img src="<?=HTTP_IMG_PATH?>/google-plus-new.svg"> </a></li>
+              </ul>
+            </div>
+
+            <!-- <p class="or-text"> or </p> -->
+            <h1 class="or-text"> <span>Or </span> </h1>
+            <form id="sm_login_form" action="<?php echo $redUrl; ?>" method="post" class="login_form" enctype="multipart/form-data">
+              <div class="form-group"> <label> Email Address / User Name<span>*</span> </label> <?php echo $this->formElement($form->get('client_email'))?> </div>
+              <div class="form-group"> <label> Password<span>*</span></label> <?php echo $this->formElement($form->get('client_password'))?></div>
+             
+              <?php echo $this->formElement($form->get('post_csrf'))?>
+
+              <div class="border-gradient"><button type="button" class="btn view-btn send-btn" id="startedbtn">Log In</button></div>
+              <p class="forgot-text"> <span><a href="<?php echo $this->url('front_forgotpassword'); ?>" class="web-text-link forgot-data"> Lost your password?  </a></span></p>
+              
+            </form>
+
+          </div>
+          <!------------- right side -------------->
+      </div>
+
+    </div>
+    <!-- login -->
+  </div>
+</div>
+<div class="modal add-to-cart-modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media product-infotg">
+			<div class="media-body">
+				<div class="">                          
+					  <div class="coupon">
+						<div class="check-boxs">
+							<div class="checks custom-checks">
+								<label for="clientele_chkterms" class="checkbox"> You agree with The Collective Coven <a href="<?= APPLICATION_URL.'/privacy-policy'; ?>" target="_blank" class="term-linktg">Privacy Policy</a> & <a href="<?= APPLICATION_URL.'/terms-and-conditions'; ?>" target="_blank" class="term-linktg">Terms of Use</a>
+									<input type="checkbox" name="clientele_chkterms" id="clientele_chkterms" class="required">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>						
+					  </div>
+				</div>
+			</div>			
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer justify-content-center">
+        <div class="social-links social-agree">
+		  <ul class="">
+			<li class="other-text"> Log In With</li>
+			<li class="social-midtxt"><a href="javascript:void(0)" class="social-clkbtn" data-id="1"><img src="<?=HTTP_IMG_PATH?>/facebook-circle.svg"></a></li>
+			<li class="social-midtxt"><a href="javascript:void(0)" class="social-clkbtn" data-id="2"> <img src="<?=HTTP_IMG_PATH?>/google-plus-new.svg"> </a></li>
+		  </ul>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var isCaptcha = 1;
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('form,input,select,textarea').attr('autocomplete', 'off');
+});
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $this->site_configs['recaptcha_sitekey']?>"></script>
+<script>
+var interval = setInterval(function(){
+  if(window.grecaptcha){
+    grecaptcha.ready(function() {
+        grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+          $('#sm_login_form').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+        });
+    });
+  clearInterval(interval);
+  }
+}, 100);
+
+$(document).keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+       $('#startedbtn').trigger("click");
+    }
+});
+
+$(document).on("click",".social-regbtn",function() {
+	$(".tc-errtag").remove();
+	$("#termsModal").modal("show");	
+})
+
+$(document).on("click",".social-clkbtn",function() {
+	var tid = $(this).attr("data-id");
+	$(".tc-errtag").remove();
+	$(".tcp-errtag").remove();
+	if (!$('#clientele_chkterms').is(':checked')) {
+		$('<p class="tc-errtag">Please accept to proceed.</p>').insertAfter("#clientele_chkterms");	
+	} else {
+		if(tid == '1') {
+			window.location.replace('<?= APPLICATION_URL.'/facebook'; ?>');
+		} else {
+			window.location.replace('<?= APPLICATION_URL.'/google'; ?>');
+		}
+	}
+})	
+	
+$('#startedbtn').on('click',function(){
+  grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+    $('#hiddenGRecaptchaResponse').remove();
+    $('#sm_login_form').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+
+    $('#sm_login_form').validate({
+        ignore:'',
+        rules:{
+            client_email:{
+                required:true,
+            },
+            client_password:{
+                required:true,
+                minlength: 8,
+            },
+        },
+        messages:{
+                hiddenGRecaptchaResponse:{
+                required:"Please check captcha",
+            }
+        },
+        errorPlacement:function(error,element){
+            error.insertAfter(element);
+        },
+      
+    });
+
+    if($('#sm_login_form').valid())
+    {
+      passwordEncrypt();
+      $('#sm_login_form').submit();
+
+    } else {
+      // alert('Please check the form and complete it.');
+    }
+
+
+  });
+
+  // $("#sm_login_form").validate().element("#client_name");  
+
+});
+</script>

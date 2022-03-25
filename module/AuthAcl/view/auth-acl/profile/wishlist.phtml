@@ -1,0 +1,474 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+.prodsel-btn{margin-top:20px;}
+.prodpic-holdtag img{margin-right:10px;border:1px solid #eee;padding:5px 10px;}
+#prodselModal .modal-description{margin-bottom:10px;}
+.propic-wallblk{display:inline-block;vertical-align:top;margin-right:10px;}
+.propic-inpblk{visibility:visible !important;display:block;margin-left:auto;margin-right:auto;margin-top:5px;}
+input[type='radio']{visibility:hidden;}
+#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.rgt_btn{background-color:#ab191a;padding:0px;width:197px;height:54px;line-height:54px;border-radius:0px;font-size:18px;color:#fff !important;border:none;margin:10px auto 0px;}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+.table thead th, .table tbody td{padding-left:10px !important;}
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before{content:'';}
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{content:'';}
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before{content:'';}
+.prodsel-btn{margin-bottom:25px;}
+.manage-product-box{height:125px;}
+.manage-product-box2{min-height:125px;}
+.manage-product-box .product-img{width:150px;}
+.product-detail-box a{text-decoration:none !important;outline:none !important;}
+@media (max-width: 767px) {
+	.manage-product-box{height:auto;overflow:hidden;}
+	.manage-product-box .product-img{width:auto;height:auto;max-width:100px;margin-top:25px;}
+}
+</style> 
+
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Wish List</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+<div class=" wish-page profile_page">
+  <div class="container">
+
+      <div class="after-login-block">
+          <div class="left-side signup-img profile-nav d-none d-xl-block">
+          <? /* ?> <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"200")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div> <? */ ?>
+
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+            <div class="side-nav">
+              <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'wish'=>1)); ?>
+            </div>
+            <!-- change user image -->
+          </div>
+          <div class="right-side">
+          	  <?php /*  if(!empty($this->wish_list)) {
+						foreach($this->wish_list as $wish_list_key => $wish_list_val) { ?>
+                          <div class="manage-product-box manage-product-box2">
+                              <a href="<?= APPLICATION_URL.'/product/'.slugify($wish_list_val["product_title"]).'~'.str_replace("=","",base64_encode($wish_list_val["product_id"])); ?>" target="_blank" class=""><div class="product-img"> <?php if(!empty($wish_list_val["product_photos"])) { $product_photos = explode(",",$wish_list_val["product_photos"]); 
+							  ?>
+                              <?php if(!empty($wish_list_val["product_defaultpic"])) { ?>
+                              	<img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$wish_list_val["product_defaultpic"]; ?>" /> 
+							  <?php } else {
+							  if(file_exists(PRODUCT_PIC_PATH.'/160/'.$product_photos[0]) && !empty($product_photos[0])) { ?>
+                              <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$product_photos[0]; ?>" /> 
+                              <?php } } ?><?php } ?>  </div></a>
+                              <div class="product-detail-box">
+                                <a href="<?= APPLICATION_URL.'/product/'.slugify($wish_list_val["product_title"]).'~'.str_replace("=","",base64_encode($wish_list_val["product_id"])); ?>" target="_blank" class=""><h2 class="product-heading"> <?= $wish_list_val["product_title"]; ?> </h2></a>
+            
+                                <div class="status-icon-box">
+                                  <div class="product-pricing-box">
+                                    <p class=""> <span> Price : </span> <span> $<?= $wish_list_val["product_price"]; ?> </span> </p>
+                                  </div>
+                                  <div class="icons-box d-flex">	
+                                  	  <div class="icons view" title="View Product"> <a href="<?= APPLICATION_URL.'/product/'.slugify($wish_list_val["product_title"]).'~'.str_replace("=","",base64_encode($wish_list_val["product_id"])); ?>" target="_blank" class=""><img src="<?=HTTP_IMG_PATH?>/view.svg"></a> </div>
+                                      <div class="icons delete" title="Remove from wish list"> <a href="javascript:void(0)" data-id="<?= str_replace("=","",myurl_encode($wish_list_val["product_id"])) ?>" class="prod-trashbtn"><img src="<?=HTTP_IMG_PATH?>/delete.svg"></a> </div>							  
+                                  </div>
+                                  <!-- icons box -->
+                                </div>
+                              </div>
+                          </div>
+              <?php } } else { ?>
+              	<p>No products added to wish list.</p>
+              <?php } */ ?>
+              <!-- manage-product box -->
+              <div class="table-block">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr class="table-head">
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <!--  -->
+                    <tbody>
+                      <?php /*?><tr>
+                        <td > <div class="cross-btn"> X </div> </td>
+                        <td > <div class="user-img"> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg">  </div> </td>
+                        <td> 
+                            <p class="dress-name"> New Edition Adult Wicked Witch Dress </p>
+                            <div class="color-and-size"> 
+                              <p class="color"> Color: <span class="red"></span> </p> 
+                              <p class="size"> Size <span> XL </span> </p>  
+                            </div>
+                        </td>
+                        <td> $28 </td>
+                        <td> <a href="#" class="view-btn btn"> Add to cart </a> </td>
+                      </tr><?php */?>
+                      <?php if(!empty($wish_list)) {
+						$colors_arr = array(); $sizes_arr = array();
+						foreach($wish_list as $wish_list_key => $wish_list_val) { 
+					  	$colorsize_record = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:TID","fetchAll",array('warray'=>array('TID'=>$wish_list_val["wish_list_productid"])));
+						if(!empty($wish_list_val["product_photos"])) { 
+							$product_photos = explode(",",$wish_list_val["product_photos"]); 
+						}
+						if(!empty($colorsize_record)) {
+							foreach($colorsize_record as $colorsize_record_key => $colorsize_record_val) {
+								$colors_arr[] = $colorsize_record_val["color_title"];
+								$sizes_arr[] = $colorsize_record_val["color_size"];
+							}
+						}
+						$colors_arr = array_unique($colors_arr);
+						$sizes_arr = array_unique($sizes_arr);
+						usort($sizes_arr, "sizecmp");	
+					  ?>
+                      <tr>
+                        <td > <div class="cross-btn prod-trashbtn" data-id="<?= str_replace("=","",myurl_encode($wish_list_val["product_id"])) ?>"> X </div> </td>
+                        <td > <div class="user-img">
+                        <?php if(!empty($wish_list_val["product_defaultpic"])) { ?>
+                        	<img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$wish_list_val["product_defaultpic"]; ?>" /> 
+						<?php } else {
+							  if(file_exists(PRODUCT_PIC_PATH.'/160/'.$product_photos[0]) && !empty($product_photos[0])) { ?>
+                              	<img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$product_photos[0]; ?>" /> 
+                        <?php } } ?> 
+                        </div> </td>
+                        <td> 
+                            <p class="dress-name"> <?= $wish_list_val["product_title"]; ?> </p>
+                            <div class="color-and-size"> 
+                              <p class="color"> Color: 
+                              <?php if(!empty($colors_arr)) { 
+							  foreach($colors_arr as $colors_arr_key => $colors_arr_val) { ?>
+								<span class="color-tg" data-id="<?= $colors_arr_val ?>"></span> 
+                              <?php } } ?>
+                              </p> 
+                              <p class="size"> Size
+                              <?php if(!empty($sizes_arr)) { ?>
+                              	<span> <?= implode(", ",$sizes_arr); ?> </span> 
+                              <?php } else { ?>
+                              	<span>N/A</span>
+                              <?php } ?>
+                              </p>  
+                            </div>
+                        </td>
+                        <td> $<?= $wish_list_val["product_price"]; ?> </td>
+                        <td> <a href="<?= APPLICATION_URL.'/product/'.slugify($wish_list_val["product_title"]).'~'.str_replace("=","",base64_encode($wish_list_val["product_id"])); ?>#cart" class="view-btn btn prodcart-btn"> Add to cart </a> </td>
+                      </tr>
+                      <?php } } else { ?>
+                      <tr>
+                      	<td colspan="5">No product added to wish list.</td>
+					  </tr>
+                      <?php } ?>
+                    </tbody>
+                    <!--  -->
+                  </table>
+                  <!-- table -->
+                </div>
+              </div>
+              <!-- table block -->
+
+          </div>
+     </div> 
+   </div>    
+  </div>   
+<!-------------------------- after login nav bar --------------------------------->
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to remove the product from wish list? </p>
+          <a href="javascript:void(0)" class="proaccept-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="protrash-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal add-to-cart-modal fade" id="addcartModal" tabindex="-1" role="dialog" aria-labelledby="addcartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addcartModalLabel">Cart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		<div class="media product-infotg">
+			
+		</div>
+		<!-- media -->
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="cancle-btn btn cart-clbtn">Cancel</button>
+        <button type="button" class="btn  add-cart-btn view-btn addmy-cartbtn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-------------------------------------------------------------------------------------------->
+<script type="text/javascript">
+var isSubmit=1;
+$('.input-number').focusin(function(){
+   $(this).data('oldValue', $(this).val());
+});
+	
+$('.input-number').change(function() {
+    minValue =  parseInt($(this).attr('min'));
+    maxValue =  parseInt($(this).attr('max'));
+    valueCurrent = parseInt($(this).val());
+    name = $(this).attr('name');
+    if(valueCurrent >= minValue) {
+        $(".btn-number[data-type='minus'][data-field='"+name+"']").removeAttr('disabled')
+    } else {
+        alert('Sorry, the minimum value was reached');
+        $(this).val($(this).data('oldValue'));
+    }
+    if(valueCurrent <= maxValue) {
+        $(".btn-number[data-type='plus'][data-field='"+name+"']").removeAttr('disabled')
+    } else {
+        alert('Sorry, the maximum value was reached');
+        $(this).val($(this).data('oldValue'));
+    }
+});
+	
+$(".input-number").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+             // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+                 // let it happen, don't do anything
+        	return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+});
+	
+$(function () {
+	   $(document).on("click",".prev-qbtn",function() {
+	      var max = parseInt($(".input-number").attr('max'));
+          var min = parseInt($(".input-number").attr('min'));
+		  var tid = $(this).attr("data-id");
+          var inptxt = $(".input-number").val();
+		  var inptxt = parseInt(inptxt) - 1;
+		  var coupon_code = $("#coupon_code").val();
+		  if (inptxt > max)
+          {
+              var inptxt = max;
+          }
+          else if (inptxt < min)
+          {
+			  var inptxt = min;
+          }
+		  $(".input-number").val(inptxt);
+		  $.ajax({
+			url: baseUrl+"/show-price",
+			type: "POST",
+			data: {tid:tid,qty:inptxt,coupon_code:coupon_code},
+			success: function(data){
+				if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted') {
+					$(".amount").html("$"+parseFloat(data));
+				} else if(data == 'error') {
+					showAppAlert('Error!!','No such product found.','error');
+					$("#addcartModal").modal("hide");
+				} else if(data == 'qty_restricted') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+					$("#addcartModal").modal("hide");
+				} else if(data == 'invalid_number') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+					$("#addcartModal").modal("hide");
+				}
+			}
+		  })
+	   })
+	   
+	   $(document).on("click",".next-qbtn",function() {
+          var max = parseInt($(".input-number").attr('max'));
+          var min = parseInt($(".input-number").attr('min'));
+		  var tid = $(this).attr("data-id");
+          var inptxt = $(".input-number").val();
+		  var inptxt = parseInt(inptxt) + 1;
+		  var coupon_code = $("#coupon_code").val();
+		  if (inptxt > max)
+          {
+              var inptxt = max;
+          }
+          else if (inptxt < min)
+          {
+			  var inptxt = min;
+          }
+		  $(".input-number").val(inptxt);
+		  $.ajax({
+			url: baseUrl+"/show-price",
+			type: "POST",
+			data: {tid:tid,qty:inptxt,coupon_code:coupon_code},
+			success: function(data){
+				if(data != 'error' && data != 'invalid_number' && data != 'qty_restricted') {
+					$(".amount").html("$"+parseFloat(data));
+				} else if(data == 'error') {
+					showAppAlert('Error!!','No such product found.','error');
+					$("#addcartModal").modal("hide");
+				} else if(data == 'qty_restricted') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+					$("#addcartModal").modal("hide");
+				} else if(data == 'invalid_number') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+					$("#addcartModal").modal("hide");
+				}
+			}
+		  })
+        }); 
+});	
+	
+$(document).on("click",".prodcart-btn",function() {	
+	var tid = $(this).attr("data-id");
+	$.ajax({
+			url: baseUrl+"/cart-details",
+			type: "POST",
+			data: {tid:tid},
+			success: function(data){
+				$(".product-infotg").html(data);
+				$(".addmy-cartbtn").attr("data-id",tid);
+				$("#addcartModal").modal("show");
+			}
+	})
+})
+
+$(document).on("click",".addmy-cartbtn",function() {
+	var tid = $(this).attr("data-id");
+	var qty = $(".cartqty-inptg").val();
+	var coupon = $("#coupon_code").val();
+	$.ajax({
+			url: baseUrl+"/addmy-cart",
+			type: "POST",
+			data: {tid:tid,qty:qty,coupon_code:coupon},
+			success: function(data){
+				if(data == 'success'){
+					window.location.replace(baseUrl+"/my-cart");
+				} else  if(data == 'error') {
+					$("#addcartModal").modal("hide");
+					showAppAlert('Error!','No such product found.','error');
+				} else if(data == 'qtyerror') {
+					$("#addcartModal").modal("hide");
+					showAppAlert('Error!','You cannot purchase this product as it is out of stock.','error');
+				} else  if(data == 'invalid_qty') {
+					$("#addcartModal").modal("hide");
+					showAppAlert('Error!','You have entered invalid quantity.','error');
+				} else if(data == 'restricted') {
+					$("#addcartModal").modal("hide");
+					showAppAlert('Error!','You cannot purchase your own product.','error');
+				}
+			}
+	})
+})
+
+$(document).ready(function(e) {
+		$('.color-tg').each(function(i, obj) {
+			var colortg = $(obj).attr("data-id");
+			$(obj).css("background-color",colortg);
+		})	
+	
+        $("#sample_1").dataTable({
+		 "responsive": true,
+		 "bAutoWidth": false,
+		 "bInfo" : false,
+		 "bSort" : true,
+		 "bFilter": false,
+			 "bLengthChange" : false,
+			  "order"			: [[2,"desc"]],
+			 "aoColumnDefs": 
+			 [
+				{ "bSortable": false, "aTargets": [1,2] },
+			 ], 
+		"iDisplayLength": 5,
+		"aLengthMenu"	: [[5,50,100],[5,50,100]],
+			 "fnDrawCallback":function( oSettings ){
+			
+			if($(".deimg").length>0){
+				$('.deimg').initial(); 
+			}
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+			elems.forEach(function(html) {
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+			});
+		}
+		})
+		$(".trending-stattxt").addClass("midmenu-txt");
+		$(".trending-stattxt").removeClass("midmenuact-txt");   
+    });
+
+$(document).on("click",".prod-trashbtn",function() {
+	var prod = $(this).attr("data-id");
+	$(".proaccept-acceptbtn").attr("data-id",prod);
+	$("#prodtrashModal").modal("show");
+})
+
+$(document).on("click",".protrash-cancelbtn",function() {
+	$("#prodtrashModal").modal("hide");
+})
+
+$(document).on("click",".proaccept-acceptbtn",function() {
+	var prod = $(this).attr("data-id");
+	$.ajax({
+	  url: baseUrl + "/trash-wishlist",
+	  type: "POST",
+	  data: { prod: prod },
+	  success: function (data) {
+		  $("#prodtrashModal").modal("hide");
+		  if(data == 'success') {  
+		  	showAppAlert('Success!','Product has been removed from wish list.','success');
+			setTimeout(function(){ location.reload(); }, 1200);
+		  } else if(data == 'error') {
+		  	showAppAlert('Error!','Something went wrong. Please check again.','error');
+		  } 
+	  }
+	})
+})
+
+$(document).ready(function(e) {
+    $('.product-img img').map(function(){
+      var $th = $(this);
+      width = $th[0].naturalWidth;
+	  if(width < 200) {
+	  	$(this).css("object-fit","contain");
+		$(this).css("object-position","center");
+	  }
+    }) 
+});
+</script>

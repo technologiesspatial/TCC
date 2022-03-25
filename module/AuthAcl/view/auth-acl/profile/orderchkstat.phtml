@@ -1,0 +1,47 @@
+<?php if(!empty($customer_orders)) { 
+			  	foreach($customer_orders as $customer_orders_key => $customer_orders_val) {
+					$end_record = end($customer_orders_val);
+			  ?>
+              <div class="customer-product-box">
+                  <div class="row-one">
+                    <p class="order-name">Order Number : <?= $customer_orders_key ?></p>
+                    <p class="order-date">Order Date : <?= date("m-d-Y",strtotime($end_record["orderdate"])) ?></p>
+                    <p class="order-amount">Total Amount : $<?= $end_record["avgtotal"] ?></p>
+                  </div>
+				  <?php foreach($customer_orders_val as $customer_orders_valkey => $customer_orders_valt) { ?>
+                  <div class="customer-products">
+                    <div class="customer-left-side">
+                      <div class="product-img"> <?php if(!empty($customer_orders_valt["product_defaultpic"])) { ?>
+							<img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$customer_orders_valt["product_defaultpic"]; ?>" class="orderprod-pictg" /> 
+					<?php } else {
+						$product_photos = explode(",",$customer_orders_valt["product_photos"]); 
+						if(!empty($product_photos[0])) { ?>
+							<img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$product_photos[0]; ?>" class="orderprod-pictg" />
+						<?php }
+					} ?>  </div>
+                      <div class="product-detail">
+                        <h3 class="product-title"> <?= $customer_orders_valt["product_title"]; ?> </h3>
+                        <p class="p-name"> <span> Price :</span> <span>$<?= $customer_orders_valt["product_price"]; ?> </span> </p>
+                        <p class="p-name"> <span> Discount: </span> <span> $<?= $customer_orders_valt["order_discount"]; ?> </span> </p>
+                        <p class="p-name"> <span> Quantity :</span> <span> <?= $customer_orders_valt["order_qty"]; ?></span> </p>
+                        <p class="p-name"> <span> Amount :</span> <span> $<?= $customer_orders_valt["order_total"]; ?> Paid <?php if(!empty($customer_orders_valt["order_shipping"])) { ?>(including shipping charge of $<?= $customer_orders_valt["order_shipping"] ?>)<?php } ?></span> </p>
+                      </div>
+                    </div>
+                    <div class="customer-right-side">
+                    <?php $status_arr = array('1'=>"Processing",'2'=>"Ready to ship",'3'=>"Shipped",'4'=>"Delivered");
+					?>
+                        <p class="order-status"> <span> Order Status :</span> <span class="ready-to-ship"><?php if(isset($status_arr[$customer_orders_valt["order_status"]])){
+    echo $status_arr[$customer_orders_valt["order_status"]]; } ?></span> </p>
+    					<?php if($customer_orders_valt["order_status"] == '4' && empty($review_data)) { ?>
+                        <div class="border-gradient review-btn"><a class="btn view-btn" data-toggle="modal" data-target="#reviewModal">Give your review  </a></div>
+                        <?php } ?>
+                    </div>
+
+                  </div>
+                  <?php } ?>
+                  <!-- customer product -->
+                  
+              </div>
+              <?php } } else { ?>
+              	<p><?= $order_message; ?></p>
+			  <?php } ?>

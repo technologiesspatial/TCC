@@ -1,0 +1,128 @@
+<style type="text/css">
+	.chosen-container{height:61px !important;}
+	.chosen-choices{min-height:60px;border:solid 1px rgb(216, 216, 216) !important;border-radius:6px;background-image:none !important;}
+	.search-field{height:53px;line-height:51px !important;}
+	.search-choice{height:53px;line-height:51px !important;}
+	.search-field input{height:58px !important;line-height:58px !important;font-size:18px !important;color:#010001 !important;
+    width: auto !important;font-family:'berkshire_swashregular' !important;padding-left:15px !important;}
+	.coupon-btnsection{position:relative;}
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style>
+<div class="profile_page">
+  <div class="profile-section">
+    <div class="profile-nav d-none d-xl-block">
+      <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+      <div class="side-nav">
+          <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'coupons'=>1)); ?>
+      </div>
+      <!-- change user image -->
+    </div>
+    <!--  -->
+
+    <div class="right-side-block">
+
+      <div class="heading-box">
+        <h4 class="heading"> Add Size </h4>
+        <div class="border-gradient seller-btn back-btn become-sellerbtn"><a class="btn view-btn" href="<?= APPLICATION_URL.'/manage-coupon'; ?>"> Back </a></div>
+      </div>
+      <!-- heading box -->
+
+          <div class="right-side comman-form">
+            <form id="coupon_form" method="post" class="profile_form" enctype="multipart/form-data">
+            	 <div class="form-row">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="client_name"> Size </label>
+                    <?php echo $this->formElement($form->get('size_title'))?>
+                  </div>
+                  </div>
+                 </div> 
+                 <div class="form-row coupon-btnsection">
+                  <div class="col-sm-12">
+                  <div class="form-group">
+                  	<div class="border-gradient">
+                    <?php echo $this->formElement($form->get('startedbtn'))?>
+                  	</div>
+                  </div>
+                  </div>
+                 </div>
+            </form>
+
+          </div>
+
+    </div>
+
+    <!-- right-side-block -->
+
+  </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+    $('#coupon_start_date').datepicker({
+        startDate: '-0m'
+        //endDate: '+2d'
+    }).on('changeDate', function(selected){
+		var minDate = new Date(selected.date.valueOf());
+		minDate.setDate(minDate.getDate() + 1);
+        $('#coupon_end_date').datepicker('setStartDate', minDate);
+        //$('#sDate1').text($('.datepicker').data('date'));
+        $('#coupon_start_date').datepicker('hide');
+    });
+	
+	$('#coupon_end_date').datepicker({
+        startDate: '+1d'
+        //endDate: '+2d'
+    }).on('changeDate', function(ev){
+        //$('#sDate1').text($('.datepicker').data('date'));
+        $('#coupon_end_date').datepicker('hide');
+    });
+	
+})
+
+
+$(document).on("click",".generate-codebtn",function() {
+	$.ajax({
+		url: baseUrl+"/generate-code",
+		type: "POST",
+		data: { codez: 1 },
+		success: function(data){
+			$("#coupon_code").val(data);
+		}
+	})
+})
+
+$(document).on("change",".rule-chkbox",function() {
+	if($(this).val() == '2') {
+		$(".product-holder").addClass("d-none");
+		$("#product_name").removeClass("required");
+	} else if($(this).val() == '1') {
+		$(".product-holder").removeClass("d-none");
+		$("#product_name").addClass("required");
+		$("#product_name").addClass("product-selblk");
+		$("#product_name").attr("multiple","multiple");
+		$(".product-selblk").chosen({disable_search_threshold: 10});
+	} else if($(this).val() == '3') {
+		$("#product_name").removeClass("product-selblk");
+		$(".product-holder").removeClass("d-none");
+		$("#product_name").chosen("destroy");
+		$("#product_name").attr("multiple",false);
+	}
+})
+
+$(document).ready(function(e) {
+    $("#coupon_code").prop("checked",true);
+	$(".product-selblk").chosen({disable_search_threshold: 10});
+});
+</script>

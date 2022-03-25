@@ -1,0 +1,60 @@
+<style type="text/css">
+	<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+		.other-header{display:none !important;}
+		#navbarSupportedContent{display:none !important;}
+		.custom-link{display:none;}
+	<?php } ?>
+</style>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">View Shipping</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+
+<div class="profile_page manage-product-page add-product-page">
+	<div class="container">
+		<div class="profile-section">
+			<div class="profile-nav d-none d-xl-block">
+					<div class="change-image-user-box">
+						<div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+						<div class="user-info">
+							<p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+							<a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+						</div>
+					</div>
+
+					<div class="side-nav">
+						<?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'shipping'=>1)); ?>
+					</div>
+					<!-- change user image -->
+			</div>
+			<!--  -->
+
+			<!-- heading box -->
+				<div class="right-side comman-form" style="position:relative">
+					<div class="page-heading-row">
+						<h2 class="page-heding"> View Shipping Profile </h2>
+						<a class="btn back-btn view-btn d-block" href="<?= APPLICATION_URL.'/shipping-profiles'; ?>"> Back </a>
+					</div>
+					<div class="ship-details">
+						<p><span>Shipping Profile Name:</span> <?= $shipping_details["shipping_name"] ?></p>
+						<p><span>Processing Time:</span> <?= $shipping_details["shipping_time"] ?></p>
+						<p><span>Shipping Rate:</span> <?php if(!empty($shipping_details["shipping_free"])) { echo "Free Shipping"; } else { echo $shipping_details["shipping_rate"]; } ?></p>
+						<p><span>International Shipping Rate:</span> <?= $shipping_details["shipping_globalrate"] ?></p>
+						<p><span>Countries selected for shipping:</span> <?php if(empty($country_names)) { echo "All"; } else { echo implode(",",$country_names); } ?></p>
+					</div>
+					
+				</div>
+
+
+			<!-- right-side-block -->
+
+		</div>
+	</div>
+</div>

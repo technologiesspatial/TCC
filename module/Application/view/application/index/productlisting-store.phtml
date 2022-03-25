@@ -1,0 +1,299 @@
+<?php use Zend\Db\Sql\Expression; ?>
+<style type="text/css">
+	.manage-product-box .product-img{background:#fff;}
+	.product-detail-box a{text-decoration:none !important;outline:none !important;}
+	.covenpro-overlay{background:transparent;position:absolute;width:100%;height:300px;top:31%;border-radius:10px;display:table;text-align:center;}
+	.manage-product-box .product-img img{display:inline-block;width:50%;}
+	.main-pic{width:49%;display:inline-block;vertical-align:top;float:left;}
+	.maindef-pic{width:100% !important;display:inline-block;vertical-align:top;float:left;object-fit:contain !important;}
+	.sidepane-blk{display:inline-block;vertical-align:top;padding:0px;float:left;height:100%;background:#e5e5e5;}
+	.sidepane-blk img{width:49% !important;height:150px !important;vertical-align:top;padding:0px;float:left;min-width:125px;object-fit: cover !important;}
+	.view-storebtn{max-width:180px;display:inline-block;height:55px;line-height:55px;font-size:20px;}
+	.seller-zpic{object-fit:cover;object-position:top center;}
+	.covenpro-overlay{left:0px;}
+	@media (min-width:200px) and (max-width:767px){
+		.product-img{overflow:hidden;}
+		.covenpro-overlay{top:30%;left:0px;height:auto;}
+	}
+</style>
+<div class="product-list-page">
+	<div class="container">
+		<div class="product-select-box">
+			<div class="select-boxes">
+				<div class="boxes categories">
+					<div class="mb-0">
+						<select class="custom-select prodcat-sorttg">
+							<option value='' selected>All Categories</option>
+                            <?php if(!empty($categories)) { foreach($categories as $categories_key => $categories_val) { ?>
+								<option value="<?= $categories_key ?>" <?php if(!empty($current_category) && $categories_key == $current_category) { ?>selected<?php } ?>><?= $categories_val; ?></option>
+                            <?php } } ?>
+						</select>
+					</div>
+
+				</div>
+				<div class="boxes filter-box">
+					<!--  -->
+
+					<a class="filter-btn collapsed" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"> FILTERS  </a>
+				
+
+
+					<!--  -->
+				</div>
+				<!-- filterbox -->
+				<div class="boxes categories shortby">
+					<div class="mb-0">
+						<select class="custom-select sortby-tg">
+							<option selected>Sort by</option>
+							<option value="1">Price - High to Low</option>
+							<option value="2">Price - Low to High</option>
+                            <option value="3">Newest First</option>
+						</select>
+					</div>
+
+				</div>
+			</div>
+			<!-- select boxes -->
+
+			<div class="collapse filter-collapese-box" id="collapseExample">
+				<div class="card card-body">
+					<div class="filter-forms">
+						<form id="filter_form" name="filter_form" method="post" enctype="multipart/form-data">
+							<div class="row m-0">
+								<div class="col-lg-6 pl-lg-0">
+									<div class="form-group form-row align-items-center">
+										<label for="" class="col-xl-5 col-lg-6 col-form-label"> Search by product seller name : </label>
+										<div class="col-xl-7 col-lg-6">
+										<input type="text" class="form-control" id="seller_name" name="seller_name">
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-6 pr-lg-0">
+									<div class="form-group form-row align-items-center">
+										<label for="" class="col-xl-5 col-lg-6 col-form-label">Search by country or location :</label>
+										<div class="col-xl-7 col-lg-6">
+										<input type="text" class="form-control" id="location" name="location">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-6 pl-lg-0">
+									<div class="form-group form-row">
+										<label for="" class="col-xl-5 col-lg-6 col-form-label">Price range :</label>
+										<div class="col-xl-7 col-lg-6">
+											<div class="range">
+												<input type="text" class="js-range-slider" name="my_range" id="my_range" 
+													data-type="double"
+													data-min="0"
+													data-max="1000"
+													data-from="0"
+													data-to="500"
+													data-grid="true"/>
+											</div>
+                                            <p class="ranger-blk"></p>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6 pr-lg-0">
+									<div class="filter-form-buttons">
+										<button type="button" class="btn search-btn">Search</button>
+										<button type="button" class="btn reset-btn">Reset</button>
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+					<!-- filter form -->
+				</div>
+			</div>
+
+		</div>
+		<!-- product-select-box -->
+		<div class="product-list">
+			<div class="row product-sbblk">
+				<?php if(count($this->paginator)>0){
+					foreach($this->paginator as $product_data_key=>$product_data_val){ 
+					$product_images = explode(",",$product_data_val["product_photos"]);
+					$review_rating = $this->layout()->AbstractModel->Super_Get(T_REVIEWS,"review_prodid =:PID","fetch",array('warray'=>array('PID'=>$product_data_val["product_id"]),'fields'=>array('avgreview'=>new Expression('AVG(review_starrating)'))));
+					$seller_data = $this->layout()->AbstractModel->Super_Get(T_CLIENTS,T_CLIENT_VAR."client_id =:UID","fetch",array('fields'=>array(T_CLIENT_VAR.'client_image'),'warray'=>array('UID'=>$product_data_val["product_clientid"])));
+					$imgCount = count($product_images);
+				?>
+				<div class="col-lg-6">
+					<div class="manage-product-box">
+							<h2 class="product-heading"> <?php if(strlen($product_data_val["product_title"]) > 30) { echo substr($product_data_val["product_title"],0,30).'...'; } else { echo $product_data_val["product_title"];  } ?> </h2>
+							<div class="product-img"> 
+                            	<?php if($imgCount > 1) {
+                            	if(!empty($product_data_val["product_defaultpic"])) { 
+									$main_pic = $product_data_val["product_defaultpic"];
+								?>
+                        			<img src="<?= HTTP_PRODUCT_PIC_PATH ?>/<?= $product_data_val["product_defaultpic"] ?>" class="main-pic" />
+								<?php } else { if(file_exists(PRODUCT_PIC_PATH.'/'.$product_images[0]) && !empty($product_images[0])) { $main_pic = $product_images[0]; ?>
+                        			<img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_images[0]; ?>" class="main-pic">  
+                        		<?php } } ?>
+                                <div class="col-6 sidepane-blk">
+                                <?php foreach($product_images as $key => $val) {
+									if($val != $main_pic && $key < 4) {
+								?>
+                                <img src="<?=HTTP_PRODUCT_PIC_PATH?>/240/<?= $product_images[$key]; ?>">
+                                <?php if($imgCount < 4) { ?>
+                                <div style="background:#000"></div>
+								<?php } ?>
+                                <?php } } ?>
+                                </div>
+                           		<?php } else { 
+								if(!empty($product_data_val["product_defaultpic"])) { ?>
+                        			<img src="<?= HTTP_PRODUCT_PIC_PATH ?>/<?= $product_data_val["product_defaultpic"] ?>" class="maindef-pic" />
+								<?php } else { if(file_exists(PRODUCT_PIC_PATH.'/'.$product_images[0]) && !empty($product_images[0])) { ?>
+                        			<img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_images[0]; ?>" class="maindef-pic">  
+                        		<?php } } ?>
+                                <?php } ?>
+                            	<div class="covenpro-overlay d-none">
+									<div class="card-body">
+										<a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$product_data_val["store_name"]); ?>" class="btn add-cart-btn view-btn view-storebtn">View Store</a>
+									</div>
+								</div></div>
+							<div class="media">
+                            	<?php if(!empty($seller_data[T_CLIENT_VAR.'client_image'])) { ?>
+                					<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/<?= $seller_data[T_CLIENT_VAR.'client_image'] ?>" class="seller-zpic"> 
+                				<?php } else { ?>
+                    				<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/160/default.png" class="seller-zpic" />
+                				<?php } ?>                                
+								<div class="media-body">
+									<p class="description"><?php if(strlen(strip_tags($product_data_val["product_description"])) > 145) { echo substr(strip_tags($product_data_val["product_description"]),0,145).'...'; } else { echo strip_tags($product_data_val["product_description"]); } ?></p>
+								</div>
+							</div>
+							<hr class="mt-0" />
+							<div class="button-box d-flex"> <div class="comman-btns view-detail-btn m-auto"><a href="<?= APPLICATION_URL.'/product/'.slugify($product_data_val["product_title"]).'~'.str_replace("=","",base64_encode($product_data_val["product_id"])); ?>" class="btn view-prodbtn"> View Details </a></div> </div>
+					</div>
+
+				</div>
+				<? } ?>
+                <?php echo $this->paginationControl($this->paginator, 'Sliding','auth-acl/paginator.phtml', array('page'=>$page)); ?>
+				<? } else { ?>
+                	<p class="col-md-12">No product found.</p>
+                <?php } ?>
+				<!-- first col -->
+			</div>
+			<!-- row -->
+			<!--  pagination -->
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> It will be integrated in the 5th milestone. </p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&amp;key=AIzaSyD1J9PzpfMoF8cTffw2OA30gx8CpMPa__s&sensor=false"></script>
+<script>
+$(document).ready(function(){	
+$(".js-range-slider").ionRangeSlider({
+        type: "double",
+        min: 0,
+        max: 1000,
+        from: 0,
+        to: 500,
+        grid: true,
+		onChange: function (data) {
+			$(".ranger-blk").text(data.from+"-"+data.to);
+            // fired on every range slider update
+		},
+    });
+var creator_address = document.getElementById('location');
+	 var autocomplete2 = new google.maps.places.Autocomplete(creator_address);	
+});
+$(document).on("change",".sortby-tg",function() {
+	var order = $(this).val();
+	$.ajax({
+		url: baseUrl + "/sort-products",
+		type: "POST",
+		data: { order: order },
+		success: function (data) {
+			$("#seller_name").val('');
+			$("#location").val('');
+			$(".product-sbblk").html(data);
+			var instance = $("#my_range").data("ionRangeSlider");
+			 instance.update({
+			   from: 0,
+			   to: 500
+			 });
+			instance.reset(); 
+			$(".ranger-blk").text('');
+			$('.product-img img').map(function(){
+			  var $th = $(this);
+			  width = $th[0].naturalWidth;
+			  if(width < 200) {
+				$(this).css("object-fit","contain");
+			  }
+			}) 
+		}
+	})
+})
+$(document).on("change",".prodcat-sorttg",function() {
+	var order = $(this).val();
+	$("#seller_name").val('');
+	$("#location").val('');
+	if(order != '') {
+		window.location.replace(baseUrl+"/product-listing?category="+order);
+	} else {
+		window.location.replace(baseUrl+"/product-listing");
+	}
+})
+$(document).on("click",".reset-btn",function() {
+	$("#seller_name").val('');
+	$("#location").val('');
+	$("#my_range").val('');
+	var instance = $("#my_range").data("ionRangeSlider");
+	 instance.update({
+	   from: 200,
+	   to: 500
+	 });
+	 window.location.replace("<?= APPLICATION_URL.'/product-listing'; ?>");
+})
+
+$(document).on("click",".add-cartbtn",function() {
+	$("#prodtrashModal").modal("show");
+})
+
+$(document).on("click",".search-btn",function() {
+	if($("#filter_form").valid()) {
+		var formdata = $('#filter_form').serialize();
+		$.ajax({
+			url: baseUrl+"/filter-products",
+			type: "POST",
+			data: formdata,
+			success: function(data){
+				$(".filter-btn").trigger("click");
+				$(".product-sbblk").html(data);
+				$('.product-img img').map(function(){
+				  var $th = $(this);
+				  width = $th[0].naturalWidth;
+				  if(width < 200) {
+					$(this).css("object-fit","contain");
+				  }
+				}) 
+			}
+		})
+	}
+})
+
+$(document).on("mouseenter",".product-img",function() {
+	$(this).find(".covenpro-overlay").removeClass("d-none");
+})
+
+$(document).on("mouseleave",".product-img",function() {
+	$(this).find(".covenpro-overlay").addClass("d-none");
+})
+</script>

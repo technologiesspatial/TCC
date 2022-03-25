@@ -1,0 +1,323 @@
+<style type="text/css">
+	#chat_txt{resize:none;border-radius:0px;}
+	.jspDrag{background:#010101;}
+	.profile_page .border-gradient.seller-btn.back-btn{width:255px;}
+	.left-box{margin-left:8px;margin-top:5px;}
+	.right-box{margin-right:16px;margin-top:5px;}
+	.message-window{padding-left:0px;padding-right:0px;overflow-y:unset;}
+	<?php if(($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) && $store_data["store_approval"] == '1') { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+	@media (max-width: 991px) {
+	.profile_page .border-gradient.seller-btn.back-btn {width:205px;}
+	.msgcommon-panel{margin-left:5px;margin-right:10px;}
+}
+</style>
+<?php if(($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) && $store_data["store_approval"] == '1') { ?>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Message</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+<div class="profile_page">
+	<div class="container">
+		<div class="profile-section">
+			<div class="profile-nav d-none d-xl-block">
+					<? /* ?>
+					<div class="change-image-user-box">
+						<div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"470x274")?>"></div>
+						<input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+						<?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+						<p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+						<?php } ?>
+						<div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+					</div>
+					<? */ ?>
+
+			<div class="side-nav">
+				<?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'message'=>1)); ?>
+			</div>
+			<!-- change user image -->
+			</div>
+			<!--  -->
+
+			<div class="right-side-block">
+
+			<!-- <div class="heading-box">
+				<h4 class="heading"> Message </h4>
+				<div class="border-gradient seller-btn back-btn become-sellerbtn"><a class="btn view-btn" href="<?= APPLICATION_URL.'/messages'; ?>"> Back to Messages </a></div>
+			</div> -->
+
+			<div class="right-side message-page">
+					<!--  -->
+
+					<div class="chat-box" id="message6">
+								<div class="message-window scroll-pane">
+									<?php if(!empty($message_record)) { foreach($message_record as $message_record_key => $message_record_val) { if($message_record_val["chat_by"] != $loggedUser->{T_CLIENT_VAR.'client_id'}) { ?>
+									<div class="left-box msgcommon-panel" data-id="<?= str_replace("=","",base64_encode($message_record_val["chat_id"])); ?>">
+										<div class="avatar">
+										<?php if(!empty($message_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+											<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$message_record_val[T_CLIENT_VAR."client_image"]; ?>">
+										<?php } else { ?>
+											<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>" />
+										<?php } ?>
+										</div>
+										<div class="text_wrapper">
+											<div class="message-content">
+											<div class="text"><?= nl2br($message_record_val["chat_text"]); ?> </div>
+											</div>
+											<div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+										</div>
+									</div>
+									<?php } else { ?>
+									<div class="right-box msgcommon-panel" data-id="<?= str_replace("=","",base64_encode($message_record_val["chat_id"])); ?>">     
+										<div class="text_wrapper">
+										<div class="message-content">
+											<div class="text"><?= nl2br($message_record_val["chat_text"]); ?>  </div>
+										</div>
+										<div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+										</div>
+										<!-- <div class="avatar"><img src="<?=HTTP_IMG_PATH?>/user-img.jpg"></div> -->
+									</div>
+									<?php } } } ?>
+								</div>
+								<div class="message-type-window">
+									<form id="chat_form" name="chat_form">
+										<div class="input-group">
+											<textarea class="form-control required" id="chat_txt" name="chat_txt" placeholder="Type a message"></textarea> 
+											<div class="input-group-addon chat-btntg"><img src="<?=HTTP_IMG_PATH?>/send.svg"></div>
+										</div>
+									</form>
+								</div>
+							</div>
+					<!--  -->
+				</div>
+			</div>
+
+			<!-- right-side-block -->
+
+		</div>
+	</div>
+</div>
+<?php } else { ?>
+<div class="login_page profile_page">
+  <div class="container">
+
+      <div class="heading-box">
+        <h4 class="heading">Messages</h4>
+        <div class="border-gradient seller-btn back-btn become-sellerbtn"><a class="btn view-btn" href="<?= APPLICATION_URL.'/messages'; ?>"> Back to Messages </a></div>
+      </div>
+
+      <div class="login-signup-form">
+          <div class="left-side signup-img profile-nav d-none d-lg-block">
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"200")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+            <div class="side-nav">
+              <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'customerorder'=>1)); ?>
+            </div>
+            <!-- change user image -->
+          </div>
+
+      <div class="right-side message-page">
+            <!--  -->
+
+            <div class="chat-box" id="message6">
+                        <div class="message-window scroll-pane">
+                        	<?php if(!empty($message_record)) { foreach($message_record as $message_record_key => $message_record_val) { if($message_record_val["chat_by"] != $loggedUser->{T_CLIENT_VAR.'client_id'}) { ?>
+                            <div class="left-box msgcommon-panel" data-id="<?= str_replace("=","",base64_encode($message_record_val["chat_id"])); ?>">
+                                <div class="avatar">
+                                <?php if(!empty($message_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+                                	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$message_record_val[T_CLIENT_VAR."client_image"]; ?>">
+                                <?php } else { ?>
+                                	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>" />
+								<?php } ?>
+                                </div>
+                                <div class="text_wrapper">
+                                    <div class="message-content">
+                                      <div class="text"><?= nl2br($message_record_val["chat_text"]); ?> </div>
+                                    </div>
+                                    <div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+                                </div>
+                            </div>
+                            <?php } else { ?>
+                            <div class="right-box msgcommon-panel" data-id="<?= str_replace("=","",base64_encode($message_record_val["chat_id"])); ?>">     
+                                <div class="text_wrapper">
+                                  <div class="message-content">
+                                    <div class="text"><?= nl2br($message_record_val["chat_text"]); ?>  </div>
+                                  </div>
+                                  <div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+                                </div>
+                                <!-- <div class="avatar"><img src="<?=HTTP_IMG_PATH?>/user-img.jpg"></div> -->
+                            </div>
+                            <?php } } } ?>
+                        </div>
+                        <div class="message-type-window">
+                            <form id="chat_form" name="chat_form">
+                                <div class="input-group">
+                                    <textarea class="form-control required" id="chat_txt" name="chat_txt" placeholder="Type a message"></textarea> 
+                                    <div class="input-group-addon chat-btntg"><img src="<?=HTTP_IMG_PATH?>/send.svg"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            <!--  -->
+          </div>
+    </div>
+
+    <!-- right-side-block -->
+
+  </div>
+</div>
+<?php } ?>
+
+
+
+
+
+
+
+<script type="text/javascript">
+	var Scrollingvar=0;
+	$(document).ready(function(e) {
+		/*var scrollPane = $('.message-window').jScrollPane().data('jsp');
+		scrollPane.scrollToBottom();*/
+		$(".message-window").mCustomScrollbar({
+			theme:"dark",
+    		scrollInertia: 60,
+			callbacks:{
+				onTotalScrollBack:function(){
+					var length=  $(".msgcommon-panel").length;
+					var start = length;
+					var topItem = $(".message-window").find(".msgcommon-panel:first");
+                    var topItemId = $(topItem).attr('data-id');
+					if(Scrollingvar==0){	
+						var tid = $(".msgcommon-panel:eq(0)").attr("data-id");
+						Scrollingvar=1;
+						$.ajax({
+							url: baseUrl+"/previous-messages",
+							type: "POST",
+							data: {start:start,chat:'<?= str_replace("=","",base64_encode($client_record[T_CLIENT_VAR.'client_id'])) ?>'},
+							success: function(data){
+							if(data != '') {
+								/*var scrollelement = $('.message-window').jScrollPane();
+								var pane2api = scrollelement.data('jsp');
+    							var originalContent = pane2api.getContentPane().html();
+    							pane2api.getContentPane().html( data + originalContent);
+								pane2api.reinitialise();*/
+								$('.message-window .mCSB_container ').prepend(data);
+								$(".message-window").mCustomScrollbar("update");
+								var nxtItmId = $(".msgcommon-panel[data-id="+topItemId+"]").prev().prev().attr("data-id");
+								$(".message-window").mCustomScrollbar("scrollTo", ".msgcommon-panel[data-id="+nxtItmId+"]", {scrollInertia: 0, timeout: 0});
+								//pane2api.scrollToElement('.msgcommon-panel[data-id='+tid+']', false, true, 115);
+								/*var MyLabelPosition = $(".msgcommon-panel[data-id="+tid+"]").position();
+    							// Convert position co-ordinates to an Integer
+    							MyLabelPosition = Math.abs(MyLabelPosition.top + 100);
+								pane2api.scrollTo(0, MyLabelPosition-3, true);*/
+								Scrollingvar=0; 
+							} else {
+								Scrollingvar=1; 
+							}
+						}
+					})
+				}
+				}
+			}
+		});	
+		var $chatView = $(".message-window");
+		$chatView.mCustomScrollbar("scrollTo", "bottom");
+		$('html, body').animate({
+        	scrollTop: $(".chat-box").offset().top
+    	}, 1000);
+		setTimeout(function(){ $(".message-window").addClass("message-windowtg"); }, 200);
+    });
+	
+	setInterval(function(){  
+		$.ajax({
+				url: baseUrl+"/load-messages",
+				type: "POST",
+				data: {chat:'<?= str_replace("=","",base64_encode($client_record[T_CLIENT_VAR.'client_id'])) ?>'},
+				success: function(data){
+					if(data != '') {
+						$('.message-window .mCSB_container ').append(data);
+						$(".message-window").mCustomScrollbar("update");
+						$(".message-window").mCustomScrollbar("scrollTo", "bottom");	
+					}
+				}
+			})
+	}, 60000000);
+	
+	$('#chat_txt').keypress(function (e) {
+  		if (e.which == 13 && e.shiftKey) {
+		} else if (e.which == 13) {
+		var chat_txt = $("#chat_txt").val().trim();
+		$("#chat_txt").val(chat_txt);
+		if($("#chat_form").valid()) {
+			$("#chat_txt").val('');
+			$.ajax({
+				url: baseUrl+"/chat-message",
+				type: "POST",
+				data: {chat_txt:chat_txt,chat:'<?= str_replace("=","",base64_encode($client_record[T_CLIENT_VAR.'client_id'])) ?>'},
+				success: function(data){
+					if(data == 'restricted') {
+						showAppAlert('Error!','You cannot send message to yourself.','error');
+					}
+					else {
+					if(data != '') {
+						/*var pane2api = $('.message-window').data('jsp');
+    					var originalContent = pane2api.getContentPane().html();
+    					pane2api.getContentPane().html(originalContent + data);
+						$(".message-window").removeClass("message-windowtg");
+						pane2api.reinitialise();*/
+						$('.message-window .mCSB_container ').append(data);
+						$(".message-window").mCustomScrollbar("update");
+						$(".message-window").mCustomScrollbar("scrollTo", "bottom");
+						Scrollingvark=1; 
+						//pane2api.scrollToBottom();
+						setTimeout(function(){ $(".message-window").addClass("message-windowtg"); }, 200);
+					} }
+				}
+			})
+		}
+  		}
+	});
+	
+	$(document).on("click",".chat-btntg",function() {
+		var chat_txt = $("#chat_txt").val().trim();
+		$("#chat_txt").val(chat_txt);
+		if($("#chat_form").valid()) {
+			$("#chat_txt").val('');
+			$.ajax({
+				url: baseUrl+"/chat-message",
+				type: "POST",
+				data: {chat_txt:chat_txt,chat:'<?= str_replace("=","",base64_encode($client_record[T_CLIENT_VAR.'client_id'])) ?>'},
+				success: function(data){
+					if(data == 'restricted') {
+						showAppAlert('Error!','You cannot send message to yourself.','error');
+					}
+					else { if(data != '') {
+						$('.message-window .mCSB_container ').append(data);
+						$(".message-window").mCustomScrollbar("update");
+						$(".message-window").mCustomScrollbar("scrollTo", "bottom");
+						setTimeout(function(){ $(".message-window").addClass("message-windowtg"); }, 200);
+					} }
+				}
+			})
+		}
+	})
+</script>
+

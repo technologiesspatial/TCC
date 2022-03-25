@@ -1,0 +1,379 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+.prodsel-btn{margin-top:20px;}
+.product-title{max-width:350px;}
+#review_form textarea{resize:none;}
+.prodpic-holdtag img{margin-right:10px;border:1px solid #eee;padding:5px 10px;}
+#prodselModal .modal-description{margin-bottom:10px;}
+.propic-wallblk{display:inline-block;vertical-align:top;margin-right:10px;}
+.propic-inpblk{visibility:visible !important;display:block;margin-left:auto;margin-right:auto;margin-top:5px;}
+input[type='radio']{visibility:hidden;}
+#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.rgt_btn{background-color:#ab191a;padding:0px;width:197px;height:54px;line-height:54px;border-radius:0px;font-size:18px;color:#fff !important;border:none;margin:10px auto 0px;}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+.table thead th, .table tbody td{padding-left:10px !important;}
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before{content:'';}
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{content:'';}
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before{content:'';}
+.prodsel-btn{margin-bottom:25px;}
+.manage-product-box{height:125px;}
+.manage-product-box2{min-height:125px;}
+.manage-product-box .product-img{width:150px;}
+.product-detail-box a{text-decoration:none !important;outline:none !important;}
+#reviewModal{z-index:99999;}
+.customer-products .customer-left-side .product-img img{object-fit:contain;}
+.profile_page .view-btn{padding-left:6px !important;padding-right:6px !important;margin-top:5px !important;}	
+.status-btn.Processing{color:#999900;width:auto;min-width:79px;background-color:#EEE8AA}
+.status-btn.Ready_to_ship{color:rgb(199,21,133);width:auto;min-width:79px;background-color:#FFC0CB;}
+.status-btn.Shipped{color:rgb(255, 0, 0);width:auto;min-width:79px;background-color:#ffcccb;}
+.status-btn.Delivered{color:rgb(0,100,0);width:auto;min-width:79px;background-color:#90ee90;}
+.dress-name a{background:#000;color:#fff;border-radius:15px;padding:4px 8px;font-size:12px;}	
+.dropzone ul{list-style:none;}	
+.add-phototg{max-width:45px;}
+.dz-message .icon-box{color:#000000;}
+.dz-message a:hover{text-decoration:none;}	
+.sweet-alert{z-index:999999;border:1px solid #d0d0d0;}	
+@media (max-width: 767px) {
+	.manage-product-box{height:auto;overflow:hidden;}
+	.manage-product-box .product-img{width:auto;height:auto;max-width:100px;margin-top:25px;}
+	.customer-product-box .row-one p{width:100%;text-align:left !important;padding-left:20px !important;}
+}
+</style> 
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Order Summary</h2>
+		</div>
+	</div>	
+</div>
+
+
+<div class="order_page profile_page">
+  <div class="container">
+
+      <div class="after-login-block">
+        <!-- heading box -->
+
+        <div class="right-side">
+
+			<?php if(!empty($customer_orders)) { 
+            	foreach($customer_orders as $customer_orders_key => $customer_orders_val) {
+                $end_record = end($customer_orders_val);
+				$url = '@(http)?(s)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';   
+				$order_tracking = preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $end_record["order_tracking"]);
+				$start_record = reset($customer_orders_val);
+			?>
+					<div class="order-block">
+						  <div class="order-top">
+								<div class="order-left">
+									<p class="order-id"> Order #<?= $customer_orders_key ?> </p>
+									<p class="order-date"> <?= date("m-d-Y",strtotime($end_record["orderdate"])) ?> </p>
+									<?php if(!empty($start_record)) { ?>
+										<p class="order-date">Processing Time: <?= $start_record["shipping_time"] ?></p>
+									<?php } ?>
+									<?php if(!empty($order_tracking) && $end_record["order_status"] == '3') { ?>
+										<?php /*?><p class="tracking-headtg">Tracking details: </p><?php */?>
+										<a href="javascript:void(0)" class="tracking-headtg" data-tg="<?= $end_record["order_tracking"]; ?>">Tracking Details</a>
+										<p class="d-none track-para"><?= $order_tracking ?></p>
+									<?php } ?>
+								</div>
+								<p class="order-amount" style="margin-right:35px;"> $<?= $end_record["avgtotal"] ?> </p>
+								<?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>
+									<a href="<?= APPLICATION_URL.'/generate-pdf/'.$start_record["order_serial"]; ?>" class="pull-right invoice-dwlbtn" title="Download to print invoice copy"><i class="fa fa-download"></i></a>
+								<?php } else { ?>
+									<a href="<?= APPLICATION_URL.'/export-invoice/'.$start_record["order_serial"]; ?>" class="pull-right invoice-dwlbtn" title="Download to print invoice copy"><i class="fa fa-download"></i></a>
+								<?php } ?>
+						  </div>
+						  <!--  -->
+
+						  <div class="table-block">
+						<div class="table-responsive">
+						  <table class="table">
+							<thead>
+							  <tr class="table-head">
+								<th scope="col"></th>
+								<th scope="col">Product Name</th>
+								<th scope="col">Price</th>
+								<th scope="col">Discount</th>
+								<th scope="col">Quantity</th>
+								<th scope="col">Amount</th>
+								<th scope="col">shipping rate</th>
+								<th scope="col">Status</th>
+							  </tr>
+							</thead>
+							<!--  -->
+							<tbody>
+						  	<?php foreach($customer_orders_val as $customer_orders_valkey => $customer_orders_valt) { ?>
+							  <tr>
+								<td > 
+									<div class="user-img">
+									<?php if(!empty($customer_orders_valt["product_defaultpic"])) { ?>
+										  <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$customer_orders_valt["product_defaultpic"]; ?>" class="orderprod-pictg" /> 
+									  <?php } else {
+										$product_photos = explode(",",$customer_orders_valt["product_photos"]); 
+										if(!empty($product_photos[0])) { ?>
+										  <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$product_photos[0]; ?>" class="orderprod-pictg" />
+										<?php }
+									  } ?>
+									</div> 
+								</td>
+								<td> 
+									<p class="dress-name"> <?= $customer_orders_valt["product_title"] ?>
+									<?php if($customer_orders_valt["product_isdigital"] == '1') { ?>
+									<br/>
+									<?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>
+										<a href="<?= APPLICATION_URL.'/download-digital/'.str_replace("=","",base64_encode($customer_orders_valt["order_product"])); ?>">Click to download</a>
+									<?php } else { ?>
+										<a href="<?= APPLICATION_URL.'/digital-download/'.str_replace("=","",base64_encode($customer_orders_valt["order_product"])); ?>">Click to download</a>
+									<?php } ?>
+									</p><?php } ?>
+									<div class="color-and-size">
+								  	  <?php if(!empty($customer_orders_valt["order_color"])) { ?> 
+									  	<p class="color"> Color: <span class="color-tg" data-id="<?= $customer_orders_valt["order_color"] ?>"></span> </p> 
+									  <?php } if(!empty($customer_orders_valt["order_size"])) { ?>
+									  	<p class="size"> Size <span> <?= $customer_orders_valt["order_size"] ?> </span> </p>
+									  <?php } ?>  
+									</div>
+									<?php if(!empty($customer_orders_valt["order_note"])) { ?>
+										<p class="note-tg">Personal Note: <span><?= nl2br($customer_orders_valt["order_note"]); ?></span></p>
+									<?php } 
+								?>
+								</td>
+								<td> $<?= $customer_orders_valt["order_baseprice"]; ?> </td>
+								<td> $<?= $customer_orders_valt["order_discount"]; ?> </td>
+								<td> <?php if($customer_orders_valt["product_isdigital"] != '1') { echo $customer_orders_valt["order_qty"]; } else { echo "N/A"; } ?></td>
+								<td> $<?= $customer_orders_valt["order_total"] ?> <span> Paid </span> </td>
+								<td><?php if($customer_orders_valt["product_isdigital"] != '1') { ?>$<?= $customer_orders_valt["order_shipping"]; } else { echo "N/A"; }  ?></td>
+								<?php $status_arr = array('1'=>"Processing",'2'=>"Ready to ship",'3'=>"Shipped",'4'=>"Delivered"); ?>
+								<td> <a href="#" class="status-btn <?php if(isset($status_arr[$customer_orders_valt["order_status"]]) && $customer_orders_valt["product_isdigital"] != '1') { echo str_replace(" ","_",$status_arr[$customer_orders_valt["order_status"]]); } else { echo "Delivered"; } ?> btn"> 
+               					<?php $review_data = $this->layout()->AbstractModel->Super_Get(T_REVIEWS,"review_prodid = '".$customer_orders_valt["order_product"]."' and review_from = '".$loggedUser->{T_CLIENT_VAR.'client_id'}."'","fetch");
+								if(isset($status_arr[$customer_orders_valt["order_status"]]) && $customer_orders_valt["product_isdigital"] != '1'){
+                					echo $status_arr[$customer_orders_valt["order_status"]]; } else { echo "Completed"; } ?> 
+                                  	</a></td>
+							  </tr>
+							<?php } ?>
+							</tbody>
+							<!--  -->
+						  </table>
+						  <!-- table -->
+						</div>
+					  </div>
+					  <!-- table block -->
+
+					</div>
+           	<?php } } ?>
+            <!-- order block -->
+
+        </div>
+
+        <!-- right-side-block -->
+	    </div>
+  </div>
+</div>
+
+
+
+<!-- modal -->
+
+<div class="modal trackModal fade" id="trackModal" tabindex="-1" role="dialog" aria-labelledby="trackModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="trackModalLabel">Tracking Details </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--  -->
+          <p class="track-info"></p>	       
+        <!--  -->
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div class="modal reviewModal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="reviewModalLabel">Leave your review </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="star-rating">
+          <div class="starrate-panel text-center">
+          	
+          </div>	
+        </div>
+        
+        <!--  -->
+          <form id="review_form" name="review_form" method="post">
+            <div class="form-group">
+              <label > Review </label>
+              <textarea class="form-control required review_txtbox" id="review_text" name="review_text" rows="5" maxlength="400"></textarea>
+              <input type="hidden" class="review_rate" id="review_rate" name="review_rate" />
+            </div>
+            <div class="form-group">
+              <label > Upload Photos </label>
+              <div class="dropzone needsclick dz-clickable">
+					<ul>
+						<div class="outerFormElement uplodFile">
+							<label for="upload_file"></label>
+							<div id="documentPreview" class="">
+							</div>
+							<div id="documentUploader" class="imagestorage needsclick dz-clickable">
+								<div class="dz-message needsclick">
+									<li class=""> <a href="javascript:void(0)" class=""> <span class="icon-box"> <img src="<?= HTTP_IMG_PATH ?>/image.svg" class="add-phototg"> Add Photo </span> </a></li>
+									<li><small id="onepicreq">*1 photo is required.</small></li>
+								</div>
+							</div>
+						</div>
+				</div>
+				</ul>
+			  </div>
+           	  <input type="hidden" id="review" name="review">
+            </div>
+            <button type="button" class="btn submit-btn view-btn review-btntg">Submit</button>
+          </form>
+        
+
+
+        <!--  -->
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<!-------------------------------------------------------------------------------------------->
+<script type="text/javascript">
+var isSubmit=1; 
+	
+function nl2br (str, is_xhtml) {   
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
+}	
+	
+$(document).on("click",".tracking-headtg",function() {
+	var info =  $(this).next(".track-para").html();
+	$(".track-info").html(nl2br(info));
+	$("#trackModal").modal("show");
+})
+
+$(document).ready(function(e) {
+	$(".trending-stattxt").addClass("midmenu-txt");
+	$(".trending-stattxt").removeClass("midmenuact-txt");
+});
+
+$(document).on("click",".prod-trashbtn",function() {
+	var prod = $(this).attr("data-id");
+	$(".proaccept-acceptbtn").attr("data-id",prod);
+	$("#prodtrashModal").modal("show");
+})
+
+$(document).on("click",".protrash-cancelbtn",function() {
+	$("#prodtrashModal").modal("hide");
+})
+
+$(document).on("click",".proaccept-acceptbtn",function() {
+	var prod = $(this).attr("data-id");
+	$.ajax({
+	  url: baseUrl + "/trash-wishlist",
+	  type: "POST",
+	  data: { prod: prod },
+	  success: function (data) {
+		  $("#prodtrashModal").modal("hide");
+		  if(data == 'success') {  
+		  	showAppAlert('Success!','Product has been removed from wish list.','success');
+			setTimeout(function(){ location.reload(); }, 1200);
+		  } else if(data == 'error') {
+		  	showAppAlert('Error!','Something went wrong. Please check again.','error');
+		  } 
+	  }
+	})
+})
+
+$(document).ready(function(e) {
+    $('.product-img img').map(function(){
+      var $th = $(this);
+      width = $th[0].naturalWidth;
+	  if(width < 200) {
+	  	$(this).css("object-fit","contain");
+		$(this).css("object-position","center");
+	  }
+    }) 
+});
+
+$(document).on("change",".order-chkbox",function() {
+	var orderchk = $(this).val();
+	$.ajax({
+	  url: baseUrl + "/order-chkstat",
+	  type: "POST",
+	  data: { orderchk: orderchk },
+	  success: function (data) {
+		$(".customer-prodbox").html(data);	  
+	  }
+	})
+})
+
+$(document).on("click",".review-popbtn",function() {
+	var review = $(this).attr("data-id");
+	$(".review-btntg").attr("data-id",review);
+	$("#reviewModal").modal("show");
+})
+
+$(document).on("click",".review-btntg",function() {
+	var review = $(this).attr("data-id");
+	if($("#review_form").valid()) {
+		if(!$(".review-pictg").length) {
+				showAppAlert("The Collective Coven", "Please select atleast one image.", "warning");
+		} else {
+			$("#reviewModal").modal("hide");
+			var star_rate = $(".review_rate").val();
+			var rate_txt = $(".review_txtbox").val();
+			$("#review").val(review);
+			$.ajax({
+				url: baseUrl + "/review-order",
+				type: "POST",
+				data: $("#review_form").serialize(),
+				success: function (data) {	  
+					if(data == 'already') {
+						showAppAlert('Error!','You have already provided your review to this product.','error');
+					} else if(data == 'error') {
+						showAppAlert('Error!','No such order placed by you.','error');
+					} else if(data == 'restricted') {
+						showAppAlert('Error!','You cannot provide review to your own products.','error');
+					} else if(data == 'invalid_rating') {
+						showAppAlert('Error!','You cannot provide rating less than 1 or greater than 5.','error');
+					} else {
+						showAppAlert('Success!','You have successfully provided the review to this product.','success');
+						setTimeout(function(){ location.reload(); }, 1500);
+					}
+				}
+			})
+		}
+	}
+})
+
+$(document).ready(function(e) {
+	$('.color-tg').each(function(i, obj) {
+		var colortg = $(obj).attr("data-id");
+		$(obj).css("background-color",colortg);
+	})
+})
+</script>

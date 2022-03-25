@@ -1,0 +1,138 @@
+<style>
+header { background:none;}
+</style>
+
+
+	<div class="row">
+ 		<div class="col-12">
+			<form id="i-recaptcha" action="<?=$this->url('advertise-with-us-request')?>" class="adv_form" method="post">
+		  		<div class="row">
+				  	<div class="col-12">
+					  	<div class="form-group">
+					  		<?php echo $this->formElement($form->get('user_name'))?>
+					  	</div>
+					</div>
+				</div>
+				<div class="row">
+				  	<div class="col-12">
+					  	<div class="form-group">
+					  		<?php echo $this->formElement($form->get('company_name'))?>
+					  	</div>
+					</div>
+				</div>
+				<div class="row">
+				  	<div class="col-12">
+					  	<div class="form-group">
+					  		<?php echo $this->formElement($form->get('phone_number'))?>
+					  	</div>
+					</div>
+				</div>
+				<div class="row">
+				  	<div class="col-12">
+					  	<div class="form-group">
+					  		<?php echo $this->formElement($form->get('email'))?>
+					  	</div>
+					</div>
+				</div>
+				<div class="row">
+				  	<div class="col-12">
+					  	<div class="form-group">
+					  		<?php echo $this->formElement($form->get('ads_position'))?>
+					  	</div>
+					</div>
+				</div>
+				<div class="row">
+				  	<div class="col-12">
+					  	<div class="form-group">
+					  		<?php echo $this->formElement($form->get('bid_price'))?>
+					  	</div>
+					</div>
+				</div>
+
+				<div class="input-group mb-3 form-group">
+		            <label><?php echo $this->formElement($form->get('client_accepted_terms'))?> I have read and accept <a href="<?php echo $this->url('front_termandconditionsforadvertisers'); ?>" target="_blank">Terms and conditions for advertisers</a>.</label>
+		        </div>
+
+                <?php echo $this->formElement($this->form->get('post_csrf'));?>
+            
+                <div class="col-12"  style="padding:0">
+					 <button type="button" class="btn" id="startedbtn">Submit</button>
+					 <!-- <button type="button" class="btn btn-secondary" id="dismiss_model" style="display: block;" data-dismiss="modal">Close</button> -->
+                </div>
+
+			</form>			
+		</div> 		
+	</div>
+ 
+<script>
+
+$(document).ready(function(){
+  $('#startedbtn').on('click', function(ev){
+    $(".adv_form").validate().element("#user_name");
+    $(".adv_form").validate().element("#company_name");
+    $(".adv_form").validate().element("#phone_number");
+    $(".adv_form").validate().element("#email");
+    $(".adv_form").validate().element("#ads_position");
+    $(".adv_form").validate().element("#bid_price");
+
+    var user_name = $('#user_name').val();
+    var company_name = $('#company_name').val();
+    var phone_number = $('#phone_number').val();
+    var email = $('#email').val();
+    var ads_position = $('#ads_position').val();
+    var bid_price = $('#bid_price').val();
+
+    if(user_name!='' && company_name!='' && phone_number!='' && email!='' && ads_position!='' && bid_price!=''){
+    	var is_chk = $('#client_accepted_terms').prop("checked");
+		if(is_chk == false){
+			showAppAlert('Error!!','Please read and accept terms and conditions.','error');
+		} else {
+			// ev.preventDefault();
+        	// $('#i-recaptcha').submit();
+
+        	$('#startedbtn').attr('disabled','disabled').text('Submitting...');
+
+        	ev.preventDefault();
+			$.ajax({
+				type: "POST",
+				url: "<?php echo $this->url('advertise-with-us-request')?>",
+				cache:false,
+				dataType: "json",
+				data: $('#i-recaptcha').serialize(),
+				success: function(response){
+					if(response.status==200){
+						$('#thank_you').trigger('click');
+						$('.close').trigger('click');
+					} else {
+						showAppAlert('Error!!',response.message,'error');
+					}
+					$('#startedbtn').removeAttr('disabled').text('Submit');
+				},
+				error: function(){
+					showAppAlert('Error!!','Something went wrong, please try again later.','error');
+					$('#startedbtn').removeAttr('disabled').text('Submit');
+				}
+			});
+			return false;
+
+        }
+    }
+    
+  });
+
+});
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $this->site_configs['recaptcha_sitekey']?>"></script>
+<script>
+var interval = setInterval(function(){
+  if(window.grecaptcha){
+		grecaptcha.ready(function() {
+		    grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+		      $('#i-recaptcha').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+		    });
+		});
+	clearInterval(interval);
+  }
+}, 100);
+</script>

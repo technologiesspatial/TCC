@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#"><head>
+<?php
+use Zend\Session\Container;
+use Zend\Session\Action;
+use Application\Model\AbstractModel;
+$seperator="";
+if($this->pageHeading!=""){
+	$seperator = " | ";
+}	
+if(!empty($blog)) {
+	$blog = explode("~",$blog);
+	$blog_id = base64_decode($blog[1]);
+	$blog_data = $this->layout()->AbstractModel->Super_Get(T_BLOG,"blog_id = '".$blog_id."'","fetch");
+}	
+if(!empty($key)) {
+	$key = explode("~",$key);
+	if(!empty($key[1])) {
+		$key_id = base64_decode($key[1]);
+		$product_data = $this->layout()->AbstractModel->Super_Get(T_PRODUCTS,"product_id =:PID","fetch",array('warray'=>array('PID'=>$key_id)));
+	}
+}
+?>
+<?php //echo $this->headTitle($this->SITE_CONFIG['site_title'].$seperator.$this->pageHeading)->setSeparator(' - ')->setAutoEscape(false) ?>
+<meta charset="utf-8"> 
+<?php //echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')->appendName('description', $this->SITE_CONFIG['meta_description_'.$_COOKIE['currentLang']])->appendName('keywords', $this->SITE_CONFIG['meta_keyword_'.$_COOKIE['currentLang']])->appendHttpEquiv('X-UA-Compatible', 'IE=edge'); ?>
+<?php  if($this->layout()->CURRENT_CONTROLLER == 'StaticController' && $this->layout()->CURRENT_ACTION == 'blogdetail') {  
+	$ogImage = HTTP_BLOG_IMAGES_PATH.'/'.$blog_data["blog_pic"];
+	$ogDesc = $blog_data["blog_text"]; 
+	$ogUrl = APPLICATION_URL.'/blog-detail/'.slugify($blog_data["blog_title"]).'~'.str_replace("=","",base64_encode($blog_data["blog_id"]));
+	$ogTitle = $blog_data["blog_title"];
+	echo $this->headTitle("The Collective Coven"." - ".$blog_data["blog_title"]);
+	 echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')->appendName('description', $this->layout()->metaDescription)->appendName('keywords',$this->layout()->metaKeyword)->appendHttpEquiv('X-UA-Compatible', 'IE=edge'); 
+?>
+  
+	<link rel="canonical" href="<?=$ogUrl?>" />
+	<meta name="image_url" content="<?=$ogImage?>" />
+	<meta name="image" content="<?=$ogImage?>" />
+	<meta property="og:image" content="<?=$ogImage?>" />
+	<meta property="og:image:width" content="300" />
+	<meta property="og:image:height" content="300" />  
+	<meta property="og:title" content="<?=$ogTitle?>" />
+	<meta property="og:url" content="<?=$ogUrl?>" />
+	<meta property="og:description" content="<?=$ogDesc?>" />
+	<meta property="og:site_name" content="<?=$ogTitle?>" />
+	<meta itemprop="name" content="<?=$ogTitle?>" />
+	<meta itemprop="description" content="<?=$ogDesc?>" />
+    
+    <meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="<?=$ogTitle?>">
+	<meta name="twitter:description" content="<?=$ogDesc?>">
+	<meta name="twitter:image" content="<?=$ogImage?>">
+	
+<?php } else if($this->layout()->CURRENT_CONTROLLER == "IndexController" && $this->layout()->CURRENT_ACTION == 'index') {
+	$ogImage = HTTP_IMG_PATH."/tcc_logo.png?time=".date("Y-m-d H:i:s");
+	$ogUrl = APPLICATION_URL;
+	$ogTitle = $this->SITE_CONFIG['site_title'];
+	$ogDesc = strip_tags(filtersinglequote(filternewline($this->SITE_CONFIG['meta_description_en']))); ?>
+	<title>The Collective Coven</title>
+	<link rel="canonical" href="<?=$ogUrl?>" />
+	<meta name="image_url" content="<?=$ogImage?>" />
+	<meta name="image" content="<?=$ogImage?>" />
+	<meta property="og:image" content="<?=$ogImage?>" />
+	<meta property="og:image:width" content="300" />
+	<meta property="og:image:height" content="300" />  
+	<meta property="og:title" content="<?=$ogTitle?>" />
+	<meta property="og:url" content="<?=$ogUrl?>" />
+	<meta property="og:description" content="<?=$ogDesc?>" />
+	<meta property="og:site_name" content="<?=$ogTitle?>" />
+	<meta itemprop="name" content="<?=$ogTitle?>" />
+	<meta itemprop="description" content="<?=$ogDesc?>" />
+    
+    <meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="<?=$ogTitle?>">
+	<meta name="twitter:description" content="<?=$ogDesc?>">
+	<meta name="twitter:image" content="<?=$ogImage?>">
+	<?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'); ?>
+	
+<?php } else if($this->layout()->CURRENT_CONTROLLER == 'StaticController' && $this->layout()->CURRENT_ACTION == 'productdetail') {
+	if(!empty($product_data["product_defaultpic"])) {
+		$prod_defpic = HTTP_PRODUCT_PIC_PATH.'/'.$product_data["product_defaultpic"];
+	} else {
+		$product_photos = explode(",",$product_data["product_photos"]);
+		$prod_defpic = HTTP_PRODUCT_PIC_PATH.'/'.$product_photos["0"];
+	}
+	$ogImage = $prod_defpic;
+	$ogDesc = substr($product_data["product_description"],0,500);  
+	$ogUrl = APPLICATION_URL.'/product/'.slugify($product_data["product_title"]).'~'.str_replace("=","",base64_encode($product_data["product_id"]));
+	$ogTitle = $product_data["product_title"];
+	echo $this->headTitle("The Collective Coven"." - ".$product_data["product_title"]);
+	 echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')->appendName('description', $this->layout()->metaDescription)->appendName('keywords',$this->layout()->metaKeyword)->appendHttpEquiv('X-UA-Compatible', 'IE=edge'); 
+?>
+  
+	<link rel="canonical" href="<?=$ogUrl?>" />
+	<meta name="image_url" content="<?=$ogImage?>" />
+	<meta name="image" content="<?=$ogImage?>" />
+	<meta property="og:image" content="<?=$ogImage?>" />
+	<meta property="og:image:width" content="300" />
+	<meta property="og:image:height" content="300" />  
+	<meta property="og:title" content="<?=$ogTitle?>" />
+	<meta property="og:url" content="<?=$ogUrl?>" />
+	<meta property="og:description" content="<?=$ogDesc?>" />
+	<meta property="og:site_name" content="<?=$ogTitle?>" />
+	<meta itemprop="name" content="<?=$ogTitle?>" />
+	<meta itemprop="description" content="<?=$ogDesc?>" />
+    
+    <meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="<?=$ogTitle?>">
+	<meta name="twitter:description" content="<?=$ogDesc?>">
+	<meta name="twitter:image" content="<?=$ogImage?>">
+	<?php
+}
+	else if($this->layout()->CURRENT_CONTROLLER == 'StaticController' && $this->layout()->CURRENT_ACTION == 'blog') { 
+		 echo $this->headTitle("Blog");
+		 echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')->appendName('description', $this->layout()->metaDescription)->appendName('keywords',$this->layout()->metaKeyword)->appendHttpEquiv('X-UA-Compatible', 'IE=edge'); 
+	}
+	 elseif(($this->layout()->metaKeyword)!=''){ ?>
+    <?php echo $this->headTitle($this->layout()->metatitle)->setSeparator(' - ')->setAutoEscape(false) ?>
+    <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')->appendName('description', $this->layout()->metaDescription)->appendName('keywords',$this->layout()->metaKeyword)->appendHttpEquiv('X-UA-Compatible', 'IE=edge'); ?>
+<?php } else { ?>
+    <?php echo $this->headTitle($this->SITE_CONFIG['site_title'].$seperator.$this->pageHeading)->setSeparator(' - ')->setAutoEscape(false) ?>
+    <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')->appendName('description', $this->SITE_CONFIG['meta_description_'.$_COOKIE['currentLang']])->appendName('keywords', $this->SITE_CONFIG['meta_keyword_'.$_COOKIE['currentLang']])->appendHttpEquiv('X-UA-Compatible', 'IE=edge'); ?>
+<?php } ?>
+
+
+<script type="text/javascript">
+var baseUrl = SITEURL = SITE_URL = '<?php echo APPLICATION_URL?>';
+var SITE_HTTP_URL = '<?=SITE_HTTP_URL?>';
+var currLang = '<?=$_COOKIE['currentLang']?>';
+var pleaseWaitTxt="<?=$this->layout()->translator->translate("please_wait_txt")?>";
+var notEqualTxt="<?=$this->layout()->translator->translate("not_equal_txt")?>";
+var tickAllTxt="<?=$this->layout()->translator->translate("tick_all_txt")?>";
+var removeTxt="<?=$this->layout()->translator->translate("remove_new_txt")?>";
+var secProvider="<?=$this->layout()->translator->translate("sec_provider_txt")?>";
+var secTitle="<?=$this->layout()->translator->translate("sec_title_txt")?>";
+var secGrade="<?=$this->layout()->translator->translate("sec_grade_txt")?>";
+var secFrom="<?=$this->layout()->translator->translate("sec_from_txt")?>";
+var secTo="<?=$this->layout()->translator->translate("sec_to_txt")?>";
+var finishText="<?=$this->layout()->translator->translate("finish_txt")?>";
+var nextText="<?=$this->layout()->translator->translate("next_txt")?>";
+var yesText="<?=$this->layout()->translator->translate("yes_short_txt")?>";
+var noText="<?=$this->layout()->translator->translate("no_short_txt")?>";
+var addDetailTxt="<?=$this->layout()->translator->translate("add_more_detail_txt")?>";
+var removeDetailTxt="<?=$this->layout()->translator->translate("remove_more_detail_txt")?>";
+var encryptSessKey='<?=$_SESSION['SC_key'];?>';
+var priceSymbol='<?=PRICE_SYMBOL;?>';
+
+</script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet"> 
+<?php /*?><script type="text/javascript" src="<?=PLUGIN_PATH?>/js/jquery-1.11.0.min.js"></script><?php */?>
+<script type="text/javascript" src="<?=PLUGIN_PATH?>/js/jquery-3.3.1.min.js"></script>
+
+<?php if($this->layout()->CURRENT_CONTROLLER=='') { ?>
+	<link href="<?=FRONT_CSS?>/bootstrap.css" rel="stylesheet"/>
+	<link href="<?=FRONT_CSS?>/design.css" rel="stylesheet"/>
+<?php } else { ?>
+	<?php echo $this->render('include_css.phtml');?> 
+<?php }?>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KHK3SX10VF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KHK3SX10VF');
+</script>
+<meta name="facebook-domain-verification" content="y8wo0qw8i61ss2ooqb2dii7xde2r0f" />
+<meta name="p:domain_verify" content="77a8b52d307b6e4cca3659c46752d9ae"/>
+</head>
+
+<body >
+<div id="wrapper" class="containerMain padding">
+    <?php echo $this->render('header.phtml'); ?> 
+    <section class="content">
+    	<div class="content-body">
+				<?php echo $this->GetMessages(); ?>
+                <?php echo $this->content;?>
+        </div>
+    </section>
+    <?
+    echo $this->render('footer.phtml');
+    ?>
+</div>
+<?php echo $this->headScript();?>
+<script type="text/javascript" src="<?=APPLICATION_URL?>/assets/js/lozad.min.js"></script>
+<script>
+
+	jQuery(document).ready(function($) {
+		const observer = lozad(); 
+		observer.observe();
+	});
+</script>
+<?php if($this->layout()->CURRENT_CONTROLLER!='') { ?>
+	<script>
+    $(document).ready(function(e) {
+        jQuery.extend(jQuery.validator.messages, {
+            required:'<?php echo $this->layout()->translator->translate('required_txt'); ?>',
+            email:'<?php echo $this->layout()->translator->translate('valid_email_txt'); ?>',
+            minlength:'<?php $this->layout()->translator->translate('char_len_txt'); ?>',
+            equalTo:'<?php echo $this->layout()->translator->translate('same_value_txt'); ?>',
+            extension:'<?php echo $this->layout()->translator->translate('invalid_attach_txt'); ?>',
+            number:'<?php echo $this->layout()->translator->translate('valid_num_txt')?>',
+            maxlength:'<?php echo $this->layout()->translator->translate('more_len_txt')?>',
+            digits:'<?php echo $this->layout()->translator->translate('digit_valid_txt')?>',
+        });
+    });
+    </script>
+<?php } ?>
+<div class="modal shopping-modal fade" id="subscriberModal" tabindex="-1" role="dialog" aria-labelledby="subscriberModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+         <!-- <h5 class="modal-title" id="subscriberModalLabel">Subscribe to the Coven</h5>  -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="subscriber-section">
+			  <!-- <h1 class="news-letter-heading"> Discover the most Vniqve artists & makers! <br/> Join the coven! </h1> -->
+			  <div class="heading-box"> <img data-src="<?=HTTP_IMG_PATH?>/subscribe-box-sample.png" class="lozad"> </div>
+			  <div class="news-letter-bg">
+      			<div class="newsletter-holder">
+      				<form id="nwletter-form" name="nwletter-form">
+						<div class="form-group">
+							<label class="nwletter-lbltg">Your Name</label>
+							<input type="text" id="nwletter_name" name="nwletter_name" class="form-control required" maxlength="100"> 
+						</div>
+						<div class="form-group">
+							<label class="nwletter-lbltg">Your Email Address</label>
+							<input type="text" id="nwletter_email" name="nwletter_email" class="form-control required email" maxlength="255"> 
+						</div>
+						<div class="border-gradient1">
+							<a href="javascript:void(0)" class="nwsubscribe-btn">Subscribe</a>
+						</div>
+      				</form>
+      			</div>
+			</div>
+      	</div>
+	  </div>
+	</div>
+  </div>
+</div>  	 
+<script type="text/javascript">	
+	$('#subscriberModal').on('hidden.bs.modal', function () {
+		$.ajax({
+			  url: baseUrl + "/newsletter-spotted",
+			  type: "POST",
+			  data: { nwletter: 1 },
+			  success: function (data) {
+			  }
+		})
+	})
+	
+	$(document).on("click",".nwsubscribe-btn",function() {
+		var nwletter_email = $("#nwletter_email").val().trim();
+		var nwletter_name = $("#nwletter_name").val().trim();
+		if($("#nwletter-form").valid()) {
+			$.ajax({
+			  url: baseUrl + "/subscribe-letter",
+			  type: "POST",
+			  data: { nwletter_email: nwletter_email,nwletter_name:nwletter_name },
+			  success: function (data) {
+				  $("#nwletter_email").val('');
+				  if(data == 'already_exists') {
+					  swal({
+						title: "Subscribe to Newsletter!",	
+						text: "This email address is already subscribed to us.",
+						icon: "warning"
+					  })
+				  } else if(data == 'error') {
+					  swal({
+						title: "Subscribe to Newsletter!",	
+						text: "Something went wrong while subscribing you to our newsletter. Please check again.",
+						icon: "warning"
+					  })
+				  } else {
+					  $("#subscriberModal").modal("hide");
+					  swal({
+						title: "Subscribe to Newsletter!",
+						text: "You have successfully subscribed to our newsletter.",
+						icon: "success"
+					  })
+				  }
+			  }
+			})
+		}
+	})
+	
+	$(document).on("change",".tognav-seltg",function() {
+		var togval = $(this).val();
+		$.ajax({
+		  url: baseUrl + "/toggle-role",
+		  type: "POST",
+		  data: { togval: togval },
+		  success: function (data) {
+		  	if(togval == '1') {
+				showAppAlert('Success!!','You have switched your account to Shop Manager.','success');
+				setTimeout(function(){ window.location.replace(baseUrl+"/dashboard"); }, 2000);
+			} else {
+				showAppAlert('Success!!','You have switched your account to Marketplace.','success');
+				setTimeout(function(){ window.location.replace(baseUrl+"/profile"); }, 2000);
+			}
+		  }
+		})
+	})
+</script>
+</body>
+</html>

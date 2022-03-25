@@ -1,0 +1,190 @@
+<style type="text/css">
+	.dtr-data{word-break:break-word;}
+	.decline-reasontxt{width:100%;padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px;border-radius:4px;margin-bottom:5px;}
+</style>
+<div class="panel">
+
+  <div class="panel-body">
+
+    <div class="row">
+
+        <div class="col-md-6 mb-15"> 
+
+        </div>
+
+      </div>
+
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+
+          <thead>
+
+            <tr>
+
+              <th width="5%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+              <th><?=$this->layout()->translator->translate("Full Name")?></th>
+              <th><?=$this->layout()->translator->translate("Verification Document (State issued ID)")?></th>
+              <th><?=$this->layout()->translator->translate("Verification Document (Sales Permit)")?></th>
+              <th>Status</th>
+              <th width="8%"><?=$this->layout()->translator->translate("action_txt")?></th>
+
+            </tr>
+
+          </thead>
+
+          <tbody  class="SortContentMain">
+
+          </tbody>
+
+        </table>
+
+    </div>
+
+  </div>
+
+<div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Verification Badge Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to accept the verification badge request? </p>
+          <a href="javascript:void(0)" class="badge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="badge-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="declineModal" tabindex="-1" role="dialog" aria-labelledby="declineModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Verification Badge Request <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to decline the verification badge request? </p>
+          <form id="declineform" name="declineform" class="profile_form">
+          <div class="form-group">
+          <textarea class="decline-reasontxt required" rows="3" placeholder="Specify reason in case you decline"></textarea>
+          </div>
+          <a href="javascript:void(0)" class="debadge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="debadge-cancelbtn btn btn-danger">Cancel</a>
+          </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).on("click",".accept-verifybtn",function() {
+	var id = $(this).attr("data-id");
+	$(".badge-acceptbtn").attr("data-id",id);
+	$("#acceptModal").modal("show");
+})
+
+$(document).on("click",".badge-cancelbtn",function() {
+	$("#acceptModal").modal("hide");
+})
+
+$(document).on("click",".decline-verifybtn",function() {
+	var id = $(this).attr("data-id");
+	$(".debadge-acceptbtn").attr("data-id",id);
+	$("#declineModal").modal("show");
+})
+
+$(document).on("click",".debadge-cancelbtn",function() {
+	$("#declineModal").modal("hide");
+})
+
+$(document).on("click",".debadge-acceptbtn",function() {
+	var decltxt = $(".decline-reasontxt").val();
+	var decltxt = $.trim(decltxt);
+	$(".decline-reasontxt").val(decltxt);
+	if($("#declineform").valid()) {
+	var id = $(this).attr("data-id");
+	var decltxt = $(".decline-reasontxt").val();
+	$.ajax({
+		url: baseUrl + "/decline-badge",
+		type: "POST",
+		data: { id: id, decltxt : decltxt },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Badge verification request has been declined successfully.",'success');
+				$("#declineModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+	}
+})
+
+$(document).on("click",".badge-acceptbtn",function() {
+	var id = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/accept-badge",
+		type: "POST",
+		data: { id: id },
+		success: function (data) {
+			if(data == 'success') {
+				toastInit("Badge verification request has been approved successfully.",'success');
+				$("#acceptModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+})
+
+$(document).ready(function(e) {
+	$('#sample_1').DataTable({
+
+		"language":{"lengthMenu": "Show _MENU_ seller badge requests"},
+
+		"bProcessing":true,
+
+		"bServerSide":false,
+
+		"bAutoWidth":false,
+
+		"responsive":true,
+
+		"bInfo":false,
+
+		"pagingType":"first_last_numbers",
+
+		"order":[[1,"desc"]],
+
+		"aoColumnDefs":[
+
+			{"bSortable":false,"aTargets":[0,4,5]},
+
+			{"bSearchable":false,"aTargets":[0]}
+
+		 ],
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getverificationbadges",
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		"fnDrawCallback":function( oSettings ){}
+
+	});
+});
+
+</script>  
+

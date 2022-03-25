@@ -1,0 +1,30 @@
+<div class="product-size-box">
+	<p class="size-name mb-0">Size: </p>
+	<div class="p-size-box">
+		<?php if(!empty($sizes_arr)) { foreach($sizes_arr as $sizes_arr_key => $sizes_arr_val) { ?>
+			<a href="javascript:void(0)" class="size-maintg <?php if($sizes_arr_key == 0) { ?>active<?php } ?>" data-id="<?= $sizes_arr_val ?>"><?= $sizes_arr_val ?></a> 
+		<?php } } ?>
+		<input type="hidden" class="selected_size" value="<?= $sizes_arr[0] ?>">	
+	</div>
+</div>
+
+<div class="qty-box"> 
+  <div class="quant-box">
+	  <label>QTY</label>
+	  <div class="input-group">
+		  <span class="input-group-btn prev-qbtn" data-id="<?= str_replace("=","",base64_encode($prod_id)); ?>">
+			  <button type="button" class="btn btn-number" data-type="minus" data-field="quant[1]">
+				  <i class="fas fa-minus"></i>
+			  </button>
+		  </span>
+		  <input type="text" name="quant[1]" class="input-number cartqty-inptg" value="1" min="1" max="<?= $prod_qty ?>" readonly>
+		  <span class="input-group-btn next-qbtn" data-id="<?= str_replace("=","",base64_encode($prod_id)); ?>">
+			  <button type="button" class="btn btn-number" data-type="plus" data-field="quant[1]">
+				  <i class="fas fa-plus"></i>
+			  </button>
+		  </span>
+	  </div>
+  </div>
+  <p class="amount">$<?= $price ?></p>
+</div>
+

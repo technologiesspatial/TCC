@@ -1,0 +1,1086 @@
+<style type="text/css">
+	.shopping-cart-img{background-color:#fff !important;}
+	.shopping-cart-img > img{max-height:220px;width:auto !important;margin-left:auto;margin-right:auto;display:block;max-width:100%;}
+	.credit-holders{max-width:78%;margin-left:auto;margin-right:auto;}
+	.shopping-cart-page .shopping-cart .delete-icon{display:inline-block;}
+	#checkoutModal{z-index:99999;}
+	#continueModal{z-index:99999;}
+	.sweet-alert{z-index:999999;}
+	.pac-container{z-index: 100000000 !important;}
+	#continueModal .modal-dialog{margin-top:25px;}
+	#checkoutModal .modal-dialog{margin-top:60px;}
+	#confirmremoveModal{z-index:99999;}
+	#confirmremoveModal .modal-body{padding-top:25px;padding-bottom:25px;text-align:center;}
+	#confirmallremoveModal{z-index:99999;}
+	#confirmallremoveModal .modal-body{padding-top:25px;padding-bottom:25px;text-align:center;} 
+	.modal{overflow-y:auto;}
+	.shopping-cart-page .shopping-cart-img img{object-fit:contain;}
+	@media (min-width:200px) and (max-width:767px){
+	.shopping-cart-page .shopping-cart-right-block .input-group{width:100px;}
+	.shopping-cart-page .shopping-cart-right-block .btn-number{width:31px;}
+	.blockPage{width:90% !important;left:20px !important;right:20px;}
+	}
+	@media (min-width:200px) and (max-width:320px){
+		.coupon_code{max-width:140px;}
+	}
+</style>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Shopping Cart</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+
+<div class="shopping-cart-page">
+  <div class="container">
+
+    
+      <? /* ?>
+
+      <div class="shopping-cart">
+      	  <?php if(!empty($cart_data)) { ?>
+          <a href="javascript:void(0)" class="delete-icon deleteall-cartbtn"><img src="<?=HTTP_IMG_PATH?>/delete2.svg">  Remove All </a>
+          <?php $total_price = 0; foreach($cart_data as $cart_data_key => $cart_data_val) { 
+		  	$total_price += $cart_data_val["product_cart_price"];
+		      ?>
+          <div class="shopping-cart-box">
+              <div class="shopping-cart-img">
+              	<?php if(!empty($cart_data_val["product_defaultpic"])) { ?>
+                	<img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $cart_data_val["product_defaultpic"] ?>">
+				<?php } else { 
+					$product_pics = explode(",",$cart_data_val["product_photos"]);
+				?>
+                	<img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_pics[0]; ?>"> 
+              	<?php } ?>
+              </div>
+              <!--  -->
+              <div class="shopping-cart-right-block">
+                  <p class="product-name"> <?= $cart_data_val["product_title"]; ?> </p>
+                  <div class="row">
+                      <div class="col-xl-3 col-lg-4 col-sm-6">
+                          <p class="detail-text"> <span> <?= $cart_data_val["category_feild"]; ?></span> </p>
+                      </div>
+                      <div class="col-xl col-lg-4 col-sm-6">
+                        <p class="detail-text detail-text3"> <span> Price : </span> <span>$<?= round($cart_data_val["product_price"] * $cart_data_val["product_cart_qty"],2); ?> </span> </p>
+                      </div>
+                      <div class="col-xl col-lg-4 col-sm-6">
+                        <p class="detail-text detail-text3"> <span> Discount :</span> <?php if(!empty($cart_data_val["product_cart_discount"])) { ?><span>$<?= round($cart_data_val["product_cart_discount"],2); ?> </span><?php } ?> </p>
+                      </div>
+                      <div class="col-xl col-lg-4 col-sm-6">
+                        <div class="quant-box">
+                          <label>QTY</label>
+                          <div class="input-group">	
+                            <span class="input-group-btn prev-qbtn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])) ?>">
+                            <button type="button" class="btn btn-number" data-type="minus" data-field="quant[1]">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                            </span>
+                            <input type="text" name="quant[1]" class="input-number" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" value="<?= $cart_data_val["product_cart_qty"]; ?>" min="1" max="<?= $cart_data_val["product_qty"]; ?>">
+                            <span class="input-group-btn next-qbtn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>">
+                            <button type="button" class="btn btn-number" data-type="plus" data-field="quant[1]">
+                              <i class="fas fa-plus"></i>
+                            </button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <!--  -->
+                      <div class="col-xl col-lg-4 col-sm-6">
+                        <p class="detail-text detail-text3"> <span> Final Price :</span> <span> $<?= round($cart_data_val["product_cart_price"],2) ?></span> </p>
+                      </div>
+                  </div>
+
+                  <!--  -->
+                  <div class="row">
+                      <div class="col-lg-6">
+                          <div class="">
+                            <p class="detail-text detail-text2"> <span> Price : </span> <span>$<?= round($cart_data_val["product_price"],2); ?> </span> </p>
+                            <p class="detail-text detail-text2"> <span>Quantity : </span> <span><?= $cart_data_val["product_cart_qty"]; ?> </span> </p>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-6">
+                        <div class="coupon">
+                          <form method="post" id="coupon_frm" name="coupon_frm">
+                          	<?php if(empty($cart_data_val["product_cart_coupon"])) { ?>
+                            <div class="form-group">
+                              <label class="">Coupon Code</label>
+                              <input type="text" id="coupon_code" name="coupon_code" class="coupon_code" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>" class="form-control" placeholder="" value="<?= $cart_data_val["product_cart_coupon"]; ?>">
+                            </div>
+                            <button type="button" class="btn apply-btn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>">  Apply</button>
+                            <?php } else { ?>
+                            <div class="form-group">
+                              <label class="">Coupon Code</label>
+                              <input type="text" id="coupon_code" name="coupon_code" class="coupon_code" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>" class="form-control" placeholder="" value="<?= $cart_data_val["product_cart_coupon"]; ?>" disabled="disabled">
+                            </div>
+                            <button type="button" class="btn change-btn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>">  Change</button>
+                            <?php } ?>
+                          </form>
+                        </div>
+                      </div>
+
+                  </div>
+                  <a href="javascript:void(0)" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" class="delete-icon delcart-btn"><img src="<?=HTTP_IMG_PATH?>/delete2.svg"> </a>
+              </div>
+              <!--  -->
+          </div>
+          <?php } ?>
+          <!-- shopping cart box -->
+          <p class="sub-total"> Subtotal : <span class="subtot-intg">$<?= round($total_price,2); ?></span> </p>
+
+          <div class="bottons">
+            <div class="continue-shopping-btn"><a href="<?= APPLICATION_URL.'/product-listing'; ?>" class="continue-btn btn" > Continue Shopping </a></div>
+            <div class="border-gradient"><a href="javascript:void(0)" class="view-btn btn catmore-btn" >Checkout</a></div>
+
+          </div>
+		  <?php } else { ?>
+          	<p>No products have been added to the cart.</p>
+          <?php } ?>	
+      </div>
+
+      <? */ ?>
+
+      <!-- shopping cart -->
+
+      <!-- new shopping page -->
+
+      <div class="">
+      <div class="table-block">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr class="table-head">
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">shipping rate</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Subtotal</th>
+                      </tr>
+                    </thead>
+                    <!--  -->
+                    <tbody class="shopping-innercart">
+                      <?php if(!empty($cart_data)) { 
+						$colors_arr = array(); $sizes_arr = array();
+						foreach($cart_data as $cart_data_key => $cart_data_val) {
+							if(!empty($cart_data_val["product_cart_color"])) {
+								$colorsize_record = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid = '".$cart_data_val["product_cart_prodid"]."' and color_slug ='".strtolower($cart_data_val["product_cart_color"])."' and color_size = '".$cart_data_val["product_cart_size"]."'","fetchAll");
+							}
+							$avl_qty = 0;
+							if(!empty($colorsize_record)) {
+								foreach($colorsize_record as $colorsize_record_key => $colorsize_record_val) {
+									$avl_qty += $colorsize_record_val["color_qty"];
+								}
+							}
+							if($avl_qty == 0) {
+								$avl_qty = 1;
+							}
+					  ?>
+                      <tr>
+                        <td > <div class="cross-btn delcart-btn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>"> X </div> </td>
+                        <td > <div class="user-img">
+                        <?php if(!empty($cart_data_val["product_defaultpic"])) { ?>
+							<img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $cart_data_val["product_defaultpic"] ?>">
+						<?php } else { 
+							$product_pics = explode(",",$cart_data_val["product_photos"]);
+						?>
+							<img src="<?=HTTP_PRODUCT_PIC_PATH?>/<?= $product_pics[0]; ?>"> 
+						<?php } ?>   
+                        </div> </td>
+                        <td> 
+                            <p class="dress-name"> <?= $cart_data_val["product_title"]; ?> </p>
+                            <p class="hub-text">Vendor: <span> <?= $cart_data_val["store_name"]; ?> </span> </p>
+                            <div class="color-and-size"> 
+                              <p class="color"> Color:
+                              <?php if(!empty($cart_data_val["product_cart_color"])) { ?> 
+                              	<span class="color-tg" data-id="<?= $cart_data_val["product_cart_color"] ?>"></span>
+                              <?php } ?> 
+                              </p> 
+                              <p class="size"> Size 
+							  	<span><?php if(!empty($cart_data_val["product_cart_size"])) { echo $cart_data_val["product_cart_size"]; } ?></span>
+							  </p>  
+                            </div>
+                            <input type="hidden" class="cart-colortg" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" value="<?= $cart_data_val["product_cart_color"] ?>" />
+                            <input type="hidden" class="cart-sizetg" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" value="<?= $cart_data_val["product_cart_size"] ?>" />
+                        </td>
+                        <td> $<?= $cart_data_val["product_cart_price"]; ?> <?php if(!empty($cart_data_val["product_cart_discount"])) { ?><br/><span class="offer-tg">Discount: <?= "$".$cart_data_val["product_cart_discount"]; ?></span><?php } ?> </td>
+                        <td> $<?= $cart_data_val["product_globalrate"]; ?> </td>
+                        <? $total_price = $cart_data_val["product_cart_price"] + $cart_data_val["product_globalrate"] ?>
+                        <td> 
+                          <div class="quant-box">
+                            <div class="input-group">	
+                              <span class="input-group-btn prev-qbtn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>">
+                              <button type="button" class="btn btn-number" data-type="minus" data-field="quant[1]">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                              </span>
+                              <input type="text" name="quant[1]" class="input-number" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" value="<?= $cart_data_val["product_cart_qty"] ?>" min="1" max="<?= $avl_qty ?>" readonly>
+                              <span class="input-group-btn next-qbtn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>">
+                              <button type="button" class="btn btn-number" data-type="plus" data-field="quant[1]">
+                                <i class="fas fa-plus"></i>
+                              </button>
+                              </span>
+                            </div>
+                          </div> 
+                        </td>
+                        <td> $<?= $total_price ?> </td>
+                      </tr>
+                      <tr>
+                      <td class="coupon" colspan="7">
+                          <form class="form-inline" method="post" id="coupon_frm" name="coupon_frm">
+                          	<div class="form-group copon-frmblk">
+                              <input type="text" id="coupon_code" class="form-control coupon_code coupon-srtcode" name="coupon_code" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>" placeholder="" value="<?php if(!empty($cart_data_val["product_cart_coupon"])) { echo $cart_data_val["product_cart_coupon"]; } ?>">
+                            </div>
+                            <button type="button" class="btn apply-btn applycpn-btn" data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>">  Apply Coupon </button>                            
+                          </form>
+                      </td>
+                  	  </tr>
+                      <?php } } ?>
+                      <?php /*?><tr>
+                        <td > <div class="cross-btn"> X </div> </td>
+                        <td > <div class="user-img"> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg">  </div> </td>
+                        <td> 
+                            <p class="dress-name"> New Edition Adult Wicked Witch Dress </p>
+                            <p class="hub-text">Vendor: <span> The Fashion Hub </span> </p>
+                            <div class="color-and-size"> 
+                              <p class="color"> Color: <span class="red"></span> </p> 
+                              <p class="size"> Size <span> XL </span> </p>  
+                            </div>
+                        </td>
+                        <td> $28.00 </td>
+                        <td> $5.00 </td>
+                        <td> 
+                          <div class="quant-box">
+                            <div class="input-group">	
+                              <span class="input-group-btn prev-qbtn" data-id="NTQ" data-pid="NA">
+                              <button type="button" class="btn btn-number" data-type="minus" data-field="quant[1]">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                              </span>
+                              <input type="text" name="quant[1]" class="input-number" data-id="NTQ" value="1" min="1" max="6">
+                              <span class="input-group-btn next-qbtn" data-id="NTQ" data-pid="NA">
+                              <button type="button" class="btn btn-number" data-type="plus" data-field="quant[1]">
+                                <i class="fas fa-plus"></i>
+                              </button>
+                              </span>
+                            </div>
+                          </div> 
+                        </td>
+                        <td> $33.00 </td>
+                      </tr><?php */?>
+                    </tbody>
+                    <!--  -->
+                  </table>
+                  <!-- table -->
+                </div>
+                <div class="table-bottom">
+                  <div class="coupon-code">
+                  </div>
+                  <div class="coupon-btn-box">
+                        <a href="<?= APPLICATION_URL.'/product-listing'; ?>" class="continue-btn btn"> Continue Shopping </a>
+                        <?php if(!empty($cart_data)) { ?>
+                       <a href="javascript:void(0)" class="btn ckeckout-btn catmore-btn">Checkout</a>
+                       <?php } ?>
+                  </div>
+                </div>
+              </div>
+              <!-- table block -->
+      </div>
+      <!--  -->
+      
+
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+
+<div class="modal shopping-modal fade" id="confirmallremoveModal" tabindex="-1" role="dialog" aria-labelledby="continueModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="continueModalLabel">Are you sure you want to remove all the products from cart?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<a href="javascript:void(0)" class="confirmall-removebtn">Yes</a>
+            <a href="javascript:void(0)" class="confirmall-cancelbtn">No</a>
+      </div>
+    </div>
+  </div>
+</div>   
+
+<div class="modal shopping-modal fade" id="confirmremoveModal" tabindex="-1" role="dialog" aria-labelledby="continueModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="continueModalLabel">Are you sure you want to remove the product from cart?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<a href="javascript:void(0)" class="confirm-removebtn">Yes</a>
+            <a href="javascript:void(0)" class="confirm-cancelbtn">No</a>
+      </div>
+    </div>
+  </div>
+</div>      
+
+<div class="modal shopping-modal fade" id="continueModal" tabindex="-1" role="dialog" aria-labelledby="continueModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="continueModalLabel">Shipping Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-form-box">
+          <form id="shipping_form" name="shipping_form" method="post">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" id="shipping_name" name="shipping_name" maxlength="200" class="form-control required" placeholder="" value="<?php if($loggedUser->{T_CLIENT_VAR.'client_name'}) { echo $loggedUser->{T_CLIENT_VAR.'client_name'}; } ?>">
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" id="shipping_address" name="shipping_address" class="form-control required" placeholder="" value="<?php if($loggedUser->{T_CLIENT_VAR.'client_address'}) { echo $loggedUser->{T_CLIENT_VAR.'client_address'}; } ?>">
+            </div>
+            <div class="form-row justify-content-between">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Postcode</label>
+                  <input type="text" id="shipping_postcode" name="shipping_postcode" maxlength="10" class="form-control required" placeholder="" value="<?php if($loggedUser->{T_CLIENT_VAR."client_postcode"}) { echo $loggedUser->{T_CLIENT_VAR."client_postcode"}; } ?>">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>City</label>
+                  <input type="text" id="shipping_city" name="shipping_city" class="form-control required" placeholder="" value="<?php if($loggedUser->{T_CLIENT_VAR."client_city"}) { echo $loggedUser->{T_CLIENT_VAR."client_city"}; } ?>">
+                </div>
+              </div>
+            </div>
+            <div class="form-row justify-content-between">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>State</label>
+                  <input type="text" id="shipping_state" name="shipping_state" class="form-control required" placeholder="" value="<?php if($loggedUser->{T_CLIENT_VAR."client_state"}) { echo $loggedUser->{T_CLIENT_VAR."client_state"}; } ?>">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input type="text" id="shipping_phone" name="shipping_phone" class="form-control required" maxlength="20" placeholder="" value="<?php if($loggedUser->{T_CLIENT_VAR."client_phone"}) { echo $loggedUser->{T_CLIENT_VAR."client_phone"}; } ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class="border-gradient"> <button type="button" class="btn view-btn next-btn shipnxt-btn">Next</button> </div>
+
+          </form>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal shopping-modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+         <h5 class="modal-title" id="checkoutModalLabel">Your Payment Details</h5> 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="checkout-amount">
+        <div class="overview-zone">
+              <div class="row">
+                <div class="col-sm-6 ">
+                  <div class="count-box">
+                    <div class="box-1">
+                        <div class="counting-block">
+                            <p class="numbers checkout-price ship-ratetg">  </p>
+							<p class="count-txt"> Shipping Rate <span class="process-time"></span></p>
+                        </div>
+                    </div>
+                   <!--  <div class="color-box">Total Views</div> -->
+                  </div>
+                  <!--  -->
+                </div>
+                <!--  -->
+                <div class="col-sm-6">
+                  <div class="count-box">
+                    <div class="box-1">
+                        <div class="counting-block">
+                            <p class="numbers checkout-price total-amttg">  </p>
+                            <p class="count-txt "> Total Amount <span>(including shipping & taxes)</span> </p>
+                        </div>
+                    </div>
+                    
+                  </div>
+                  <!--  -->
+                </div>
+                <!--  -->
+             
+              </div>
+              </div>
+
+
+        </div>
+
+        <div class="modal-form-box credit-holders">
+          <form id="creditform" name="creditform" class="creditform" method="post">
+            <!--  -->
+            <div class="redio-btn">
+              <div>
+                <input type="radio" class="cart-optg" id="test1" value="1" name="radio-group" checked>
+                <label for="test1"><span class="card-icon"><img src="<?=HTTP_IMG_PATH?>/card-img.png"> </span></label>
+              </div>
+              <?php /*?><div>
+                <input type="radio" class="cart-optg" id="test2" value="2" name="radio-group">
+                <label for="test2"><span class="paypal-icon"> <img src="<?=HTTP_IMG_PATH?>/paypal.png"> </span> </label>
+              </div><?php */?>
+             
+            </div>
+
+            <!--  -->
+            <div class="form-group">
+              <label>Name on Card</label>
+              <input type="text" id="credit_name" name="credit_name" class="form-control required" maxlength="200" placeholder="">
+            </div>
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" id="credit_number" name="credit_number" class="form-control required" maxlength="16" placeholder="">
+            </div>
+            <div class="form-row justify-content-between">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Expiration Date</label>
+                  <div class="form-row">
+                     
+                      <div class="col-6">
+                        <select class="custom-select form-control required" id="credit_month" name="credit_month">
+                          <option selected value="01">01</option>
+                          <option value="02">02</option>
+                          <option value="03">03</option>
+                          <option value="04">04</option>
+                          <option value="05">05</option>
+                          <option value="06">06</option>
+                          <option value="07">07</option>
+                          <option value="08">08</option>
+                          <option value="09">09</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                        </select>
+                      </div>
+                      <div class="col-6">
+                        <select class="custom-select form-control required" id="credit_year" name="credit_year">
+                          <?php for($i=2020;$i<2060;$i++) { ?>
+                          	<option value="<?= $i ?>"><?= $i ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>CVV</label>
+                  <input type="text" id="credit_cvv" name="credit_cvv" class="form-control required" placeholder="" maxlength="4">
+                </div>
+              </div>
+            </div>
+            
+
+            <div class="form-row justify-content-between"> <button type="button" class="btn view-btn next-btn paycart-btn" data-vid="2" onClick="stripePay(event);">Pay</button> </div>
+
+          </form>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&amp;key=AIzaSyBwBN9L602wvTjN55p7bQ0NpaXJ6qOHlWc&sensor=false"></script>
+<script type="text/javascript" src="<?= FRONT_JS.'/creditly.js'; ?>"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+	function cardFormValidate(){
+    var cardValid = 0;
+      
+    // Card number validation
+    $('#credit_number').validateCreditCard(function(result) {
+        var cardType = (result.card_type == null)?'':result.card_type.name;
+        if(cardType == 'Visa'){
+            var backPosition = result.valid?'2px -163px, 260px -87px':'2px -163px, 260px -61px';
+        }else if(cardType == 'MasterCard'){
+            var backPosition = result.valid?'2px -247px, 260px -87px':'2px -247px, 260px -61px';
+        }else if(cardType == 'Maestro'){
+            var backPosition = result.valid?'2px -289px, 260px -87px':'2px -289px, 260px -61px';
+        }else if(cardType == 'Discover'){
+            var backPosition = result.valid?'2px -331px, 260px -87px':'2px -331px, 260px -61px';
+        }else if(cardType == 'Amex'){
+            var backPosition = result.valid?'2px -121px, 260px -87px':'2px -121px, 260px -61px';
+        }else{
+            var backPosition = result.valid?'2px -121px, 260px -87px':'2px -121px, 260px -61px';
+        }
+        $('#credit_number').css("background-position", backPosition);
+        if(result.valid){
+            //$("#card_type").val(cardType);
+            cardValid = 1;
+        }else{
+            //$("#card_type").val('');
+            cardValid = 0;
+        } 
+    });
+    // Card details validation
+    var cardName = $("#credit_name").val();
+    var expMonth = $("#credit_month").val();
+    var expYear = $("#credit_year").val();
+    var cvv = $("#credit_cvv").val();
+    var regName = /^[a-z ,.'-]+$/i;
+    var regMonth = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
+    var regYear = /^2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|2031$/;
+    var regCVV = /^[0-9]{3,3}$/;
+    if(cardValid == 0){
+		$(".paycart-btn").attr("data-vid","2");
+		$("#credit_number").css("border","1px solid red");
+    } else if(cardValid == 1) {
+		$("#credit_number").css("border","1px solid rgb(216,216,216)");
+	}
+	if(!regMonth.test(expMonth)){
+		$("#credit_month").css("border","1px solid red");
+    } else {
+		$("#credit_month").css("border","1px solid rgb(216,216,216)");
+	}
+	if(!regYear.test(expYear)){
+		$("#credit_year").css("border","1px solid red");
+    } else {
+		$("#credit_year").css("border","1px solid rgb(216,216,216)");
+	}
+	if(!regCVV.test(cvv)){
+		$("#credit_cvv").css("border","1px solid red");
+    } else {
+		$("#credit_cvv").css("border","1px solid rgb(216,216,216)");
+	}
+	if(!regName.test(cardName)){
+		$("#credit_name").css("border","1px solid red");
+    }else{
+		$("#credit_name").css("border","1px solid rgb(216,216,216)");
+    }
+	
+	if(cardValid == 0){
+		$(".paycart-btn").attr("data-vid","2");
+    } else if(!regMonth.test(expMonth)){
+		$(".paycart-btn").attr("data-vid","2");
+    } else if(!regYear.test(expYear)){
+		$(".paycart-btn").attr("data-vid","2");
+    } else if(!regCVV.test(cvv)){
+		$(".paycart-btn").attr("data-vid","2");
+    } else if(!regName.test(cardName)){
+		$(".paycart-btn").attr("data-vid","2");
+    }else{
+		$(".paycart-btn").attr("data-vid","1");
+    }
+	
+}
+
+$(document).on("change","#credit_year",function() {
+	cardFormValidate();
+})
+
+//set your publishable key	
+Stripe.setPublishableKey("<?= $site_configs["site_stripe_key"]; ?>");
+	
+//callback to handle the response from stripe
+function stripeResponseHandler(status, response) {
+	if (response.error) {
+		//enable the submit button
+		showAppAlert('Error!!',response.error.message,'error');
+		$(this).val('');
+	} else {
+		//get token id
+		var token = response['id'];
+		//insert the token into the form
+		$("#creditform").append("<input type='hidden' name='token' value='" + token + "' />");
+		//submit form to the server
+		$("#creditform").submit();
+	}
+}
+	
+function stripePay(e) {
+	e.preventDefault();
+	var month = $("#credit_month").val();
+	var year = $("#credit_year").val();
+	Stripe.createToken({
+		number: $('#credit_number').val(),
+		cvc: $('#credit_cvv').val(),
+		exp_month: month,
+		exp_year: year
+	}, stripeResponseHandler);
+	return false;
+}
+
+/*$(document).on("click",".paycart-btn",function() {
+		var vid = $(this).attr("data-vid");
+		if($("#creditform").valid()) {
+		if(vid == 2) {
+			showAppAlert('Error!!','Please check the cart details.','error');
+		} else {
+			var formData = $('#creditform').serialize();
+            $.ajax({
+                type:'POST',
+                url:baseUrl+'/process-payment',
+                dataType: "json",
+                data:formData,
+                beforeSend: function(){
+					$("#checkoutModal").modal("hide");
+					$.blockUI({
+            			css: {
+                			border: 'none',
+                			padding: '5px',
+                			width: '24%',
+                			left: '39%',
+                			backgroundColor: '#000000',
+                			border: 'solid 1px #424445',
+                			opacity: .9,
+                			color: '#ffffff',
+            		},
+            		message: "<div class='Loader'><div class='Text' style='letter-spacing: 2px;'>Please wait while your transaction is processing.</div></div>",
+        	});
+                },
+                success:function(data){
+					if(data == 'empty') {
+						showAppAlert('Error!!','Your cart is empty.','error');
+					} else if(data == 'error') {
+						showAppAlert('Error!!','Please fill the form correctly.','error');
+					} else if(data == 'qtyempty') {
+						$.unblockUI();
+						showAppAlert('Error!!','Please fill the form correctly.','error');
+					}
+					 else {
+					var response = JSON.parse(JSON.stringify(data));
+						if(response.status == 'S'){
+							showAppAlert('Success!!',response.message,'success');
+							setTimeout(function(){ window.location.replace(baseUrl+"/customer-orders"); }, 2000);
+						} else if(response.status == 'U'){
+							$.unblockUI();
+							showAppAlert('Error!!',response.message,'error');
+						} else {
+							$("#creditform").find("input[type=text]").val("");
+							$.unblockUI();
+							showAppAlert('Error!!',response.message,'error');
+						}
+					}
+				}
+			})
+		}
+		}
+	}) */
+	
+	$(document).on("click",".delcart-btn",function() {
+		var tid = $(this).attr("data-id");
+		$(".confirm-removebtn").attr("data-id",tid);
+		$("#confirmremoveModal").modal("show");
+	})
+	
+	$(document).on("click",".confirm-cancelbtn",function() {
+		$("#confirmremoveModal").modal("hide");
+	})
+	
+	$(document).on("click",".confirm-removebtn",function() {
+		var tid = $(this).attr("data-id");
+		$("#confirmremoveModal").modal("hide");
+		$.ajax({
+			url: baseUrl+"/remove-cart",
+			type: "POST",
+			data: {tid:tid},
+			success: function(data){
+				location.reload();
+			}
+		})
+	})
+	
+	 $('#creditform input[type=text],select').on('keyup',function(){
+        cardFormValidate();
+    });
+	
+	$(document).on("click",".deleteall-cartbtn",function() {
+		$("#confirmallremoveModal").modal("show");
+	})
+	
+	$(document).on("click",".confirmall-cancelbtn",function() {
+		$("#confirmallremoveModal").modal("hide");
+	})
+	
+	$(document).on("click",".confirmall-removebtn",function() {
+		$.ajax({
+			url: baseUrl+"/removeall-cart",
+			type: "POST",
+			data: {tid:1},
+			success: function(data){
+				if(data == 'success') {
+					location.reload();
+				} else {
+					showAppAlert('Error!!','You have no products to delete.','error');
+				}
+			}
+		})
+	})
+	
+	$(document).on("click",".cart-optg",function() {
+		var opt = $('.cart-optg:checked').val();
+		if(opt == 2) {
+			window.location.replace(baseUrl+"/make-payment");
+		}
+	})
+	
+	$(document).on("click",".change-btn",function() {
+		var tid = $(this).attr("data-id");
+		var max = parseInt($(".input-number[data-id="+tid+"]").attr('max'));
+        var min = parseInt($(".input-number[data-id="+tid+"]").attr('min'));	
+		var pid = $(this).attr("data-pid");
+		var inptxt = $(".input-number[data-id="+tid+"]").val();
+		var inptxt = parseInt(inptxt);
+		var coupon_code = '';
+		var color = $(".cart-colortg[data-id="+tid+"]").val();
+		var size = $(".cart-sizetg[data-id="+tid+"]").val(); 
+		if (inptxt > max)
+        {
+        	var inptxt = max;
+        }
+        else if (inptxt < min)
+        {
+			var inptxt = min;
+        }
+		$.ajax({
+			url: baseUrl+"/cart-price",
+			type: "POST",
+			data: {tid:tid,pid:pid,qty:inptxt,coupon_code:coupon_code,color:color,size:size},
+			success: function(data){
+				if(data != 'error' && data != 'empty' && data != 'invalid_number' && data != 'qty_restricted') {
+					$(".shopping-cart").html(data);
+				} else if(data == 'error') {
+					showAppAlert('Error!!','No such product found.','error');
+				} 
+				 else if(data == 'empty') {
+					showAppAlert('Error!!','No such product found in the cart.','error');
+				} else if(data == 'qty_restricted') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+				} else if(data == 'invalid_number') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+				}  else if(data == 'invalid_qty') {
+					showAppAlert('Error!!','Invalid quantity entered.','error');
+				}
+			}
+		})
+})
+	
+	$(document).on("click",".apply-btn",function() {
+		var tid = $(this).attr("data-id");
+		  var max = parseInt($(".input-number[data-id="+tid+"]").attr('max'));
+          var min = parseInt($(".input-number[data-id="+tid+"]").attr('min'));	
+		var pid = $(this).attr("data-pid");
+		var inptxt = $(".input-number[data-id="+tid+"]").val();
+		var inptxt = parseInt(inptxt);
+		var coupon_code = $(".coupon_code[data-id="+tid+"]").val();
+		var color = $(".cart-colortg[data-id="+tid+"]").val();
+		var size = $(".cart-sizetg[data-id="+tid+"]").val(); 
+		if (inptxt > max)
+        {
+        	var inptxt = max;
+        }
+        else if (inptxt < min)
+        {
+			var inptxt = min;
+        }
+		if(coupon_code != '') {
+			$.ajax({
+				url: baseUrl+"/cart-price",
+				type: "POST",
+				data: {tid:tid,pid:pid,qty:inptxt,coupon_code:coupon_code,chkcoupon:1,color:color,size:size},
+				success: function(data){
+					if(data != 'error' && data != 'empty' && data != 'invalid_number' && data != 'qty_restricted') {
+						$(".shopping-innercart").html(data);
+						$('.color-tg').each(function(i, obj) {
+							var colortg = $(obj).attr("data-id");
+							$(obj).css("background-color",colortg);
+						})
+					} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+					} 
+					 else if(data == 'empty') {
+						showAppAlert('Error!!','No such product found in the cart.','error');
+					} else if(data == 'qty_restricted') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					} else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					}  else if(data == 'invalid_qty') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					}
+				}
+		 	})
+		} else {
+			showAppAlert('Error!!','Please enter coupon code.','error');
+		}
+	})
+	
+	$(function () {
+	   $(document).on("click",".prev-qbtn",function() {
+		    var tid = $(this).attr("data-id");
+	     var max = parseInt($(".input-number[data-id="+tid+"]").attr('max'));
+          var min = parseInt($(".input-number[data-id="+tid+"]").attr('min'));		 
+		  var pid = $(this).attr("data-pid");
+          var inptxt = $(".input-number[data-id="+tid+"]").val();
+		  var oldtxt = inptxt; 
+		  var inptxt = parseInt(inptxt) - 1;
+		  var coupon_code = $(".coupon_code[data-id="+tid+"]").val();
+		  var color = $(".cart-colortg[data-id="+tid+"]").val();
+		  var size = $(".cart-sizetg[data-id="+tid+"]").val();  
+		  if (inptxt > max)
+          {
+              var inptxt = max;
+          }
+          else if (inptxt < min)
+          {
+			  var inptxt = min;
+          } 
+		  $(".input-number[data-id="+tid+"]").val(inptxt);
+		  $.ajax({
+			url: baseUrl+"/cart-price",
+			type: "POST",
+			data: {tid:tid,pid:pid,qty:inptxt,coupon_code:coupon_code,color:color,size:size},
+			success: function(data){
+				if(data != 'error' && data != 'empty' && data != 'invalid_number' && data != 'qty_restricted') {
+						$(".shopping-innercart").html(data);
+						$('.color-tg').each(function(i, obj) {
+							var colortg = $(obj).attr("data-id");
+							$(obj).css("background-color",colortg);
+						})
+					} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+					} else if(data == 'empty') {
+						showAppAlert('Error!!','No such product found in the cart.','error');
+					} else if(data == 'qty_restricted') {
+						$(".input-number[data-id="+tid+"]").val(oldtxt);
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					} else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					}  else if(data == 'invalid_qty') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					}
+			}
+		  })
+	   })
+	   
+	   $(document).on("click",".next-qbtn",function() {
+		  var tid = $(this).attr("data-id");
+          var max = parseInt($(".input-number[data-id="+tid+"]").attr('max'));
+          var min = parseInt($(".input-number[data-id="+tid+"]").attr('min'));
+		  var pid = $(this).attr("data-pid");
+          var inptxt = $(".input-number[data-id="+tid+"]").val();
+		  var oldtxt = inptxt; 
+		  var inptxt = parseInt(inptxt) + 1;
+		  var coupon_code = $(".coupon_code[data-id="+tid+"]").val();
+		  var color = $(".cart-colortg[data-id="+tid+"]").val();
+		  var size = $(".cart-sizetg[data-id="+tid+"]").val(); 
+		  if (inptxt > max)
+          {
+              var inptxt = max;
+          }
+          else if (inptxt < min)
+          {
+			  var inptxt = min;
+          }
+		  $(".input-number[data-id="+tid+"]").val(inptxt);
+		  $.ajax({
+			url: baseUrl+"/cart-price",
+			type: "POST",
+			data: {tid:tid,pid:pid,qty:inptxt,coupon_code:coupon_code,color:color,size:size},
+			success: function(data){
+				if(data != 'error' && data != 'empty' && data != 'invalid_number' && data != 'qty_restricted') {
+						$(".shopping-innercart").html(data);
+						$('.color-tg').each(function(i, obj) {
+							var colortg = $(obj).attr("data-id");
+							$(obj).css("background-color",colortg);
+						})
+					} else if(data == 'error') {
+						showAppAlert('Error!!','No such product found.','error');
+					} else if(data == 'empty') {
+						showAppAlert('Error!!','No such product found in the cart.','error');
+					} else if(data == 'qty_restricted') {
+						$(".input-number[data-id="+tid+"]").val(oldtxt);
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					} else if(data == 'invalid_number') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					}  else if(data == 'invalid_qty') {
+						showAppAlert('Error!!','Invalid quantity entered.','error');
+					}
+			}
+		  })
+        }); 
+});
+
+$(document).ready(function(){
+
+var creator_address = document.getElementById('shipping_address');
+	var autocomplete2 = new google.maps.places.Autocomplete(creator_address);
+	var geocoder= new google.maps.Geocoder();
+	google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+            var place = autocomplete2.getPlace();
+			for (var i = 0; i < place.address_components.length; i++) {
+      for (var j = 0; j < place.address_components[i].types.length; j++) {
+        if (place.address_components[i].types[j] == "postal_code") {
+         $("#shipping_postcode").val(place.address_components[i].long_name);
+
+        }
+      }
+    }
+			var postal_code = place.address_components[0].long_name;
+			
+			geocoder.geocode( { 'address': place.formatted_address}, function(results, status) {
+				  if (status == google.maps.GeocoderStatus.OK) {
+					  
+				  var latitude = results[0].geometry.location.lat();
+				  var longitude = results[0].geometry.location.lng();
+				  
+				  for (var ac = 0; ac < results[0].address_components.length; ac++) {
+                                    var component = results[0].address_components[ac];
+                                    switch(component.types[0]) {
+                                        case 'locality':
+                                            var city = component.long_name;
+											$("#shipping_city").val(city);
+                                            break;
+                                        case 'administrative_area_level_1':
+                                            var state = component.short_name;
+											$("#shipping_state").val(state);
+                                            break;
+                                    }
+                                }; 
+				  
+				} 
+			  });
+			  
+			 
+        });
+
+$("#credit_name").keydown(function(event){
+	var inputValue = event.which;
+        // allow letters and whitespaces only.
+    if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0) && inputValue != 8 && inputValue != 46 && inputValue != 9) { 
+    	event.preventDefault(); 
+    }
+});
+
+$("#credit_number").keydown(function(event){
+	var charCode = event.which;
+        // allow letters and whitespaces only.
+        /*if (charCode != 219 && charCode != 221 && charCode != 89 && charCode != 37 && charCode != 38 && charCode != 39 && charCode != 40 && charCode != 8 charCode != 9 && charCode != 16 && charCode != 32 && charCode != 46 && charCode != 45 && charCode > 31 && (charCode < 48 || charCode > 57))*/
+    if(charCode > 64 && charCode < 91)
+	{
+		return false;
+	} else {
+		return true;
+	}
+});
+
+credit_number
+
+$("#shipping_name").keydown(function(event){
+	var inputValue = event.which;
+        // allow letters and whitespaces only.
+    if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0) && inputValue != 8 && inputValue != 46 && inputValue != 9) { 
+    	event.preventDefault(); 
+    }
+});
+
+$("#shipping_phone").keydown(function(event){
+	var charCode = event.which;
+        // allow letters and whitespaces only.
+        /*if (charCode != 219 && charCode != 221 && charCode != 89 && charCode != 37 && charCode != 38 && charCode != 39 && charCode != 40 && charCode != 8 charCode != 9 && charCode != 16 && charCode != 32 && charCode != 46 && charCode != 45 && charCode > 31 && (charCode < 48 || charCode > 57))*/
+    if(charCode > 64 && charCode < 91)
+	{
+		return false;
+	} else {
+		return true;
+	}
+});
+})
+
+$(document).on("click",".shipnxt-btn",function() {
+	if($("#shipping_form").valid()) {
+		 var ship_name = $("#shipping_name").val();
+		 var ship_addr = $("#shipping_address").val();
+		 var ship_code = $("#shipping_postcode").val();
+		 var ship_city = $("#shipping_city").val();
+		 var ship_state = $("#shipping_state").val();
+		 var ship_phone = $("#shipping_phone").val();
+		 $.ajax({
+			url: baseUrl+"/ship-details",
+			type: "POST",
+			data: {ship_name:ship_name,ship_addr:ship_addr,ship_code:ship_code,ship_city:ship_city,ship_state:ship_state,ship_phone:ship_phone},
+			success: function(data){
+				var items = '';
+		  		var items = $.parseJSON(data);
+				if(items.response_code == 'error') {
+					showAppAlert('Error!!','Please fill the form correctly.','error');
+				}  else if(items.response_code == 'fixname') {
+					showAppAlert('Error!!','Invalid name entered.','error');
+				} else if(items.response_code == 'fixphone') {
+					showAppAlert('Error!!','Invalid phone number entered.','error');
+				} else if(items.response_code == 'no_shipping') {
+					$("#continueModal").modal("hide");
+					showAppAlert('Error!!',items.message,'error');
+				} else if(items.response_code == 'no_product') {
+					$("#continueModal").modal("hide");
+					showAppAlert('Error!!',items.message,'error');
+				} else {
+					$("#continueModal").modal("hide");
+					var amt = items.total_charge;
+					var charge = items.shipping_charge;
+					if(charge != 0) {
+						$(".ship-ratetg").text("$"+charge);
+						$(".total-amttg").text("$"+amt);
+						//$(".checkout-price").text("$"+amt +" (including shipping charge of $"+charge+")");
+					} else {
+						$(".ship-ratetg").text("$0");
+						$(".total-amttg").text("$"+amt);
+						//$(".checkout-price").text("$"+amt );
+					}
+					$("#checkoutModal").modal("show");
+				}
+			}
+		 })
+	}
+})
+
+$(document).on("click",".catmore-btn",function() {
+	$("#continueModal").modal("show");
+	//$(".checkout-price").text($(".subtot-intg").text());
+	//$("#checkoutModal").modal("show");
+})
+
+$(document).ready(function(e) {
+	$('.color-tg').each(function(i, obj) {
+		var colortg = $(obj).attr("data-id");
+		$(obj).css("background-color",colortg);
+	})
+})
+</script>

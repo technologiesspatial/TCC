@@ -1,0 +1,114 @@
+<style type="text/css">
+	.btn-primary{background:rgb(1, 0, 1) !important;border-color:rgb(1, 0, 1) !important;}
+</style>
+<div class="blog-page">	
+	<div class="comman-section">
+		<div class="container">
+			<div class="common-heading">
+				<h2 class="heading"> Blog </h2>
+			</div>
+		</div>	
+    </div>
+    
+    <div class="blog-page-middal-section">
+        <div class="container">
+        <?php if(count($this->paginator)>0){
+			foreach($this->paginator as $key=>$value){
+						$views_data["blog_view_blogid"] = $value["blog_id"];
+						$views_data["blog_view_clientid"] = $loggedUser;
+						$views_data["blog_view_date"] = date("Y-m-d H:i:s");
+						$this->layout()->AbstractModel->Super_Insert(T_BLOG_VIEWS,$views_data);
+			$blog_viewdata = $this->layout()->AbstractModel->Super_Get(T_BLOG_VIEWS,"blog_view_blogid =:TID","fetchAll",array('warray'=>array('TID'=>$value["blog_id"])));			
+			 ?>
+            <div class="first-row">
+                <div class="row">
+                    <div class="col-lg-6">
+                             <a class="blog-anctag" href="<?= APPLICATION_URL.'/blog-detail/'.slugify($value["blog_title"]).'~'.str_replace("=","",base64_encode($value["blog_id"])); ?>"><div class="blog-img"> <img src="<?=HTTP_BLOG_IMAGES_PATH?>/<?= $value["blog_pic"] ?>"> </div></a>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="right-side-section">
+                            <div class="blog-post">
+                                <div class="cricle-logo"> <img src="<?=HTTP_IMG_PATH?>/mini-logo.png">  </div>
+                                <div class="">
+                                    <div class="">
+                                        <h2 class="titles"> <?= $value["blog_category_title"]; ?></h2>
+                                        <p class="post-date mb-0"> <?= date("F d Y"); ?> </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- blog-post -->
+
+                            <div class="blog-content">
+                                <a class="blog-anctag" href="<?= APPLICATION_URL.'/blog-detail/'.slugify($value["blog_title"]).'~'.str_replace("=","",base64_encode($value["blog_id"])); ?>"><h1 class="blog-heading"> <?= $value["blog_title"] ?> </h1></a>
+                                <p class="descripton"> <?php if(strlen($value["blog_text"]) > 550) { echo nl2br(substr($value["blog_text"],0,550)).'...'.'<a href="'.APPLICATION_URL.'/blog-detail/'.slugify($value["blog_title"]).'~'.str_replace("=","",base64_encode($value["blog_id"])).'" class="readmore-btn">read more</a>'; } else { echo nl2br($value["blog_text"]); } ?> </p>
+                            </div>
+                            <!-- blog-content -->
+
+                            <div class="blog-views">
+                                <div class="left">
+                                    <p class="views mb-0"> <span><?= count($blog_viewdata); ?></span> views </p>
+                                    <p class="comments"><a class="comment-blogtg" href="javascript:void(0)"> Write a comment </a></p>
+                                    <p class="comments share-post"><a class="share-posttg" href="javascript:void(0)"> Share post </a></p>
+                                    <div class="share-slider hider social-share" data-title="<?= slugify($value["blog_title"]).'~'.str_replace("=","",base64_encode($value["blog_id"])) ?>" data-description="<?= substr(strip_tags($value["blog_text"]),0,300) ?>" data-pic="<?php if(!empty($value["blog_pic"])) { echo HTTP_BLOG_IMAGES_PATH.'/'.$value["blog_pic"]; } else { echo ""; } ?>">
+										<a href="javascript:void(0);" class="share-post-social" data-share="facebook" style="background: #3b5998;" data-toggle="tooltip" title="" data-original-title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+										<a href="javascript:void(0);" class="share-post-social" data-share="twitter" style="background: #1DA1F2;" data-toggle="tooltip" title="" data-original-title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                		                                		
+									</div>
+                                </div>
+                                <?php /*?><div class="like-icons">  <img src="<?=HTTP_IMG_PATH?>/heart.svg"> </div><?php */?>
+                            </div>
+                            <!-- blog-views -->
+
+                        </div>
+                        <!-- right side section -->
+                    </div>
+                </div>
+
+            </div>
+            <?php } ?>
+            <?php echo $this->paginationControl($this->paginator, 'Sliding','auth-acl/paginator.phtml', array('page'=>$page)); ?>
+            <?php } ?>
+            <!---------------- first row ------------------>
+
+            
+            <!---------------- first row ------------------>
+
+
+            
+            <!---------------- first row ------------------>
+
+
+        </div>
+    </div>
+    <!-- blog page middal section -->
+</div>
+<script type="text/javascript">
+	$(document).on("click",".comment-blogtg",function() {
+		<?php if(empty($loggedUser)) { ?>
+			 swal({
+				title: "Login Alert!",	
+				text: "Please login to your account to comment.",
+				icon: "warning"
+			  })
+		<?php } else { ?>
+			window.location.replace("<?= APPLICATION_URL.'/blog-detail/'.slugify($value["blog_title"]).'~'.str_replace("=","",base64_encode($value["blog_id"])); ?>#comment-boxgrp");
+		<?php } ?>
+	})
+	
+	$(document).on("click",".share-posttg",function() {
+		$(".share-slider").toggleClass("hider");
+	})
+	
+	$(document).on("click", ".share-post-social", function (){
+	var type = $(this).data('share');
+	var title = $(this).parent('.social-share').attr("data-title");
+	var descrip = $(this).parent('.social-share').attr("data-description");
+	var pic = $(this).parent('.social-share').attr("data-pic");
+	if(type == 'facebook'){
+		var facebookshare = window.open("https://www.facebook.com/sharer/sharer.php?u=<?=APPLICATION_URL?>/blog-detail/" + title + "&description=" + descrip + "&picture=" + pic, "", "width=500,height=400");
+	}else{
+		var twittershare = window.open("https://twitter.com/intent/tweet?url=<?=APPLICATION_URL?>/blog-detail/" + title + "&description=" + descrip + "&picture=" + pic, "sharer", "width=580,height=325");
+	}
+})
+</script>

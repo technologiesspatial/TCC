@@ -1,0 +1,343 @@
+<style type="text/css">
+	.wicked-box .comment-box .user-box img{object-fit:contain;}
+	.favourite-txt:hover{color:#020203;}
+	.wicked-splbox{margin-left:auto !important;margin-right:auto !important;}
+	.star-panel:hover{cursor:default;}
+	.wicked-shop-page .wicked-shop{padding-bottom:15px;}
+	.wicked-card-body{position:relative;}
+	.wicked-card-body h4{font-size:20px;}
+	.rating-ul{position:absolute;bottom:-12px;}
+	div.star-rating, div.star-rating a{
+		background-image:url('<?= HTTP_IMG_PATH.'/bat-black2.png'; ?>');
+	}
+	<?php if(!empty($wicked_data["wicked_banner"]) && file_exists(PROFILE_IMAGES_PATH.'/logo/'.$wicked_data["wicked_banner"])) { ?>
+		.seller-bg-box{background:url('<?= HTTP_PROFILE_IMAGES_PATH.'/logo/'.$wicked_data["wicked_banner"] ?>') !important;background-size:cover !important;background-position:center !important;}
+	<?php } ?>
+	div.svg div.rateit-range {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-default.svg' ?>') /*star-normal.svg*/;
+	}
+	div.svg div.rateit-hover {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-active.svg' ?>') /*star-hover.svg*/;
+	}
+	div.svg div.rateit-selected {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-active.svg' ?>') /*star-selected.svg*/;
+	}
+	div.svg div.rateit-preset {
+	  background: url('<?= HTTP_IMG_PATH.'/batsml-default.svg' ?>') /*star-preset.svg*/;
+	}
+	.ribbon-pop{right:10px;top:-4px;}
+</style>
+
+
+<div class="comman-section">
+  <div class="container">
+    <div class="common-heading">
+      <h2 class="heading">Wicked Shops</h2>
+    </div>
+  </div>	
+</div>
+
+
+<div class="wicked-shop-page">
+  <div class="container">
+      <div class="seller-bg-box">
+
+      </div>
+
+      <div class="product-select-box">
+        <div class="select-boxes">
+          <div class="boxes categories">
+            <div class="mb-0">
+              <select class="custom-select wicked-category">
+              		<option value="" selected="">All</option>
+              	<?php if(!empty($categories)) { foreach($categories as $categories_key => $categories_val) { ?>
+                	<option value="<?= $categories_key ?>"><?= $categories_val ?></option>
+                <?php } } ?>
+              </select>
+            </div>
+
+          </div>
+          <!--  -->
+
+          <div class="alphabet-box boxes">
+            <ul class="alphabet-ul">
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="a"> A </a> </li>
+              <li class="alphabet-li active"> <a class="alphabet-link" href="javascript:void(0)" data-id="b"> B </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="c"> C </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="d"> D </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="e"> E </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="f"> F </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="g"> G </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="h"> H </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="i"> I </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="j"> J </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="k"> K </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="l"> L </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="m"> M </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="n"> N </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="o"> O </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="p"> P </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="q"> Q </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="r"> R </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="s"> S </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="t"> T </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="u"> U </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="v"> V </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="w"> W </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="x"> X </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="y"> Y </a> </li>
+              <li class="alphabet-li"> <a class="alphabet-link" href="javascript:void(0)" data-id="z"> Z </a> </li>
+            </ul>
+          </div>
+          
+          <!-- filterbox -->
+          <div class="boxes categories shortby">
+            <div class="mb-0">
+              <select class="custom-select wicked-sort">
+                <option value="" selected="">Sort by</option>
+                <option value="1">Ratings - High to Low</option>
+                <option value="2">Ratings - Low to High</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!--  -->
+
+	  <div class="wicked-shop-block">
+			<div class="row">
+				<?php foreach($wicked_shops as $wicked_shops_key => $wicked_shops_val) { ?>
+					<div class="col-lg-4 col-sm-6 wicked-spacetg">
+							<div class="wicked-shop">
+								<?php if($wicked_shops_val[T_CLIENT_VAR."client_bestseller"] == '1') { ?>
+									<div class="ribbon-pop"><span>Best Seller</span></div>
+								<?php } ?>
+								<a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$wicked_shops_val['store_name']); ?>"> 
+								<div class="wicked-img">									
+								<?php if(!empty($wicked_shops_val["store_banner"]) && file_exists(STORE_BANNER_PATH.'/'.$wicked_shops_val["store_banner"])) { ?>
+									<img data-src="<?=HTTP_STORE_BANNER_PATH?>/<?= $wicked_shops_val["store_banner"]; ?>" class="lozad"> 
+								<?php } ?> 
+								</div>
+								</a>
+								<div class="wicked-card-body">
+									<h4><?= $wicked_shops_val["store_name"] ?></h4>
+									<div class="rating-ul">
+										<?php if(!empty($wicked_shops_val["review_date"])) { ?>
+											<div class="rateit svg" data-rateit-starwidth="32" data-rateit-starheight="25" data-rateit-value="<?= $wicked_shops_val["avg_review"]; ?>" data-rateit-readonly="true"></div>
+										<?php /*?><div class="star-panel" data-rating="<?= $wicked_shops_val["avg_review"]; ?>"></div><?php */?>
+									  <?php } else { ?>
+										<div class="rateit svg" data-rateit-starwidth="32" data-rateit-starheight="25" data-rateit-value="<?= $wicked_shops_val["avg_review"]; ?>" data-rateit-readonly="true"></div>
+									  <?php } ?>
+									</div>
+									<div class="wicked-logo">
+									<?php if(!empty($wicked_shops_val["store_logo"]) && file_exists(STORE_LOGO_PATH.'/'.$wicked_shops_val["store_logo"])) { ?>
+										<img data-src="<?=HTTP_STORE_LOGO_PATH?>/<?= $wicked_shops_val["store_logo"] ?>" class="lozad">
+									<?php } else { ?> 
+										<img data-src="<?=HTTP_IMG_PATH?>/moon-img.jpg" class="lozad"> 
+									<?php } ?>
+									</div>
+								</div>
+							</div>
+					</div>
+				<? } ?>
+			</div>
+	  </div>
+	  <!-- wicked shop block new HTML  -->
+
+	   <div class="wicked-shop-box d-none">
+        <div class="row wicked-subblk">
+          <?php if(!empty($wicked_shops)) { foreach($wicked_shops as $wicked_shops_key => $wicked_shops_val) { 
+		  	if(!empty($wicked_shops_val["avg_review"])) {
+		  		$review_percent = ($wicked_shops_val["avg_review"] / 5) * 100;
+			} else {
+				$review_percent = 0;
+			}
+			if(!empty($loggedUser->{T_CLIENT_VAR.'client_id'})) {
+				$fav_data = $this->layout()->AbstractModel->Super_Get(T_FAVOURITE,"favourite_storeid = '".$wicked_shops_val["store_id"]."' and favourite_by = '".$loggedUser->{T_CLIENT_VAR.'client_id'}."'","fetch",array('fields'=>'favourite_id'));
+			}
+		  ?>	
+          <div class="col-lg-6">
+              <div class="wicked-card">
+                <div class="wicked-box">
+                    <h2 class="title"><?= $wicked_shops_val["store_name"]; ?></h2>
+
+                    <ul class="rating-star">
+                      <li class=""> <?= $wicked_shops_val["total_products"]; ?> Products </li>
+                      <?php if(!empty($wicked_shops_val["review_date"])) { ?>
+                      	<div class="star-panel" data-rating="<?= $wicked_shops_val["avg_review"]; ?>"></div>
+                      <?php } else { ?>
+                      	<div class="star-panel" data-rating="0"></div>
+                      <?php } ?>
+                      <?php if(!empty($wicked_shops_val["review_date"])) { ?>
+                      	<li class=""> <?= $review_percent ?>% in the last <?= time_elapser_str($wicked_shops_val["review_date"]) ?> (<?= $wicked_shops_val["total_reviews"]; ?> ratings)  </li><?php } else { ?>
+                      	<li class=""> 0% (0 rating)</li>
+					  <?php } ?>
+                    </ul>
+                    <!--  -->
+
+                    <div class="img-box">  
+                    <?php if(!empty($wicked_shops_val["store_banner"])) { ?>
+                    <img data-src="<?=HTTP_STORE_BANNER_PATH?>/<?= $wicked_shops_val["store_banner"]; ?>" class="lozad"> 
+                    <?php } ?>
+                    </div>
+
+                    <div class="comment-box">
+                      <div class="user-box">
+                      	<?php if(!empty($wicked_shops_val["store_logo"])) { ?>
+                        	<img data-src="<?=HTTP_STORE_LOGO_PATH?>/<?= $wicked_shops_val["store_logo"] ?>" class="lozad">
+                        <?php } ?>
+                        <p class="name"><?= $wicked_shops_val["store_company"]; ?></p>
+                      </div>
+                      <div class="content-box">
+                        <p class="content-txt">  <?php if(strlen($wicked_shops_val["store_description"]) > 190) { echo substr($wicked_shops_val["store_description"],0,190).'...'; } else { echo $wicked_shops_val["store_description"]; } ?> </p>
+                      </div>
+                    </div>
+
+                    <!--  -->
+
+                    <div class="visit-store-box">
+                      <div class="border-gradient <?php if(empty($loggedUser->{T_CLIENT_VAR.'client_id'})) { ?>wicked-splbox<?php } ?>"><a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$wicked_shops_val['store_name']); ?>" class="view-btn btn subscribe-btn">Visit Store</a></div>
+                      <?php if(!empty($loggedUser->{T_CLIENT_VAR.'client_id'})) { ?>
+                      <a href="javascript:void(0)" class="favourite-txt" data-id="<?= str_replace("=","",base64_encode($wicked_shops_val["store_id"])) ?>"><?php if(!empty($fav_data)) { ?>Added to favourite   <img src="<?=HTTP_IMG_PATH?>/fill.svg"><?php } else { ?>Add to favourite   <img src="<?=HTTP_IMG_PATH?>/interface.svg"> <?php } ?></a>
+                      <?php } ?>
+                    </div>
+                    <!--  -->
+                </div>
+              </div>
+              <!--  -->
+          </div>
+          <?php } } ?>
+          <!--  -->
+        </div>
+	  </div>
+	  
+	 
+      <!--  -->
+
+ 
+  </div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(e) {
+	  $(".star-panel").starRating({
+		  starShape:'rounded',
+		  minRating: 0,
+		  readOnly: true,
+		  ratedColor: '#f4a925',
+		  activeColor: '#f4a925',
+		  emptyColor: '#bebebe',
+		  hoverColor: '#f4a925',
+		  strokeWidth:0,
+		  starSize: 23,
+		  useGradient: false,
+		  callback: function(currentRating, $el){
+			  $(".review_rate").val(currentRating);
+		  }
+	  });
+	});	
+	
+	$(document).on("click",".alphabet-link",function() {
+		var alphabet = $(this).attr("data-id");
+		$.ajax({
+			url: baseUrl+"/wickedby-letter",
+			type: "POST",
+			data: {alpha:alphabet},
+			success: function(data){
+				$(".wicked-shop-block").html(data);
+				$(".star-panel").starRating({
+				  minRating: 0,
+				  readOnly: true,
+				  starShape:'rounded',	
+				  ratedColor: '#f4a925',
+				  activeColor: '#f4a925',
+				  emptyColor: '#bebebe',
+				  hoverColor: '#f4a925',
+				  strokeWidth:0,
+				  starSize: 23,
+				  useGradient: false,
+				  callback: function(currentRating, $el){
+					  $(".review_rate").val(currentRating);
+				  }
+	  			});
+			}
+		})
+	})
+	
+	$(document).on("change",".wicked-category",function() {
+		var category = $(this).val();
+		$.ajax({
+			url: baseUrl+"/wickedby-category",
+			type: "POST",
+			data: {category:category},
+			success: function(data){
+				$(".wicked-shop-block").html(data);
+				$(".star-panel").starRating({
+				  minRating: 0,
+				  readOnly: true,
+				  starShape:'rounded',	
+				  ratedColor: '#f4a925',
+				  activeColor: '#f4a925',
+				  emptyColor: '#bebebe',
+				  hoverColor: '#f4a925',
+				  strokeWidth:0,
+				  starSize: 23,
+				  useGradient: false,
+				  callback: function(currentRating, $el){
+					  $(".review_rate").val(currentRating);
+				  }
+	  			});
+			}
+		})
+	})
+	
+	$(document).on("change",".wicked-sort",function() {
+		var sorts = $(this).val();
+		$.ajax({
+			url: baseUrl+"/wickedby-sorting",
+			type: "POST",
+			data: {sorts:sorts},
+			success: function(data){
+				$(".wicked-shop-block").html(data);
+				$(".star-panel").starRating({
+				  minRating: 0,
+				  readOnly: true,
+				  starShape:'rounded',	
+				  ratedColor: '#f4a925',
+				  activeColor: '#f4a925',
+				  emptyColor: '#bebebe',
+				  hoverColor: '#f4a925',
+				  strokeWidth:0,
+				  starSize: 23,
+				  useGradient: false,
+				  callback: function(currentRating, $el){
+					  $(".review_rate").val(currentRating);
+				  }
+	  			});
+			}
+		})
+	})
+	
+	$(document).on("click",".favourite-txt",function() {
+	var favtg = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl+"/addmy-favourite",
+		type: "POST",
+		data: {keycode:favtg},
+		success: function(data){
+			if(data == 'success') {
+				$(".favourite-txt[data-id="+favtg+"]").html('Added to favourite   <img src="<?=HTTP_IMG_PATH?>/fill.svg" class=""> ');
+			} else if(data == 'removed') {
+				$(".favourite-txt[data-id="+favtg+"]").html('Add to favourite   <img src="<?=HTTP_IMG_PATH?>/interface.svg" class=""> ');
+			} else if(data == 'restricted') {
+				showAppAlert('Error!','You cannot add yourself to Favourites.','error');
+			} else if(data == 'nonlog') {
+				showAppAlert('Error!','Please log in to your account.','error');
+			} else {
+				showAppAlert('Error!','No such store found.','error');
+			}
+		}
+	}) 
+})
+</script>

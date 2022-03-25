@@ -1,0 +1,289 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+input[type='radio']{visibility:hidden;}
+#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.rgt_btn{
+  background-color: #ab191a;
+  padding: 0px;
+  width: 197px;
+  height: 54px;
+  line-height: 54px;
+  border-radius: 0px;
+  font-size: 18px;
+  color: #fff !important;
+  border: none;
+  margin: 10px auto 0px;
+}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+.table thead th, .table tbody td{padding-left:10px !important;}
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before{content:'';}
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{content:'';}
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before{content:'';}
+.table thead th:nth-child(2), .table tbody td:nth-child(2){min-width:165px;}
+.table td{word-break:break-word;}
+<?php if($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Manage Coupons</h2>
+		</div>
+	</div>	
+</div>
+
+
+
+<div class="profile_page manage-product-page manage-coupons-page">
+  <div class="container">
+    <div class="profile-section">
+      <div class="profile-nav d-none d-xl-block">
+              <? /* ?>
+              <div class="change-image-user-box">
+                  <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"></div>
+                  <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                  <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                  <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                  <?php } ?>
+                  <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+              </div>
+              <? */ ?>
+
+          <div class="change-image-user-box">
+						<div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+						<div class="user-info">
+							<p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+							<a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+						</div>
+					</div>
+
+        <div class="side-nav">
+            <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'coupons'=>1)); ?>
+        </div>
+        <!-- change user image -->
+      </div>
+      <!--  -->
+
+      <div class="right-side ">
+
+        <div class="heading-box">
+          <h4 class="heading"> Manage Coupons </h4>
+          <a class="btn view-btn" href="<?= APPLICATION_URL.'/add-coupon'; ?>"> Create New </a>
+        </div>
+        <!-- heading box -->
+
+            <div class="comman-form">
+              <div class="table-block">
+                  <div class="table-responsive">
+                  <table class="table" id="#sample_1">
+                    <thead>
+                      <tr class="table-head">
+                        <th scope="col">Name</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(!empty($coupon_data)) { foreach($coupon_data as $coupon_data_key => $coupon_data_val) { ?>
+                    <tr>
+                        <td> <?= $coupon_data_val["coupon_title"]; ?> </td>
+                        <td> <?= $coupon_data_val["coupon_code"]; ?> </td>
+                        <?php if($coupon_data_val["coupon_status"] == '0') { ?><td class="deactive">Inactive</td><?php } else { ?><td class="active">Active</td><?php } ?> 
+                        <td> <?= $coupon_data_val["coupon_start_date"]; ?>  </td>
+                        <td> <?= $coupon_data_val["coupon_end_date"]; ?> </td>
+                        <td> 
+                          <div class="icons-box icon-td d-flex">
+                            <span class="icons edit"> <a href="<?= APPLICATION_URL.'/edit-coupon/'.myurl_encode($coupon_data_val["coupon_id"]); ?>"><img src="<?=HTTP_IMG_PATH?>/edit.svg"></a> </span>
+                            <span class="icons delete"> <a href="javascript:void(0)" class="coupon-trashtg" title="Delete Coupon" data-id="<?= myurl_encode($coupon_data_val["coupon_id"]) ?>"><img src="<?=HTTP_IMG_PATH?>/delete.svg"></a> </span>
+                          </div> 
+                      </td>
+                      </tr>
+                      <?php } } else { ?>
+                      <tr>
+                        <td colspan="5">No coupon found.</td>
+                      </tr>
+                      <?php } ?>
+                    </tbody>
+                  </table>
+                  </div>
+                  <!-- table-responsive -->
+                </div>
+
+            </div>
+
+      </div>
+
+      <!-- right-side-block -->
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="prodtrashModalLabel">Are you sure you want to remove the coupon?  </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+          <div class="modal-btn-box">
+          <a href="javascript:void(0)" class="proaccept-acceptbtn btn view-btn">Yes</a>
+          <a href="javascript:void(0)" class="protrash-cancelbtn btn view-btn">Cancel</a>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="prodstatModal" tabindex="-1" role="dialog" aria-labelledby="prodstatModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="prodtrashModalLabel">Are you sure you want to remove the coupon?  </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="modal-btn-box">
+          <a href="javascript:void(0)" class="prostat-acceptbtn btn view-btn">Yes</a>
+          <a href="javascript:void(0)" class="prostat-cancelbtn btn view-btn">Cancel</a>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-------------------------------------------------------------------------------------------->
+<script type="text/javascript">
+var isSubmit=1; 		
+
+$(document).ready(function(e) {
+        $("#sample_1").dataTable({
+		 "responsive": true,
+		 "bAutoWidth": false,
+		 "bInfo" : false,
+		 "bSort" : true,
+		 "bFilter": false,
+			 "bLengthChange" : false,
+			  "order"			: [[2,"desc"]],
+			 "aoColumnDefs": 
+			 [
+				{ "bSortable": false, "aTargets": [1,2] },
+			 ], 
+		"iDisplayLength": 5,
+		"aLengthMenu"	: [[5,50,100],[5,50,100]],
+			 "fnDrawCallback":function( oSettings ){
+			
+			if($(".deimg").length>0){
+				$('.deimg').initial(); 
+			}
+			var elems=Array.prototype.slice.call(document.querySelectorAll('.js-switch:not(.test)'));
+			elems.forEach(function(html) {
+			 	 var switchery = new Switchery(html,{color:'#03A9F4',size:'small'});
+				 if (switchery.markedAsSwitched()) { $('.js-switch').addClass("test"); }
+			});
+		}
+		})
+		$(".trending-stattxt").addClass("midmenu-txt");
+		$(".trending-stattxt").removeClass("midmenuact-txt");   
+    });
+
+$(document).on("click",".prod-trashbtn",function() {
+	var prod = $(this).attr("data-id");
+	$(".proaccept-acceptbtn").attr("data-id",prod);
+	$("#prodtrashModal").modal("show");
+})
+
+$(document).on("click",".protrash-cancelbtn",function() {
+	$("#prodtrashModal").modal("hide");
+})
+
+$(document).on("click",".proaccept-acceptbtn",function() {
+	var coupon = $(this).attr("data-id");
+	$.ajax({
+	  url: baseUrl + "/trash-coupon",
+	  type: "POST",
+	  data: { coupon: coupon },
+	  success: function (data) {
+		  $("#prodtrashModal").modal("hide");
+		  if(data == 'success') {
+		  	showAppAlert('Success!','Coupon has been deleted successfully.','success');
+		  } else if(data == 'error') {
+		  	showAppAlert('Error!','Something went wrong. Please check again.','error');
+		  }
+		  setTimeout(function(){ location.reload(); }, 1000);
+	  }
+	})
+})
+
+$(document).on("click",".coupon-stattg",function() {
+	var coupon = $(this).attr("data-id");
+	if($(this).attr("title") == 'Activate') {
+		$("#prodstatModal").find(".modal-description").html("Are you sure you want to activate the coupon?");
+		$(".prostat-acceptbtn").attr("data-vid","1");
+	} else {
+		$("#prodstatModal").find(".modal-description").html("Are you sure you want to deactivate the coupon?");
+		$(".prostat-acceptbtn").attr("data-vid","2");
+	}
+	$(".prostat-acceptbtn").attr("data-id",coupon);
+	$("#prodstatModal").modal("show");
+})
+
+$(document).on("click",".prostat-acceptbtn",function() {
+	var coupon = $(this).attr("data-id");
+	var tid = $(this).attr("data-vid");
+	$.ajax({
+	  url: baseUrl + "/update-couponstat",
+	  type: "POST",
+	  data: { coupon: coupon, tid:tid },
+	  success: function (data) {
+		  $("#prodstatModal").modal("hide");
+		  if(data == 'success') {
+		  	showAppAlert('Success!','Coupon status has been updated successfully.','success');
+			setTimeout(function(){ location.reload(); }, 1000);
+		  } else if(data == 'error') {
+		  	showAppAlert('Error!','Something went wrong. Please check again.','error');
+		  }
+	  }
+	})
+})
+
+$(document).on("click",".prostat-cancelbtn",function() {
+	$("#prodstatModal").modal("hide");
+})
+
+$(document).on("click",".coupon-trashtg",function() {
+	var coupon = $(this).attr("data-id");
+	$(".proaccept-acceptbtn").attr("data-id",coupon);
+	$("#prodtrashModal").modal("show");
+})
+
+$(document).on("click",".protrash-cancelbtn",function() {
+	$("#prodtrashModal").modal("hide");
+})
+</script>

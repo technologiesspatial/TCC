@@ -1,0 +1,128 @@
+<style type="text/css">
+	.decline-reasontxt{width:100%;}
+	.totalearn-tg{text-align:right;margin-bottom:10px;color:#010101;font-size:15px;}
+	.btn-black{background:#000 !important;color:#fff !important;}
+</style>
+<div class="panel">
+  <div class="panel-body">
+    <div class="row">
+    	
+      </div>
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+          <thead>
+            <tr>
+              <th width="3%"><?=$this->layout()->translator->translate("S No.")?></th>
+              <th width="10%"><?=$this->layout()->translator->translate("Refund Type")?></th>              
+              <th width="8%"><?=$this->layout()->translator->translate("Amount to refund")?></th>              
+              <th width="8%"><?=$this->layout()->translator->translate("Seller Name")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Date")?></th>
+              <th width="8%" class="none"><?=$this->layout()->translator->translate("Message")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Status")?></th>
+              <th width="14%"><?=$this->layout()->translator->translate("Action")?></th>
+            </tr>
+          </thead>
+          <tbody  class="SortContentMain">
+          </tbody>
+        </table>
+    </div>
+  </div>
+ <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Approve Refund <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="modal-description"> Are you sure you want to approve the refund request? </p>
+          <a href="javascript:void(0)" class="badge-acceptbtn btn btn-success">Yes</a>
+          <a href="javascript:void(0)" class="badge-cancelbtn btn btn-danger">Cancel</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="orderinfoModal" tabindex="-1" role="dialog" aria-labelledby="orderinfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="declineModalLabel">Order Information <img src="<?=HTTP_IMG_PATH?>/bat.png"> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>Product Name: Test</p>
+      </div>
+      
+    </div>
+  </div>
+</div> 
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(e) {
+	$('#sample_1').DataTable({
+		"language":{"lengthMenu": "Show _MENU_ records"},
+		"bProcessing":true,
+		"bServerSide":true,
+		"bAutoWidth":false,
+		"responsive":true,
+		"bInfo":false,
+		"pagingType":"first_last_numbers",
+		"order":[[4,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":[0,2,6,7]},/*
+			{"bSearchable":false,"aTargets":[5]}*/
+		 ],
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getrefund-requests",
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		"fnDrawCallback":function( oSettings ){}
+	});
+});
+	
+$(document).on("click",".accept-refundbtn",function() {
+	var tid = $(this).attr("data-id");
+	$(".badge-acceptbtn").attr("data-id",tid);
+	$("#acceptModal").modal("show");
+})
+
+$(document).on("click",".badge-cancelbtn",function() {
+	$("#acceptModal").modal("hide");
+})
+
+$(document).on("click",".badge-acceptbtn",function() {
+	var tid = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/approve-refund",
+		type: 'POST',
+		data: {tid:tid},
+		success: function(res) {
+			if(res == 'success') {
+				toastInit("Refund request has been approved successfully.",'success');
+				$("#acceptModal").modal("hide");
+				setTimeout(function(){ 
+					location.reload();
+				}, 1500);				
+			} else {
+				toastInit("Something went wrong. Please check again.",'danger');
+			}
+		}
+	})
+})
+	
+$(document).on("click",".order-refundbtn",function() {
+	var tid = $(this).attr("data-id");
+	$.ajax({
+		url: baseUrl + "/order-info",
+		type: 'POST',
+		data: {tid:tid},
+		success: function(res) {
+			$("#orderinfoModal").find(".modal-body").html(res);
+			$("#orderinfoModal").modal("show");
+		}
+	})
+})	
+</script>	

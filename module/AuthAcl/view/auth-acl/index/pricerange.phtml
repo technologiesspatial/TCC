@@ -1,0 +1,37 @@
+<?php if(!empty($price_ranges)) { ?>
+	<div class="best-offers">
+		<div class="offer-holder">
+			<div class="table-block table-prices">
+				<div class="table-responsive">
+				<table class="table">
+					<thead>
+					<tr class="table-head">
+						<th scope="">Color Title</th>
+						<th scope="">Size</th>	
+						<th scope="">Available Quantity</th>
+						<?php /*?><th scope="">From Quantity</th>
+						<th scope="">To Quantity</th><?php */?>
+						<th scope="col">price</th>
+					</tr>
+					</thead>
+					<!--  -->
+					<tbody>
+						<?php foreach($price_ranges as $price_ranges_key => $price_ranges_val) { ?>
+							<tr>
+								<td><?= $price_ranges_val["color_title"]; ?></td>
+								<td><?= $price_ranges_val["color_size"]; ?></td>
+								<td><?= $price_ranges_val["color_qty"]; ?></td>
+								<?php /*?><td><?= $price_ranges_val["color_qtyfrom"]; ?></td>
+								<td><?= $price_ranges_val["color_qtyto"]; ?></td><?php */?>
+								<td><?= "$".$price_ranges_val["color_price"]; ?></td>
+							</tr>
+						<?php } ?>
+					</tbody>
+					<!--  -->
+				</table>
+				<!-- table -->
+				</div>
+			</div>
+		</div>
+	</div>
+<?php } ?>

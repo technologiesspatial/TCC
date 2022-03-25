@@ -1,0 +1,4 @@
+Size: <?php if(!empty($sizes_arr)) { foreach($sizes_arr as $sizes_arr_key => $sizes_arr_val) { ?>
+	<a href="javascript:void(0)" class="size-maintg" data-id="<?= $sizes_arr_val ?>"><?= $sizes_arr_val ?></a> 
+<?php } } ?>
+<input type="hidden" class="selected_size">

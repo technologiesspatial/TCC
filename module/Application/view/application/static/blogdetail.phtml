@@ -1,0 +1,139 @@
+<style type="text/css">
+	.comman-section:before{content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background:rgba(0,0,0,0.7);}
+	.btn-primary{background:rgb(1, 0, 1) !important;border-color:rgb(1, 0, 1) !important;}
+	@media (max-width: 500px) {
+        .comman-section {height:auto;padding-bottom:30px;}
+	}
+</style>
+<div class="blog-page blog-detail-page">	
+	<div class="comman-section" style="background:url('<?= HTTP_BLOG_IMAGES_PATH.'/'.$blog_detail["blog_pic"]; ?>');background-position:center;background-size:cover;">
+		<div class="container" style="position:relative">
+			<div class="common-heading">
+                <h2 class="heading"> <?= $blog_detail["blog_title"]; ?>   </h2>
+                <div class="blog-post">
+                    <div class="cricle-logo"> <img src="<?=HTTP_IMG_PATH?>/cricle-logo.png">  </div>
+                    <div class="">
+                        <div class="">
+                            <h2 class="titles"> <?= $blog_detail["blog_category_title"]; ?></h2>
+                            <p class="post-date mb-0"> <?= date("F d Y",strtotime($blog_detail["blog_date"])); ?> </p>
+
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>	
+    </div>
+    
+    <div class="blog-page-middal-section">
+        <div class="container">
+                    <div class="blog-detail-section">
+                        <div class="right-side-section pl-0">
+                            
+                            <div class="blog-content pt-0">
+                                <p class="descripton"> <?= nl2br($blog_detail["blog_text"]); ?> </p>
+                            </div>
+                            <!-- blog-content -->
+                            <div class="blog-views">
+                                <div class="left">
+                                    <p class="views mb-0"> <span><?= $blog_views ?></span> views </p>
+                                    <p class="comments"><a class="comment-blogtg" href="javascript:void(0)"> Write a comment </a></p>
+                                    <p class="comments share-post"><a class="share-posttg" href="javascript:void(0)"> Share post </a></p>
+                                    <div class="share-slider hider social-share" data-title="<?= slugify($blog_detail["blog_title"]).'~'.str_replace("=","",base64_encode($blog_detail["blog_id"])) ?>" data-description="<?= substr(strip_tags($blog_detail["blog_text"]),0,300) ?>" data-pic="<?php if(!empty($blog_detail["blog_pic"])) { echo HTTP_BLOG_IMAGES_PATH.'/'.$blog_detail["blog_pic"]; } else { echo ""; } ?>">
+										<a href="javascript:void(0);" class="share-post-social" data-share="facebook" style="background: #3b5998;" data-toggle="tooltip" title="" data-original-title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+										<a href="javascript:void(0);" class="share-post-social" data-share="twitter" style="background: #1DA1F2;" data-toggle="tooltip" title="" data-original-title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                                		                                		
+									</div>
+                                </div>
+                                <?php /*?><div class="like-icons">  <img src="<?=HTTP_IMG_PATH?>/heart.svg"> </div><?php */?>
+                            </div>
+                            <?php if(!empty($loggedUser)) { ?>
+                            <div class="comment-box" id="comment-boxgrp">
+                            	<form id="commentform" name="commentform" class="commentform">
+                            	<div class="form-group">		
+                                	<textarea class="form-control required comment-txtbox" rows="3"></textarea>
+                                    <a href="javascript:void(0)" class="comment-btntg btn btn-xs">Comment</a>
+                                </div>    
+                                </form>
+                            </div>
+                            <?php } ?>
+                            <div class="comment-section">
+                            	<?php if(!empty($all_comments)) { foreach($all_comments as $all_comments_key => $all_comments_val) { ?>
+                                	<div class="comment-subblk">
+                                	<p class="comment-timer">
+                                    <?php if(!empty($all_comments_val[T_CLIENT_VAR."client_image"])) { ?>
+                                    <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$all_comments_val[T_CLIENT_VAR.'client_image'] ?>" class="rounded-circle img-fluid comment-pictg" />
+									<?php } else { ?>
+                                    <img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png' ?>" class="rounded-circle img-fluid comment-pictg" />
+                                    <?php } ?> <?= $all_comments_val[T_CLIENT_VAR.'client_name']; ?> <span class="comment-timetg"><?= time_elapsed_str($all_comments_val["comment_date"]); ?></span></p>
+                                    <p class="comment-para"><?= nl2br($all_comments_val["comment_text"]); ?></p>
+                                    </div>
+								<?php } } ?>
+                            </div>
+                            <!-- blog-views -->
+
+                        </div>
+                        <!-- right side section -->
+                    </div><!-- blog-detail-section -->
+        </div>
+    </div>
+    <!-- blog page middal section -->
+</div>
+<script type="text/javascript">
+	$(document).on("click",".share-posttg",function() {
+		$(".share-slider").toggleClass("hider");
+	})
+	
+	$(document).on("click",".comment-blogtg",function() {
+		<?php if(empty($loggedUser)) { ?>
+			 swal({
+				title: "Login Alert!",	
+				text: "Please login to your account to comment.",
+				icon: "warning"
+			  })
+		<?php } ?>
+	})
+	
+	$(document).on("click",".comment-btntg",function() {
+		var txt = $(".comment-txtbox").val();
+		$(".comment-txtbox").val(txt.trim());
+		if($(".commentform").valid()) {
+			var comment_txt = $(".comment-txtbox").val();
+			$.ajax({
+			  url: baseUrl + "/post-comment",
+			  type: "POST",
+			  data: { comment: comment_txt,blog:'<?= str_replace("=","",base64_encode($blog_detail["blog_id"])) ?>' },
+			  success: function (data) {
+				  if(data != 'error') {
+					$(".comment-txtbox").val('');  
+				  	$(".comment-section").prepend(data);
+				  } else {
+				  	swal({
+					  title: "Alert!",	
+					  text: "Something went wrong while posting comment. Please check again.",
+					  icon: "warning"
+					})
+				  }
+			  }
+			})
+		}
+	})
+	
+	$(document).on("click", ".share-post-social", function (){
+	var type = $(this).data('share');
+	var title = $(this).parent('.social-share').attr("data-title");
+	var descrip = $(this).parent('.social-share').attr("data-description");
+	var pic = $(this).parent('.social-share').attr("data-pic");
+	if(type == 'facebook'){
+		var facebookshare = window.open("https://www.facebook.com/sharer/sharer.php?u=<?=APPLICATION_URL?>/blog-detail/" + title + "&description=" + descrip + "&picture=" + pic, "", "width=500,height=400");
+	}else{
+		var twittershare = window.open("https://twitter.com/intent/tweet?url=<?=APPLICATION_URL?>/blog-detail/" + title + "&description=" + descrip + "&picture=" + pic, "sharer", "width=580,height=325");
+	}
+	})
+</script>

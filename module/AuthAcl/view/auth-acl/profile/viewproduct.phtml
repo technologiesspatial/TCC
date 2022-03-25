@@ -1,0 +1,61 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+input[type='radio']{visibility:hidden;}
+#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+</style> 
+<div class="login_page profile_page">
+  <div class="container">
+
+      <div class="heading-box">
+        <h4 class="heading">View Product</h4>
+        <div class="border-gradient bckface-btn"><a class="btn view-btn" href="<?= APPLICATION_URL.'/manage-products'; ?>"> Back </a></div>
+      </div>
+      <div class="login-signup-form">
+          <div class="left-side signup-img profile-nav d-none d-lg-block">
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"200")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+            <div class="side-nav">
+              <ul class="side-nav-ul">
+                <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" data-id="1" class="side-nav-links"> Account Settings </a> </li>
+                <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/profile/2'; ?>" data-id="2" class="side-nav-links"> Change Password </a> </li>
+                <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/manage-products'; ?>" data-id="3" class="side-nav-links active"> Manage Products </a> </li>
+                <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/manage-coupon'; ?>" class="side-nav-links"> Manage Coupons </a> </li>
+                <li class="side-nav-items"> <a href="<?= APPLICATION_URL.'/shipping-rate'; ?>" class="side-nav-links"> Shipping Rate  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+              </ul>
+            </div>
+            <!-- change user image -->
+          </div>
+          <div class="right-side comman-form"> 
+          	<div class="prod-inftg">Product Title: <?= $product_data["product_title"]; ?></div>
+            <div class="prod-inftg">Category: <?= $product_data["category_feild"]; ?></div>
+            <div class="prod-inftg">Price: <?= "$".$product_data["product_price"]; ?></div>
+            <div class="prod-inftg">Posted On: <?= $product_data["product_date"]; ?></div>
+            <div class="prod-inftg">Status: <?php if($product_data["product_status"] == '0') { echo 'Pending'; } else if($product_data["product_status"] == '1') { echo 'Approved'; } else { echo 'Declined'; } ?></div>
+            <div class="prod-inftg">Product Photos: <br/><?php if(!empty($product_data["product_photos"])) { $product_photos = explode(",",$product_data["product_photos"]); foreach($product_photos as $product_photos_key => $product_photos_val) { if (file_exists(PRODUCT_PIC_PATH.'/160/'.$product_photos_val) && !empty($product_photos_val)) { ?>
+            	<div class="prodpic-blk"><img src="<?= HTTP_PRODUCT_PIC_PATH.'/160/'.$product_photos_val; ?>" class="prod-pictg" /></div>
+			<?php } } } ?></div>
+          </div>
+       </div> 
+    </div>
+</div>         

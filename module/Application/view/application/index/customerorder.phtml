@@ -1,0 +1,246 @@
+<div class="login_page profile_page manage-product-page">
+  <div class="container">
+
+      <div class="heading-box">
+        <h4 class="heading">My Order</h4>
+        <div class="border-gradient seller-btn"><a class="btn view-btn"> Become a Seller </a></div>
+      </div>
+
+      <div class="login-signup-form">
+          <div class="left-side signup-img profile-nav d-none d-lg-block">
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"> </div>
+                <p class="user-name">Jamie Lynn</p>
+                <div class="border-gradient change-img-btn"> <a href="#" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+            <div class="side-nav">
+              <ul class="side-nav-ul">
+                <li class="side-nav-items"> <a href="#" class="side-nav-links active"> Account Settings </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Change Password </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Upload Product </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Manage Products </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Manage Coupons </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Shipping Rate  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+              </ul>
+            </div>
+            <!-- change user image -->
+          </div>
+          <!------------ left side ------------------>
+          <div class="right-side pt-0">
+
+              <div class="select-order">
+                  <label class="">Order Status </label>
+                  <select class="custom-select">
+                    <option selected>All</option>
+                    <option value="1">Shipped</option>
+                    <option value="2">Ready to ship</option>
+                    <option value="3"> Delivered</option>
+                    <option value="3">Processing</option>
+                  </select>
+              </div>
+
+              <div class="customer-product-box">
+                  <div class="row-one">
+                    <p class="order-name">Order Number : 5190529635062955</p>
+                    <p class="order-date">Order Date : 12-01-2020</p>
+                    <p class="order-amount">Total Amount : $500</p>
+                  </div>
+
+                  <div class="customer-products">
+                    <div class="customer-left-side">
+                      <div class="product-img"> <img src="<?=HTTP_IMG_PATH?>/img-1.jpg">  </div>
+                      <div class="product-detail">
+                        <h3 class="product-title"> Product Title </h3>
+                        <p class="p-name"> <span> Price :</span> <span>$250 </span> </p>
+                        <p class="p-name"> <span> Discount: </span> <span> $20 </span> </p>
+                        <p class="p-name"> <span> Quantity :</span> <span> 2</span> </p>
+                        <p class="p-name"> <span> Amount :</span> <span> $480 Paid</span> </p>
+                      </div>
+                    </div>
+                    <div class="customer-right-side">
+                        <p class="order-status"> <span> Order Status :</span> <span class="processing"> Processing</span> </p>
+                        <div class="border-gradient review-btn"><a class="btn view-btn" data-toggle="modal" data-target="#reviewModal">Give your review  </a></div>
+                    </div>
+
+                  </div>
+                  <!-- customer product -->
+                  <div class="customer-products">
+                    <div class="customer-left-side">
+                      <div class="product-img"> <img src="<?=HTTP_IMG_PATH?>/img-3.jpg">  </div>
+                      <div class="product-detail">
+                        <h3 class="product-title"> Product Title </h3>
+                        <p class="p-name"> <span> Price :</span> <span>$250 </span> </p>
+                        <p class="p-name"> <span> Discount: </span> <span> $20 </span> </p>
+                        <p class="p-name"> <span> Quantity :</span> <span> 2</span> </p>
+                        <p class="p-name"> <span> Amount :</span> <span> $480 Paid</span> </p>
+                      </div>
+                    </div>
+                    <div class="customer-right-side">
+                        <p class="order-status"> <span> Order Status :</span> <span class="shipped"> Shipped</span> </p>
+                        <div class="border-gradient review-btn"><a class="btn view-btn" data-toggle="modal" data-target="#reviewModal"> Give your review </a></div>
+                    </div>
+
+                  </div>
+                  <!-- customer product -->
+              </div>
+              <!-- customer-product box -->
+
+              <div class="customer-product-box">
+                  <div class="row-one">
+                    <p class="order-name">Order Number : 5190529635062955</p>
+                    <p class="order-date">Order Date : 12-01-2020</p>
+                    <p class="order-amount">Total Amount : $500</p>
+                  </div>
+
+                  <div class="customer-products">
+                    <div class="customer-left-side">
+                      <div class="product-img"> <img src="<?=HTTP_IMG_PATH?>/img-1.jpg">  </div>
+                      <div class="product-detail">
+                        <h3 class="product-title"> Product Title </h3>
+                        <p class="p-name"> <span> Price :</span> <span>$250 </span> </p>
+                        <p class="p-name"> <span> Discount: </span> <span> $20 </span> </p>
+                        <p class="p-name"> <span> Quantity :</span> <span> 2</span> </p>
+                        <p class="p-name"> <span> Amount :</span> <span> $480 Paid</span> </p>
+                      </div>
+                    </div>
+                    <div class="customer-right-side">
+                        <p class="order-status"> <span> Order Status :</span> <span class="ready-to-ship"> Ready to ship</span> </p>
+                        <div class="border-gradient review-btn"><a class="btn view-btn" data-toggle="modal" data-target="#reviewModal">Give your review  </a></div>
+                    </div>
+
+                  </div>
+                  <!-- customer product -->
+                  <div class="customer-products">
+                    <div class="customer-left-side">
+                      <div class="product-img"> <img src="<?=HTTP_IMG_PATH?>/img-3.jpg">  </div>
+                      <div class="product-detail">
+                        <h3 class="product-title"> Product Title </h3>
+                        <p class="p-name"> <span> Price :</span> <span>$250 </span> </p>
+                        <p class="p-name"> <span> Discount: </span> <span> $20 </span> </p>
+                        <p class="p-name"> <span> Quantity :</span> <span> 2</span> </p>
+                        <p class="p-name"> <span> Amount :</span> <span> $480 Paid</span> </p>
+                      </div>
+                    </div>
+                    <div class="customer-right-side">
+                        <p class="order-status"> <span> Order Status :</span> <span class="delivered"> Delivered</span> </p>
+                        <div class="border-gradient review-btn"><a class="btn view-btn" data-toggle="modal" data-target="#reviewModal"> Give your review </a></div>
+                    </div>
+
+                  </div>
+                  <!-- customer product -->
+              </div>
+              <!-- customer-product box -->
+
+              <div class="customer-product-box">
+                  <div class="row-one">
+                    <p class="order-name">Order Number : 5190529635065455</p>
+                    <p class="order-date">Order Date : 13-01-2020</p>
+                    <p class="order-amount">Total Amount : $500</p>
+                  </div>
+
+                  <div class="customer-products">
+                    <div class="customer-left-side">
+                      <div class="product-img"> <img src="<?=HTTP_IMG_PATH?>/img-1.jpg">  </div>
+                      <div class="product-detail">
+                        <h3 class="product-title"> Product Title </h3>
+                        <p class="p-name"> <span> Price :</span> <span>$250 </span> </p>
+                        <p class="p-name"> <span> Discount: </span> <span> $20 </span> </p>
+                        <p class="p-name"> <span> Quantity :</span> <span> 2</span> </p>
+                        <p class="p-name"> <span> Amount :</span> <span> $480 Paid</span> </p>
+                      </div>
+                    </div>
+                    <div class="customer-right-side">
+                        <p class="order-status"> <span> Order Status :</span> <span class="ready-to-ship">Ready to ship</span> </p>
+                        <div class="border-gradient review-btn"><a class="btn view-btn" data-toggle="modal" data-target="#reviewModal">Give your review  </a></div>
+                    </div>
+
+                  </div>
+                  <!-- customer product -->
+                  
+              </div>
+              <!-- customer-product box -->
+
+              <div class="customer-product-box">
+                  <div class="row-one">
+                    <p class="order-name">Order Number : 5190529635067855</p>
+                    <p class="order-date">Order Date : 13-01-2020</p>
+                    <p class="order-amount">Total Amount : $500</p>
+                  </div>
+
+                
+                  <!-- customer product -->
+                  <div class="customer-products">
+                    <div class="customer-left-side">
+                      <div class="product-img"> <img src="<?=HTTP_IMG_PATH?>/img-3.jpg">  </div>
+                      <div class="product-detail">
+                        <h3 class="product-title"> Product Title </h3>
+                        <p class="p-name"> <span> Price :</span> <span>$250 </span> </p>
+                        <p class="p-name"> <span> Discount: </span> <span> $20 </span> </p>
+                        <p class="p-name"> <span> Quantity :</span> <span> 2</span> </p>
+                        <p class="p-name"> <span> Amount :</span> <span> $480 Paid</span> </p>
+                      </div>
+                    </div>
+                    <div class="customer-right-side">
+                        <p class="order-status"> <span> Order Status :</span> <span class="delivered"> Delivered</span> </p>
+                        <div class="border-gradient review-btn"><a class="btn view-btn" data-toggle="modal" data-target="#reviewModal"> Give your review </a></div>
+                    </div>
+
+                  </div>
+                  <!-- customer product -->
+              </div>
+              <!-- customer-product box -->
+            
+          </div>
+          <!------------- right side -------------->
+      </div>
+
+    <!-- login -->
+  </div>
+</div>
+
+
+
+
+
+<!-- modal -->
+
+
+<div class="modal reviewModal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading" id="reviewModalLabel">Leave your review </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="star-rating">
+          <ul class="d-flex p-0 justify-content-center">
+            <li class=""><img src="<?=HTTP_IMG_PATH?>/star.svg"> </li>
+            <li class=""><img src="<?=HTTP_IMG_PATH?>/star(1).svg"> </li>
+            <li class=""><img src="<?=HTTP_IMG_PATH?>/star(1).svg"> </li>
+            <li class=""><img src="<?=HTTP_IMG_PATH?>/star(1).svg"> </li>
+            <li class=""><img src="<?=HTTP_IMG_PATH?>/star(1).svg"> </li>
+          </ul>
+        </div>
+        <!--  -->
+          <form>
+            <div class="form-group">
+              <label > Review </label>
+              <textarea class="form-control" rows="5"></textarea>
+            </div>
+            <button type="button" class="btn submit-btn view-btn">Submit</button>
+          </form>
+        
+
+
+        <!--  -->
+      </div>
+      
+    </div>
+  </div>
+</div>

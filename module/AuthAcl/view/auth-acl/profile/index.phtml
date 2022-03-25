@@ -1,0 +1,666 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+.fade{display:none;}
+.fade.show{display:block;}
+input[type='radio']{visibility:hidden;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.rgt_btn{
+  background-color: #ab191a;
+  padding: 0px;
+  width: 197px;
+  height: 54px;
+  line-height: 54px;
+  border-radius: 0px;
+  font-size: 18px;
+  color: #fff !important;
+  border: none;
+  margin: 10px auto 0px;
+}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+.seller-btntg{background:#000;color:#fff;padding:10px 20px;margin-bottom:20px;display:inline-block;}
+.seller-btntg:hover{color:#fff;text-decoration:none;}
+.modal-dialog .modal-header .close span{position:relative;font-size:16px;left:0px;}	
+</style> 
+<script type='text/javascript' src="<?= FRONT_JS ?>/inputmask-bundle.js"></script>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading"><?= $tabPageTitle ?></h2>
+		</div>
+	</div>	
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class=" profile_page pt-0">
+  <div class="container">
+
+      <div class="heading-box">
+
+        <?php if($store_data["store_approval"] != '1') { ?>
+		<?php if(!empty($store_data)) { ?>
+      		<a class="btn view-btn" href="<?= APPLICATION_URL.'/dashboard'; ?>"> Manage Shop </a>
+       	<?php } else { ?>
+        	<a class="btn view-btn seller-becometg" href="javascript:void(0)"> Become a Seller </a>
+        <?php } ?>
+        <?php } else { ?>
+        <a class="btn view-btn" href="<?= APPLICATION_URL.'/dashboard'; ?>"> Manage Shop </a>
+		<?php } ?>
+      </div>
+		<div class=" d-none d-md-none text-center profiler-sector">
+      	  <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"60")?>"></div>
+                <?php echo $this->formElement($form->get('client_image'))?>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="javascript:void(0)" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+          </div> 
+      <div class="after-login-block">
+      	 
+          <div class="left-side signup-img profile-nav d-none d-xl-block">
+            <? /* ?>
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>" <?php if(empty($this->loggedUser->yurt90w_client_image)) { ?>style="object-fit:contain;"<?php } ?>></div>
+                <?php echo $this->formElement($form->get('client_image'))?>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="#" class="logout"> Logout </a>
+                  </div>
+                <?php } ?>
+                <!-- <div class="border-gradient change-img-btn"> <a href="javascript:void(0)" class="change-btn view-btn btn">Change Image</a> </div> -->
+
+            </div>
+            <? */ ?>
+
+
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"60")?>" class="cltpro-logo"> <a href="javascript:void(0)" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                  <div class="user-info">
+                    <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                    <a href="#" class="logout"> Logout </a>
+                  </div>
+            </div>
+
+            <div class="side-nav">
+              <?php if($active_tabid=='1'){ $profiler = 'profile'; } elseif($active_tabid=='2') { $profiler = 'pass'; } ?>
+              <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,$profiler=>1)); ?>
+            </div>
+            <!-- change user image -->
+          </div>
+          <div class="right-side comman-form">
+           <div role="tabpanel" class="tab-pane fade <?php if($active_tabid=='1'){ echo 'show active'; } ?>" id="profile">
+          	<form id="user_profile_form" action="<?php echo $this->url('front_profile'); ?>/1" method="post" class="profile_form" enctype="multipart/form-data">
+            <div class="row">
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_name"> First Name </label>
+              <?php echo $this->formElement($form->get('client_firstname'))?>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_name"> Last Name </label>
+              <?php echo $this->formElement($form->get('client_lastname'))?>
+            </div>
+            </div>
+            </div>
+            <div class="row">
+             <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_name"> User Name </label>
+              <?php echo $this->formElement($form->get('client_username'))?>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_email">Email Address </label>
+              <?php echo $this->formElement($form->get('client_email'))?>
+            </div>
+            </div>
+            </div>            
+            <div class="row">
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_email">Address </label>
+              <?php echo $this->formElement($form->get('client_address'))?>
+            </div>            
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_email">Apartment </label>
+              <?php echo $this->formElement($form->get('client_apartment'))?>
+            </div>            
+            </div>
+			</div>
+            <div class="row">
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_email">City </label>
+              <?php echo $this->formElement($form->get('client_city'))?>
+            </div>            
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_email">Zip Code </label>
+              <?php echo $this->formElement($form->get('client_postcode'))?>
+            </div>            
+            </div>
+			</div>
+            <div class="row">
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_email">Country </label>
+              <?php echo $this->formElement($form->get('client_country'))?>
+            </div>            
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+              <label for="client_email">State </label>
+              <?php echo $this->formElement($form->get('client_state'))?>
+            </div>            
+            </div>
+			</div>
+           	<div class="row">
+           		<div class="col-sm-6">
+				<div class="form-group">
+				  <label for="client_email">Gender </label>
+				  <?php echo $this->formElement($form->get('client_gender'))?>
+				</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+					  <label for="client_birthday">Birthday </label>
+					  <?php echo $this->formElement($form->get('client_birthday'))?>
+					</div>
+				</div>
+			</div>
+            <div class="row">
+            <div class="col-sm-6">
+            	<div class="form-group">
+              <label for="client_email">Password <small>(Required in case of changing email)</small></label>
+              <?php echo $this->formElement($form->get('client_email_password'))?>
+              	</div>
+            </div>
+			</div>
+            <?php echo $this->formElement($form->get('post_csrf'))?>
+			      <div class="f-btn">
+            	<?php echo $this->formElement($form->get('startedbtn'))?>
+            </div>
+          </form>
+		</div>
+         <div role="tabpanel" class="tab-pane fade <?php if($active_tabid=='2'){ echo 'show active'; } ?>" id="change">
+          <form action="<?php echo $this->url('front_profile'); ?>/2" method="post" class="user_password_form" enctype="multipart/form-data">
+            
+            <div class="form-group">
+              <label for="client_old_password">Current Password <small>(leave blank to leave unchanged)</small> </label>
+              <?php echo $this->formElement($form1->get('client_old_password'))?>
+            </div>
+
+            <div class="form-group">
+              <label for="client_password">New Password <small>(leave blank to leave unchanged)</small> </label>
+              <?php echo $this->formElement($form1->get('client_password'))?>
+            </div>
+            
+            <div class="form-group">
+              <label for="client_rpassword">Confirm New Password</label>
+              <?php echo $this->formElement($form1->get('client_rpassword'))?>
+            </div>
+
+            <?php echo $this->formElement($form1->get('password_csrf'))?>
+            <div class="f-btn">
+            <?php echo $this->formElement($form1->get('btnchpasswordsubmit'))?>
+            </div>
+          </form>
+
+        </div>
+        </div>	
+        
+<!-------------------------- after login nav bar --------------------------------->
+
+
+
+<!-------------------------------------------------------------------------------------------->
+
+<div class="modal fade" data-backdrop="static" id="changeImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Select photo area and press save button</h5>
+            </div>
+            <div class="modal-body">
+                <div id="cropimage_block" class="text-center">
+                <center>
+                    <div class="cropping_area text-center"><img src="" class="img-responsive" id="targetimg" /></div>
+                </center>
+                	
+                    <button type="button" class="upload_btn mt-5 btn submit-btn default_btn" id="SubmitForm">Save</button>
+                    <button type="button" class="btn btn-secondary mt-5 cancel_btn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" id="becomesellerModal" tabindex="-1" role="dialog" aria-labelledby="becomesellerModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Coven Artists information</h5>
+            <button type="button" class="close track-closebtn" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+            </div>
+            <div class="modal-body">
+                <?php /*?><p>First step Sign up link <a href="<?= APPLICATION_URL ?>/register" target="_blank" ><?= APPLICATION_URL.'/register'; ?></a></p>
+                <p>Then on the right side of your screen you see a button to become a Seller</p>
+                <p>All Sellers will have to be Approved by Admins.</p>
+                <p>Make sure to read our <a href="<?= APPLICATION_URL.'/terms-and-conditions'; ?>" target="_blank">Terms and conditions</a>  & our <a href="<?= APPLICATION_URL.'/privacy-policy'; ?>" target="_blank">Privacy Policy</a></p>
+                <p>Transaction fee is 8% not including PayPal fee so the total is 12% with PayPal</p>
+                <p>All payments are securely done by PayPal.</p>
+                <p>All advertising on our site will be free for sellers. We will be adding your products on our Facebook as well so they can click shop on our Instagram.</p>
+                <p>Payouts will be by PayPal (so on your Dashboard make sure that your PayPal email is inputted)</p>
+                <p>Payouts will be done every 2 weeks (this will help us keep track of any issues and manage disputes better.)</p>
+                <div class="text-center">
+                	<a href="<?= APPLICATION_URL.'/dashboard'; ?>" class="seller-btntg">Become a Seller</a>
+                </div><?php */?>
+                <?php $url = '@(http(s)?)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+				$site_configs["coven_artist_info"] = preg_replace($url, '<a href="http$2://$4" target="_blank" title="$0">$0</a>', $site_configs["coven_artist_info"]); ?>
+                <?= nl2br($site_configs["coven_artist_info"]) ?>
+                <div class="text-center">
+                	<a href="<?= APPLICATION_URL.'/dashboard'; ?>" class="seller-btntg">Become a Seller</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&amp;key=<?= GOOGLE_MAP_API_KEY ?>&sensor=false"></script>
+
+
+
+
+<script type="text/javascript">
+var isSubmit=1;
+
+$(document).on("click",".seller-becometg",function() {
+	$("#becomesellerModal").modal("show");
+})	
+	
+$(document).ready(function(){
+	<?php if($this->loggedUser->yurt90w_client_signup_type == 'social') { ?>
+		$("#client_email").attr("readonly","readonly");
+	<?php } ?>
+	$("#client_firstname").keydown(function(event){
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+			if(inputValue == 8) {} else {
+            	event.preventDefault(); 
+			}
+        }
+    });
+	$("#client_lastname").keydown(function(event){
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
+			if(inputValue == 8) {} else {
+            	event.preventDefault(); 
+			}
+        }
+    });
+	
+	/*var creator_address = document.getElementById('client_address');
+	var autocomplete2 = new google.maps.places.Autocomplete(creator_address);
+	var geocoder= new google.maps.Geocoder();
+	google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+        var place = autocomplete2.getPlace();
+		geocoder.geocode( { 'address': place.formatted_address}, function(results, status) {
+			  if (status == google.maps.GeocoderStatus.OK) {
+			  	for (var ac = 0; ac < results[0].address_components.length; ac++) {
+					var component = results[0].address_components[ac];
+					switch(component.types[0]) {
+						case 'country':
+						var country = component.long_name;
+						$("#client_country").val(country);
+						break;	
+					}
+			  	}; 
+
+			} 
+		  });
+	});*/
+	
+    $('form,input,select,textarea').attr('autocomplete', 'off');
+
+    $('#changeImg').on('hidden.bs.modal', function (e) {
+      // do something...
+      $('#client_image').val('');
+    });
+
+    $(document).on("change","#client_image",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readURL_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a photo upto 10 MB in size.','error');
+        }
+      }
+    });
+
+    function readURL_modal(input){
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        $('.cropping_area').html('');
+        reader.onload = function (e) {
+            var data = '<img src="'+e.target.result+'" class="img-fluid" id="targetimg" />';
+            $('.cropping_area').html(data);
+            $('#changeImg').modal('show');
+            $('#cropimage_block').show();
+			$(".modal-backdrop").removeClass("show");
+			$(".modal-backdrop").removeClass("hide");
+        }
+        reader.readAsDataURL(input.files[0]);
+        // $('#client_image').val('');
+        $('.cropped_image').hide();
+        setTimeout(function () {  
+          jCrop(); 
+        }, 500);
+      }
+    }
+
+    function jCrop(){
+      var screenImage = $('#cropimage_block').find('#targetimg');
+      var theImage = new Image();
+      theImage.src = screenImage.attr("src");
+      var imageWidth = theImage.width;
+      var imageHeight = theImage.height;
+      var cropWidth = 206;
+      var cropHeight = 180;
+      $('#targetimg').Jcrop({
+          bgFade: true,
+          setSelect: [0,0,cropWidth,cropHeight],
+          animateTo : [0,0,cropWidth,cropHeight],
+          aspectRatio: 1,
+          boxWidth: 800,   
+          boxHeight: 600, 
+          trueSize: [imageWidth,imageHeight],
+          allowResize : true,
+          minSize: [206,180],
+          maxSize: [4500,3000],
+          allowSelect : true,
+          onSelect: function(c){
+            // console.log(c);
+            var create_cordinates = '{"cordinates":[{"X":"'+c.x+'"},{"Y":"'+c.y+'"},{"W":"'+c.w+'"},{"H":"'+c.h+'"}]}';
+            $('input[name="imageCordinates"]').val(create_cordinates);
+          }    
+      }); 
+    }
+
+
+    $('#SubmitForm').on('click', function(){
+      $('#changeImg').modal('hide');
+
+      $.blockUI({
+          css: {
+              border: 'none',
+              padding: '5px',
+              width: '24%',
+              left: '39%',
+              color: '#ffffff',
+              border: '1px solid #424445',
+              backgroundColor: '#010101',
+              'z-index': '999999999999999999999999999',
+              opacity: .9,
+              color: '#fff',
+          },
+          message: "<div class='Loader'><div class='Text' style='letter-spacing: 2px;'>Just a moment</div></div>",
+      });
+
+      var post_csrf = $('.profile_img_form input[name=post_csrf]').val();
+      var imageCordinates = $('input[name="imageCordinates"]').val();
+      var files = $('#client_image')[0].files[0];
+      var fd = new FormData();
+      fd.append('client_image',files);
+      fd.append('post_csrf',post_csrf);
+      fd.append('cordinates',imageCordinates);
+      fd.append('uploadImageType','mainprofile');
+      $.ajax({
+          url: "<?php echo $this->url('front_updateprofileimage'); ?>",
+          type: 'post',
+          data: fd,
+          dataType: "json",
+          contentType: false,
+          processData: false,
+          success: function(response){
+              $.unblockUI();
+              if(response.status == 200){
+                  if(response.data.image!=''){
+                    var src = "<?php echo APPLICATION_URL.'/avatars/160/'?>" + response.data.image;
+                    /*$('.fileinput div.fileinput-exists img').attr('src', src);
+                    $('.fileinput .thumbnail img').attr('src', src);
+                    $('.fileinput .thumbnail').css("display", "inline-block");*/
+                    $('.fileinput div.fileinput-exists').css("display", "none");
+                    $('.user-image').find(".cltpro-logo").attr("src", "<?php echo APPLICATION_URL.'/avatars/60/'?>"+response.data.image);
+                    $(".user_image").find("img").attr("src", "<?php echo APPLICATION_URL.'/avatars/60/'?>"+response.data.image);
+				    showAppAlert('Success!!',response.message,'success');
+                  }
+
+              } else {
+                  $('.update_button > span.fileinput-new').text('Change Photo');
+                  $('.update_button > span.fileinput-exists').text('Change Photo');
+                  showAppAlert('Error!!',response.message,'error');
+              }
+          
+              /* reset file elements at the end */
+              $('#client_image').val('');
+
+          },
+      });
+
+    });
+
+
+    // change page title as per tab click
+    $('.profile_page .nav-link').on('click', function(){
+        $('#tabPageTitle').text($(this).text());
+    });
+
+    function formValidate(){
+      // custom function
+        $('#client_email_password').rules("remove");
+      
+        $('#user_profile_form').validate({
+          /*ignore:'',*/
+          rules:{
+              client_name:{
+                  required:true,
+              },
+              client_email:{
+                  required:true,
+              },
+              client_email_password: {
+                  minlength: 8,
+                  required:false,
+                  notDefaultText: true
+              },
+          },
+          errorPlacement:function(error,element){
+              // alert($(element).attr('id'));
+              error.insertAfter(element);
+          },
+      });
+
+    }
+
+
+    $('#client_email_password').val('');
+    $('#client_email_password').parent().hide();
+    $("[for=client_email_password]").hide();
+    var user_current_email = '<?php echo $loggedusermail; ?>';
+
+    $('#client_email').on('keyup', function(){
+        var thisVal = $(this).val();
+        $('#client_email_password').val('');
+        $('#client_email_password').parent().hide();
+        $("[for=client_email_password]").hide();
+        if(thisVal != user_current_email){
+			<?php if($this->loggedUser->yurt90w_client_signup_type == 'normal') { ?>
+          $('#client_email_password').parent().show();
+          $("[for=client_email_password]").show();
+		  <?php } ?>
+        }
+    });
+
+    /* account settings form */
+    $(document).on("click","#startedbtn",function(e){
+    /*$('#startedbtn').on('click',function(){*/
+      var client_email_val = $('#client_email').val();
+      formValidate();
+
+      if($('#user_profile_form').valid())
+      {
+        $('#user_current_email_error').remove();
+        if(client_email_val != user_current_email){
+          /*$('#client_email_password').parent().append("<span id='user_current_email_error' class='error-msg-block'>Please enter password to change email.</span>");*/
+          $('#client_email_password').rules("add", 
+          {
+              required: true
+          });
+
+          if($('#user_profile_form').valid())
+          {
+            // alert('it is valid');
+          } else {
+            // alert('it is NOT valid');
+            return false;
+          }
+          
+        } else {
+          // alert(2);
+          // $('#client_email_password').rules("remove");
+        }
+        passwordEncrypt();
+        $('#user_profile_form').submit();
+
+      } else {
+        // alert('Please check the form and complete it.');
+      }
+
+    });
+
+    /* change password form */
+    $('#btnchpasswordsubmit').on('click',function(){
+        $('.user_password_form').validate({
+            /*ignore:'',*/
+            rules:{
+                client_old_password: {
+                    minlength: 8
+                },
+                client_password: {
+                    minlength: 8,
+                    notDefaultText: true
+                },
+                client_rpassword: {
+                    equalTo: '#client_password',
+                    minlength: 8,
+                },
+            },
+            errorPlacement:function(error,element){
+                // alert($(element).attr('id'));
+                error.insertAfter(element);
+            },
+        });
+
+        if($('.user_password_form').valid())
+        {
+          passwordEncrypt();
+          $('.user_password_form').submit();
+
+        } else {
+          // alert('Please check the form and complete it.');
+        }
+
+    });
+    
+
+
+}); 
+
+$(document).on("click",".change-picbtn",function() {
+	$("#client_image").trigger("click");
+})
+
+$(document).ready(function(e) {
+	/*$("#client_birthday").datepicker({
+		format: 'mm/dd/yyyy',
+		endDate: '-18y',
+	}).on('changeDate', function(e){
+		$(this).datepicker('hide');
+	});*/
+	$('#client_birthday').inputmask("99/99/9999", {placeholder: 'MM/DD/YYYY' });
+})
+
+$(document).on("focusout","#client_birthday",function() {
+	var birth_date = $(this).val();
+	var expl = [];
+	expl = birth_date.split("/");
+	if(birth_date != '' && (expl[0] > '12' || expl[1] > '31' || expl[2] > '2012')) {
+		$('#client_birthday').val('');
+	}
+})	
+
+$(document).on("click",".side-nav-links",function() {
+	var id = $(this).attr("data-id");
+	if(id == '2') {
+		window.location.replace("<?= APPLICATION_URL.'/change-password/'; ?>"+id);
+	} else if(id == '3') {
+		window.location.replace("<?= APPLICATION_URL.'/manage-products'; ?>");
+	}
+	else {
+		window.location.replace("<?= APPLICATION_URL.'/profile/'; ?>"+id);
+	}
+})
+
+$(function() {
+    $('#client_username').keydown(function(e) {
+        if (e.keyCode == 32) // 32 is the ASCII value for a space
+            e.preventDefault();
+    });
+});    
+</script>

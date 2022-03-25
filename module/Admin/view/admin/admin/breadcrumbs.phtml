@@ -1,0 +1,10 @@
+
+<ol class="breadcrumb">
+    <?php if(count($this->pages)>0){
+		foreach($this->pages as $key=>$page){
+			if(!empty($page->pages)){?>
+			<li><a href="<?php echo $page->getHref(); ?>"><?=$page->label?></a></li>
+	<?php   }else{?>
+			<li class="active"><a href="<?php echo $page->getHref(); ?>"><?=$page->label?></a></li>
+	<?php }}} ?>
+</ol>

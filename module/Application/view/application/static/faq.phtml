@@ -1,0 +1,255 @@
+<div class="faq">
+	<div class="comman-section">
+		<div class="container">
+			<div class="common-heading">
+				<h2 class="heading">FAQ</h2>
+			</div>
+		</div>	
+	</div>
+
+	<div class="container">
+		<div class="faq-section-1">
+                <?php if(!empty($this->faqData)){ 
+                    $i=0;
+                    foreach($this->faqData as $faqData1){?>
+				<div class="panel-group d-flex" id="accordion_<?php echo $i?>" role="tablist" aria-multiselectable="true">
+					<!-- <div class="faq-bat-img"><img src="<?=HTTP_IMG_PATH?>/bat-3.png"></div> -->
+                    <div class="panel">
+                        <div class="panel-heading" role="tab" id="headingOne_<?php echo $i?>">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_<?php echo $i?>" href="#collapseOne_<?php echo $i?>" aria-expanded="true" aria-controls="collapseOne">
+                                   <?php echo $faqData1['faq_question_en']?>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne_<?php echo $i?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne_<?php echo $i?>">
+                            <div class="panel-body">
+                                <div class="description"><?php echo $faqData1['faq_answer_en'] ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php $i++;} } ?> 
+        </div>
+	</div>
+</div>
+
+
+
+
+
+
+<? /*
+<div class="faq">   
+
+<?php if(!empty($this->faqCategoryData)){?>      
+
+ <div class="container">
+
+ 	<div class="row quesion">
+
+ 		<div class="col-12 col-xl-4 col-lg-4 col-md-3">
+
+			<p class="heading">Table of Contents</p>
+
+			<hr/>
+
+			<div  class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+            <?php 
+
+			 $fqcnt=1;
+
+			foreach($this->faqCategoryData as $catKey=>$catValue){?>
+
+			  <a class="nav-link <?php if($fqcnt==1){?>active<? }?>" id="v-pills-fq<?php echo $catValue["fh_id"]?>-tab" data-toggle="pill" href="#v-pills-fq<?php echo $catValue["fh_id"]?>" role="tab" aria-controls="v-pills-fq<?php echo $catValue["fh_id"]?>" <?php if($fqcnt==1){?>aria-selected="true"<? }else{?> aria-selected="false"<? }?>><?php echo $catValue["fh_name"]?></a>
+
+              <? $fqcnt++;}?>
+			</div>
+
+		</div>	
+
+		<div class="col-12 col-xl-8 col-lg-8 col-md-9">
+
+			<div class="tab-content" id="v-pills-tabContent">
+
+			 <?php 
+
+			 $fqcnt=1;
+
+			 foreach($this->faqCategoryData as $catKey=>$catValue){
+
+				$FaqList= $this->SuperModel->Super_Get(T_FAQ,"faq_fh_id=:fhid","fetchall",array("warray"=>array("fhid"=>$catValue["fh_id"])));
+
+				
+
+				
+
+				
+
+				 ?>
+
+              <div class="tab-pane fade <?php if($fqcnt==1){?>show active <? }?>" id="v-pills-fq<?php echo $catValue["fh_id"]?>" role="tabpanel" aria-labelledby="v-pills-fq<?php echo $catValue["fh_id"]?>-tab">
+
+			  	
+
+              <?php if(!empty($FaqList)){?>
+
+					<div class="panel-group	 accordion" id="accordionfq<?php echo $catValue["fh_id"]?>">
+
+							 <?php foreach($FaqList as $fKey=>$fValue){?>
+
+                              <div class="card panel panel-default">
+
+								<div class="card-header panel-heading" id="heading<?php echo $fValue["faq_id"]?>">
+
+								  <h5 class="mb-0 panel-title">
+
+									<button class="btn btn-link panel-heading" type="button" data-toggle="collapse" data-target="#collapse<?php echo $fValue["faq_id"]?>" aria-expanded="true" aria-controls="collapse<?php echo $fValue["faq_id"]?>">
+
+									<?php echo nl2br($fValue['faq_question_'.$_COOKIE['currentLang']])?>
+
+									</button>
+
+								  </h5>
+
+								</div>
+
+
+
+								<div id="collapse<?php echo $fValue["faq_id"]?>" class="collapse show" aria-labelledby="heading<?php echo $fValue["faq_id"]?>" data-parent="#accordionfq<?php echo $catValue["fh_id"]?>">
+
+								  <div class="card-body">
+
+					
+
+									<?php echo nl2br($fValue['faq_answer_'.$_COOKIE['currentLang']])?>
+
+								  </div>
+
+								</div>
+
+							  </div>
+
+							  <? }?>
+
+							 
+
+							   
+
+							   
+
+							   
+
+						</div>
+
+			  	<? }else{?>
+
+				<div style="padding:10vw 0;text-align:center;color:#44509f;font-weight:bold;">No FAQ</div>
+
+				<? }?>
+
+			  	
+
+			  	
+
+			  </div>
+
+			  
+
+			  <? $fqcnt ++;}?>
+
+			  
+
+			</div>
+
+		</div>
+
+		
+
+	</div>
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	</div>
+
+			<? }else{?>
+
+				<div style="padding:10vw 0;text-align:center;color:#44509f;font-weight:bold;">No FAQ</div>
+
+			<? }?>
+
+	</div>
+
+ */?>	
+
+    
+
+
+
+
+
+
+
+ 	
+
+ <script>
+
+
+
+/*  
+
+ $(".panel").click(function(e) {
+
+	 //console.log($(this).find('span'));
+
+  $(e.target).closest( ".panel-heading" ).find('span').toggleClass("glyphicon-plus glyphicon-minus");
+
+  
+
+});
+
+	*/ 
+
+/*	 
+
+function toggleIcon(e) {
+
+    $(e.target)
+
+        .prev('.panel-heading')
+
+        .find(".more-less")
+
+        .toggleClass('glyphicon-plus glyphicon-minus');
+
+}
+
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+
+$('.panel-group').on('shown.bs.collapse', toggleIcon);	 
+
+  */
+
+</script>	
+
+	 	
+
+
+
+
+

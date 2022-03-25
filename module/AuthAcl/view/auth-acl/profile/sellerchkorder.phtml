@@ -1,0 +1,119 @@
+<?php if(!empty($seller_orders)) {
+	foreach($seller_orders as $seller_orders_key => $seller_orders_val) { 
+	$start_record = reset($seller_orders_val);	
+	$end_record = end($seller_orders_val);
+	$url = '@(http)?(s)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';   
+	$order_tracking = preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $start_record["order_tracking"]);		
+?>
+<div class="order-block">
+	  <div class="order-top">
+			<a href="<?= APPLICATION_URL.'/generate-pdf/'.$start_record["order_serial"]; ?>" class="pull-right invoice-dwlbtn" title="Download"><i class="fa fa-download"></i></a>
+			<div class="order-left">
+				<p class="order-id"> Order #<?= $seller_orders_key ?></p>
+				<p class="order-date"> <?= date("m-d-Y",strtotime($start_record["orderdate"])) ?> </p>
+				<?php if(!empty($order_tracking) && ($start_record["order_status"] == '3' || $start_record["order_status"] == '4')) { ?>
+					<?php /*?><p class="tracking-headtg">Tracking details: </p><?php */?>
+					<a href="javascript:void(0)" class="tracking-headtg" data-tg="<?= $end_record["order_tracking"]; ?>">Tracking Details</a>
+					<p class="d-none track-para"><?= $order_tracking ?></p>
+				<?php } ?>
+				<p class="order-date"><b>Customer Name: </b><?= $start_record[T_CLIENT_VAR."client_name"] ?></p>
+				<p class="order-date"><b>Shipping address:</b> <?= $start_record["order_address"] ?></p>
+				<?php if(!empty($start_record["order_shipname"])) { ?>
+				<p class="order-date"><b><?= $start_record["order_shipname"] ?> (<?php if($start_record["order_shiprate"] == '1') { echo "Standard"; } else { echo "International"; }  ?>)</b></p>
+				<?php } ?>
+			</div>
+			<?php if(count($seller_orders_val) < 2 && $start_record["product_isdigital"] == '1') { ?>
+			<?php } else { ?>
+			<div class="select-order">
+			<label class="">Order Status </label>
+			<select class="custom-select orderstat-chkbox" data-id="<?= $seller_orders_key ?>">
+			  <option value="1" <?php if($start_record["order_status"] == '1') { ?>selected="selected"<?php } ?> >Processing</option>
+			  <option value="2" <?php if($start_record["order_status"] == '2') { ?>selected="selected"<?php } ?>>Ready to ship</option>
+			  <option value="3" <?php if($start_record["order_status"] == '3') { ?>selected="selected"<?php } ?>>Shipped</option>
+			  <option value="4" <?php if($start_record["order_status"] == '4') { ?>selected="selected"<?php } ?>>Delivered</option>
+			</select>
+			</div>
+			<?php } ?>
+
+	  </div>
+	  <!--  -->
+
+	  <div class="table-block">
+		<div class="table-responsive">
+		  <table class="table">
+			<thead>
+			  <tr class="table-head">
+				<th scope="col"></th>
+				<th scope="col">Product Name</th>
+				<th scope="col">Price</th>
+				<th scope="col">Discount</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Amount</th>
+				<th scope="col">shipping rate</th>
+			  </tr>
+			</thead>
+			<!--  -->
+			<tbody>
+			 <?php foreach($seller_orders_val as $customer_orders_valkey => $customer_orders_valt) {
+				if($customer_orders_valt["product_isdigital"] != '1') {
+					$priceqty_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:PID and color_size =:SID and color_title =:CID","fetchAll",array('warray'=>array('PID'=>$customer_orders_valt["order_product"],'SID'=>$customer_orders_valt["order_size"],'CID'=>$customer_orders_valt["order_color"])));
+					$break_cond = '';
+					if(!empty($priceqty_data)) {					
+						foreach($priceqty_data as $priceqty_data_key => $priceqty_data_val) {
+							if($break_cond == '') {
+								if(($priceqty_data_val["color_qtyfrom"] <= $customer_orders_valt["order_qty"]) && ($customer_orders_valt["order_qty"] <= $priceqty_data_val["color_qtyto"])) {
+									$product_price = (float) $priceqty_data_val["color_price"];
+									$break_cond = 1;
+								} else {
+									$end_arr = end($priceqty_data);
+									$product_price = $end_arr["color_price"];
+									$break_cond = 1;
+								}
+							}
+						}
+					}
+					$product_price = $product_price;
+				} else {
+					$product_price = $customer_orders_valt["product_price"];
+				}
+  ?>
+			  <tr>
+				<td > <div class="user-img"> 
+				<?php if(!empty($customer_orders_valt["product_defaultpic"])) { ?>
+				  <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$customer_orders_valt["product_defaultpic"]; ?>" class="orderprod-pictg" /> 
+				<?php } else {
+				$product_photos = explode(",",$customer_orders_valt["product_photos"]); 
+				if(!empty($product_photos[0])) { ?>
+				  <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$product_photos[0]; ?>" class="orderprod-pictg" />
+				<?php } } ?>  
+				</div> </td>
+				<td> 
+					<p class="dress-name"> <?= $customer_orders_valt["product_title"] ?> </p>
+					<div class="color-and-size"> 
+					  <?php if(!empty($customer_orders_valt["order_color"])) { ?>
+					  <p class="color"> Color: <span class="color-tg" data-id="<?= $customer_orders_valt["order_color"] ?>"></span> </p> 
+					  <?php } if(!empty($customer_orders_valt["order_size"])) { ?>
+					  <p class="size"> Size <span> <?= $customer_orders_valt["order_size"] ?> </span> </p>
+					  <?php } ?>  
+					</div>
+				</td>
+				<td> $<?= $customer_orders_valt["order_baseprice"] ?> </td>
+				<td> $<?= $customer_orders_valt["order_discount"]; ?> </td>
+				<td> <?php if($customer_orders_valt["product_isdigital"] != '1') { echo $customer_orders_valt["order_qty"]; } else { echo "N/A"; } ?></td>
+				<td> $<?= bcdiv($customer_orders_valt["order_total"],1,2); ?> <span> Paid </span> </td>
+				<td><?php if($customer_orders_valt["product_isdigital"] != '1') { ?>$<?= $customer_orders_valt["order_shipping"]; } else { echo "N/A"; }  ?> </td>
+
+			  </tr>
+			 <?php } ?>
+			</tbody>
+			<!--  -->
+		  </table>
+		  <!-- table -->
+		</div>
+	  </div>
+	  <!-- table block -->
+</div>
+<!-- order block -->
+<?php } } else { ?>
+	<p><?= $order_message; ?></p>
+  <?php } ?>

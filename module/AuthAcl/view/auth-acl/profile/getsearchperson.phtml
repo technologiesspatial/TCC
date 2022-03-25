@@ -1,0 +1,58 @@
+<?php /*?><?php if(!empty($store_approval)) { 
+				$msgcount_data = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_by =:UID and chat_readstatus = '2'","fetchAll",array('fields'=>'chat_id','warray'=>array('UID'=>1)));
+				if(empty($modchk)) {
+			?>
+            	<div class="col-sm-6">
+                	<div class="user-list">
+                    	<div class="media">
+                        	<?php if(!empty($mod_data[T_CLIENT_VAR.'client_image'])) { ?>
+                            	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/'.$mod_data[T_CLIENT_VAR.'client_image']; ?>" />
+							<?php } else { ?>
+                            	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png'; ?>" />
+							<?php } ?>
+                            <div class="media-body">
+                      			<div class="d-flex">
+                        			<div class="">
+                          				<h5 class="name"><?= $mod_data[T_CLIENT_VAR.'client_name']; ?></h5>
+                          				<div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/message/admin'; ?>" class="message-btn view-btn btn">Message</a> </div>
+                        			</div>
+                       				<!--  -->
+                        			<?php if(count($msgcount_data) > 0) { ?>
+                        			<div class="unread-box">
+                          				<div class="count-no"> <span><?= count($msgcount_data); ?></span> </div>
+                          				<p class="mb-0">New Message</p>
+                        			</div>
+                        			<?php } ?>
+                        			<!--  -->
+                      			</div>
+                      			<!-- d flex -->
+                    		</div>
+                        </div>
+                    </div>
+                </div>
+			<?php } } ?><?php */?>
+<?php if(!empty($message_record)) {
+	foreach($message_record as $message_record_key => $message_record_val) {
+	if($message_record_val["chat_by"] != $loggedUser->{T_CLIENT_VAR."client_id"}) {
+		$usid = str_replace("=","",base64_encode($message_record_val["chat_by"]));
+	} else {
+		$usid = str_replace("=","",base64_encode($message_record_val["chat_to"]));
+	}
+	$unread_msgdata = $this->layout()->AbstractModel->Super_Get(T_CHAT,"chat_to = '".$loggedUser->{T_CLIENT_VAR."client_id"}."' and chat_by = '".base64_decode($usid)."' and chat_readstatus != '1'","fetchAll",array('fields'=>'chat_id'));	
+	?>
+	<div class="user-section <? if($uid == $usid) { ?>active<? } ?>" data-id="<?= $usid; ?>">
+	  <div class="img-user"> 
+		  <div class=""> 
+		  <?php if(!empty($message_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$message_record_val[T_CLIENT_VAR."client_image"])) { ?>
+			<img src="<?=HTTP_PROFILE_IMAGES_PATH?>/60/<?= $message_record_val[T_CLIENT_VAR."client_image"] ?>"/> 
+		  <?php } else { ?>
+			<img src="<?= HTTP_PROFILE_IMAGES_PATH ?>/60/default.png">
+		  <?php } ?>
+		  </div> 
+		  <div class="">
+			  <div class="d-flex name-times"> <span class="user-name d-inline-block"> <?= $message_record_val[T_CLIENT_VAR."client_name"] ?> </span></div> 
+		  </div>
+	  </div>
+	  <p class="unread-message"> <?= count($unread_msgdata); ?> </p>
+	</div>
+<?php } } ?>

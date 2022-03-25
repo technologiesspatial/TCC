@@ -1,0 +1,152 @@
+<style type="text/css">
+	.message-panel{position:relative;overflow:hidden;border:solid 1px rgb(212, 212, 212);border-radius:10px;background-color:rgb(241, 241, 241);width:100%;height:590px;padding-top:15px;padding-left:15px;padding-right:5px;}
+	.chat-panel{max-height:475px;min-height:475px;overflow-y:scroll;}
+	.msgcommon-panel{clear:both;overflow:hidden;margin-bottom:30px;transition:all 0.5s linear;display:flex;}
+	.right-box{justify-content:flex-end;margin-right:5px;}
+	.left-box .message-content{background-color:rgb(218, 218, 218);width:100%;padding:15px 10px;margin-bottom:5px;border-radius:0px 25px 25px 25px;margin-left:10px;word-break:break-all;}
+	.right-box .message-content{border:solid 1px rgb(195, 198, 208);background-color:rgb(255, 255, 255);width:100%;padding:15px 10px;margin-bottom:5px;border-radius:25px 0px 25px 25px;word-break:break-all;}
+	#chat_txt{width:100%;}
+	.message-type-window{margin-top:20px;}
+	.chat-btntg{padding:0px;border:none;background:none;width:57px;height:49px;background-color:rgb(1, 0, 1);border-radius:8px !important;display:flex;justify-content:center;align-items:center;cursor:pointer;position:absolute;right:12px;top:4px;z-index:9;}
+	.avatar{min-width:40px;}
+	.chat-btntg img{max-width:35px;}
+</style>
+<div class="message-panel">
+	<div class="chat-panel">
+    	<?php if(!empty($message_record)) { foreach($message_record as $message_record_key => $message_record_val) { 
+        	 if($message_record_val["chat_by"] != $adminuser[T_CLIENT_VAR.'client_id']) { ?>
+                            <div class="left-box msgcommon-panel">
+                                <div class="avatar">
+                                <?php if(!empty($message_record_val[T_CLIENT_VAR.'client_image'])) { ?>
+                                	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$message_record_val[T_CLIENT_VAR."client_image"]; ?>">
+                                <?php } else { ?>
+                                	<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>" />
+								<?php } ?>
+                                </div>
+                                <div class="text_wrapper">
+                                    <div class="message-content">
+                                      <div class="text"><?= nl2br($message_record_val["chat_text"]); ?> </div>
+                                    </div>
+                                    <div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+                                </div>
+                            </div>
+                            <?php } else { ?>
+                            <div class="right-box msgcommon-panel">     
+                                <div class="text_wrapper">
+                                  <div class="message-content">
+                                    <div class="text"><?= nl2br($message_record_val["chat_text"]); ?>  </div>
+                                  </div>
+                                  <div class="dates"><?= time_elapsed_str($message_record_val["chat_date"]); ?></div>
+                                </div>
+                                <!-- <div class="avatar"><img src="<?=HTTP_IMG_PATH?>/user-img.jpg"></div> -->
+                            </div>
+                            <?php } 
+		 } } ?>
+    </div>
+    <div class="message-type-window">
+    	<form id="chat_form" name="chat_form">
+        	<div class="input-group">
+            	<textarea class="form-control required" id="chat_txt" name="chat_txt" placeholder="Type a message"></textarea> 
+                <div class="input-group-addon chat-btntg"><img src="<?=HTTP_IMG_PATH?>/send.svg"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(e) {
+		var scrollPane = $('.chat-panel').jScrollPane().data('jsp');
+		scrollPane.scrollToBottom();	
+		setTimeout(function(){ $(".chat-panel").addClass("message-windowtg"); }, 200);
+    });
+	
+	$('#chat_txt').keypress(function (e) {
+  		if (e.which == 13 && e.shiftKey) {
+		} else if (e.which == 13) {
+		var chat_txt = $("#chat_txt").val().trim();
+		$("#chat_txt").val(chat_txt);
+		if($("#chat_form").valid()) {
+			$("#chat_txt").val('');
+			$.ajax({
+				url: baseUrl+"/post-message",
+				type: "POST",
+				data: {chat_txt:chat_txt,chat:'<?= str_replace("=","",base64_encode($user_id)) ?>'},
+				success: function(data){
+					if(data != '') {
+						var pane2api = $('.chat-panel').data('jsp');
+    					var originalContent = pane2api.getContentPane().html();
+    					pane2api.getContentPane().html(originalContent + data);
+						pane2api.reinitialise();
+						pane2api.scrollToBottom();	
+					}
+				}
+			})
+		}
+  		}
+	});
+	
+	setInterval(function(){  
+		$.ajax({
+				url: baseUrl+"/loadmore-messages",
+				type: "POST",
+				data: {chat:'<?= str_replace("=","",base64_encode($user_id)) ?>'},
+				success: function(data){
+					if(data != '') {
+						var pane2api = $('.chat-panel').data('jsp');
+    					var originalContent = pane2api.getContentPane().html();
+    					pane2api.getContentPane().html(originalContent + data);
+						pane2api.reinitialise();
+						pane2api.scrollToBottom();	
+					}
+				}
+			})
+	}, 10000000);
+	
+	$(document).on("click",".chat-btntg",function() {
+		var chat_txt = $("#chat_txt").val().trim();
+		$("#chat_txt").val(chat_txt);
+		if($("#chat_form").valid()) {
+			$("#chat_txt").val('');
+			$.ajax({
+				url: baseUrl+"/post-message",
+				type: "POST",
+				data: {chat_txt:chat_txt,chat:'<?= str_replace("=","",base64_encode($user_id)) ?>'},
+				success: function(data){
+					if(data != '') {
+						var pane2api = $('.chat-panel').data('jsp');
+    					var originalContent = pane2api.getContentPane().html();
+    					pane2api.getContentPane().html(originalContent + data);
+						pane2api.reinitialise();
+						pane2api.scrollToBottom();	
+					}
+				}
+			})
+		}
+	})
+	
+	var Scrollingvar=0;
+	$(document).ready(function() {
+		$(document).on("scroll",'.message-windowtg',function() {
+			var length=  $(".msgcommon-panel").length;
+			var start = length;
+			if(Scrollingvar==0){
+				Scrollingvar=1; 
+				$.ajax({
+					url: baseUrl+"/pre-messages",
+					type: "POST",
+					data: {start:start,chat:'<?= str_replace("=","",base64_encode($user_id)) ?>'},
+					success: function(data){
+					if(data != '') {
+						var pane2api = $('.chat-panel').data('jsp');
+    					var originalContent = pane2api.getContentPane().html();
+    					pane2api.getContentPane().html( data + originalContent);
+						pane2api.reinitialise();
+						Scrollingvar=0; 
+					} else {
+						Scrollingvar=1; 
+					}
+				}
+				})
+			}
+		})
+	})
+</script>

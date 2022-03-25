@@ -1,0 +1,43 @@
+<?php if(!empty($chat_record)) {
+array_multisort( array_column($chat_record, "chat_id"), SORT_ASC, $chat_record );	
+foreach($chat_record as $chat_record_key => $chat_record_val) { 
+	if($chat_record_val["chat_by"] != $loggedUser->{T_CLIENT_VAR."client_id"}) {
+?>
+	<div class="left-box cmnchat-box">
+		<div class="text_wrapper">
+
+			<div class="text"><?= $chat_record_val["chat_text"]; ?>  </div>
+		</div>
+		<div class="text-user">
+		  <div class="avatar">
+		  <?php if(!empty($chat_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"])) { ?>
+			<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"]; ?>">
+		  <?php } else { ?>
+			<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>">
+		  <?php } ?>
+		  </div>
+		  <span class="times d-block"> <?= time_elapsed_str($chat_record_val["chat_date"]) ?> </span>
+		</div>
+	</div>
+<?php } else { ?>
+	<div class="right-box cmnchat-box">
+		<div class="text_wrapper">
+			<div class="text"><?= $chat_record_val["chat_text"]; ?></div>
+		</div>
+		<div class="text-user">
+		<span class="times d-block"> <?= time_elapsed_str($chat_record_val["chat_date"]) ?></span>
+		<div class="avatar">
+		<?php if(!empty($chat_record_val[T_CLIENT_VAR."client_image"]) && file_exists(PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"])) { ?>
+			<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/'.$chat_record_val[T_CLIENT_VAR."client_image"]; ?>">
+		<?php } else { ?>
+			<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/60/default.png'; ?>">
+		<?php } ?>
+		</div>
+		</div>
+	</div>
+<?php } } } if(!empty($chat_record)) { ?>
+<script>
+	$("#chat_txt").attr("data-id",'<?= $uid ?>');
+	$(".chat-btntg").attr("data-id",'<?= $uid ?>');
+</script>
+<?php } ?>

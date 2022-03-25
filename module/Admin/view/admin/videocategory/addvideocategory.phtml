@@ -1,0 +1,22 @@
+<?php
+/* * * * * * * * * * * * * * * * * * * * * *
+* Add / update video category view page 
+* * * * * * * * * * * * * * * * * * * * * */
+$form->setAttribute('class','profile_form form-horizontal');
+$form->setAttribute('autocomplete', 'off');
+
+$form->prepare();
+?>
+<div class="panel"> 
+
+	<?php echo $this->form()->openTag($form); ?>
+
+	<div class="panel-body">
+
+	    <?php echo $this->renderForm($this->form);?> 
+
+	</div>
+
+	<?php echo $this->form()->closeTag(); ?>
+
+</div>

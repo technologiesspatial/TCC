@@ -1,0 +1,413 @@
+<?php
+  $loggedusermail = $this->loggedUser->yurt90w_client_email;
+?>
+<style>
+input[type='radio']{visibility:hidden;}
+#store_description{resize:none;}
+#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+#cropimage_block{padding-bottom:30px;}
+.upload_btn{padding:6px 20px;background-color:rgb(1, 0, 1);color:#fff !important;font-size:16px;border-radius:5px;text-align:center;text-decoration:none;}
+.rgt_btn{
+  background-color: #ab191a;
+  padding: 0px;
+  width: 197px;
+  height: 54px;
+  line-height: 54px;
+  border-radius: 0px;
+  font-size: 18px;
+  color: #fff !important;
+  border: none;
+  margin: 10px auto 0px;
+}
+.btn-outline-secondary{
+  background-color: #ab191a !important;
+}
+.commen-sec-images{padding-top:20px;}
+#client_image{visibility:hidden;}
+.menu-itemz > li > a{font-size:22px !important;}
+<?php if(($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) && $store_data["store_approval"] == '1') { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+</style> 
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading"><?php if($store_data["store_approval"] != '1') { ?>Become a Seller<?php } else { ?>Update Store Details<?php } ?></h2>
+		</div>
+	</div>	
+</div>
+<div class="profile_page">
+  <div class="container">
+	<div class="profile-section">
+     <div class="profile-nav d-none d-xl-block">
+           <?php /*?> <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"200")?>"></div>
+                <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                <?php } ?>
+                <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+            </div><?php */?>
+			<div class="change-image-user-box">
+                  <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                    <div class="user-info">
+                      <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                      <a href="#" class="logout"> Logout </a>
+                    </div>
+              </div>
+            <div class="side-nav">
+              <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'prof'=>1)); ?>
+            </div>
+            <!-- change user image -->
+		</div>    
+      <!-- heading box -->
+
+      <div class="right-side comman-form">
+            <form id="storeform" name="storeform" class="store-form profile_form" method="post" enctype="multipart/form-data">
+            <?php if(!empty($store_data["store_verifydeclinetxt"])) { ?>
+            	<div class="alert alert-danger" role="alert">
+                  <strong>Alert!</strong> Admin has declined your seller application with reason <?= $store_data["store_verifydeclinetxt"] ?>
+                </div>
+			<?php } else {
+				 if($store_data["store_approval"] == '3') { ?>
+            		<div class="alert alert-info" role="alert">
+                      <strong>Store Approval:</strong> Pending
+                    </div>
+				<?php }	else if($store_data["store_approval"] == '1') { ?>
+                	<div class="alert alert-success" role="alert">
+                      <strong>Store Approval:</strong> Approved
+                    </div>
+                <?php } 
+			} if(!empty($store_data["store_badgedeclinetxt"])) { ?>
+            	<div class="alert alert-danger" role="alert">
+                  <strong>Alert!</strong> Admin has declined your badge verification request with reason <?= $store_data["store_badgedeclinetxt"] ?>
+                </div>
+			<?php } else { if($store_data["store_verification"] == '3') { ?>
+            	<div class="alert alert-info" role="alert">
+                      <strong>Badge Verification:</strong> Pending
+                    </div>
+            <?php } elseif($store_data["store_verification"] == '1') { ?>
+            	<div class="alert alert-success" role="alert">
+                      <strong>Badge Verification:</strong> Approved
+                    </div>
+			<?php } } ?>
+            <div class="form-group">
+                    <label >Store Name</label>
+                    <?php echo $this->formElement($form->get('seller_storename'))?>
+                  </div>
+                  <div class="form-group">
+                    <label >Company Legal Name</label>
+                    <?php echo $this->formElement($form->get('seller_companyname'))?>
+                  </div>
+                  <div class="form-group">
+                    <label >Contact Person</label>
+                    <?php echo $this->formElement($form->get('seller_contact'))?>
+                  </div>
+                  <div class="form-group">
+                    <label >Location</label>
+                    <?php echo $this->formElement($form->get('seller_location'))?>
+                  </div>
+                  <div class="form-group">
+                    <label >Shop Description</label>
+                    <?php echo $this->formElement($form->get('store_description'))?>
+                  </div>
+
+                  <div class="logo-upload-box">
+                    <p class="logo-title"> Logo </p>
+                    <?php echo $this->formElement($form->get('seller_logo'))?>
+                    <div class="logo-img seller-logoholder"> <?php if(!empty($store_data["store_logo"])) { ?><img src="<?= HTTP_STORE_LOGO_PATH.'/'.$store_data["store_logo"]; ?>" /><?php } else { ?><img src="<?=HTTP_IMG_PATH?>/photo.svg"><?php } ?>  </div>
+                    <div class="upload-btn btn upload-logobtn"> Upload </div>
+                    <div class="upload-btn remove-btn btn remove-logobtn"> Remove </div>                 
+                    
+                  </div>
+				  <div class="allowed-exttg">Allowed Extensions: jpg, jpeg, png</div>
+
+                  <div class="logo-upload-box">
+                    <p class="logo-title"> Banner Image </p>
+                    <?php echo $this->formElement($form->get('seller_banner'))?>
+                    <div class="logo-img seller-bannerholder"> <?php if(!empty($store_data["store_banner"])) { ?><img src="<?= HTTP_STORE_BANNER_PATH.'/160/'.$store_data["store_banner"]; ?>" /><?php } else { ?><img src="<?=HTTP_IMG_PATH?>/photo.svg"><?php } ?>  </div>
+                    <div class="upload-btn btn upload-bannerbtn"> Upload </div>
+                    <div class="upload-btn remove-btn btn remove-bannerbtn"> Remove </div>
+                  </div>
+				  <div class="allowed-exttg">Allowed Extensions: jpg, jpeg, png</div>
+                  
+                  <div class="border-gradient"><button type="button" class="btn view-btn send-btn getverify-btn" id="startedbtn"> Submit </button></div>
+                  <?php if($store_data["store_approval"] != '1') { ?>
+                  <p class="approval-text review-txt">Admin will review the details submitted by you and after approval you can upload your products.</p>
+				  <?php } ?>
+				  			  	
+                 </form>
+                 <?php if($store_data["store_verification"] != '1') { ?>
+                 <form id="badgeform" name="badgeform" class="badge-form" method="post" enctype="multipart/form-data" action="<?= APPLICATION_URL.'/badge-request'; ?>">
+                  <div class="verified-box">
+                    <h2 class="titles"> Get Verified </h2>
+
+                    <div class="form-group">
+                      <label >Upload product files</label>
+                      <div class="custom-file">
+                        <?php /*?><input type="file" class="custom-file-input form-control" id="customFileLang" lang="es"><?php */?>
+                        <?php echo $this->formElement($form->get('seller_doc1')); ?>
+                        <label class="custom-file-label" for="seller_doc1">Upload Document </label>
+                      </div>
+                      <?php if(!empty($store_data["store_doc1"])) { ?>
+                      <div><a href="<?= HTTP_STORE_DOC_PATH.'/'.$store_data["store_doc1"]; ?>" download><?= $store_data["store_doc1"]; ?></a></div>
+					  <?php } ?>
+                      <div class="allowed-exttg">Allowed Extensions: pdf, doc, docx, jpg, jpeg, png</div>
+                      <p class="doc1-holder"></p>
+                    </div>
+
+                    <div class="form-group">
+                      <label >Upload product files</label>
+                      <div class="custom-file">
+                        <?php /*?><input type="file" class="custom-file-input form-control" id="customFileLang" lang="es"><?php */?>
+                        <?php echo $this->formElement($form->get('seller_doc2')); ?>
+                        <label class="custom-file-label" for="seller_doc2">Upload Document </label>
+                      </div>
+                      <?php if(!empty($store_data["store_doc2"])) { ?>
+                      <div><a href="<?= HTTP_STORE_DOC_PATH.'/'.$store_data["store_doc2"]; ?>" download><?= $store_data["store_doc2"]; ?></a></div>
+					  <?php } ?>
+                      <div class="allowed-exttg">Allowed Extensions: pdf, doc, docx, jpg, jpeg, png</div>
+                      <p class="doc2-holder"></p>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label >Upload product files</label>
+                      <div class="custom-file">
+                        <?php /*?><input type="file" class="custom-file-input form-control" id="customFileLang" lang="es"><?php */?>
+                        <?php echo $this->formElement($form->get('seller_doc3')); ?>
+                        <label class="custom-file-label" for="seller_doc3">Upload Document </label>
+                      </div>
+                      <?php if(!empty($store_data["store_doc3"])) { ?>
+                      <div><a href="<?= HTTP_STORE_DOC_PATH.'/'.$store_data["store_doc3"]; ?>" download><?= $store_data["store_doc3"]; ?></a></div>
+					  <?php } ?>
+                      <div class="allowed-exttg">Allowed Extensions: pdf, doc, docx, jpg, jpeg, png</div>
+                      <p class="doc3-holder"></p>
+                    </div>
+					<?php if($store_data["store_verification"] != '1') { ?>
+				 <div class="border-gradient submit-btn"><button type="button" class="btn view-btn store-btn" id="startedbtn"> Submit </button></div>
+                 <p class="approval-text review-txt">Admin will review the details submitted by you and after approval, verified badge will be provided to you.</p>
+					<?php } ?>
+
+                  </div>
+
+                  
+                  
+            </form> 
+			<?php } ?>
+
+          </div>
+
+    </div>
+
+    <!-- right-side-block -->
+
+  </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&amp;key=AIzaSyBwBN9L602wvTjN55p7bQ0NpaXJ6qOHlWc&sensor=false"></script>  
+<!-------------------------- after login nav bar --------------------------------->
+
+
+
+<!-------------------------------------------------------------------------------------------->
+<script type="text/javascript">
+var isSubmit=1; 
+
+$(document).ready(function(e) {
+     var creator_address = document.getElementById('seller_location');
+	 var autocomplete2 = new google.maps.places.Autocomplete(creator_address);
+});
+
+$(document).on("click",".upload-logobtn",function() {
+	$("#seller_logo").trigger("click");
+})
+
+$(document).on("click",".upload-bannerbtn",function() {
+	$("#seller_banner").trigger("click");
+})
+
+$(document).on("change","#seller_logo",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readURL_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a photo upto 10 MB in size.','error');
+        }
+      }
+    });
+	
+	 function readURL_modal(input){
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = '<img src="'+e.target.result+'" class="img-fluid" id="targetimg" />';
+            $('.seller-logoholder').html(data);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+$(document).on("change","#seller_banner",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readbanner_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a photo upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readbanner_modal(input){
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = '<img src="'+e.target.result+'" class="img-fluid" id="targetimg" />';
+            $('.seller-bannerholder').html(data);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+$(document).on("change","#seller_doc1",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','doc','docx','pdf','JPG','JPEG','PNG','DOC','DOCX','PDF'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readdoc1_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a doc upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readdoc1_modal(input){
+      if (input.files && input.files[0]) {
+		  $(".doc1-holder").html(input.files[0]["name"]);
+      }
+    }	
+	
+$(document).on("change","#seller_doc2",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','doc','docx','pdf','JPG','JPEG','PNG','DOC','DOCX','PDF'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readdoc2_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a doc upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readdoc2_modal(input){
+      if (input.files && input.files[0]) {
+		  $(".doc2-holder").html(input.files[0]["name"]);
+      }
+    }	
+
+$(document).on("change","#seller_doc3",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','doc','docx','pdf','JPG','JPEG','PNG','DOC','DOCX','PDF'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readdoc3_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a doc upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readdoc3_modal(input){
+      if (input.files && input.files[0]) {
+		  $(".doc3-holder").html(input.files[0]["name"]);
+      }
+    }	
+
+$(document).on("click",".remove-logobtn",function() {
+	$("#seller_logo").val('');
+	$(".seller-logoholder").find("img").attr("src","<?= HTTP_IMG_PATH.'/photo.svg'; ?>");
+})
+
+$(document).on("click",".remove-bannerbtn",function() {
+	$("#seller_banner").val('');
+	$(".seller-bannerholder").find("img").attr("src","<?= HTTP_IMG_PATH.'/photo.svg'; ?>");
+})
+
+$(document).on("click",".store-btn",function() {
+	if($("#badgeform").valid()) {
+		$("#badgeform").submit();
+	}
+})
+
+$(document).on("click",".getverify-btn",function() {
+	if($("#storeform").valid()) {
+		$("#storeform").submit();
+	}
+})
+</script>

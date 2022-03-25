@@ -1,0 +1,115 @@
+<div class="panel">
+
+  <div class="panel-body">
+
+    <form method="post" action="<?php echo ADMIN_APPLICATION_URL?>/removefaqslist" id="userForm" onsubmit="return checkSelects('userForm')" >
+
+    <div class="row">
+
+        <div class="col-md-6 mb-15"> <a href="<?php echo ADMIN_APPLICATION_URL?>/managefaqs" class="btn btn-primary waves-effect waves-classic"><i class="fa fa-plus"></i> Add FAQ</a>&nbsp;&nbsp;
+
+          <button class="btn btn-danger btn-rounded waves-effect waves-classic DeleteBtn"><span class="btn-label"><i class="fa fa-trash"></i></span>
+
+          <?=$this->layout()->translator->translate("del_sel_txt")?>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+
+          <thead>
+
+            <tr>
+
+              <th width="5%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+
+              <th><div class="checkbox"><input id="deletebcchk" name="deletebcchk" type="checkbox" class="group-checkable"><label for="deletebcchk"></label></div></th>
+
+              
+
+              <th width="40%"><?=$this->layout()->translator->translate("ques_name_txt")?></th>
+
+               <th width="40%"><?=$this->layout()->translator->translate("ans_txt")?></th>
+
+
+              <th width="14%"><?=$this->layout()->translator->translate("last_mod_txt")?></th>
+
+              <th width="8%"><?=$this->layout()->translator->translate("action_txt")?></th>
+
+            </tr>
+
+          </thead>
+
+          <tbody  class="SortContentMain">
+
+          </tbody>
+
+        </table>
+
+        </form>
+
+    </div>
+
+  </div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function(e) {
+
+	
+
+	
+
+	$('#sample_1').DataTable({
+
+		"language":{"lengthMenu": "Show _MENU_ FAQ"},
+
+		"bProcessing":true,
+
+		"bServerSide":true,
+
+		"bAutoWidth":false,
+
+		"responsive":true,
+
+		"bInfo":false,
+
+		"pagingType":"first_last_numbers",
+
+		"order":[[4,"desc"]],
+
+		"aoColumnDefs":[
+
+			{"bSortable":false,"aTargets":[0,1,5]},
+
+			{"bSearchable":false,"aTargets":[1]}
+
+		 ],
+
+		  
+
+		"sAjaxSource": "<?php echo APPLICATION_URL.'/'.BACKEND?>/getfaqslist" ,
+
+		"iDisplayLength":50,
+
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+
+		
+
+		"fnDrawCallback":function( oSettings ){}
+
+	});
+
+	
+
+});
+
+</script>  
+

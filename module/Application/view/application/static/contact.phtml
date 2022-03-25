@@ -1,0 +1,265 @@
+<div class="contactus-page">	
+	<?= $page_content['page_content_'.$_COOKIE['currentLang']]; ?>
+
+	<div class="contact-us">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-5">
+					<div class="other-contact">
+						<div class="customer-care">
+							<h4 class="titles">Customer Care:</h4>
+							<a class="links" href="mailto:<?= $site_configs["site_contact_email_to_show"] ?>" > <?= $site_configs["site_contact_email_to_show"] ?> </a>
+						</div>
+
+						<ul class="followus">
+							<h4 class="titles">Follow Us:</h4>
+							<ul class="social-links">
+								<li><a class="links" href="<?= $site_configs["facebook_link"] ?>" target="blank"> <img src="<?=HTTP_IMG_PATH?>/facebook-circle.svg"> </a></li>
+								<li><a class="links" href="<?= $site_configs["instagram_link"] ?>" target="_blank">  <img src="<?=HTTP_IMG_PATH?>/instagram.svg"></a></li>
+								<li><a class="links" href="<?= $site_configs["pinterest_link"] ?>" target="_blank"> <img src="<?=HTTP_IMG_PATH?>/pinterest.svg"> </a></li>
+								<li><a class="links" href="<?= $site_configs["youtube_link"] ?>" target="_blank"> <img src="<?=HTTP_IMG_PATH?>/youtube.svg"></a></li>
+								
+							</ul>
+						</ul>
+						<!-- followus -->
+					</div>
+				</div>
+				<!-------------- left ------------->
+				<div class="col-lg-6 col-md-7">
+					<!-- contact forms -->
+						<div class="contact-forms">
+							<h4 class="titles">Email Us:</h4>
+							<form id="sm_contact_us" action="<?=$this->url('front_contactus')?>" class="profile_form" method="post">
+								<div class='row'>
+									<div class="col-sm-6"><div class="form-group"><?php echo $this->formElement($this->form->get('user_name'));?></div></div>
+									<div class="col-sm-6"> <div class="form-group"> <?php echo $this->formElement($this->form->get('user_email'));?></div> </div>
+								</div>
+								<div class=" form-group"><?php echo $this->formElement($this->form->get('user_message'));?></div>
+							
+								<?php echo $this->formElement($this->form->get('post_csrf'));?>
+								
+								<div class="border-gradient"><button type="button" class="btn view-btn send-btn" id="startedbtn"><? /* $configs["site_send_text"];  */?> Submit </button></div>
+							</form>
+						</div>
+					<!-- contact forms -->
+				</div>
+				<!---------------- right --------------->
+			</div>
+			
+		</div>
+	</div>
+	<!-- contact us -->
+</div>
+<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $this->site_configs['recaptcha_sitekey']?>"></script>
+<script>
+var interval = setInterval(function(){
+  if(window.grecaptcha){
+		grecaptcha.ready(function() {
+		    grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+		      $('#sm_contact_us').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+		    });
+		});
+	clearInterval(interval);
+  }
+}, 100);
+
+
+$('#startedbtn').on('click',function(){
+  grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+    $('#hiddenGRecaptchaResponse').remove();
+    $('#sm_contact_us').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+
+    $('#sm_contact_us').validate({
+		    ignore:'',
+		    rules:{
+		        user_name:{
+		            required:true,
+		        },
+		        user_email:{
+		            required:true,
+		        },
+		        user_subject:{
+		            required:true,
+		        }, 
+		        user_message:{
+		            required:true,
+		        },
+		    },
+		    messages:{
+		            hiddenGRecaptchaResponse:{
+		            required:"Please check captcha",
+		        }
+		    },
+		    errorPlacement:function(error,element){
+		        error.insertAfter(element);
+			},
+		  
+		});
+
+		if($('#sm_contact_us').valid())
+		{
+			// passwordEncrypt();
+			$('#sm_contact_us').submit();
+
+		} else {
+			// alert('Please check the form and complete it.');
+		}
+
+  	});
+
+  // $("#sm_contact_us").validate().element("#client_name");
+
+  
+
+});
+</script>
+
+
+
+
+
+
+<? /*
+<div class="contact-us-page">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading"><?php echo $this->pageHeading?></h2>
+		</div>
+	</div>
+</div>
+<div class="contact-section-1">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-xl-7">
+				<div class="contact-form comman-form">
+					<h2 class="title">Get in Touch</h2>
+						<form id="sm_contact_us" action="<?=$this->url('front_contactus')?>" class="profile_form" method="post">
+							<div class='row'>
+								<div class="col-sm-6"><div class="form-group"><?php echo $this->formElement($this->form->get('user_name'));?></div></div>
+								<div class="col-sm-6"><div class="form-group"><input type="text" class="form-control" placeholder="Last Name" ></div></div>
+							</div>
+							<div class="form-group"> <?php echo $this->formElement($this->form->get('user_email'));?></div>
+							<div class=" form-group"><?php echo $this->formElement($this->form->get('user_message'));?></div>
+						
+							<?php echo $this->formElement($this->form->get('post_csrf'));?>
+							
+							<button type="button" class="btn send-btn w-100" id="startedbtn">Submit</button>
+						</form>
+				</div>
+			</div>
+			<div class="col-xl-5">
+				<div class="contact-contain">
+					<h2 class="title">How Can We Help?</h2>
+					<p class="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+					<p class="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+*/ ?>
+
+
+<?php /*?><!-- <div class="maps">
+	<div id="googleMap" class="google_map" style="width:100%;height:100%;"></div>
+</div> 
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1J9PzpfMoF8cTffw2OA30gx8CpMPa__s"></script>
+<script>
+var map;
+var sch_latitude='<?php echo $this->site_configs['site_latitude']?>';
+var sch_longitude='<?php echo $this->site_configs['site_longitude']?>';
+var myCenter=new google.maps.LatLng(sch_latitude,sch_longitude);
+	function initialize()
+	{
+		var mapProp = {
+			  center:myCenter,
+			  zoom:9,
+  			  mapTypeId:google.maps.MapTypeId.ROADMAP,
+  			  scrollwheel: false,
+  			  styles: {
+     				 saturation:1
+  				}
+  			};   
+		var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		var positionLoc =new google.maps.LatLng(sch_latitude,sch_longitude);
+		var position=new google.maps.Marker({
+ 				 position:positionLoc,
+  				icon:'<?php echo APPLICATION_URL; ?>/images/contactus_icon.png?r='+Math.random(),
+			});
+			position.setMap(map);
+		}	
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){	
+	$('form,input,select,textarea').attr('autocomplete', 'off');
+});
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $this->site_configs['recaptcha_sitekey']?>"></script>
+<script>
+var interval = setInterval(function(){
+  if(window.grecaptcha){
+		grecaptcha.ready(function() {
+		    grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+		      $('#sm_contact_us').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+		    });
+		});
+	clearInterval(interval);
+  }
+}, 100);
+
+
+$('#startedbtn').on('click',function(){
+  grecaptcha.execute('<?php echo $this->site_configs['recaptcha_sitekey']?>', {action: 'homepage'}).then(function(token) {
+    $('#hiddenGRecaptchaResponse').remove();
+    $('#sm_contact_us').prepend('<input type="hidden" id="hiddenGRecaptchaResponse" name="g-recaptcha-response" value="' + token + '">');
+
+    $('#sm_contact_us').validate({
+		    ignore:'',
+		    rules:{
+		        user_name:{
+		            required:true,
+		        },
+		        user_email:{
+		            required:true,
+		        },
+		        user_subject:{
+		            required:true,
+		        }, 
+		        user_message:{
+		            required:true,
+		        },
+		    },
+		    messages:{
+		            hiddenGRecaptchaResponse:{
+		            required:"Please check captcha",
+		        }
+		    },
+		    errorPlacement:function(error,element){
+		        error.insertAfter(element);
+			},
+		  
+		});
+
+		if($('#sm_contact_us').valid())
+		{
+			// passwordEncrypt();
+			$('#sm_contact_us').submit();
+
+		} else {
+			// alert('Please check the form and complete it.');
+		}
+
+  	});
+
+  // $("#sm_contact_us").validate().element("#client_name");
+
+  
+
+});
+</script>
+<?php */?>

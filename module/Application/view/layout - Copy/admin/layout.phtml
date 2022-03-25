@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title><?php echo $this->site_configs['site_title'];?> Admin | <?=$this->pageHeading?></title>
+    <!--All CSS Files included-->
+   	<?php echo $this->render('include_css.phtml');?> 
+   	<?php $current_controller=$this->CURRENT_CONTROLLER;
+   		  $current_action=$this->CURRENT_ACTION;
+   	?>
+   <script type="text/javascript" src="<?=PLUGIN_PATH?>/global/vendor/jquery/jquery.js"></script>
+    <script src="<?=PLUGIN_PATH?>/global/vendor/breakpoints/breakpoints.js"></script>
+    <script>
+      Breakpoints();
+    </script>
+    
+    <script>
+		var siteUrl = '<?php echo SITE_HTTP_URL?>';
+		var baseUrl = '<?php echo ADMIN_APPLICATION_URL?>';
+        var currentRoute='<?=$this->layout()->currentRoute?>';
+	 </script>
+    <style>
+	.btn-icon, .btn.icon {padding: .415rem;}.form-material .form-control.is-invalid {background-image: linear-gradient(#f44336,#f44336),linear-gradient(#e0e0e0,#e0e0e0) !important;}textarea{resize:none;}.form-validation-error{
+padding-left: 0;list-style: none;color: #f44336;
+	}
+	table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td,.page-title,.table td{word-break:break-all;}
+    </style>
+    
+</head>
+ <?php 
+ $bodyclass="animsition dashboard";
+ if($current_controller=='IndexController' && ($current_action=='login' || $current_action=='forgotpassword' || 		$current_action=='resetpassword')){
+	 $bodyclass="animsition page-login-v2 layout-full page-dark";
+	 ?>
+ <? }?>
+<body class="<?php echo $bodyclass?>" style="position:relative;">
+<div id="wrapper" style="height:100%;">	
+	 <?php if($current_controller=='IndexController' && ($current_action=='login' || $current_action=='forgotpassword' || $current_action=='resetpassword')){?>
+       <?php echo $this->render('login.phtml');?>
+		<?php
+			 
+			echo $this->headScript();
+			echo $this->GetMessages();
+		?>
+
+	 <? }else{?>
+     
+	
+     <div id="page-wrapper">
+     
+          
+    
+    <?php echo $this->render('header.phtml');?>  
+    <?php echo $this->render('navigation.phtml');?>  
+        
+
+    <!-- Page -->
+    <div class="page" style="min-height:84vh;">
+    	 <?php echo $this->render("page-header.phtml");?>
+        <div class="page-content"><?php echo $this->layout()->content;?></div>
+    </div>
+    <!-- End Page -->
+		
+        
+     	
+		<?php
+			echo $this->render("footer.phtml");
+			 echo $this->headScript();
+			echo $this->GetMessages();
+		?>
+       
+    </div>
+    <? }?>
+</div>
+
+<script>
+      (function(document, window, $){
+        'use strict';
+    
+        var Site = window.Site;
+        $(document).ready(function(){
+          Site.run();
+        });
+      })(document, window, jQuery);
+    </script>
+    
+</body>
+
+
+</html>
+
+

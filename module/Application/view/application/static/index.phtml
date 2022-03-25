@@ -1,0 +1,81 @@
+
+<?php 
+$teamHtml=''; 
+?>
+
+
+
+
+	<?php if($pageTag=="about"){ ?> 
+	<div class="about-us-page">
+		<?= $page_content['page_content_'.$_COOKIE['currentLang']]; ?>
+		<div class="middal-part">
+			<div class="second-section">
+				<div class="container">
+					<div class="first-row">
+						<div class="row">
+							<div class="col-xl-7 col-lg-6">
+								<div class="right-side">
+									<h2 class="heading"><?php /*?>The Coven<?php */?>  <?php echo $this->page['section_1_main_heading'] ?> <?php /*?><img src="<?=HTTP_IMG_PATH?>/bat.png"><?php */?> </h2>
+									<p class="description"> <?php echo $this->page['section_1_discription'] ?>   </p>
+								</div>
+							</div>
+							<div class="col-xl-5 col-lg-6">
+								<div class="left-side-img"><img src="<?=HTTP_SERVICE_IMAGES_PATH?>/<?= $page['section_1_image']?>"></div>
+							</div>
+						</div>
+					</div>
+					<div class="second-row">
+						<div class="row">
+							<div class="col-xl-5 col-lg-6 order-2 order-lg-1">
+								<div class="left-side-img"><img src="<?=HTTP_SERVICE_IMAGES_PATH?>/<?= $page['about_section_2_image']?>"></div>
+							</div>
+							<div class="col-xl-7 col-lg-6 order-1 order-lg-2">
+								<div class="right-side">
+									<h2 class="heading"><?php /*?>Let your heart sing<?php */?>  <?php echo $this->page['about_section_2_heading'] ?> <?php /*?><img src="<?=HTTP_IMG_PATH?>/bat.png"><?php */?>  </h2>
+									<p class="description"><?php echo $this->page['about_section_2_discription'] ?></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="third-section" <?php if(!empty($page['about_section_3_image'])) { ?>style="background:url('<?=HTTP_SERVICE_IMAGES_PATH?>/<?= $page['about_section_3_image']?>');background-size:cover;"<?php } ?>>
+				<div class="container">
+					<div class="third-part-contain">
+						<h2 class="title"> <?php echo $this->page['about_section_3_heading'] ?>  <?php /*?>Are you an Artist & Seller?<?php */?> </h2>
+						<p class="description"><?php echo $this->page['about_section_3_discription'] ?></p>
+						<div class="border-gradient"><a href="<?= APPLICATION_URL.'/register'; ?>" class="view-btn btn"><?= $configs["site_join_now"] ?> </a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="last-section">
+			<div class="container">
+				<div class="contain-part"> 
+					<h2 class="heading text-center"><?php echo $this->page['about_section_4_heading'] ?>  <!-- <img src="<?=HTTP_IMG_PATH?>/bat.png" /> --></h2>
+					<p class="description">  <?php echo $this->page['about_section_4_discription'] ?></p>
+					
+				</div>
+			</div>
+		</div>	
+	</div>
+
+
+	<?php } if($pageTag=="privacy"){ ?> 
+
+	
+
+	<?php } if($pageTag=="terms"){ ?> 
+
+	
+		
+	<?php }
+		if($pageTag!="about"){
+		echo $this->page_content["page_content_".$_COOKIE['currentLang']];
+		}
+	?>
+
+
+
+

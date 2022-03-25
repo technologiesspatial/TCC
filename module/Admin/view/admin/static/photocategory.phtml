@@ -1,0 +1,72 @@
+<div class="panel">
+  <div class="panel-body">
+  
+    <form method="post" action="<?php echo ADMIN_APPLICATION_URL?>/remove-photo-category" id="userForm" onsubmit="return checkSelects('userForm')" >
+        <div class="row">
+          <div class="col-md-6 mb-15">
+               		 <a href="<?php echo ADMIN_APPLICATION_URL?>/manage-photocategory" class="btn btn-primary waves-effect waves-classic"><i class="fa fa-plus"></i></span> Add Category</a>
+                     
+                     <button class="btn btn-danger btn-rounded waves-effect waves-classic DeleteBtn"><span class="btn-label"><i class="fa fa-trash"></i></span>
+          <?=$this->layout()->translator->translate("del_sel_txt")?>
+          </button>
+                </div>
+           
+           
+             
+            
+          </div>
+          
+          <table class="table table-hover dataTable table-striped w-full table-bordered"  id="sample_1">
+          <thead>
+            <tr>
+              <th width="6%"><?=$this->layout()->translator->translate("sno_txt")?></th>
+                <th><div class="checkbox"><input id="deletebcchk" name="deletebcchk" type="checkbox" class="group-checkable"><label for="deletebcchk"></label></div></th>
+              <th>Category Name</th>
+              <th width="15%">Modified On</th>
+              <th width="8%"><?=$this->layout()->translator->translate("action_txt")?></th>
+            
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+         </form>
+     </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+<?php 
+$categorypath=APPLICATION_URL.'/'.BACKEND.'/getphotocategory';
+?>
+$(document).ready(function(e) {
+	
+	
+	
+	$('#sample_1').dataTable({
+		"language":{"lengthMenu": "Show _MENU_ templates"},
+		"bProcessing":true,
+		"bServerSide":true,
+		"bAutoWidth":false,
+		"responsive":true,
+		"bInfo":false,
+		"pagingType":"first_last_numbers",
+		"order":[[2,"desc"]],
+		"aoColumnDefs":[
+			{"bSortable":false,"aTargets":[0,1,2,3,4]},
+			{"bSearchable":false,"aTargets":[1,2]}
+		 ],
+		  
+		"sAjaxSource": "<?php echo $categorypath?>" ,
+		"iDisplayLength":50,
+	    "aLengthMenu":[[10,50,100],[10,50,100]],
+		
+		
+		"fnDrawCallback":function( oSettings ){}
+	});
+	
+	
+});
+</script>
+
+
+ 

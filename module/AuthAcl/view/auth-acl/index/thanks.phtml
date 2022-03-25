@@ -1,0 +1,29 @@
+<div class="comman-section">
+  <div class="container">
+    <div class="common-heading">
+      <h2 class="heading">THANK YOU</h2>
+    </div>
+  </div>	
+</div>
+
+<div class="login_page thanks-holder">
+  <div class="container">
+    <div class="login">
+      <div class="login_section contact-form comman-form">
+      	<form id="i-recaptcha" action="#" method="post" class="login_form" enctype="multipart/form-data">
+	        <h2 class="heading">Registration Successful</h2>
+	        <p class="description text-center">Thank you for your interest. We will keep you posted on updates.</p>
+			<div class="text-center">
+				<button type="button" class="btn submit-btns get-started back-homebtn" id="startedbtn">Back to home page</button>
+			</div>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('#startedbtn').on('click', function(){
+	window.location = "<?php echo SITE_HTTP_URL?>";
+});
+</script>

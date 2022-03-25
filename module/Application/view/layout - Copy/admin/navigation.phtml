@@ -1,0 +1,29 @@
+<?php
+use Zend\Session\Container;
+$session = new Container(ADMIN_AUTH_NAMESPACE);
+$adminData = $session['adminData'];
+?>
+<div class="site-menubar">
+      <div class="site-menubar-body">
+        <div>
+          <div>
+        <ul class="site-menu" data-plugin="menu">
+       	   <?php echo $this->render('menu.phtml'); ?>
+      </ul>
+    
+	 </div>
+	</div>
+</div>
+<div class="site-menubar-footer">
+        <a href="<?php echo $this->url('adminprofile')?>" class="fold-show" data-placement="top" data-toggle="tooltip"
+          data-original-title="Profile">
+          <span class="icon md-account" aria-hidden="true"></span>
+        </a>
+        <a href="<?php echo $this->url('adminprofile',array("tabtype"=>"3"))?>" data-placement="top" data-toggle="tooltip" data-original-title="Change Password">
+          <span class="icon md-lock" aria-hidden="true"></span>
+        </a>
+        <a href="<?php echo $this->url('adminlogout')?>" data-placement="top" data-toggle="tooltip" data-original-title="Logout">
+          <span class="icon md-power" aria-hidden="true"></span>
+        </a>
+      </div>
+</div>

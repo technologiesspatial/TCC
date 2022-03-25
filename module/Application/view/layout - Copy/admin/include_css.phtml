@@ -1,0 +1,35 @@
+<?php
+use Zend\Session\Container;
+$session = new Container(ADMIN_AUTH_NAMESPACE);	
+$this->loggedUser=$loggedUser = $session['adminData'];
+global $_site_assets_front_admin,$_site_assets_path_front_admin;
+foreach($_site_assets_front_admin  as $key=>$values){
+	if(isset($values[$this->CURRENT_MODULE][$this->loggedUser ?"user":"guest"]) and count($values[$this->CURRENT_MODULE][$this->loggedUser?"user":"guest"])){
+		foreach($values[$this->CURRENT_MODULE][$this->loggedUser?"user":"guest"] as $inner_key=>$inner_value){
+			if(is_array($inner_value)){
+				if(isset($inner_value[$this->CURRENT_CONTROLLER])){
+					if(isset($inner_value[$this->CURRENT_CONTROLLER][$this->CURRENT_ACTION])){
+						foreach($inner_value[$this->CURRENT_CONTROLLER][$this->CURRENT_ACTION] as $moduleKey=>$moduleValue){ 
+							if($key=='css'){ 
+								$this->headLink()->appendStylesheet($_site_assets_path_front_admin[$key][$this->CURRENT_MODULE].$moduleValue);	
+								
+							}else{
+								$this->headScript()->appendFile($_site_assets_path_front_admin[$key][$this->CURRENT_MODULE].$moduleValue,null,array());
+							}
+						}
+					}
+				}
+			}else{ 
+				if($key=='css'){ 
+						$this->headLink()->appendStylesheet($_site_assets_path_front_admin[$key][$this->CURRENT_MODULE].$inner_value);	
+				}else{
+						$this->headScript()->appendFile($_site_assets_path_front_admin[$key][$this->CURRENT_MODULE].$inner_value,null,array());
+				}
+			}
+		}
+	}
+}
+
+echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => HTTP_FAVICON_IMAGES_PATH.'/favicon.ico'));
+
+?>

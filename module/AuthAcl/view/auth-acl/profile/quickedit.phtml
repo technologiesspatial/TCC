@@ -1,0 +1,151 @@
+<style type="text/css">
+	.quick-edit-page .quick-edit-box .product-img{background-color:transparent;}
+	.quick-edit-page .form-group .custom-select{font-size:15px;}
+	.quick-edit-page .quick-edit-box .product-img img{object-fit:contain !important;}
+	/*.quick-holder{height:700px;overflow:hidden;}*/
+	.quick-pricehead{font-size:18px;margin-top:5px;}
+	.quick-pricelbl{height:40px;line-height:40px;}
+</style>
+<div class="heading-box quick-heading-box">
+	<h2 class="page-heding"> Quick Edit </h2>
+    <div class="d-flex manage-btn-box">
+    	<a href="javascript:void(0)" class="btn view-btn quick-savebtn"> Save </a>
+    	<a href="<?= APPLICATION_URL.'/manage-products'; ?>" class="btn view-btn cancle-btn"> Cancel </a>
+    </div>
+</div>
+<div class="quick-holder">
+	<form id="quick_form" name="quick_form" class="profile_form" method="post">
+    	<?php foreach($products_data as $products_data_key => $products_data_val) { if(!empty($products_data_val["product_photos"])) { $product_photos = explode(",",$products_data_val["product_photos"]); }
+			$price_data = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid =:TID","fetchAll",array('warray'=>array('TID'=>$products_data_val["product_id"])));
+		?>
+    	<div class="quick-edit-box">
+        	<div class="product-img"> <?php if(!empty($products_data_val["product_defaultpic"])) { ?>
+                    <img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$products_data_val["product_defaultpic"]; ?>">
+            <?php } else {
+				if(file_exists(PRODUCT_PIC_PATH.'/160/'.$product_photos[0]) && !empty($product_photos[0])) { ?>
+                	<img src="<?= HTTP_PRODUCT_PIC_PATH.'/240/'.$product_photos[0]; ?>" />     
+            <?php } } ?>  </div>
+            <div class="edit-form">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="form-group">
+							<input type="hidden" id="product_zone" name="product_zone[]" value="<?= str_replace("=","",base64_encode($products_data_val["product_id"])); ?>">
+							<label for="exampleInputEmail1">Product Title</label>
+							<input type="text" name="product_title[]" id="product_title" class="form-control required" placeholder="Product Title" maxlength="50" value="<?= $products_data_val["product_title"] ?>" aria-required="true">
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Category</label>
+							<select name="product_category[]" class="custom-select form-control product_category" id="product_category" data-id="<?= $products_data_val["product_id"] ?>">
+								<?php foreach($category_arr as $category_arr_key => $category_arr_val) {  ?>
+									<option value="<?= $category_arr_key ?>" <?php if($products_data_val["product_category"] == $category_arr_key) { ?>selected<?php } ?>><?= $category_arr_val; ?></option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="exampleFormControlSelect1">Sub Category</label>
+							<select name="product_subcategory[]" class="custom-select form-control product_subcategory" id="product_subcategory" data-id="<?= $products_data_val["product_id"] ?>">
+								<?php $subcategory_data = $this->layout()->AbstractModel->Super_Get(T_SUBCATEGORY_LIST,"subcategory_categoryid = '".$products_data_val["product_category"]."'","fetchAll");
+									if(!empty($subcategory_data)) {
+										foreach($subcategory_data as $subcategory_data_key => $subcategory_data_val) { ?>
+											<option value="<?= $subcategory_data_val["subcategory_id"] ?>" <?php if($products_data_val["product_subcategory"] == $subcategory_data_val["subcategory_id"]) { ?>selected<?php } ?>><?= $subcategory_data_val["subcategory_title"]; ?></option>
+										<?php }
+									}
+
+								?>
+							</select>
+						</div> 	
+					</div>
+				</div>				
+                <?php if($products_data_val["product_isdigital"] == '1') { ?>
+                <div class="row">   		      
+					  <div class="col-sm-6">
+						<div class="form-group">
+							  <label>Price</label>
+							  <div class="input-group">
+								<div class="input-group-prepend">
+								  <span class="input-group-text input-group-text1" id="basic-addon1">$</span>
+								</div>
+								<input type="text" name="product_price[]" id="product_price" class="form-control required number" placeholder="Price" maxlength="10" value="<?= $products_data_val["product_price"] ?>" aria-required="true">    
+								<div class="input-group-prepend">
+								  <span class="input-group-text input-group-text2" id="basic-addon1">  USD</span>
+								</div>
+							</div>
+						</div>
+					</div>
+          		</div>
+           		<?php } else { ?>
+           		<div class="row">
+           			<div class="col-sm-3">
+           				<label class="quick-pricehead">Color</label>
+           			</div>
+           			<div class="col-sm-3">
+           				<label class="quick-pricehead">Size</label>
+           			</div>
+           			<div class="col-sm-3">
+           				<label class="quick-pricehead">Available Qty</label>
+           			</div>
+           			<div class="col-sm-3">
+           				<label class="quick-pricehead">Price</label>
+           			</div>
+           		</div>
+           		<div class="row">
+           			<?php foreach($price_data as $price_data_key => $price_data_val) { ?> 
+           			  <div class="col-sm-3">
+           			  	<label class="quick-pricelbl"><?= $price_data_val["color_title"]; ?></label>
+           			  </div>
+           			  <div class="col-sm-3">
+           			  	<label class="quick-pricelbl"><?= $price_data_val["color_size"]; ?></label>
+           			  </div>
+           			  <div class="col-sm-3">
+           			  	<label class="quick-pricelbl"><?= $price_data_val["color_qty"]; ?></label>
+           			  </div>  		      
+					  <div class="col-sm-3">
+						<div class="form-group">
+							  <div class="input-group">
+								<div class="input-group-prepend">
+								  <span class="input-group-text input-group-text1" id="basic-addon1">$</span>
+								</div>
+								<input type="text" name="color_price[]" id="color_price" class="form-control required number" placeholder="Price" maxlength="10" value="<?= $price_data_val["color_price"] ?>" aria-required="true">    
+								<div class="input-group-prepend">
+								  <span class="input-group-text input-group-text2" id="basic-addon1">  USD</span>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" name="color[]" value="<?= $price_data_val["color_title"] ?>">
+						<input type="hidden" name="size[]" value="<?= $price_data_val["color_size"] ?>">
+						<input type="hidden" name="qty[]" value="<?= $price_data_val["color_qty"] ?>">
+						<input type="hidden" name="ids[]" value="<?= $price_data_val["color_id"] ?>">
+					</div>
+           		<?php } ?>
+           		</div>
+            	<?php } ?>
+        	</div>
+    	</div>
+        <?php } ?>
+	</form>
+</div>
+<script type="text/javascript">
+	$(document).on("change",".product_category",function() {
+		var category = $(this).val();
+		var tid = $(this).attr("data-id");
+		$.ajax({
+			url: baseUrl + "/getsub-categories",
+			type: "POST",
+			data: { category: category},
+			success: function (data) {
+				$(".product_subcategory[data-id="+tid+"]").html('');
+				var response = $.parseJSON(data);
+				$(".product_subcategory[data-id="+tid+"]").append('<option value="">Please Select</option>');
+				$(response).each(function(index, element1) {
+					if(element1.id) {
+						$(".product_subcategory[data-id="+tid+"]").append('<option value="'+element1.id+'">'+element1.title+'</option>');
+					}
+				})
+		  	}
+		})
+	})
+</script>

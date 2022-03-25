@@ -1,0 +1,979 @@
+<style type="text/css">
+	#seller_logo{visibility:hidden;position:absolute;}
+#seller_banner{visibility:hidden;position:absolute;}
+<?php if(($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"])) && $store_data["store_approval"] == '1') { ?>
+.other-header{display:none !important;}
+#navbarSupportedContent{display:none !important;}
+.custom-link{display:none;}
+<?php } ?>
+#store_description{resize:none;}
+.dark-pencil{max-width:20px;}	
+.return-mktbtn{font-size:22px;}
+.dashboard-page .count-box .color-box{line-height:44px;text-align:center;font-size:18px}
+.datepicker{background:none;}
+.neworder-questg{margin-top:0px;margin-bottom:0px;font-size:12px;color:#898989;font-family:'rubikregular';}
+.radio-button-box [type="radio"]:checked + label, .radio-button-box [type="radio"]:not(:checked) + label{font-size:12px;}	
+</style>
+<link rel="stylesheet" href="<?= FRONT_CSS ?>/uploadfile.css" />
+<script src="<?= FRONT_JS ?>/jquery.uploadfile.min.js" type="text/javascript"></script>
+
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Shop Manager</h2>
+		</div>
+	</div>	
+</div>
+
+
+<div class="profile_page dashboard-page">
+  <div class="container">
+    <div class="profile-section">
+      <div class="profile-nav d-none d-xl-block">
+            <? /* ?>
+              <div class="change-image-user-box">
+                  <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"412x274")?>"></div>
+                  <input type="hidden" name="imageCordinates" id="imageCordinates" value="" autocomplete="off">
+                  <?php if(!empty($this->loggedUser->yurt90w_client_name)) { ?>
+                  <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                  <?php } ?>
+                  <div class="border-gradient change-img-btn"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-btn view-btn btn">Change Image</a> </div>
+              </div>
+              <? */ ?>
+              <div class="change-image-user-box">
+                  <div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+                    <div class="user-info">
+                      <p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+                      <a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+                    </div>
+              </div>
+
+        <div class="side-nav">
+          <?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'dashboard'=>1)); ?>
+        </div>
+        <!-- change user image -->
+      </div>
+      <!--  -->
+
+      
+        <div class="right-side comman-form">
+
+              <!--  -->
+              <div class="heading-box">
+              <?php if(!empty($store_data["store_approval"]) && $store_data["store_approval"] == '1' && ($_SESSION["logstat"] != '2' || empty($_SESSION["logstat"]))) { ?>
+              <a class="btn view-btn return-mktbtn"> Account Settings </a><?php } ?>
+            </div>
+            <!-- heading box -->
+
+              <div class="strange-box">
+                <p class="welcome-txt">Welcome <?= $this->loggedUser->{T_CLIENT_VAR.'client_name'}; ?> </p>
+                <?php if($store_data["store_approval"] == '1') { ?>
+                <a href="<?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$store_data["store_name"]); ?>" class="web-link">  <img src="<?=HTTP_IMG_PATH?>/shop.svg">  <span><?= APPLICATION_URL.'/shop/'.str_replace(" ","-",$store_data["store_name"]); ?></span> </a>
+                <?php } ?>
+              </div>
+              <?php if($store_data["store_approval"] == '1') { ?>
+              <div class="stats-box">
+                <form class="form-inline">
+                  <label class="" >Stats overview for</label>
+                  <select class="custom-select overview_txttg" >
+                    <option value="1" selected>This week</option>
+                    <option value="2">This month</option>
+                    <option value="3">This year</option>
+                    <option value="4">All time</option>
+                  </select>
+                </form>
+              </div>
+
+              <div class="overview-zone">
+              <div class="row">
+                <div class="col-md-4 col-sm-6 ">
+                  <div class="count-box">
+                    <div class="box-1">
+                        <div class="icon-box"><img src="<?=HTTP_IMG_PATH?>/file.svg">  </div>
+                        <div class="counting-block">
+                            <p class="numbers"> <?= $store_views; ?> </p>
+                            <p class="count-txt"> Total Views </p>
+                        </div>
+                    </div>
+                   <!--  <div class="color-box">Total Views</div> -->
+                  </div>
+                  <!--  -->
+                </div>
+                <!--  -->
+                <div class="col-md-4 col-sm-6">
+                  <div class="count-box">
+                    <div class="box-1">
+                        <div class="icon-box"><img src="<?=HTTP_IMG_PATH?>/check-list.svg">  </div>
+                        <div class="counting-block">
+                            <p class="numbers"> <?= $store_orders; ?> </p>
+                            <p class="count-txt">Orders</p>
+                        </div>
+                    </div>
+                    
+                  </div>
+                  <!--  -->
+                </div>
+                <!--  -->
+                <div class="col-md-4 col-sm-6">
+                  <div class="count-box">
+                    <div class="box-1">
+                        <div class="icon-box"><img src="<?=HTTP_IMG_PATH?>/investment.svg">  </div>
+                        <div class="counting-block">
+                            <p class="numbers"> $<?= $store_earning ?> </p>
+                            <p class="count-txt">Earnings</p>
+                        </div>
+                    </div>
+                  </div>
+                  <!--  -->
+                </div>
+                <!--  -->
+              </div>
+              </div>
+              <?php } ?>
+              <!-- apply your HTML -->
+              <form id="storeform" name="storeform" class="store-form profile_form" method="post" enctype="multipart/form-data">
+              <?php /* if(!empty($store_data["store_verifydeclinetxt"])) { ?>
+                <div class="alert alert-danger" role="alert">
+                    <strong>Alert!</strong> Admin has declined your seller application with reason <?= $store_data["store_verifydeclinetxt"] ?>
+                  </div>
+          <?php } else {
+            if($store_data["store_approval"] == '3') { ?>
+                    <div class="alert alert-info" role="alert">
+                          <strong>Store Approval:</strong> Pending
+                        </div>
+            <?php }	else if($store_data["store_approval"] == '1') { ?>
+                      <div class="alert alert-success" role="alert">
+                          <strong>Store Approval:</strong> Approved
+                        </div>
+                    <?php } 
+          }  if(!empty($store_data["store_badgedeclinetxt"])) { ?>
+                  <div class="alert alert-danger" role="alert">
+                      <strong>Alert!</strong> Admin has declined your badge verification request with reason <?= $store_data["store_badgedeclinetxt"] ?>
+                    </div>
+          <?php } else { if($store_data["store_verification"] == '3') { ?>
+                  <div class="alert alert-info" role="alert">
+                          <strong>Badge Verification:</strong> Pending
+                        </div>
+                <?php } elseif($store_data["store_verification"] == '1') { ?>
+                  <div class="alert alert-success" role="alert">
+                          <strong>Badge Verification:</strong> Approved
+                        </div>
+          <?php } } */ ?>
+
+              <div class="approved-block">
+                  <?php if(!empty($store_data["store_verifydeclinetxt"])) { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/approved.svg">  Store Approval:&nbsp;<span> Declined </span> </div>
+                  <?php } else { if($store_data["store_approval"] == '3') { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/approved.svg">  Store Approval:&nbsp;<span> Pending </span> </div>
+                  <?php } else if($store_data["store_approval"] == '1') { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/approved.svg">  Store Approval:&nbsp;<span> Approved </span> </div>
+                  <?php } ?>	
+                  <?php } if(!empty($store_data["store_badgedeclinetxt"])) { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/badge.svg">  Badge Approval:&nbsp;<span> Declined </span> </div>
+                  <?php } else { if($store_data["store_verification"] == '3') { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/badge.svg">  Badge Approval:&nbsp;<span> Pending </span> </div>
+                  <?php } elseif($store_data["store_verification"] == '1') { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/badge.svg">  Badge Approval:&nbsp;<span> Approved </span> </div>	
+                  <?php } } ?>
+                  <?php /*?><?php if($this->loggedUser->{T_CLIENT_VAR."client_planstatus"} != '1') { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/invoice.svg">  Plan Status:&nbsp;<span> Inactive </span> </div>
+                  <?php } else { ?>
+                  	<div class="approve-text"> <img src="<?=HTTP_IMG_PATH?>/invoice.svg">  Plan Status:&nbsp;<span> Active </span> </div>
+                  <?php } ?><?php */?>
+              </div>
+              <?php /*?><?php  if(!empty($loggedUser->{T_CLIENT_VAR."client_stripe_id"})) { ?>
+              	<h5 class="">Stripe Connect  Details</h5> 
+              	<p>Account Id: <?= $loggedUser->{T_CLIENT_VAR."client_stripe_id"} ?> <a href="https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://www.thecollectivecoven.com/dashboard&client_id=ca_I41L6ZmChappgPVmdzLpSUW416EVK9kE"><img src="<?= HTTP_IMG_PATH.'/dark-pencil.svg'; ?>" class="img-fluid dark-pencil"></a></p>
+              <?php } else { ?>
+			  	<a class="connect-btn" data-loading-text="Connecting..." href="https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://www.thecollectivecoven.com/dashboard&client_id=ca_I41L6ZmChappgPVmdzLpSUW416EVK9kE"><img src="<?= HTTP_IMG_PATH.'/stripe-img.png'; ?>" class="img-fluid"></a>
+              	<div class="clear-holder">&nbsp;</div>
+              <?php } ?><?php */?>	
+              <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                      <label >Store Name</label>
+                      <?php echo $this->formElement($form->get('seller_storename'))?>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                      <label >Shop Title</label>
+                      <?php echo $this->formElement($form->get('seller_storetitle'))?>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                      <label >Company Legal Name</label>
+                      <?php echo $this->formElement($form->get('seller_companyname'))?>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                      <label >Contact Person</label>
+                      <?php echo $this->formElement($form->get('seller_contact'))?>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                      <label >Location</label>
+                      <?php echo $this->formElement($form->get('seller_location'))?>
+                    </div>
+                </div>   
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label >Paypal Email</label>
+                      <?php echo $this->formElement($form->get('seller_paypal'))?>
+                    </div>
+                </div>             
+                   <?php /*?>  <div class="logo-upload-box">
+                        <p class="logo-title"> Logo </p>
+                        <?php echo $this->formElement($form->get('seller_logo'))?>
+                        <div class="logo-img seller-logoholder"> <?php if(!empty($store_data["store_logo"])) { ?><img src="<?= HTTP_STORE_LOGO_PATH.'/'.$store_data["store_logo"]; ?>" /><?php } else { ?><img src="<?=HTTP_IMG_PATH?>/photo.svg"><?php } ?>  </div>
+                        <div class="upload-btn btn upload-logobtn"> Upload </div>
+                        <div class="upload-btn remove-btn btn remove-logobtn"> Remove </div>                 
+                      </div>
+                      <div class="allowed-exttg">Allowed Extensions: jpg, jpeg, png</div>
+
+                      <div class="logo-upload-box">
+                        <p class="logo-title"> Banner Image </p>
+                        <?php echo $this->formElement($form->get('seller_banner'))?>
+                        <div class="logo-img seller-bannerholder"> <?php if(!empty($store_data["store_banner"])) { ?><img src="<?= HTTP_STORE_BANNER_PATH.'/160/'.$store_data["store_banner"]; ?>" /><?php } else { ?><img src="<?=HTTP_IMG_PATH?>/photo.svg"><?php } ?>  </div>
+                        <div class="upload-btn btn upload-bannerbtn"> Upload </div>
+                        <div class="upload-btn remove-btn btn remove-bannerbtn"> Remove </div>
+                      </div>
+                      <div class="allowed-exttg">Allowed Extensions: jpg, jpeg, png</div> 
+                    <?php */?>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label> Logo (Image with resolution of 160 x 160 in pixel is recommended)<br/><br/></label>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="seller_logo" name="seller_logo">
+                          <label class="custom-file-label seller_logo" for="inputGroupFile01">Upload Logo</label>
+                        </div>
+                        <div class="upload-img-block">
+                          <small> Allowed Extensions: jpg, jpeg, png & Allowed Size: 10MB</small>
+                          <div class="upload-img seller-logoblk"> 
+                          <?php if(!empty($store_data["store_logo"])) { ?>
+                          	<img src="<?= HTTP_STORE_LOGO_PATH.'/thumb/'.$store_data["store_logo"] ?>" class="dammy-img">
+                          <?php } else { ?>
+                          	<img src="<?=HTTP_IMG_PATH?>/dummy.svg" class="dammy-img"> 
+                          <?php } ?>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>  Banner Image (Image with resolution of 1280 x 580 in pixel is recommended)</label>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="seller_banner" name="seller_banner">
+                          <label class="custom-file-label seller_banner" for="inputGroupFile01">Upload Banner Image</label>
+                        </div>
+                        <div class="upload-img-block">
+                          <small> Allowed Extensions: jpg, jpeg, png & Allowed Size: 10MB</small>
+                          <div class="upload-img banner-upload-img seller-bannerblk"> 
+                          <?php if(!empty($store_data["store_banner"])) { ?>
+                          	<img src="<?=HTTP_STORE_BANNER_PATH?>/thumb/<?= $store_data["store_banner"] ?>"> 
+                          <?php } else { ?>
+                          	<img src="<?=HTTP_IMG_PATH?>/dummy.svg" class="dammy-img">
+                          <?php } ?>
+                          </div>
+                        </div>
+                      </div>                      
+                    </div>
+                    <div class="col-sm-6">
+                    	<div class="form-group">
+							<label>Close Shop?</label>
+                    		<div class="check-boxs">
+								<div class="checks custom-checks">
+									<label for="chkbox" class="checkbox"> &nbsp;
+										<input type="checkbox" name="chkbox" id="chkbox" aria-required="true" <?php if(!empty($store_data) && $store_data["store_closed"] == '1') { ?>checked<?php } ?>>
+										<span class="checkmark"></span>
+									</label>
+								</div>
+							</div>
+                   			<div class="tilldate-holder <?php if(!empty($store_data) && $store_data["store_closed"] == '1') { ?><?php } else { ?>d-none<?php } ?>">
+                   				<label>This store will be closed till</label>
+								<input type="text" class="datepicker form-control <?php if(!empty($store_data) && $store_data["store_closed"] == '1') { ?>required<?php } ?>" id="closed_tilldate" name="closed_tilldate" <?php if(!empty($store_data["store_closed_tilldate"])) { ?>value="<?= date("m/d/Y",strtotime($store_data["store_closed_tilldate"])) ?>"<?php } ?>>
+								
+							</div>	
+                    	</div>
+                    	<div class="tilldate-holder <?php if(!empty($store_data) && $store_data["store_closed"] == '1') { ?><?php } else { ?>d-none<?php } ?>">
+                    	<p class="neworder-questg">Do you still want to take new order while the shop is closed?</p>
+								<div class="radio-button-box">
+								  <div class="radio-button">
+									<p class="m-0">
+									  <input type="radio" id="test1" name="radio-group" class="rule-chkbox" value="1" <?php if(!empty($store_data) && $store_data["store_acceptorder"] == '2') { } else { ?>checked=""<?php } ?>>
+									  <label for="test1">Yes</label>
+									</p>
+									<p class="m-0">
+									  <input type="radio" id="test2" name="radio-group" class="rule-chkbox" value="2" <?php if($store_data["store_acceptorder"] == '2') { ?>checked=""<?php } ?>>
+									  <label for="test2">No</label>
+									</p>
+								  </div>
+							  </div>  
+						</div>                  	
+                    </div>
+                    <ul class="nav nav-tabs story-tabs">
+                  		<li class="storytabs active"><a data-toggle="tab" href="#story-view" class="story-tab">Story</a></li>
+                  		<li class="storytabs"><a data-toggle="tab" href="#member-view" class="story-tab">Members</a></li>
+                    </ul>
+                    <div class="tab-content story-panel">
+                    	<div id="story-view" class="tab-pane in active">
+                    		<div class="col-sm-12">
+								<div class="form-group">
+								  <label>Story Headline</label>
+								  <?php echo $this->formElement($form->get('store_headline'))?>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+								  <label>Shop Story</label>
+								  <?php echo $this->formElement($form->get('store_description'))?>
+								</div>
+							</div>
+                   			<div class="col-sm-12">
+								<div class="form-group">
+								  <label>Shop Policies</label>
+								  <?php echo $this->formElement($form->get('store_policy'))?>
+								</div>
+							</div>
+                    	</div>
+                    	<div id="member-view" class="tab-pane">
+                    		Shop members
+                    		<div class="addmember-mainblk">
+                    		    <input type="hidden" class="cur_selct" id="cur_selct" name="cur_selct">
+                    			<?php if(!empty($member_details)) { foreach($member_details as $member_details_key => $member_details_val) { ?>
+                    				<div class="member-holderblk row">
+                    					<?php if(!empty($member_details_val["member_pic"])) { ?>
+                    						<div class="col-md-2 pickhold-blk">
+                    							<img src="<?= HTTP_TEAM_IMAGES_PATH.'/160/'.$member_details_val["member_pic"]; ?>" class="">
+											</div>
+                    					<?php } else { ?>
+                    						<div class="col-md-2 pickhold-blk">
+                    							<img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png' ?>" class="">
+											</div>
+                    					<?php } ?>
+                    					<div class="col-10">
+                    					<div class="member-subblk">
+                    						<input type="text" id="member_name" name="member_name[]" class="member-nametg form-control" placeholder="Team Member Name" maxlength="200" value="<?= $member_details_val["member_name"] ?>">
+                    					</div>
+                    					<div class="member-subblk">
+                    						<input type="text" id="member_role" name="member_role[]" class="member-roletg form-control" placeholder="Role" maxlength="100" value="<?= $member_details_val["member_role"] ?>">
+                    					</div>
+                    					<div class="member-subblk">                    						 
+                    						<div class="custom-file">
+											  <input type="file" class="custom-file-input member_photofile" id="member_photo" name="member_photo[]">
+											  <input type="hidden" id="member_pic" name="member_pic[]" class="form-control member-pictg" placeholder="Image" data-id="<?= $member_details_val["member_id"] ?>" value="<?= $member_details_val["member_pic"] ?>">
+											  <label class="custom-file-label member_photo" data-id="<?= $member_details_val["member_id"] ?>"><?php if(!empty($member_details_val["member_pic"])) { echo $member_details_val["member_pic"]; } else { ?>Upload Member Photo<?php } ?></label>
+											</div>
+                    					</div>
+                    					<div class="member-parablk">
+                    						<a href="javascript:void(0)" class="member-closebtn">
+                    							<img src="<?= HTTP_IMG_PATH ?>/trash.svg">
+                    						</a>
+                    						<textarea id="member_bio" name="member_bio[]" class="member-biotg form-control" placeholder="Bio" maxlength="255"><?= $member_details_val["member_bio"] ?></textarea>
+                    					</div>
+										</div>
+                    				</div>
+                    			<?php } } ?>
+                    		</div>                    		
+                    		<a href="javascript:void(0)" class="addmember-btn">Add Shop Member</a>
+                    	</div>
+                    </div>
+                    
+                    
+                    <?php /*?>latest commented<?php if($this->loggedUser->{T_CLIENT_VAR."client_planstatus"} != '1') { ?>
+                    <div class="col-sm-6">
+                      <div class="card-payment-block">
+                        <h1 class="card-title"> Become a Seller $<?= $configs["plan_price"] ?> <span> Monthly/Recurring </span> </h1>
+						<a href="javascript:void(0)" class="apply-coupontg">Apply Coupon Code</a>
+                        <div class="form-group">
+                          <label> Name on Card</label>
+                          <input type="text" class="form-control card_name" placeholder="Name on Card" id="card_name" name="card_name">
+                        </div>
+
+                        <div class="form-group">
+                          <label> Card Number</label>
+                          <input type="text" class="form-control card_number" placeholder="Card Number" id="card_number" name="card_number" maxlength="16" onkeypress="return isNumber(event)">
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label> Expiration Date</label>
+                              <div class="form-row">
+                                <div class="col-sm-6">
+                                  <select class="custom-select form-control exp_month" id="exp_month" name="exp_month">
+                                   <?php for($i = 1;$i <= 12; $i++) { 
+								   if($i < 10) { $i = '0'.$i; } ?>
+                                    <option value="<?= $i ?>"><?= $i ?></option>
+                                   <?php } ?> 
+                                  </select>
+                                </div>
+                                <div class="col-sm-6">
+                                  <select class="custom-select form-control exp_year" id="exp_year" name="exp_year" >
+                                   <?php for($y = 2020; $y <2037; $y++) { ?>
+                                    <option value="<?= $y ?>"><?= $y ?></option>
+                                   <?php } ?> 
+                                  </select>
+                                </div>
+                              </div>
+                              <!-- form-row -->
+                              
+                            </div>
+                            <!-- form gorup -->
+                          </div>
+                          <!-- col -->
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label> CVV</label>
+                              <input type="text" class="form-control cvv_code" id="cvv_code" name="cvv_code" placeholder="CVV" onkeypress="return isNumber(event)" maxlength="4">
+                            </div>
+                          </div>
+                        </div>
+                        <!-- form-row -->
+                      </div>
+                    </div>
+					<?php } ?><?php */?>
+                    <div class="col-12"><button type="button" class="btn ml-0 view-btn send-btn getverify-btn" id="startedbtn" onClick="updatestore(event)" <?php /*?>latest commented<? if($this->loggedUser->{T_CLIENT_VAR."client_planstatus"} != '1') { ?>onClick="stripePay(event);"<? } else{ ?>onClick="updatestore(event)"<?php } ?><?php */?>> Submit </button></div>
+                    <?php if($store_data["store_approval"] != '1') { ?>
+                    	<p class="approval-text review-txt col-md-12">Admin will review the details submitted by you and after approval you can upload your products.</p>
+					<?php } ?>		
+            	</div>		  	
+            </form>
+    
+    		<?php if($store_data["store_verification"] != '1') { ?>
+                  <form id="badgeform" name="badgeform" class="badge-form" method="post" enctype="multipart/form-data" action="<?= APPLICATION_URL.'/badge-request'; ?>">
+                    <div class="verified-box">
+                      <h2 class="titles"> Badge Verification (Optional) </h2>
+
+                      <div class="form-group">
+                        <label >Verification Document (State Issued Id)</label>
+                        <div class="custom-file">
+                          <?php /*?><input type="file" class="custom-file-input form-control" id="customFileLang" lang="es"><?php */?>
+                          <?php echo $this->formElement($form->get('seller_doc1')); ?>
+                          <label class="custom-file-label" for="seller_doc1">Upload Document </label>
+                        </div>
+                        <?php if(!empty($store_data["store_doc1"])) { ?>
+                        <div><a href="<?= HTTP_STORE_DOC_PATH.'/'.$store_data["store_doc1"]; ?>" download><?= $store_data["store_doc1"]; ?></a></div>
+              <?php } ?>
+                        <div class="allowed-exttg">Allowed Extensions: pdf, doc, docx, jpg, jpeg, png</div>
+                        <p class="doc1-holder"></p>
+                      </div>
+
+                      <div class="form-group">
+                        <label >Verification Document (Sales Permit)</label>
+                        <div class="custom-file">
+                          <?php /*?><input type="file" class="custom-file-input form-control" id="customFileLang" lang="es"><?php */?>
+                          <?php echo $this->formElement($form->get('seller_doc2')); ?>
+                          <label class="custom-file-label" for="seller_doc2">Upload Document </label>
+                        </div>
+                        <?php if(!empty($store_data["store_doc2"])) { ?>
+                        <div><a href="<?= HTTP_STORE_DOC_PATH.'/'.$store_data["store_doc2"]; ?>" download><?= $store_data["store_doc2"]; ?></a></div>
+              <?php } ?>
+                        <div class="allowed-exttg">Allowed Extensions: pdf, doc, docx, jpg, jpeg, png</div>
+                        <p class="doc2-holder"></p>
+                      </div>
+                      <?php /*?><div class="form-group">
+                        <label >Verification Document (Sales Permit)</label>
+                        <div class="custom-file">
+                          <?php echo $this->formElement($form->get('seller_doc3')); ?>
+                          <label class="custom-file-label" for="seller_doc3">Upload Document </label>
+                        </div>
+                        <?php if(!empty($store_data["store_doc3"])) { ?>
+                        <div><a href="<?= HTTP_STORE_DOC_PATH.'/'.$store_data["store_doc3"]; ?>" download><?= $store_data["store_doc3"]; ?></a></div>
+              <?php } ?>
+                        <div class="allowed-exttg">Allowed Extensions: pdf, doc, docx, jpg, jpeg, png</div>
+                        <p class="doc3-holder"></p>
+                      </div><?php */?>
+					<?php if($store_data["store_verification"] != '1') { ?>
+						<div class="submit-btn"><button type="button" class="btn store-btn store-verifybtn" id="startedbtn"> Submit </button></div>
+						<p class="approval-text review-txt">Documents will not be kept or filed only for verification purpose.</p>
+					<?php } ?>
+              	</div>
+              </form> 
+    	<?php } ?>
+  	</div>
+  </div>
+</div>
+<div class="modal fade" id="prodtrashModal" tabindex="-1" role="dialog" aria-labelledby="prodtrashModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="prodtrashModalLabel">Want to apply coupon?  </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:absolute;right:10px;margin-top:-25px;">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form id="couponcode_form">
+          <div class="form-group coupon-codeblk">
+		  	<label> Coupon Code</label>
+		  	<input type="text" class="form-control coupon_codeinp required" placeholder="Enter the coupon code" id="coupon_codeinp" name="coupon_codeinp" maxlength="30">
+		  </div>	
+		  </form>
+          <div class="modal-btn-box">
+          <a href="javascript:void(0)" class="proaccept-acceptbtn btn view-btn">Yes</a>
+          <a href="javascript:void(0)" class="protrash-cancelbtn btn view-btn">Cancel</a>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&amp;key=<?= GOOGLE_MAP_API_KEY ?>&sensor=false"></script> 
+<?php /*?><script type="text/javascript" src="https://js.stripe.com/v2/"></script><?php */?>
+<script>	
+$(document).on("click",".apply-coupontg",function() {
+	$("#prodtrashModal").modal("show");
+})
+
+$(document).on("click",".protrash-cancelbtn",function() {
+	$("#prodtrashModal").modal("hide");
+})
+
+$(document).on("click",".addmember-btn",function() {
+	var cust_txtid=2;var add_custom=true;
+	$(".member-nametg").each(function(index, element) {
+		var childid = element.id;
+		if($('#'+childid).val()=='')
+		{
+			add_custom=false;
+
+		}
+		cust_txtid++;
+	});	
+
+	$(".member-roletg").each(function(index, element) {
+		var childid = element.id;
+		if($('#'+childid).val()=='')
+		{
+			add_custom=false;
+
+		}
+	});
+
+	$(".member-pictg").each(function(index, element) {
+		var childid = element.id;
+		if($('#'+childid).val()=='')
+		{
+			add_custom=false;				
+		}
+	});
+	
+	$(".member-biotg").each(function(index, element) {
+		var childid = element.id;
+		if($('#'+childid).val()=='')
+		{
+			add_custom=false;				
+		}
+	});
+	var cnt = $(".member-pictg").length;
+	var piclen = parseInt(cnt) + 1;
+	
+	
+	if(add_custom){
+		$(".addmember-mainblk").append('<div class="member-holderblk row"><div class="col-md-2 pickhold-blk"><img src="<?= HTTP_PROFILE_IMAGES_PATH.'/160/default.png' ?>" class=""></div><div class="col-md-10"><div class="member-subblk"><input type="text" id="member_name" name="member_name[]" class="member-nametg form-control" placeholder="Team Member Name" maxlength="200"></div><div class="member-subblk"><input type="text" id="member_role" name="member_role[]" class="member-roletg form-control" placeholder="Role" maxlength="100"></div><div class="member-subblk"><div class="custom-file"><input type="file" class="custom-file-input member_photofile" id="member_photo" name="member_photo[]"><input type="hidden" id="member_pic" name="member_pic[]" class="form-control member-pictg" placeholder="Image"><label class="custom-file-label member_photo">Upload Member Photo</label></div></div><div class="member-parablk"><a href="javascript:void(0)" class="member-closebtn"><img src="<?= HTTP_IMG_PATH ?>/trash.svg"></a><textarea id="member_bio" name="member_bio[]" class="member-biotg form-control" placeholder="Bio" maxlength="255"></textarea></div></div></div>');
+	}
+})
+
+$(document).on("click",".member-closebtn",function() {
+	$(this).parents(".member-parablk").parents(".member-holderblk").remove();
+})
+
+$(document).on("click",".proaccept-acceptbtn",function() {
+	var coupon_code = $(".coupon_codeinp").val();
+	coupon_code = coupon_code.trim();
+	$(".coupon_codeinp").val(coupon_code);
+	if($("#couponcode_form").valid()) {
+		$.ajax({
+			url: baseUrl+"/merchant-coupon",
+			type: "POST",
+			data: { coupon_code: coupon_code },
+			success: function(data){
+				$("#prodtrashModal").modal("hide");
+				if(data == 'error') {
+					$(".card-title").html(' Become a Seller $<?= $configs["plan_price"] ?> <span> Monthly/Recurring </span>');
+					showAppAlert('Error!!','Invalid coupon code entered.','error');
+				} else {
+					$(".card-payment-block").html(data);
+				}
+			}
+		})
+	}
+})
+
+/*function cardValidation () {
+    var valid = true;
+    var name = $('#card_name').val();
+    var cardNumber = $('#card_number').val();
+    var month = $('#exp_month').val();
+    var year = $('#exp_year').val();
+    var cvc = $('#cvv_code').val();
+
+    $("#error-message").html("").hide();
+	if(!$("#storeform").valid()) {
+		 valid = false;
+		 showAppAlert('Error!!','Please fill all the store details.','error');
+	} else {
+	if (cvc.trim() == "") {
+        valid = false;
+		showAppAlert('Error!!','CVV code is required.','error');
+    }
+	if (year.trim() == "") {
+        valid = false;
+		showAppAlert('Error!!','Year of card expiration is required.','error');
+    }
+	if (month.trim() == "") {
+    	valid = false;
+		showAppAlert('Error!!','Month of card expiration is required.','error');
+    }
+	if (cardNumber.trim() == "") {
+    	valid = false;
+		showAppAlert('Error!!','Card number is required.','error');
+    }
+    if (name.trim() == "") {
+        valid = false;
+		showAppAlert('Error!!','Name is required.','error');
+    } }  
+	
+    if(valid == false) {
+        
+    }
+
+    return valid;
+}*/
+<?php /*?>//set your publishable key	
+Stripe.setPublishableKey("<?= $configs["site_stripe_key"] ?>");
+//callback to handle the response from stripe
+function stripeResponseHandler(status, response) {
+    if (response.error) {
+		$("#startedbtn").show();
+        //enable the submit button
+		showAppAlert('Error!!',response.error.message,'error');
+    } else {
+        //get token id
+        var token = response['id'];
+        //insert the token into the form
+        $("#frmStripePayment").append("<input type='hidden' name='token' value='" + token + "' />");
+		$("#storeform").append("<input type='hidden' name='token' value='" + token + "' />");
+        //submit form to the server
+        $("#frmStripePayment").submit();
+		if($("#storeform").valid()) {
+			$("#storeform").submit();
+		} else {
+			$("#startedbtn").show();
+		}
+    }
+}
+function stripePay(e) {
+    e.preventDefault();
+    var valid = cardValidation();
+    if(valid == true) {
+        $("#startedbtn").hide();
+        Stripe.createToken({
+            number: $('#card_number').val(),
+            cvc: $('#cvv_code').val(),
+            exp_month: $('#exp_month').val(),
+            exp_year: $('#exp_year').val()
+        }, stripeResponseHandler);
+
+        //submit from callback
+        return false;
+    } else {
+		toastr.error("Please enter the card details correctly.", 'Error');
+	}
+}<?php */?>
+	
+function updatestore(e) {
+	e.preventDefault();
+	if($("#storeform").valid()) {
+		$("#storeform").submit();
+	} else {
+	}
+}	
+	
+var isSubmit=1; 
+	
+	
+
+$(document).ready(function(e) {
+     var creator_address = document.getElementById('seller_location');
+	 var autocomplete2 = new google.maps.places.Autocomplete(creator_address);
+	$(".datepicker").datepicker({startDate: '+1d'});
+});
+
+$(document).on("click",".seller_logo",function() {
+	$("#seller_logo").trigger("click");
+})
+
+$(document).on("click",".seller_banner",function() {
+	$("#seller_banner").trigger("click");
+})
+
+$(document).on("change","#seller_logo",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readURL_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a photo upto 10 MB in size.','error');
+        }
+      }
+    });
+	
+	 function readURL_modal(input){
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = '<img src="'+e.target.result+'" class="img-fluid" id="targetimg" />';
+            $('.seller-logoblk').html(data);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+	
+$(document).on("change",".member_photofile",function(e) {
+	$(".cur_selct").val('');
+	$(".cur_selct").val($('.member_photofile').index(this));
+	var formData1 = new FormData($("#storeform")[0]);
+	var $this = $(this);
+	$("#startedbtn").prop("disabled",true);
+	$.blockUI({
+		css: {
+			border: 'none',
+			padding: '5px',
+			width: '24%',
+			left: '39%',
+			backgroundColor: '#000000',
+			border: 'solid 1px #424445',
+			opacity: .9,
+			color: '#ffffff',
+		},
+		message: "<div class='Loader'><div class='Text' style='letter-spacing: 2px;'>Just a moment</div></div>",
+	});
+	$.ajax({
+	  url: baseUrl + "/upload-teampics",
+	  type: "POST",
+	  data: formData1,
+	  processData: false,
+  	  contentType: false,	
+	  success: function (data) {
+		  $.unblockUI();
+		  $this.next("#member_pic").val(data);
+		  $this.next(".member-pictg").next(".member_photo").html(data);
+		  $this.parents(".custom-file").parents(".member-subblk").parents(".col-md-10").parents(".member-holderblk").find(".pickhold-blk").html('<img src="<?= HTTP_TEAM_IMAGES_PATH.'/160/' ?>'+data+'">');
+		  $this.val('');
+		  $("#startedbtn").prop("disabled",false);
+	  }
+	})
+})	
+
+$(document).on("change","#seller_banner",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readbanner_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a photo upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readbanner_modal(input){
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = '<img src="'+e.target.result+'" class="img-fluid" id="targetimg" />';
+            $('.seller-bannerblk').html(data);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+$(document).on("change","#seller_doc1",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','doc','docx','pdf','JPG','JPEG','PNG','DOC','DOCX','PDF'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readdoc1_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a doc upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readdoc1_modal(input){
+      if (input.files && input.files[0]) {
+		  $(".doc1-holder").html(input.files[0]["name"]);
+      }
+    }	
+	
+$(document).on("change","#seller_doc2",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','doc','docx','pdf','JPG','JPEG','PNG','DOC','DOCX','PDF'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readdoc2_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a doc upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readdoc2_modal(input){
+      if (input.files && input.files[0]) {
+		  $(".doc2-holder").html(input.files[0]["name"]);
+      }
+    }	
+
+$(document).on("change","#seller_doc3",function(e){
+    // $('#client_image').change(function (e) { 
+      var files = $(this)[0].files[0];
+      var file_size = bytesToMBSize(files.size);
+      var Ext = files.name.split('.');
+      Ext = Ext.pop();
+      var extension_array = ['jpg','jpeg','png','doc','docx','pdf','JPG','JPEG','PNG','DOC','DOCX','PDF'];
+
+      $('.fileinput .thumbnail').css("display", "inline-block");
+      $('.fileinput div.fileinput-exists').css("display", "none");
+
+      if(($.inArray(Ext, extension_array)<0)){ 
+        swal({title:"File Extension",text:"Please select valid file",type:"error",timer:3000,showConfirmButton:false });
+
+      } else {
+        // alert('called next readURL_modal function');
+        if(file_size <= 10){
+          readdoc3_modal(this);
+        } else {
+          showAppAlert('Error!!','You can upload a doc upto 10 MB in size.','error');
+        }
+      }
+    });	
+	
+function readdoc3_modal(input){
+      if (input.files && input.files[0]) {
+		  $(".doc3-holder").html(input.files[0]["name"]);
+      }
+    }	
+
+$(document).on("click",".remove-logobtn",function() {
+	$("#seller_logo").val('');
+	$(".seller-logoholder").find("img").attr("src","<?= HTTP_IMG_PATH.'/photo.svg'; ?>");
+})
+
+$(document).on("click",".remove-bannerbtn",function() {
+	$("#seller_banner").val('');
+	$(".seller-bannerholder").find("img").attr("src","<?= HTTP_IMG_PATH.'/photo.svg'; ?>");
+})
+
+$(document).on("click",".store-btn",function() {
+	if($("#badgeform").valid()) {
+		$("#badgeform").submit();
+	}
+})
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+	
+$('input[name="card_name"]').on('input', function () {
+	this.value = this.value.match(/^[a-zA-Z\s]+$/);
+});		
+
+$(document).on("change",".overview_txttg",function() {
+	var overview_txt = $(this).val();
+	$.ajax({
+		url: baseUrl+"/stat-overview",
+		type: "POST",
+		data: { overview: overview_txt },
+		success: function(data){
+			$(".overview-zone").html(data);
+		}
+	})
+})
+
+$(document).on("click",".return-mktbtn",function() {
+	$.ajax({
+		url: baseUrl+"/return-place",
+		type: "POST",
+		data: { place: 1 },
+		success: function(data){
+			//showAppAlert('Success!!','You have switched your account to Marketplace.','success');
+			setTimeout(function(){ window.location.href = baseUrl+"/profile"; }, 100);
+		}
+	})
+})
+
+$(document).on("click","#chkbox",function() {
+	if($(this).prop("checked") == true) {
+		$("#closed_tilldate").addClass("required");
+		$(".tilldate-holder").removeClass("d-none");
+	} else {
+		$("#closed_tilldate").removeClass("required");
+		$(".tilldate-holder").addClass("d-none");
+	}
+})
+</script>

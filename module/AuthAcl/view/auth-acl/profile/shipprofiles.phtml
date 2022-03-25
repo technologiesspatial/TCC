@@ -1,0 +1,116 @@
+<style type="text/css">
+	.manage-product-page .table-block .table thead th:nth-child(2), .manage-product-page .table-block .table tbody td:nth-child(2){vertical-align:middle;}
+</style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+	$( function() {
+   $('#TabContainer').tabs();
+$('#TabContainer .ui-tabs-nav').sortable({
+    update: function(event, ui){
+        var data = $('#TabContainer .ui-tabs-nav').sortable('serialize');
+        $.ajax({
+            url: baseUrl+'/post-order',
+            data: data,
+            type: 'POST',
+            mode: 'abort'
+        });
+    }
+});
+  } );
+</script>
+<div class="comman-section">
+	<div class="container">
+		<div class="common-heading">
+			<h2 class="heading">Shipping Profiles</h2>
+		</div>
+	</div>	
+</div>
+<div class="profile_page manage-product-page">
+	<div class="container">
+		<div class="profile-section">
+			<div class="profile-nav d-none d-xl-block">
+					<div class="change-image-user-box">
+						<div class="user-image"> <img src="<?= getUserImage($this->loggedUser->yurt90w_client_image,"160")?>" class="cltpro-logo"> <a href="<?= APPLICATION_URL.'/profile/1'; ?>" class="change-picbtn"><img src="<?= HTTP_IMG_PATH.'/camera.svg'; ?>"></a></div>
+						<div class="user-info">
+							<p class="user-name"><?= $this->loggedUser->yurt90w_client_name; ?></p>
+							<a href="<?= APPLICATION_URL.'/logout'; ?>" class="logout"> Logout </a>
+						</div>
+					</div>
+					
+			<div class="side-nav">
+				<?php echo $this->render("application/static/sidesection.phtml",array('store_data'=>$store_data,'shipping'=>1)); ?>
+			</div>
+			<!-- change user image -->
+			</div>
+			<!--  -->
+			<div class="right-side">
+				<div class="d-flex manage-btn-box">
+					<?php if(count($products_data) > 0) { ?>
+					<div class="back-btn quick-edit-btn"><a href="javascript:void(0)" class="btn view-btn quickedit-btn"> Quick Edit </a></div>
+					<?php } ?>
+					<div class="back-btn"><a href="<?= APPLICATION_URL.'/manage-shipping'; ?>" class="btn view-btn"> Add New </a></div>
+				</div>
+				<!-- new table -->
+				<div class="table-block">
+					<div class="table-responsive">
+					<table class="table">
+						<thead>
+						<tr class="table-head">
+							<th scope="col">Profile Name</th>
+							<th scope="col">Processing Time</th>
+							<th scope="col">Shipping Rate</th>
+							<th scope="col">International Shipping Rate</th>
+							<th scope="col"></th>
+						</tr>
+						</thead>
+						<!--  -->
+						<tbody>
+							<?php if(!empty($shipping_profiles)) { foreach($shipping_profiles as $shipping_profiles_key => $shipping_profiles_val) {
+							?>
+							<tr>
+								<td> <?= $shipping_profiles_val["shipping_name"] ?> </td>
+								<td> <?= $shipping_profiles_val["shipping_time"]; ?></td>
+								<td> <?php if(!empty($shipping_profiles_val["shipping_free"])) { echo "Free Shipping"; } else { echo "$".$shipping_profiles_val["shipping_rate"]; } ?></td>
+								<td> <?= "$".$shipping_profiles_val["shipping_globalrate"]; ?></td>
+								<td>
+									<div class="icon-td">
+											<div class="icons view"> <a href="<?= APPLICATION_URL.'/view-shipping-profile/'.str_replace("=","",base64_encode($shipping_profiles_val["shipping_id"])); ?>"><img src="<?=HTTP_IMG_PATH?>/view.svg"></a> </div>
+											<div class="icons edit"> <a href="<?= APPLICATION_URL.'/manage-shipping/'.str_replace("=","",base64_encode($shipping_profiles_val["shipping_id"])); ?>"><img src="<?=HTTP_IMG_PATH?>/edit.svg"></a> </div>
+											<div class="icons delete"> <a href="javascript:void(0)" data-id="<?= str_replace("=","",base64_encode($shipping_profiles_val["shipping_id"])) ?>" class="profile-trashbtn"><img src="<?=HTTP_IMG_PATH?>/delete.svg"></a> </div>
+									</div>
+								</td>
+							</tr>
+							<? } } else { ?>
+								<tr colspan="5">
+									<td>No shipping profiles found.</td>
+								</tr>
+							<?php } ?>
+						</tbody>
+						<!--  -->
+					</table>
+					<!-- table -->
+					</div>
+				</div>
+				<!-- table block -->
+				
+				<!--  -->
+			</div>
+
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).on("click",".profile-trashbtn",function() {
+		var tid = $(this).attr("data-id");
+		$.ajax({
+			url: baseUrl + "/remove-profile",
+			type: "POST",
+			data: { tid:tid},
+			success: function (data) {
+				location.reload();
+			}
+		})
+	})
+</script>

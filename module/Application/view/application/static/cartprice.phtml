@@ -1,0 +1,83 @@
+<?php if(!empty($all_carts)) { 
+$colors_arr = array(); $sizes_arr = array();
+foreach($all_carts as $cart_data_key => $cart_data_val) { 	
+if(!empty($cart_data_val["product_photos"])) { 
+	$product_photos = explode(",",$cart_data_val["product_photos"]); 
+}
+if(!empty($cart_data_val["product_cart_color"])) {
+	$colorsize_record = $this->layout()->AbstractModel->Super_Get(T_PROQTY,"color_productid = '".$cart_data_val["product_cart_prodid"]."' and color_slug ='".strtolower($cart_data_val["product_cart_color"])."' and color_size = '".$cart_data_val["product_cart_size"]."'","fetchAll");
+}
+$avl_qty = 0;
+if(!empty($colorsize_record)) {
+	foreach($colorsize_record as $colorsize_record_key => $colorsize_record_val) {
+		$avl_qty = $colorsize_record_val["color_qty"];
+	}
+}	
+?>
+<tr>
+<td > <div class="cross-btn delcart-btn" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",$cart_data_val["product_cart_id"]); ?>" data-type="1"<?php } else { ?>data-id="<?= $cart_data_key ?>" data-type="2"<?php } ?>> X </div> </td>
+<td > <div class="user-img">
+<?php if(!empty($cart_data_val["product_defaultpic"])) { ?>
+	<img src="<?=HTTP_PRODUCT_PIC_PATH?>/160/<?= $cart_data_val["product_defaultpic"] ?>">
+<?php } else { 
+	$product_pics = explode(",",$cart_data_val["product_photos"]);
+?>
+	<img src="<?=HTTP_PRODUCT_PIC_PATH?>/160/<?= $product_pics[0]; ?>"> 
+<?php } ?>   
+</div> </td>
+<td> 
+	<p class="dress-name"> <?= $cart_data_val["product_title"]; ?> </p>
+	<p class="hub-text">Vendor: <span> <?= $cart_data_val["store_name"]; ?> </span> </p>
+	<div class="color-and-size"> 
+	  <p class="color"> Color:
+	  <?php if(!empty($cart_data_val["product_cart_color"])) { ?> 
+		<span class="color-tg" data-id="<?= $cart_data_val["product_cart_color"] ?>"></span>
+	  <?php } ?> 
+	  </p> 
+	  <p class="size"> Size 
+		<span><?php if(!empty($cart_data_val["product_cart_size"])) { echo $cart_data_val["product_cart_size"]; } ?></span>
+	  </p>  
+	</div>
+	<input type="hidden" class="cart-colortg" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>"<?php } else { ?>data-id="<?= $cart_data_key ?>"<?php } ?> value="<?= $cart_data_val["product_cart_color"] ?>" />
+    <input type="hidden" class="cart-sizetg" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>"<?php } else { ?>data-id="<?= $cart_data_key ?>"<?php } ?> value="<?= $cart_data_val["product_cart_size"] ?>" />
+</td>
+<td> $<?= $cart_data_val["product_cart_price"] / $cart_data_val["product_cart_qty"]; ?> <?php if(!empty($cart_data_val["product_cart_discount"])) { ?><br/><span class="offer-tg">Discount: <?= "$".$cart_data_val["product_cart_discount"]; ?></span><?php } ?></td>
+<td> <?php if(!empty($cart_data_val["product_globalrate"])) { echo "$".$cart_data_val["product_globalrate"]; } ?> </td>
+<? $total_price = $cart_data_val["product_cart_price"] + $cart_data_val["product_globalrate"] ?>
+<td> 
+  <div class="quant-box">
+	<div class="input-group">	
+	  <span class="input-group-btn prev-qbtn" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" data-type="1"<?php } else { ?>data-id="<?= $cart_data_key ?>" data-type="2"<?php } ?> data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])) ?>">
+	  <button type="button" class="btn btn-number" data-type="minus" data-field="quant[1]">
+		<i class="fas fa-minus"></i>
+	  </button>
+	  </span>
+	  <input type="text" name="quant[1]" class="input-number" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" data-type="1"<?php } else { ?>data-id="<?= $cart_data_key ?>" data-type="2"<?php } ?> value="<?= $cart_data_val["product_cart_qty"] ?>" min="1" max="<?= $avl_qty ?>">
+	  <span class="input-group-btn next-qbtn" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])) ?>" data-type="1"<?php } else { ?>data-id="<?= $cart_data_key ?>" data-type="2"<?php } ?> data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])) ?>">
+	  <button type="button" class="btn btn-number" data-type="plus" data-field="quant[1]">
+		<i class="fas fa-plus"></i>
+	  </button>
+	  </span>
+	</div>
+  </div> 
+</td>
+<td> $<?= $total_price ?> </td>
+</tr>
+<tr>
+	<td class="coupon" colspan="7">
+	  <form class="form-inline" method="post" id="coupon_frm" name="coupon_frm">
+		<div class="form-group copon-frmblk">
+		  <input type="text" id="coupon_code" class="form-control coupon_code coupon-srtcode" name="coupon_code" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-type="1"<?php } else { ?>data-id="<?= $cart_data_key ?>" data-type="2"<?php } ?> data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>" placeholder="" value="<?php if(!empty($cart_data_val["product_cart_coupon"])) { echo $cart_data_val["product_cart_coupon"]; } ?>">
+		</div>
+		<button type="button" class="btn apply-btn applycpn-btn" <?php if(!empty($loggedUser->{T_CLIENT_VAR."client_id"})) { ?>data-id="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_id"])); ?>" data-type="1"<?php } else { ?>data-id="<?= $cart_data_key ?>" data-type="2"<?php } ?> data-pid="<?= str_replace("=","",base64_encode($cart_data_val["product_cart_prodid"])); ?>">  Apply Coupon </button>
+	  </form>
+	</td>
+</tr>
+<?php } } ?>
+<script>
+	<?php if(!empty($val_copon) && !empty($coupon_apply)) { ?>
+		showAppAlert('Success!!','Coupon applied successfully.','success');
+	<?php } else if(!empty(!empty($coupon_apply))) { ?>
+		showAppAlert('Error!!','Invalid coupon.','error');
+	<?php } ?>
+</script>

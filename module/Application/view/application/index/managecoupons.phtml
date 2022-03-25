@@ -1,0 +1,90 @@
+<div class="login_page profile_page">
+  <div class="container">
+
+      <div class="heading-box">
+        <h4 class="heading">Manage Coupons</h4>
+        <div class="border-gradient seller-btn back-btn"><a class="btn view-btn"> Create New </a></div>
+      </div>
+
+      <div class="login-signup-form">
+          <div class="left-side signup-img profile-nav d-none d-lg-block">
+            <div class="change-image-user-box">
+                <div class="user-image"> <img src="<?=HTTP_IMG_PATH?>/user-img.jpg"> </div>
+                <p class="user-name">Jamie Lynn</p>
+                <div class="border-gradient change-img-btn"> <a href="#" class="change-btn view-btn btn">Change Image</a> </div>
+            </div>
+
+            <div class="side-nav">
+              <ul class="side-nav-ul">
+                <li class="side-nav-items"> <a href="#" class="side-nav-links active"> Account Settings </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Change Password </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Upload Product </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Manage Products </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Manage Coupons </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links"> Shipping Rate  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+                <li class="side-nav-items"> <a href="#" class="side-nav-links">  </a> </li>
+              </ul>
+            </div>
+            <!-- change user image -->
+          </div>
+          <!------------ left side ------------------>
+          <div class="right-side manage-coupons">
+              <p class="manage-coupons-text"> Your client can apply a coupon at checkout to receive a % or amount discount on their orders. </p>
+
+              <div class="manage-coupons-table">
+                <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Code</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">End Date</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php for ($x = 0; $x <= 5; $x++) { ?>
+                    <tr>
+                      <td> 20 Discount </td>
+                      <td> 20 DISCOUNT </td>
+                      <td class="active"> Active </td>
+                      <td> 01-01-2020  </td>
+                      <td> 10-01-2020  </td>
+                      <td> 
+                        <div class="icons-box d-flex">
+                          <span class="icons edit"> <img src="<?=HTTP_IMG_PATH?>/edit.svg"> </span>
+                          <span class="icons delete"> <img src="<?=HTTP_IMG_PATH?>/delete.svg"> </span>
+                        </div> 
+                    </td>
+                    </tr>
+                    <tr>
+                      <td> 20 Discount </td>
+                      <td> 20 DISCOUNT </td>
+                      <td class="deactive"> Deactive  </td>
+                      <td> 01-01-2020  </td>
+                      <td> 10-01-2020  </td>
+                      <td>  
+                        <div class="icons-box d-flex">
+                          <span class="icons edit"> <img src="<?=HTTP_IMG_PATH?>/edit.svg"> </span>
+                          <span class="icons delete"> <img src="<?=HTTP_IMG_PATH?>/delete.svg"> </span>
+                        </div> 
+                      </td>
+                    </tr>
+                  <? } ?>
+                  </tbody>
+                </table>
+                </div>
+                <!-- table-responsive -->
+              </div>
+              <!-- manage-coupons table -->
+
+          </div>
+          <!------------- right side -------------->
+      </div>
+
+    <!-- login -->
+  </div>
+</div>
